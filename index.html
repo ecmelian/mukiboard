@@ -1346,7 +1346,8 @@ $('#fileJson').addEventListener('change',e=>{
 
 /* ================= nube: tablero compartido (Firebase RTDB via REST) ================= */
 const CLOUD_LS = 'mukiboard-cloud';
-let cloud = (()=>{ try{ return JSON.parse(localStorage.getItem(CLOUD_LS))||{url:'',board:'losdosclaus',name:''}; }catch(e){ return {url:'',board:'losdosclaus',name:''}; } })();
+const CLOUD_DEFAULT = {url:'https://mukiboard-default-rtdb.firebaseio.com', board:'losdosclaus', name:''};
+let cloud = (()=>{ try{ return JSON.parse(localStorage.getItem(CLOUD_LS))||{...CLOUD_DEFAULT}; }catch(e){ return {...CLOUD_DEFAULT}; } })();
 let cloudDirty=false, lastPulledAt=0, cloudBusy=false;
 
 // configuración automática desde el "link del equipo" (#nube=...)
