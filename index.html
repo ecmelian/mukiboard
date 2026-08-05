@@ -522,7 +522,18 @@ const DEFAULT_FABRICA_ROOMS = [
   {id:7,name:'Línea de infusión',desc:'Tres estaciones en loop que nunca paran: suministrar → infusionar polvo (cobra vida) → empaquetar para la bolsa de Tayta.',x:null,y:null},
   {id:8,name:'Gran comedor',desc:'Mesa gigante de la cena navideña para Tayta, Santa, elfos, renos y alpacas.',x:null,y:null},
 ];
-let data = load();
+/* Firebase borra arrays vacíos: normaliza todo lo que entra (nube, import, localStorage) */
+function normalizeData(d){
+  d = d || {};
+  const arr = x => Array.isArray(x) ? x.filter(Boolean) : Object.values(x||{}).filter(Boolean);
+  d.scenes = arr(d.scenes).map(s=>({ ...s, panels: arr(s.panels), refs: arr(s.refs) }));
+  d.formats = d.formats ? arr(d.formats) : null;
+  d.personajes = d.personajes ? arr(d.personajes) : null;
+  if(d.fabrica) d.fabrica = {...d.fabrica, mapKey:d.fabrica.mapKey||null, rooms: arr(d.fabrica.rooms)};
+  if(!d.nextId) d.nextId = d.scenes.reduce((m,s)=>Math.max(m,+s.id||0),0)+1;
+  return d;
+}
+let data = normalizeData(load());
 if(!data.formats) data.formats = JSON.parse(JSON.stringify(DEFAULT_FORMATS));
 if(!data.personajes) data.personajes = JSON.parse(JSON.stringify(DEFAULT_PERSONAJES));
 if(!data.fabrica) data.fabrica = {mapKey:null, rooms: JSON.parse(JSON.stringify(DEFAULT_FABRICA_ROOMS))};
@@ -1527,8 +1538,9 @@ $('#fileJson').addEventListener('change',e=>{
   const rd = new FileReader();
   rd.onload = async ()=>{
     try{
-      const d = JSON.parse(rd.result);
+      let d = JSON.parse(rd.result);
       if(!d.scenes) throw 0;
+      d = normalizeData(d);
       if(!d.formats) d.formats = JSON.parse(JSON.stringify(DEFAULT_FORMATS));
       if(!d.personajes) d.personajes = JSON.parse(JSON.stringify(DEFAULT_PERSONAJES));
       if(!d.fabrica) d.fabrica = {mapKey:null, rooms: JSON.parse(JSON.stringify(DEFAULT_FABRICA_ROOMS))};
@@ -1614,24 +1626,28 @@ async function pullCloud(silent){
     const remote = await cloudGet(`/boards/${cloud.board}/data.json`);
     if(!remote || !remote.scenes){ if(!silent){ setCloudStatus('La nube está vacía'); toast('La nube está vacía — usa "Subir mi tablero" primero'); } cloudBusy=false; return; }
     if(cloudDirty && !silent && !confirm('Tienes cambios locales SIN SUBIR. ¿Reemplazarlos con la versión de la nube?')){ cloudBusy=false; setCloudStatus(''); return; }
-    const rkeys = allImageKeys(remote);
-    let n=0;
-    for(const k of rkeys){
-      n++; if(!silent) setCloudStatus(`Bajando imágenes ${n}/${rkeys.length}…`);
-      const d = await cloudGet(`/boards/${cloud.board}/images/${k}.json`).catch(()=>null);
-      if(d) await imgPut(k, d);
-    }
-    data = {scenes:remote.scenes, formats:remote.formats||data.formats,
+    // 1) aplicar los DATOS de inmediato — el tablero aparece al instante
+    data = normalizeData({scenes:remote.scenes, formats:remote.formats||data.formats,
             personajes:remote.personajes||data.personajes, fabrica:remote.fabrica||data.fabrica,
-            nextId:remote.nextId||data.nextId};
+            nextId:remote.nextId||data.nextId});
     localStorage.setItem(LS_KEY, JSON.stringify(data));   // sin marcar "dirty"
     lastPulledAt = remote.updated_at||Date.now(); clearCloudDirty();
     if(cur){ $('#sceneOverlay').classList.remove('open'); cur=null; }
     renderBoard(); renderProgress();
     if($('#view-map').style.display==='block') renderMap();
     if($('#view-refs').style.display==='block') renderRefGallery();
-    setCloudStatus('✓ Tablero de la nube cargado');
     toast('☁ Tablero actualizado'+(remote.by? ' — últimos cambios de '+remote.by:''));
+    // 2) bajar imágenes en segundo plano (solo las que faltan localmente)
+    const rkeys = allImageKeys(remote);
+    let n=0, fetched=0;
+    for(const k of rkeys){
+      n++; setCloudStatus(`Bajando imágenes ${n}/${rkeys.length}…`);
+      if(silent){ const have = await imgGet(k); if(have) continue; }   // auto-sync: solo las que faltan; "Bajar de la nube" manual refresca todas
+      const d = await cloudGet(`/boards/${cloud.board}/images/${k}.json`).catch(()=>null);
+      if(d){ await imgPut(k, d); fetched++; }
+    }
+    if(fetched){ renderBoard(); if(cur) renderPanels(); }
+    setCloudStatus('✓ Tablero de la nube cargado');
   }catch(err){ if(!silent){ setCloudStatus('⚠ '+err.message); toast('⚠ Nube: '+err.message); } }
   cloudBusy=false;
 }
