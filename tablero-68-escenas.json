@@ -1,0 +1,1033 @@
+{
+ "scenes": [
+  {
+   "id": 1,
+   "title": "Volando sobre Africa - urbana y natural",
+   "formatId": 1,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "✏️ Storyboard",
+   "desc": "Volando sobre Africa - urbana y natural\nPublicación: REEL · Personajes: Muki, Alpaca, Tayta · Nota: Sudafrica / table mountains",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DXfUneejMTS/?img_index=1",
+     "note": "Referencia de la hoja (loglines)",
+     "ai": {
+      "escenas": [
+       {
+        "descripcion": "Plano general panorámico. Tayta Claus en su trineo guiado por alpacas voladoras blancas despega al anochecer desde las montañas. Un Muki chibi con gran afro morado y corbata michi verde viaja de copiloto sosteniendo el Magiómetro de líquido morado.",
+        "titulo": "Despegue desde los Andes"
+       },
+       {
+        "descripcion": "Plano medio dentro del trineo. El Muki chibi da un golpecito al cristal del Magiómetro; el líquido morado burbujea y sube al máximo, iluminando con un brillo mágico la chompa marrón del Muki y la barba de Tayta.",
+        "titulo": "El indicador de magia"
+       },
+       {
+        "descripcion": "Plano picado espectacular. El trineo cruza el cielo nocturno sobre los techos e íconos arquitectónicos iluminados de un nuevo país. Tayta Claus saluda alegremente mientras las alpacas voladoras blancas dejan un rastro de chispas mágicas.",
+        "titulo": "Sobrevuelo internacional"
+       },
+       {
+        "descripcion": "Plano de detalle en el saco del trineo. Se observa claramente un libro ilustrado de Los Dos Claus entre los paquetes. El Muki ajusta su corbata michi verde con picardía mientras señala la siguiente ciudad.",
+        "titulo": "Cargamento especial"
+       },
+       {
+        "descripcion": "Plano general posterior. El trineo con Tayta, el Muki y las alpacas se aleja volando hacia una enorme luna llena sobre el horizonte de varios países, dejando una brillante estela morada y dorada.",
+        "titulo": "Hacia el horizonte"
+       }
+      ],
+      "version_simplificada": "Tayta Claus y un Muki chibi vuelan en su trineo jalado por alpacas voladoras blancas sobre distintas ciudades del mundo. Mientras viajan, monitorean el nivel de magia navideña usando el Magiómetro de líquido morado, repartiendo alegría desde los Andes hacia el planeta."
+     }
+    }
+   ],
+   "panels": [
+    {
+     "caption": "Despegue desde los Andes: Plano general panorámico. Tayta Claus en su trineo guiado por alpacas voladoras blancas despega al anochecer desde las montañas. Un Muki chibi con gran afro morado y corbata michi verde viaja de copiloto sosteniendo el Magiómetro de líquido morado.",
+     "id": "s1p1",
+     "imgKey": "img-s1p1"
+    },
+    {
+     "caption": "El indicador de magia: Plano medio dentro del trineo. El Muki chibi da un golpecito al cristal del Magiómetro; el líquido morado burbujea y sube al máximo, iluminando con un brillo mágico la chompa marrón del Muki y la barba de Tayta.",
+     "id": "s1p2",
+     "imgKey": "img-s1p2"
+    },
+    {
+     "caption": "Sobrevuelo internacional: Plano picado espectacular. El trineo cruza el cielo nocturno sobre los techos e íconos arquitectónicos iluminados de un nuevo país. Tayta Claus saluda alegremente mientras las alpacas voladoras blancas dejan un rastro de chispas mágicas.",
+     "id": "s1p3",
+     "imgKey": "img-s1p3"
+    },
+    {
+     "caption": "Cargamento especial: Plano de detalle en el saco del trineo. Se observa claramente un libro ilustrado de Los Dos Claus entre los paquetes. El Muki ajusta su corbata michi verde con picardía mientras señala la siguiente ciudad.",
+     "id": "s1p4"
+    },
+    {
+     "caption": "Hacia el horizonte: Plano general posterior. El trineo con Tayta, el Muki y las alpacas se aleja volando hacia una enorme luna llena sobre el horizonte de varios países, dejando una brillante estela morada y dorada.",
+     "id": "s1p5",
+     "imgKey": "img-s1p5"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "title": "América del sur - urbana y natural. Costa (colombia), Andes (machu…",
+   "formatId": 1,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "América del sur - urbana y natural. Costa (colombia), Andes (machu picchu) y Amazonas (brasil)\nPublicación: REEL · Personajes: Muki, Alpaca, Tayta · Nota: Colombia - Cartegena, Peru / Machu Picchu, Brasil - Rio de Janeiro",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 3,
+   "title": "Oceanía - urbana y natural",
+   "formatId": 1,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Oceanía - urbana y natural\nPublicación: REEL · Personajes: Muki, Alpaca, Tayta · Nota: Australia - Sydney opera house",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 4,
+   "title": "Río de Janeiro, Buenos Aires, Capetown, Sydney como fondos. Entrega de…",
+   "formatId": 2,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Río de Janeiro, Buenos Aires, Capetown, Sydney como fondos. Entrega de regalos Mukis ayudando a Tayta Claus a entregar regalos de manera mágica en espacios que no tienen chimeneas\nPublicación: REEL · Personajes: Muki, Tayta · Nota: Paralax de Tayta caminando delante de un muki con regalos y entra a las casas (primer plano), en diferentes fondos (rio de janeiro, sydney, buenos aires), y desaparecen los regalos cuando salen de la casa. El muki saca regalos de la bolsa gigante. Encima de los techos está las alpacas con el trineo",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 5,
+   "title": "Buenos Aires Entrega de regalos Mukis ayudando a Tayta Claus a entregar…",
+   "formatId": 2,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Buenos Aires  Entrega de regalos Mukis ayudando a Tayta Claus a entregar regalos de manera mágica en espacios que no tienen chimeneas\nPublicación: CARRUSEL · Personajes: Muki, Tayta · Nota: EXPLICAR",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 6,
+   "title": "Sudáfrica Entrega de regalos Mukis ayudando a Tayta Claus a entregar…",
+   "formatId": 2,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Sudáfrica  Entrega de regalos Mukis ayudando a Tayta Claus a entregar regalos de manera mágica en espacios que no tienen chimeneas\nPublicación: CARRUSEL · Personajes: Muki, Tayta · Nota: Algún espacio característico de Sudáfrica?",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 7,
+   "title": "Sydney Entrega de regalos Mukis ayudando a Tayta Claus a entregar…",
+   "formatId": 2,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Sydney  Entrega de regalos Mukis ayudando a Tayta Claus a entregar regalos de manera mágica en espacios que no tienen chimeneas\nPublicación: CARRUSEL · Personajes: Muki, Tayta",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 8,
+   "title": "Un avión en la sección de objetos que vuelan",
+   "formatId": 3,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "✏️ Storyboard",
+   "desc": "Un avión en la sección de objetos que vuelan\nPublicación: REEL · Personajes: Muki · Nota: Loop de tres estaciones de infusión de magia. Estacion 1: Entran aviones en estado inerte, se suminastra. Estacion 3: Infusionar polvo y cobra vida. Estacion 4: Empaquetar para bolsa de Tayta.",
+   "refs": [
+    {
+     "ai": {
+      "escenas": [
+       {
+        "descripcion": "Plano general de la fábrica en Machu Picchu. El gran Magiómetro burbujea lleno de líquido morado desbordante. Un Muki cabezón anota alegremente los niveles en una libreta mientras suena música andina.",
+        "titulo": "El Magiómetro en marcha"
+       },
+       {
+        "descripcion": "Plano medio chibi. Dos Mukis con afros morados y corbatas michi verdes canalizan el líquido morado del Magiómetro hacia tubos de cristal que desembocan en morteros tradicionales.",
+        "titulo": "Extracción de la magia"
+       },
+       {
+        "descripcion": "Primer plano tierno. Los Mukis muelen la sustancia morada con entusiasmo; el líquido se transforma mágicamente en un polvo brillante dorados-púrpura que flota por el aire.",
+        "titulo": "De líquido a polvo mágico"
+       },
+       {
+        "descripcion": "Plano medio. Los Mukis lanzan puñados de polvo mágico sobre retablos, trompos y carritos que avanzan sin parar por una faja transportadora, haciéndolos brillar.",
+        "titulo": "Magia en los juguetes"
+       },
+       {
+        "descripcion": "Plano general corto. Tayta Claus contempla sonriente la línea de producción continua que envía juguetes hacia los alforjones de las alpacas voladoras, haciendo una señal de aprobación.",
+        "titulo": "Aprobación de Tayta Claus"
+       }
+      ],
+      "version_simplificada": "Vista chibi y fluida de la fábrica dentro de Machu Picchu: los Mukis recolectan el líquido morado desde el gran Magiómetro, lo muelen para convertirlo en polvo mágico centelleante y lo espolvorean sobre los juguetes de una cinta transportadora bajo la supervisión sonriente de Tayta Claus."
+     },
+     "note": "Referencia de la hoja de cálculo",
+     "url": "https://www.instagram.com/p/DZkKwLsJbm7/"
+    }
+   ],
+   "panels": [
+    {
+     "caption": "El Magiómetro en marcha: Plano general de la fábrica en Machu Picchu. El gran Magiómetro burbujea lleno de líquido morado desbordante. Un Muki cabezón anota alegremente los niveles en una libreta mientras suena música andina.",
+     "id": "s2p1",
+     "imgKey": "img-s2p1"
+    },
+    {
+     "caption": "Extracción de la magia: Plano medio chibi. Dos Mukis con afros morados y corbatas michi verdes canalizan el líquido morado del Magiómetro hacia tubos de cristal que desembocan en morteros tradicionales.",
+     "id": "s2p2",
+     "imgKey": "img-s2p2"
+    },
+    {
+     "caption": "De líquido a polvo mágico: Primer plano tierno. Los Mukis muelen la sustancia morada con entusiasmo; el líquido se transforma mágicamente en un polvo brillante dorados-púrpura que flota por el aire.",
+     "id": "s2p3",
+     "imgKey": "img-s2p3"
+    },
+    {
+     "caption": "Magia en los juguetes: Plano medio. Los Mukis lanzan puñados de polvo mágico sobre retablos, trompos y carritos que avanzan sin parar por una faja transportadora, haciéndolos brillar.",
+     "id": "s2p4",
+     "imgKey": "img-s2p4"
+    },
+    {
+     "caption": "Aprobación de Tayta Claus: Plano general corto. Tayta Claus contempla sonriente la línea de producción continua que envía juguetes hacia los alforjones de las alpacas voladoras, haciendo una señal de aprobación.",
+     "id": "s2p5"
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "title": "Una muñeca, en la sección de objetos humanos",
+   "formatId": 3,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Una muñeca, en la sección de objetos humanos\nPublicación: REEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 10,
+   "title": "Pelota de fútbol, en la seccion de objetos deportivos",
+   "formatId": 3,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Pelota de fútbol, en la seccion de objetos deportivos\nPublicación: REEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 11,
+   "title": "Transformacion de la magia del rio de la felicidad a ser almacenada a…",
+   "formatId": 3,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Transformacion de la magia del rio de la felicidad a ser almacenada a piedras y luego con un ritual se convierte en el polvo de la navidad.\nPublicación: ILU FIJA · Personajes: Muki · Nota: No se entiende",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 12,
+   "title": "Saltando",
+   "formatId": 3,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Saltando\nPublicación: ILU FIJA · Personajes: Elfo, Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 13,
+   "title": "Como si fuese fútbol",
+   "formatId": 3,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Como si fuese fútbol\nPublicación: ILU FIJA · Personajes: Elfo, Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 14,
+   "title": "Como si fuera una receta",
+   "formatId": 3,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Como si fuera una receta",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 15,
+   "title": "Muki chef (semejanza a Gaston). Cocinando con magia platos típicos de…",
+   "formatId": 4,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "✏️ Storyboard",
+   "desc": "Muki chef (semejanza a Gaston). Cocinando con magia platos típicos de la navidad de varios países.\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "ai": {
+      "escenas": [
+       {
+        "descripcion": "Plano medio. En el taller navideño, el Magiómetro con su líquido morado empieza a burbujear y brillar. Tres Mukis chibis (afro morado, chompa marrón, corbata michi verde) miran el medidor con asombro y saltan listos para demostrar sus talentos.",
+        "titulo": "El Magiómetro se activa"
+       },
+       {
+        "descripcion": "Primer plano. Un Muki aparece con gorro de cocinero. Al aplaudir, hace levitar mágicamente panetones y galletas navideñas que giran a su alrededor. El líquido morado del Magiómetro sube de nivel con chispas mágicas.",
+        "titulo": "Muki Chef Mágico"
+       },
+       {
+        "descripcion": "Plano general corto. Un Muki con muñequeras deportivas usa un bastón de caramelo como patineta, haciendo piruetas imposibles sobre la nieve. Pasa velozmente junto al Magiómetro, haciendo retumbar el líquido morado.",
+        "titulo": "Muki Deportista Veloz"
+       },
+       {
+        "descripcion": "Primer plano dinámico. Un Muki sostiene un micrófono de caramelo y canta una melodía festiva de Los Dos Claus. De su boca salen notas musicales doradas brillantes y su afro morado vibra al ritmo de la música.",
+        "titulo": "Muki Cantante Estrella"
+       },
+       {
+        "descripcion": "Plano general. Los tres Mukis (Chef, Deportista y Cantante) posan juntos haciendo sus superpoderes a la vez. El Magiómetro de líquido morado llega al 100% y estalla en un chorro de estrellas y confeti navideño.",
+        "titulo": "Gran Fiesta Muki"
+       }
+      ],
+      "version_simplificada": "Un recorrido animado y dinámico donde tres Mukis descubren sus superpoderes navideños transformándose en Chef, Deportista y Cantante, mientras el Magiómetro de líquido morado reacciona y mide su desbordante energía festiva."
+     },
+     "note": "Referencia de la hoja de cálculo",
+     "url": "https://www.instagram.com/p/Czy-HWqLMxr/"
+    }
+   ],
+   "panels": [
+    {
+     "caption": "El Magiómetro se activa: Plano medio. En el taller navideño, el Magiómetro con su líquido morado empieza a burbujear y brillar. Tres Mukis chibis (afro morado, chompa marrón, corbata michi verde) miran el medidor con asombro y saltan listos para demostrar sus talentos.",
+     "id": "s3p1",
+     "imgKey": "img-s3p1"
+    },
+    {
+     "caption": "Muki Chef Mágico: Primer plano. Un Muki aparece con gorro de cocinero. Al aplaudir, hace levitar mágicamente panetones y galletas navideñas que giran a su alrededor. El líquido morado del Magiómetro sube de nivel con chispas mágicas.",
+     "id": "s3p2",
+     "imgKey": "img-s3p2"
+    },
+    {
+     "caption": "Muki Deportista Veloz: Plano general corto. Un Muki con muñequeras deportivas usa un bastón de caramelo como patineta, haciendo piruetas imposibles sobre la nieve. Pasa velozmente junto al Magiómetro, haciendo retumbar el líquido morado.",
+     "id": "s3p3",
+     "imgKey": "img-s3p3"
+    },
+    {
+     "caption": "Muki Cantante Estrella: Primer plano dinámico. Un Muki sostiene un micrófono de caramelo y canta una melodía festiva de Los Dos Claus. De su boca salen notas musicales doradas brillantes y su afro morado vibra al ritmo de la música.",
+     "id": "s3p4",
+     "imgKey": "img-s3p4"
+    },
+    {
+     "caption": "Gran Fiesta Muki: Plano general. Los tres Mukis (Chef, Deportista y Cantante) posan juntos haciendo sus superpoderes a la vez. El Magiómetro de líquido morado llega al 100% y estalla en un chorro de estrellas y confeti navideño.",
+     "id": "s3p5"
+    }
+   ]
+  },
+  {
+   "id": 16,
+   "title": "Muki deportista (tabla, volley, tennis, criket, futbol) (semejanza a…",
+   "formatId": 4,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki deportista (tabla, volley, tennis, criket, futbol) (semejanza a Messi). Haciendo trucos con todo tipo de pelotas de manera mágica.\nPublicación: REEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 17,
+   "title": "Muki cantante (semejanza a Shakira). Cantando y bailando música remix…",
+   "formatId": 4,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki cantante (semejanza a Shakira). Cantando y bailando música remix de la Navidad de varios países, movimientos simples pero reconocibles.\nPublicación: REEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 18,
+   "title": "Muki haciendo muecas con la cara (donde sale el niño haciendo muecas…",
+   "formatId": 4,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki haciendo muecas con la cara (donde sale el niño haciendo muecas con sus cachetes)\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DXC9ENviYyZ/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 19,
+   "title": "Mukis comiendo frutas gigantes. Picotas y mangos",
+   "formatId": 4,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis comiendo frutas gigantes. Picotas y mangos\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DZsLkbxOEna/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 20,
+   "title": "Mukis cocinando para Tayta, Santa, los elfos y los renos y las alpacas.…",
+   "formatId": 5,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis cocinando para Tayta, Santa, los elfos y los renos y las alpacas. Gran cena navideña. Mesa llena de comidas en la fábrica de la magia.\nPublicación: ILU FIJA · Personajes: Muki, Alpaca, renos, Tayta, Claus, Elfo · Nota: Mucha info",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 21,
+   "title": "Mukis haciendo natilla colombiana, Bogotá lo hace con leche y cremoso,…",
+   "formatId": 5,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis haciendo natilla colombiana, Bogotá lo hace con leche y cremoso, y antioquia lo hace firme y con panela y canela. Una pared de natilla dura y otra liquida. Muki atravesándolo.\nPublicación: CARRUSEL · Personajes: Muki · Nota: No se entiende.",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 22,
+   "title": "Mukis comparando buñuelos colombianos, que el suyo es más esponjoso que…",
+   "formatId": 5,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis comparando buñuelos colombianos, que el suyo es más esponjoso que el del otro. Como si fueran almohadas gigantes. Están saltando y durmiendo en ellos.\nPublicación: ILU FIJA · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 23,
+   "title": "Muki poniendo salsa de vitelo tonné y otro lamiéndolo en un loop.…",
+   "formatId": 5,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki poniendo salsa de vitelo tonné y otro lamiéndolo en un loop. Quality control campaign\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DXXegoJD4Wp/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 24,
+   "title": "Muki comiendo pannetone y quitando pasas como si fueran homiguitas que…",
+   "formatId": 5,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki comiendo pannetone y quitando pasas como si fueran homiguitas que se vuelven a meter al panettone y suenan como de cristal.\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DZowvVBtTpF/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 25,
+   "title": "Mukis y Tayta cocinando parrilla navideña Grilling and Chilling. Mukis…",
+   "formatId": 5,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis y Tayta cocinando parrilla navideña Grilling and Chilling. Mukis cocinando unos asados uno parado juzgando al otro.\nPublicación: REEL · Personajes: Muki, Tayta",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DX0ejzwTSag/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 26,
+   "title": "Mukis con pan de agua o cola de mono chileno. Muki echado en un ponche…",
+   "formatId": 5,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis con pan de agua o cola de mono chileno. Muki echado en un ponche o chocolate o algo líquido.\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DaP3G4EPcAf/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 27,
+   "title": "Mukis tomando un clericó y se ve como una chispita mariposa. It will…",
+   "formatId": 5,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis tomando un clericó y se ve como una chispita mariposa. It will Sparkle my life.\nPublicación: REEL · Personajes: Muki · Nota: EXPLICAR",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DXM3ga5EXqs/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 28,
+   "title": "Niño en una bicicleta llorando, se acerca un amigo y lo abraza, y magia…",
+   "formatId": 6,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Niño en una bicicleta llorando, se acerca un amigo y lo abraza, y magia se dispara hacia adentro de la tierra durante el abrazo, y siguen en bici\nPublicación: CARRUSEL · Personajes: Muki, Humano niño",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 29,
+   "title": "Mukis emocionandose cuando te recoge tus papas del nido.",
+   "formatId": 6,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis emocionandose cuando te recoge tus papas del nido.\nPublicación: ILU FIJA · Personajes: Muki, Humano niño · Nota: FALTA referencia.",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 30,
+   "title": "Muki metiéndose en la cama cogiendo peluche de alpaca.",
+   "formatId": 6,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki metiéndose en la cama cogiendo peluche de alpaca.\nPublicación: ILU FIJA · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 31,
+   "title": "Cocinando: Un niño y un muki cocinando comiendose los ingredientes con…",
+   "formatId": 6,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Cocinando: Un niño y un muki cocinando comiendose los ingredientes con complicidad - se llama \"Control de Calidad\"\nPublicación: CARRUSEL · Personajes: Muki, Humano niño",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 32,
+   "title": "Later becomes Never, Mukis haciendo algo que normalmente dejarías para…",
+   "formatId": 6,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Later becomes Never, Mukis haciendo algo que normalmente dejarías para después que te da felicidad. Carrusel, un muki haciendo algo metafórico.\nPublicación: CARRUSEL · Personajes: Muki · Nota: EXPLICAR",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 33,
+   "title": "Sparkle my life - Mukis y tayta y alpacas sentados viendo fuegos…",
+   "formatId": 6,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Sparkle my life - Mukis y tayta y alpacas sentados viendo fuegos artificiales en diferentes paises. Machu picchu,\nPublicación: CARRUSEL · Personajes: Muki, Alpaca, Tayta · Nota: Falta especificar lugares.",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 34,
+   "title": "Una persona y un muki graduandose haciendo el baile de la referencia.",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Una persona y un muki graduandose haciendo el baile de la referencia.\nPublicación: REEL · Personajes: Muki, Humano niño",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DaLEDMIgVxf/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 35,
+   "title": "2 niños y 2 mukis jugando con agua: manguera, aspersores sacar la…",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "2 niños y 2 mukis jugando con agua: manguera, aspersores sacar la lengua, corriendo.\nPublicación: REEL · Personajes: Muki, Humano niño",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DYUq3aACYLU/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 36,
+   "title": "Niños y mukis jugando fútbol (mundialito) jugando futbol y que se…",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Niños y mukis jugando fútbol (mundialito) jugando futbol y que se escuche sus risas . Como en la referencia.\nPublicación: REEL · Personajes: Muki, Humano niño",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DY-h3sjPXdJ/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 37,
+   "title": "Mukis recolectando conchas en la arena. Ver referencia de pateando…",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis recolectando conchas en la arena. Ver referencia de pateando estrellas en la arena\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DZowvVBtTpF/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 38,
+   "title": "Un muki sentandose al frente de un ventilador. Ver referencia de video…",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Un muki sentandose al frente de un ventilador. Ver referencia de video de niño. \"sientate cerca y di AAAAAAAA\"\nPublicación: REEL · Personajes: Muki · Nota: FALTA referencia.",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 39,
+   "title": "Una alpaca relajando en la arena tirandose arena. Ver Referencia del…",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Una alpaca relajando en la arena tirandose arena. Ver Referencia del niño y la foca.\nPublicación: REEL · Personajes: Alpaca",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DY8WiuIz7_l/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 40,
+   "title": "Mukis corriendo para subirse al trineo y uno que saca la mano para…",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis corriendo para subirse al trineo y uno que saca la mano para jalarlo y no se quede atrás. Ver referencia  y usar esa música.\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DZAyqXuoKFU/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 41,
+   "title": "Muki pisando una hoja seca, sonido de ASMR",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki pisando una hoja seca, sonido de ASMR\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DT2jAarElS8/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 42,
+   "title": "Un monton de Mukis empiezan a correr gritando de felicidad, y Tayta se…",
+   "formatId": 6,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Un monton de Mukis empiezan a correr gritando de felicidad, y Tayta se une\nPublicación: REEL · Personajes: Muki, Tayta",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DX2WuRPSRBd/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 43,
+   "title": "Elfo termina un juguete, muki salta y lo llena de magia, juguete cobra…",
+   "formatId": 7,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Elfo termina un juguete, muki salta y lo llena de magia, juguete cobra vida.\nPublicación: ILU FIJA · Personajes: Muki, Elfo",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 44,
+   "title": "Tayta volando alpacas y Santa volando renos",
+   "formatId": 7,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Tayta volando alpacas y Santa volando renos\nPublicación: ILU FIJA · Personajes: Alpaca, Tayta, Claus, renos",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 45,
+   "title": "Elfo tomando chocolate caliente, y Muki metiéndole helado.",
+   "formatId": 7,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Elfo tomando chocolate caliente, y Muki metiéndole helado.\nPublicación: ILU FIJA · Personajes: Muki, Elfo · Nota: combinar",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 46,
+   "title": "Elfo comiendo panetón y Muki metiéndole helado gigante.",
+   "formatId": 7,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Elfo comiendo panetón y Muki metiéndole helado gigante.\nPublicación: ILU FIJA · Personajes: Muki, Elfo · Nota: combinar",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 47,
+   "title": "Tayta comiendo un plato típico del sur, y Santa comiendo galletas",
+   "formatId": 7,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Tayta comiendo un plato típico del sur, y Santa comiendo galletas\nPublicación: ILU FIJA · Personajes: Tayta, Claus",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 48,
+   "title": "Elfos en chiminea, y Mukis con fuegos artificiales",
+   "formatId": 7,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Elfos en chiminea, y Mukis con fuegos artificiales\nPublicación: ILU FIJA · Personajes: Muki, Elfo",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 49,
+   "title": "Elfos haciendo hombres de nieve, mukis haciendo castillos de arena",
+   "formatId": 7,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Elfos haciendo hombres de nieve, mukis haciendo castillos de arena\nPublicación: ILU FIJA · Personajes: Muki, Elfo",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 50,
+   "title": "Elfos y mukis decorando árbol de navidad con artefactos de todo el mundo",
+   "formatId": 7,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Elfos y mukis decorando árbol de navidad con artefactos de todo el mundo\nPublicación: ILU FIJA · Personajes: Muki, Elfo",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 51,
+   "title": "Muki soplando el polvo magico a las alpacas y a los renos para que…",
+   "formatId": 8,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki soplando el polvo magico a las alpacas y a los renos para que vuelen, pero estornudan y sacuden su crin.\nPublicación: ILU FIJA · Personajes: Muki, Alpaca",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 52,
+   "title": "Un muki jugando con las alpacas voladoras y renos abrazandolas y…",
+   "formatId": 8,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Un muki jugando con las alpacas voladoras y renos abrazandolas y dandoles besos. Como si fueran terneras o perros cachorros, que se meten en su cara y la lamen.\nPublicación: ILU FIJA · Personajes: Muki, Alpaca, renos",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 53,
+   "title": "Muki montando una alpaca voladora como un jinete. Alpaca con lentes de…",
+   "formatId": 8,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Muki montando una alpaca voladora como un jinete. Alpaca con lentes de piloto (goggles), movimientos como los pegasos de fantasia de disney\nPublicación: CARRUSEL · Personajes: Muki, Alpaca",
+   "refs": [
+    {
+     "url": "https://www.tiktok.com/@vibeyvidzz/video/6954987892699663621",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 54,
+   "title": "Tayta caminando y le está dando sombra a un muki como referencia del…",
+   "formatId": 8,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Tayta caminando y le está dando sombra a un muki como referencia del pato.\nPublicación: CARRUSEL · Personajes: Muki, Tayta",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DY-j1oJPJGR/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 55,
+   "title": "Mukis en el trabajo, LOFI.",
+   "formatId": 9,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis en el trabajo, LOFI.\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DWcBxxtjFHO/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 56,
+   "title": "Un muki con animales en los bolsillos que recolectado de la playa…",
+   "formatId": 9,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Un muki con animales en los bolsillos  que recolectado de la playa cangrejos, muy muys. Ver referencia.\nPublicación: ILU FIJA · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DZNKdFeyoTr/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 57,
+   "title": "Mukis comiendose galletas escondidas",
+   "formatId": 9,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis comiendose galletas escondidas\nPublicación: ILU FIJA · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 58,
+   "title": "Mukis bailando como graduación",
+   "formatId": 9,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis bailando como graduación\nPublicación: REEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 59,
+   "title": "Los mukis cogiendo objetos de tradicionales de países y haciendo cosas…",
+   "formatId": 10,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Los mukis cogiendo objetos de tradicionales de países y haciendo cosas metafóricas con ellos, como dormir en zapatos, o ponerse cosas en la cabeza que no van.\nPublicación: CARRUSEL · Personajes: Muki · Nota: Especificar acciones, que no sean muchas.",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 60,
+   "title": "Mukis leyendo y recordando, muriendosé de risa, y actuando escenas de…",
+   "formatId": 11,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis leyendo y recordando, muriendosé de risa, y actuando escenas de los libros Los dos Claus, con burbujas de imaginación\nPublicación: REEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 61,
+   "title": "Mukis leyendo los dos claus en un sillón y el mundo de los dos claus se…",
+   "formatId": 11,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis leyendo los dos claus en un sillón y el mundo de los dos claus se les explota hacia afuera\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DXtnJANCVP5/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 62,
+   "title": "Mukis leyendo los dos claus en un fuerte de sábanas como un circo…",
+   "formatId": 11,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis leyendo los dos claus en un fuerte de sábanas como un circo gigante.\nPublicación: ILU FIJA · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 63,
+   "title": "Mukis leyendo los dos claus en la playa. En el mar en un flotador con…",
+   "formatId": 11,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis leyendo los dos claus en la playa. En el mar en un flotador con forma de alpaca voladora.\nPublicación: REEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 64,
+   "title": "Mukis haciendo coreografías mágicas de ritmos mundialment conocidos por…",
+   "formatId": 12,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis haciendo coreografías mágicas de ritmos mundialment conocidos por ser de hemisferio sur. Bad bunny?\nPublicación: REEL · Personajes: Muki · Nota: Especificar coreografías, serán pocas.",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DSsa-T3EZEt/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 65,
+   "title": "Salen los objetos que dejas para después pero mejor hacerlos ahora que…",
+   "formatId": 13,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Salen los objetos que dejas para después pero mejor hacerlos ahora que te dan felicidad.\nPublicación: ILU FIJA · Personajes: Muki · Nota: No se entiende",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DY06tiVvsYf/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  },
+  {
+   "id": 66,
+   "title": "Mukis escribiendo un mensaje de felicidad en la arena",
+   "formatId": 13,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis escribiendo un mensaje de felicidad en la arena\nPublicación: CARRUSEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 67,
+   "title": "Mukis escribiendo un mensaje de felicidad en un vidrio",
+   "formatId": 13,
+   "kind": "Ilustración",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis escribiendo un mensaje de felicidad en un vidrio\nPublicación: CARRUSEL · Personajes: Muki",
+   "refs": [],
+   "panels": []
+  },
+  {
+   "id": 68,
+   "title": "Mukis viendo luciérnagas hacer figuras como tayta, renos y navidad",
+   "formatId": 13,
+   "kind": "Animación",
+   "style": "Chibi / cute (principal)",
+   "status": "💡 Idea",
+   "desc": "Mukis viendo luciérnagas hacer figuras como tayta, renos y navidad\nPublicación: REEL · Personajes: Muki",
+   "refs": [
+    {
+     "url": "https://www.instagram.com/p/DaQF37cuYmT/",
+     "note": "Referencia de la hoja (loglines)"
+    }
+   ],
+   "panels": []
+  }
+ ],
+ "nextId": 69
+}
