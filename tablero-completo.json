@@ -1,0 +1,2183 @@
+{
+ "scenes": [
+  {
+   "desc": "Volando sobre Africa - urbana y natural\nPublicación: REEL · Personajes: Muki, Alpaca, Tayta · Nota: Sudafrica / table mountains",
+   "formatId": 1,
+   "id": 1,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Aproximación a Table Mountain: Plano general dinámico. Tayta Claus y su tropa de alpacas voladoras surcan los cielos de Sudáfrica, dejando una estela brillante de polvo mágico morado con la icónica silueta plana de Table Mountain y la costa al atardecer de fondo.",
+     "id": "e1p1",
+     "imgKey": "img-e1p1"
+    },
+    {
+     "caption": "[1.2–2.5s] Muki observando la ciudad: Plano medio corto. Un tierno Muki chibi de afro morado se asoma emocionado desde la montura de una alpaca, sosteniendo un Magiómetro morado que brilla al escanear la mezcla de arquitectura urbana moderna y naturaleza salvaje.",
+     "id": "e1p2",
+     "imgKey": "img-e1p2"
+    },
+    {
+     "caption": "[2.5–4.0s] Vuelo rasante y magia navideña: Cámara en paneo siguiendo a Tayta Claus mientras sonríe y saluda con su poncho festivo; las alpacas bajan en un elegante planeo sobre la meseta natural, soltando destellos morados y notas musicales mágicas que flotan sobre el paisaje sudafricano.",
+     "id": "e1p3",
+     "imgKey": "img-e1p3"
+    },
+    {
+     "caption": "[4.0–5.5s] Ascenso hacia el horizonte: Plano general angular. El trineo guiado por las alpacas toma impulso y asciende hacia las nubes doradas, dejando una estela púrpura resplandeciente que enmarca Table Mountain y la bahía urbana iluminándose.",
+     "id": "e1p4",
+     "imgKey": "img-e1p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DXfUneejMTS/?img_index=1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Volando sobre Africa - urbana y natural"
+  },
+  {
+   "desc": "América del sur - urbana y natural. Costa (colombia), Andes (machu picchu) y Amazonas (brasil)\nPublicación: REEL · Personajes: Muki, Alpaca, Tayta · Nota: Colombia - Cartegena, Peru / Machu Picchu, Brasil - Rio de Janeiro",
+   "formatId": 1,
+   "id": 2,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Costa Caribeña - Cartagena, Colombia: Plano general dinámico. Tayta Claus y un Muki chibi de afro morado surcan el cielo al atardecer sobre las murallas coloniales y la costa de Cartagena a lomos de una alpaca voladora, dejando una estela brillante de polvo mágico morado.",
+     "id": "e2p1",
+     "imgKey": "img-e2p1"
+    },
+    {
+     "caption": "[1.2–2.4s] Los Andes Mágicos - Machu Picchu, Perú: Corte en movimiento rápido. La alpaca hace una elegante maniobra entre las nubes y las cumbres de Machu Picchu. El Muki sostiene emocionado el Magiómetro morado mientras Tayta Claus sonríe viendo cómo el instrumento marca máxima energía navideña.",
+     "id": "e2p2",
+     "imgKey": "img-e2p2"
+    },
+    {
+     "caption": "[2.4–3.6s] El Corazón Verde - Amazonas: Plano medio lateral. La alpaca desciende en vuelo rasante sobre el dosel de la selva amazónica y el río sinuoso; el polvo morado que desprenden ilumina las copas de los árboles con destellos festivos.",
+     "id": "e2p3",
+     "imgKey": "img-e2p3"
+    },
+    {
+     "caption": "[3.6–4.8s] Bahía y Ciudad - Río de Janeiro, Brasil: Plano panorámico abierto. Llegan a la costa de Río de Janeiro, pasando frente a la silueta del Cristo Redentor y las luces urbanas. Tayta Claus abre el libro dorado de 'Los Dos Claus', emitiendo notas musicales brillantes en el cielo.",
+     "id": "e2p4",
+     "imgKey": "img-e2p4"
+    },
+    {
+     "caption": "[4.8–6.0s] Aceleración Mágica hacia el Horizonte: Primer plano dinámico en escorzo. El Muki chibi guiña un ojo a cámara agitando su afro morado mientras la alpaca toma un impulso aéreo veloz, desvaneciéndose en una estela de magia morada rumbo a su siguiente destino.",
+     "id": "e2p5",
+     "imgKey": "img-e2p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "América del sur - urbana y natural. Costa (colombia), Andes (machu…",
+   "refs": []
+  },
+  {
+   "desc": "Oceanía - urbana y natural\nPublicación: REEL · Personajes: Muki, Alpaca, Tayta · Nota: Australia - Sydney opera house",
+   "formatId": 1,
+   "id": 3,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Llegada sobre la bahía de Sídney: Plano general nocturno y vibrante. Tayta Claus, con su poncho andino festivo, vuela montado en una alpaca mágica junto a un Muki chibi de afro morado, entrando con dinamismo al cielo sobre la icónica Sydney Opera House iluminada.",
+     "id": "e3p1",
+     "imgKey": "img-e3p1"
+    },
+    {
+     "caption": "[1.2–2.3s] Paseo rasante sobre la Opera House: Plano medio en movimiento. La alpaca realiza un suave descenso en curva sobre las estructuras de la Opera House, desprendiendo una estela brillante de polvo mágico morado que resalta los tejados blancos de la bahía urbana.",
+     "id": "e3p2",
+     "imgKey": "img-e3p2"
+    },
+    {
+     "caption": "[2.3–3.5s] Música andina y medición mágica: Primer plano del Muki chibi de afro morado sobre la montura; consulta un Magiómetro morado brillante que marca nivel máximo mientras toca un pequeño charango festivo, contagiando el espíritu navideño de Los Dos Claus.",
+     "id": "e3p3",
+     "imgKey": "img-e3p3"
+    },
+    {
+     "caption": "[3.5–4.7s] De la bahía urbana a la costa natural: Plano general amplio de seguimiento. Tayta Claus sonríe y saluda con entusiasmo mientras la alpaca vuela velozmente desde el puerto urbano hacia la costa natural australiana y sus playas iluminadas por la luna.",
+     "id": "e3p4",
+     "imgKey": "img-e3p4"
+    },
+    {
+     "caption": "[4.7–5.8s] Ascenso hacia el cielo de Oceanía: Plano contrapicado de salida. La alpaca acelera hacia las estrellas dejando un rastro resplandeciente de chispas moradas y notas musicales, despidiendo el paisaje de Oceanía en un enérgico remate de reel.",
+     "id": "e3p5",
+     "imgKey": "img-e3p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Oceanía - urbana y natural",
+   "refs": []
+  },
+  {
+   "desc": "Tayta baila haciendo dominaditas con varias pelotas mientras muki se las va pasando antes de meter regalo en la bolsa gigante de regalos.\nPublicación: REEL · Personajes: Muki, Tayta, Alpaca, Muki Deporte, Humano adulto · Nota: Fondo de color rojo. video de 6s donde se muestra la agilidad de Tayta.",
+   "formatId": 2,
+   "id": 4,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "Paralax de Tayta bailando samba delante de un muki con regalos y entra a las casas (primer plano), en diferentes fondos (rio de janeiro), y desaparecen los regalos cuando salen de la casa. El muki saca regalos de la bolsa gigante. Encima de los techos está las alpacas con el trineo",
+     "id": "1786473720697634",
+     "imgKey": "img-1786473720697634"
+    },
+    {
+     "caption": "Paralax de Tayta bailando salsa delante de un muki con regalos y entra a las casas (primer plano), en diferentes fondos (cartagena), y desaparecen los regalos cuando salen de la casa. El muki saca regalos de la bolsa gigante. Encima de los techos está las alpacas con el trineo",
+     "id": "1786473762636615",
+     "imgKey": "img-1786473762636615"
+    },
+    {
+     "caption": "Paralax de Tayta bailando tango delante de un muki con regalos y entra a las casas (primer plano), en diferentes fondos (buenos aires con fondo del obelisco), y desaparecen los regalos cuando salen de la casa. El muki saca regalos de la bolsa gigante. Encima de los techos está las alpacas con el trineo. No esta Santa claus.",
+     "id": "1786473767001957",
+     "imgKey": "img-1786473767001957"
+    }
+   ],
+   "refs": [
+    {
+     "mediaMime": "image/jpeg",
+     "mediaName": "super_mario_run_ipad_screenshot_01_2048.avif",
+     "mid": "1786474015401789",
+     "note": "",
+     "url": ""
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Tayta baila haciendo dominaditas con varias pelotas mientras muki se…"
+  },
+  {
+   "desc": "Tayta, alpaca voladora y Muki jueguan con avion de juguete antes de entregar\nPublicación: REEL · Personajes: Muki, Tayta · Nota: Fondo color morado.",
+   "formatId": 2,
+   "id": 5,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Preparando el despegue: Fondo morado festivo. Tayta Claus sostiene con entusiasmo un avión de juguete de madera tradicional andina, mientras un Muki de afro morado da saltitos chibi y una alpaca voladora flota expectante a su lado.",
+     "id": "e5p1",
+     "imgKey": "img-e5p1"
+    },
+    {
+     "caption": "[1.2–2.4s] El vuelo mágico del avión: Tayta imita el sonido de motor ('¡fiuuu!') y lanza suavemente el avión, el cual vuela dejando una estela brillante de polvo mágico morado en el aire.",
+     "id": "e5p2",
+     "imgKey": "img-e5p2"
+    },
+    {
+     "caption": "[2.4–3.6s] Asistencia de la alpaca voladora: El avioncito planea en un arco; la alpaca voladora aletea con gracia y le da un suave empujoncito con el hocico para mantenerlo flotando en espiral sobre ellos.",
+     "id": "e5p3",
+     "imgKey": "img-e5p3"
+    },
+    {
+     "caption": "[3.6–4.8s] Recepción traviesa del Muki: El Muki salta alto con gran agilidad chibi, atrapa el avión de juguete con ambas manos y aterriza sonriente entre chispas de Magiómetro morado.",
+     "id": "e5p4",
+     "imgKey": "img-e5p4"
+    },
+    {
+     "caption": "[4.8–6.0s] Listo para la entrega: Tayta sonríe con complicidad asintiendo, mientras el Muki guarda cuidadosamente el avión en el saco de regalos andino, listos para la gran entrega navideña.",
+     "id": "e5p5",
+     "imgKey": "img-e5p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Tayta, alpaca voladora y Muki jueguan con avion de juguete antes de…",
+   "refs": []
+  },
+  {
+   "desc": "Niño dormido y tayta y\nPublicación: REEL · Personajes: Muki, Tayta · Nota: Fondo color azul.",
+   "formatId": 2,
+   "id": 6,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.0s] La habitación azul y el niño dormido: Plano medio-general sobre un fondo color azul nocturno. Un niño duerme plácidamente en su cama mientras una brisa de polvo mágico morado de Los Dos Claus entra sutilmente por un costado.",
+     "id": "e6p1",
+     "imgKey": "img-e6p1"
+    },
+    {
+     "caption": "[1.0–2.2s] Entrada sigilosa de Tayta y Muki: Tayta Claus avanza de puntillas con tono afectuoso, acompañado por el Muki chibi de afro morado. El Muki carga alegremente un regalo envuelto con motivos andinos.",
+     "id": "e6p2",
+     "imgKey": "img-e6p2"
+    },
+    {
+     "caption": "[2.2–3.5s] Entrega mágica del regalo: Tayta se agacha con cuidado para colocar el regalo a los pies de la cama. El Muki lanza un puñado de polvo mágico morado para hacer flotar el paquete suavemente hasta su lugar.",
+     "id": "e6p3",
+     "imgKey": "img-e6p3"
+    },
+    {
+     "caption": "[3.5–4.8s] Reacción en sueños: El destello del polvo morado ilumina el rostro del niño dormido, provocándole una tierna sonrisa. Tayta mira a la cámara haciendo el gesto de 'silencio' mientras el Muki celebra con giros en el aire.",
+     "id": "e6p4",
+     "imgKey": "img-e6p4"
+    },
+    {
+     "caption": "[4.8–6.0s] Desaparición de Los Dos Claus: Tayta y el Muki desaparecen en una ráfaga brillante de estrellas y polvo morado, dejando el regalo reluciente al pie de la cama sobre el fondo azul.",
+     "id": "e6p5",
+     "imgKey": "img-e6p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Niño dormido y tayta y",
+   "refs": []
+  },
+  {
+   "desc": "Tayta, alpaca voladora y Muki jueguan con guitarra de regalo antes de entregar\nPublicación: REEL · Personajes: Muki, Tayta · Nota: Fondo color amarillo. La música es un tango.",
+   "formatId": 2,
+   "id": 7,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] El hallazgo musical: Sobre un fondo amarillo plano y brillante, Tayta Claus saca una guitarra de juguete de su alforja. La alpaca voladora flota a su lado con curiosidad y un Muki chibi de afro morado se asoma emocionado mientras brota polvo mágico morado del instrumento al sonar los primeros acordes de tango.",
+     "id": "e7p1",
+     "imgKey": "img-e7p1"
+    },
+    {
+     "caption": "[1.2–2.4s] Pose dramática de tango: Al compás marcado del tango, Tayta adopta una cómica pose tanguera y rasguea con estilo. El Muki salta ágilmente sobre el cuerpo de la guitarra, haciendo un divertido zapateo sobre las cuerdas sin perder el ritmo.",
+     "id": "e7p2",
+     "imgKey": "img-e7p2"
+    },
+    {
+     "caption": "[2.4–3.6s] Trío al compás: La alpaca voladora gira en el aire moviendo el cuello rítmicamente. Tayta y el Muki tocan a cuatro manos un acorde vibrante, haciendo volar notas musicales y destellos morados por el escenario amarillo.",
+     "id": "e7p3",
+     "imgKey": "img-e7p3"
+    },
+    {
+     "caption": "[3.6–4.7s] Remate tanguero final: Golpe final del tango: Tayta clava la pose con la guitarra en alto hacia la cámara, la alpaca aterriza a su lado haciendo una reverencia cómica y el Muki saluda victorioso desde el afro de Tayta.",
+     "id": "e7p4",
+     "imgKey": "img-e7p4"
+    },
+    {
+     "caption": "[4.7–5.5s] Empaque y listos para entregar: Con un rápido pase mágico morado, Tayta le coloca un lazo navideño a la guitarra de regalo; la alpaca da un salto de despegue y el Muki señala alegremente hacia adelante, listos para la entrega.",
+     "id": "e7p5",
+     "imgKey": "img-e7p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Tayta, alpaca voladora y Muki jueguan con guitarra de regalo antes de…",
+   "refs": []
+  },
+  {
+   "desc": "Mukis le colocan magia a aviones de juguete en una línea de montaje.\nPublicación: REEL · Personajes: Muki · Nota: Loop de tres estaciones de infusión de magia. Estacion 1: Entran juguetes en estado inerte, se suminastra. Estacion 3: Infusionar polvo y cobra vida. Estacion 4: Empaquetar para bolsa de Tayta y otra para Santa.\n\nLa fábrica es de piedra y madera, con máquinas medievales, empujadas por el río de magia de la navidad, viento y piedras que giran",
+   "formatId": 3,
+   "id": 8,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "Loop de tres estaciones de infusión de magia. Estacion 1: Entran aviones en estado inerte, se suminastra. Estacion 3: Infusionar polvo y cobra vida. Estacion 4: Empaquetar para bolsa de Tayta. Hay un Muki por estacion, salvo en la infusion de magia. Ahi hay dos. La fabrica de los mukis es de piedra blanca ",
+     "id": "s2p5",
+     "imgKey": "img-s2p5"
+    },
+    {
+     "caption": "",
+     "id": "1786992967830433",
+     "imgKey": "img-1786992967830433"
+    },
+    {
+     "caption": "",
+     "id": "1786992969315654",
+     "imgKey": "img-1786992969315654"
+    }
+   ],
+   "refs": [
+    {
+     "ai": {
+      "escenas": [
+       {
+        "descripcion": "Plano general de la fábrica en Machu Picchu. El gran Magiómetro burbujea lleno de líquido morado desbordante. Un Muki cabezón anota alegremente los niveles en una libreta mientras suena música andina.",
+        "titulo": "El Magiómetro en marcha"
+       },
+       {
+        "descripcion": "Plano medio chibi. Dos Mukis con afros morados y corbatas michi verdes canalizan el líquido morado del Magiómetro hacia tubos de cristal que desembocan en morteros tradicionales.",
+        "titulo": "Extracción de la magia"
+       },
+       {
+        "descripcion": "Primer plano tierno. Los Mukis muelen la sustancia morada con entusiasmo; el líquido se transforma mágicamente en un polvo brillante dorados-púrpura que flota por el aire.",
+        "titulo": "De líquido a polvo mágico"
+       },
+       {
+        "descripcion": "Plano medio. Los Mukis lanzan puñados de polvo mágico sobre retablos, trompos y carritos que avanzan sin parar por una faja transportadora, haciéndolos brillar.",
+        "titulo": "Magia en los juguetes"
+       },
+       {
+        "descripcion": "Plano general corto. Tayta Claus contempla sonriente la línea de producción continua que envía juguetes hacia los alforjones de las alpacas voladoras, haciendo una señal de aprobación.",
+        "titulo": "Aprobación de Tayta Claus"
+       }
+      ],
+      "version_simplificada": "Vista chibi y fluida de la fábrica dentro de Machu Picchu: los Mukis recolectan el líquido morado desde el gran Magiómetro, lo muelen para convertirlo en polvo mágico centelleante y lo espolvorean sobre los juguetes de una cinta transportadora bajo la supervisión sonriente de Tayta Claus."
+     },
+     "note": "Referencia de la hoja de cálculo",
+     "url": "https://www.instagram.com/p/DZkKwLsJbm7/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis le colocan magia a aviones de juguete en una línea de montaje."
+  },
+  {
+   "desc": "Mukis le colocan magia a muñecas de juguete en una línea de montaje.\nPublicación: REEL · Personajes: Muki",
+   "formatId": 3,
+   "id": 9,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Línea de montaje en marcha: Plano medio. En la Fábrica de la Magia, una cinta transportadora lleva una muñeca artesanal de juguete inerte. A su lado, un Muki chibi de afro morado la observa fijamente mientras avanza.",
+     "id": "e9p1",
+     "imgKey": "img-e9p1"
+    },
+    {
+     "caption": "[1.2–2.5s] Preparación del polvo mágico: El Muki sonríe con dinamismo, saca un pequeño frasco lleno de brillante polvo de magia morado y toma una pizca resplandeciente entre sus dedos.",
+     "id": "e9p2",
+     "imgKey": "img-e9p2"
+    },
+    {
+     "caption": "[2.5–4.0s] Aplicación de la magia morada: El Muki espolvorea el mágico polvo violeta sobre la muñeca. Una destellante estela de luz morada la envuelve, haciendo que la muñeca empiece a brillar intensamente.",
+     "id": "e9p3",
+     "imgKey": "img-e9p3"
+    },
+    {
+     "caption": "[4.0–5.5s] La muñeca cobra vida: La muñeca cobra aliento, parpadea y le dedica un tierno saludo al Muki mientras sigue su rumbo en la cinta. El Muki levanta los brazos festejando con alegría.",
+     "id": "e9p4",
+     "imgKey": "img-e9p4"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis le colocan magia a muñecas de juguete en una línea de montaje.",
+   "refs": []
+  },
+  {
+   "desc": "Mukis le colocan magia a pelotas en una línea de montaje.\nPublicación: REEL · Personajes: Muki",
+   "formatId": 3,
+   "id": 10,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.1s] Llegada de los juguetes a la línea: Plano medio de la faja transportadora de madera tallada y cobre en la Fábrica de la Magia. Un simpático Muki chibi de afro morado y poncho festivo espera listo en su estación mientras una fila de pelotas de juguete opacas avanza hacia él.",
+     "id": "e10p1",
+     "imgKey": "img-e10p1"
+    },
+    {
+     "caption": "[1.1–2.3s] Preparando el polvo mágico morado: Primer plano del Muki tomando un frasco dosificador con diseño andino. Al destaparlo, emite un brillante resplandor de polvo mágico morado característico de Los Dos Claus, iluminando su rostro emocionado.",
+     "id": "e10p2",
+     "imgKey": "img-e10p2"
+    },
+    {
+     "caption": "[2.3–3.6s] Infusión mágica en la pelota: El Muki espolvorea con un movimiento ágil y divertido el brillo morado sobre una pelota en movimiento; chispas púrpuras y pequeñas notas musicales luminosas envuelven el juguete.",
+     "id": "e10p3",
+     "imgKey": "img-e10p3"
+    },
+    {
+     "caption": "[3.6–4.8s] Transformación y rebote mágico: La pelota se ilumina intensamente con destellos dorados y morados, cobrando vida propia y comenzando a rebotar flotando ligeramente sobre la línea de montaje con un rastro de estrellas.",
+     "id": "e10p4",
+     "imgKey": "img-e10p4"
+    },
+    {
+     "caption": "[4.8–5.8s] Aprobación y ritmo de fábrica: El Muki hace un gesto de victoria con ambos puños mientras observa la serie de pelotas encantadas rebotar en perfecta sincronía hacia la siguiente estación de empaque.",
+     "id": "e10p5",
+     "imgKey": "img-e10p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis le colocan magia a pelotas en una línea de montaje.",
+   "refs": []
+  },
+  {
+   "desc": "Transformacion de la magia del rio de la felicidad a ser almacenada a piedras y luego con un ritual se convierte en el polvo de la navidad.\nPublicación: REEL · Personajes: Muki",
+   "formatId": 3,
+   "id": 11,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Canalización del Río de la Felicidad: Plano medio: Un Muki de afro morado usa un cuenco ceremonial para recoger el agua brillante y multicolor del Río de la Felicidad, vertiéndola sobre una serie de piedras místicas andinas.",
+     "id": "e11p1",
+     "imgKey": "img-e11p1"
+    },
+    {
+     "caption": "[1.2–2.4s] Absorción y Carga en Piedras: Primer plano: Las piedras absorben el flujo mágico, iluminándose desde adentro con runas brillantes y una intensa pulsación de energía morada.",
+     "id": "e11p2",
+     "imgKey": "img-e11p2"
+    },
+    {
+     "caption": "[2.4–3.7s] El Ritual Muki: Plano entero dinámico: El Muki realiza una danza ritual al compás de una campanilla mágica; las piedras cargadas flotan en círculo concéntrico a su alrededor brillando con más fuerza.",
+     "id": "e11p3",
+     "imgKey": "img-e11p3"
+    },
+    {
+     "caption": "[3.7–4.8s] Transformación en Polvo Mágico: Plano detalle/efectos: Las piedras levitantes se disuelven en un estallido suave y chispeante, transmutándose en el resplandeciente Polvo de la Navidad morado y dorado característico de Los Dos Claus.",
+     "id": "e11p4",
+     "imgKey": "img-e11p4"
+    },
+    {
+     "caption": "[4.8–6.0s] Almacenamiento y Celebración: Plano medio corto: El Muki guía el polvo flotante hacia frascos de cristal mágicos que se sellan solos; el Muki sonríe feliz sosteniendo un frasco que brilla con la magia navideña.",
+     "id": "e11p5",
+     "imgKey": "img-e11p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Transformacion de la magia del rio de la felicidad a ser almacenada a…",
+   "refs": []
+  },
+  {
+   "desc": "Saltando\nPublicación: ILU FIJA · Personajes: Elfo, Muki",
+   "formatId": 3,
+   "id": 12,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Salto Mágico de Alegría: Plano entero dinámico en ligero contrapicado en el corazón de la Fábrica de la Magia. En el centro, un Muki chibi de esponjoso afro morado y un travieso Elfo de gorro verde están capturados en el ápice de un salto sincronizado de pura felicidad. El Muki tiene las piernas encogidas al pecho y los puños en alto con una sonrisa gigante, mientras que el Elfo abre brazos y piernas en el aire con expresión de euforia. Bajo sus botas, el impulso del salto deja una explosión suspendida de brillante polvo mágico morado entrelazado con pequeñas notas musicales doradas y moradas que iluminan la maquinaria y cintas transportadoras de juguetes al fondo.",
+     "id": "e12p1",
+     "imgKey": "img-e12p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Saltando",
+   "refs": []
+  },
+  {
+   "desc": "Como si fuese fútbol\nPublicación: ILU FIJA · Personajes: Elfo, Muki",
+   "formatId": 3,
+   "id": 13,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Pase de gol en la línea de empaque: Plano general dinámico en ángulo contrapicado en medio del taller de juguetes de la Fábrica de la Magia. Un Muki chibi de frondoso afro morado se suspende en el aire ejecutando una 'chalaca' o tijera acrobática de fútbol, pateando con precisión una caja de regalo dorada sellada con cintas andinas. Frente a él, sobre la mesa de trabajo de madera, un Elfo esbelto de traje verde y gorro puntiagudo se lanza en plancha como arquero profesional con una sonrisa competitiva y divertida para atrapar el paquete. Elemento de Los Dos Claus: una estela brillante de polvo mágico morado y notas musicales luminosas envuelven la trayectoria del paquete en el aire, mientras un Magiómetro morado de cristal empotrado en la pared titila registrando el entusiasmo festivo de la jugada.",
+     "id": "e13p1",
+     "imgKey": "img-e13p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Como si fuese fútbol",
+   "refs": []
+  },
+  {
+   "desc": "Como si fuera una receta",
+   "formatId": 3,
+   "id": 14,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "ESCENA 14: Como si fuera una receta: Plano medio de la mesa de preparación en la Fábrica de la Magia. En el centro, un Muki chibi con su característico afro morado esponjoso lleva un pequeño delantal con motivos andinos y sostiene con gran precisión una cuchara medidora flotante, vertiendo Polvo de Magiómetro morado brillante dentro de una caldera dorada con grabados de retablo. A su lado, un elfo sonriente sostiene abierto un gran libro ilustrado titulado 'Los Dos Claus: Receta Secreta de la Alegría', donde se ven diagramas coloridos de notas musicales, sonrisas y chispas. La expresión del Muki es de máxima concentración divertida, con la lengua afuera y ojos bien abiertos. De la caldera brotan destellos púrpuras y dorados en forma de estrellas y pequeñas alpacas de luz, iluminando cálidamente la escena llena de frascos de cristal, cintas de colores y engranajes mágicos de madera.",
+     "id": "e14p1",
+     "imgKey": "img-e14p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Como si fuera una receta",
+   "refs": []
+  },
+  {
+   "desc": "Muki chef (semejanza a Gaston). Cocinando con magia platos típicos de la navidad de varios países.\nPublicación: REEL · Personajes: Muki Chef",
+   "formatId": 4,
+   "id": 15,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.0s] Presentación del Muki Chef: El Muki Chef con su característico afro morado y sombrero de chef guiña a la cámara con entusiasmo estilo Gastón, elevando una cuchara de madera que empieza a emitir destellos morados.",
+     "id": "e15p1",
+     "imgKey": "img-e15p1"
+    },
+    {
+     "caption": "[1.0–2.2s] Magia en el Wok Navideño: Con un salto dinámico, el Muki saltea un wok de donde brota una espiral de polvo mágico morado de Los Dos Claus, haciendo aparecer al instante un Panetón peruano y chocolate caliente humeante.",
+     "id": "e15p2",
+     "imgKey": "img-e15p2"
+    },
+    {
+     "caption": "[2.2–3.5s] Ráfaga Internacional: El Muki gira rápidamente lanzando ráfagas mágicas moradas; el vapor se transforma al vuelo en un Pavo Navideño doradito y una Roscón de Reyes internacional.",
+     "id": "e15p3",
+     "imgKey": "img-e15p3"
+    },
+    {
+     "caption": "[3.5–4.8s] El toque del Recetario Claus: Sosteniendo el recetario ilustrado de Los Dos Claus con una mano, usa un salero mágico para espolvorear brillantina estrellada morada sobre todos los platillos.",
+     "id": "e15p4",
+     "imgKey": "img-e15p4"
+    },
+    {
+     "caption": "[4.8–6.0s] Pose Heroica y Feast: El Muki Chef abre los brazos con orgullo en pose triunfal frente a la gran mesa festiva multicultural, mientras partículas flotantes de polvo morado sellan la escena.",
+     "id": "e15p5",
+     "imgKey": "img-e15p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://youtu.be/b3mW-SM_RB8?si=wTiZxH4ZaY7bvP58&t=66"
+    },
+    {
+     "ai": {
+      "escenas": [
+       {
+        "descripcion": "Plano medio. En el taller navideño, el Magiómetro con su líquido morado empieza a burbujear y brillar. Tres Mukis chibis (afro morado, chompa marrón, corbata michi verde) miran el medidor con asombro y saltan listos para demostrar sus talentos.",
+        "titulo": "El Magiómetro se activa"
+       },
+       {
+        "descripcion": "Primer plano. Un Muki aparece con gorro de cocinero. Al aplaudir, hace levitar mágicamente panetones y galletas navideñas que giran a su alrededor. El líquido morado del Magiómetro sube de nivel con chispas mágicas.",
+        "titulo": "Muki Chef Mágico"
+       },
+       {
+        "descripcion": "Plano general corto. Un Muki con muñequeras deportivas usa un bastón de caramelo como patineta, haciendo piruetas imposibles sobre la nieve. Pasa velozmente junto al Magiómetro, haciendo retumbar el líquido morado.",
+        "titulo": "Muki Deportista Veloz"
+       },
+       {
+        "descripcion": "Primer plano dinámico. Un Muki sostiene un micrófono de caramelo y canta una melodía festiva de Los Dos Claus. De su boca salen notas musicales doradas brillantes y su afro morado vibra al ritmo de la música.",
+        "titulo": "Muki Cantante Estrella"
+       },
+       {
+        "descripcion": "Plano general. Los tres Mukis (Chef, Deportista y Cantante) posan juntos haciendo sus superpoderes a la vez. El Magiómetro de líquido morado llega al 100% y estalla en un chorro de estrellas y confeti navideño.",
+        "titulo": "Gran Fiesta Muki"
+       }
+      ],
+      "version_simplificada": "Un recorrido animado y dinámico donde tres Mukis descubren sus superpoderes navideños transformándose en Chef, Deportista y Cantante, mientras el Magiómetro de líquido morado reacciona y mide su desbordante energía festiva."
+     },
+     "note": "Referencia de la hoja de cálculo",
+     "url": "https://www.instagram.com/p/Czy-HWqLMxr/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki chef (semejanza a Gaston). Cocinando con magia platos típicos de…"
+  },
+  {
+   "desc": "Muki deportista (tabla, volley, tennis, criket, futbol) (semejanza a Messi). Haciendo trucos con todo tipo de pelotas de manera mágica.\nPublicación: REEL · Personajes: Muki Deporte",
+   "formatId": 4,
+   "id": 16,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Inicio de jugada magistral: Plano entero dinámico. Muki Deporte (chibi con cinta deportiva en su afro morado y mirada concentrada al estilo Messi) salta al centro dominando una pelota de fútbol en el empeine, levantando un rastro brillante de polvo morado.",
+     "id": "e16p1",
+     "imgKey": "img-e16p1"
+    },
+    {
+     "caption": "[1.2–2.4s] Malabarismo multideporte mágico: Plano medio. Con velocidad increíble, lanza la pelota y mágicamente aparecen pelotas de vóley, tenis y cricket. Las domina en el aire rebotándolas con rodilla, cabeza y raqueta con gran destreza, dejando estelas moradas brillantes.",
+     "id": "e16p2",
+     "imgKey": "img-e16p2"
+    },
+    {
+     "caption": "[2.4–4.0s] Equilibrio extremo sobre tabla: Plano entero. Muki aterriza sobre una tabla de surf que flota en el aire impulsada por magia navideña morada; surfea el aire mientras hace girar todas las pelotas en órbita alrededor de su afro morado al compás de música rítmica.",
+     "id": "e16p3",
+     "imgKey": "img-e16p3"
+    },
+    {
+     "caption": "[4.0–5.5s] Remate y festejo legendario: Plano de remate a primer plano. Muki hace una chilena mágica enviando el balón al frente (estalla en destellos morados festivos de Los Dos Claus). Cae de pie, apunta con ambos índices al cielo en pose clásica de Messi y sonríe con un guiño a la cámara.",
+     "id": "e16p4",
+     "imgKey": "img-e16p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://youtu.be/b3mW-SM_RB8?si=wTiZxH4ZaY7bvP58&t=66"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki deportista (tabla, volley, tennis, criket, futbol) (semejanza a…"
+  },
+  {
+   "desc": "Muki cantante (semejanza a Shakira). Cantando y bailando música remix de la Navidad de varios países, movimientos simples pero reconocibles.\nPublicación: REEL · Personajes: Muki Artista",
+   "formatId": 4,
+   "id": 17,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Entrada y golpe de ritmo: Plano medio. La Muki Artista sacude su gran afro morado hacia atrás al iniciar un remix navideño bailable; sostiene un micrófono brillante mientras destellos de polvo mágico morado y notas musicales flotan a su alrededor.",
+     "id": "e17p1",
+     "imgKey": "img-e17p1"
+    },
+    {
+     "caption": "[1.2–2.5s] Movimiento icónico de caderas: Plano entero. Al ritmo acelerado de la fusión navideña internacional, la Muki ejecuta el clásico y reconocible movimiento fluido de caderas estilo Shakira, gesticulando con una mano libre mientras canta con energía.",
+     "id": "e17p2",
+     "imgKey": "img-e17p2"
+    },
+    {
+     "caption": "[2.5–3.8s] Remate coreográfico y 'Hair whip': Plano americano. La Muki hace un quiebre de torso y un enérgico golpe de cabeza que hace rebotar su afro morado en cámara lenta cómica, desprendiendo chispas brillantes del Magiómetro al compás del beat.",
+     "id": "e17p3",
+     "imgKey": "img-e17p3"
+    },
+    {
+     "caption": "[3.8–5.0s] Pose final de estrella pop: Plano general a medio. La Muki sostiene la última nota con pasión frente al micrófono, rematando con una pose icónica de diva (cadera hacia un lado, mano en alto y guiño a cámara) rodeada de una explosión festiva de confeti y estrellas moradas.",
+     "id": "e17p4",
+     "imgKey": "img-e17p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://youtu.be/b3mW-SM_RB8?si=wTiZxH4ZaY7bvP58&t=66"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki cantante (semejanza a Shakira). Cantando y bailando música remix…"
+  },
+  {
+   "desc": "Mukis trepándose uno encima del otro para formar un árbol de navidad\nPublicación: REEL · Personajes: Muki",
+   "formatId": 4,
+   "id": 18,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] La base del árbol Muki: Plano entero. Tres Mukis chibi con esponjosos afros morados se colocan hombro con hombro en el suelo, firmes y sonrientes, estableciendo la base ancha del árbol mientras pequeñas chispas de polvo morado flotan a su alrededor.",
+     "id": "e18p1",
+     "imgKey": "img-e18p1"
+    },
+    {
+     "caption": "[1.2–2.4s] Escalada al segundo nivel: Dos Mukis saltan alegremente usando los afros de sus compañeros como pequeños trampolines elásticos, aterrizando con gracia sobre los hombros del trío base para formar el segundo piso de la pirámide.",
+     "id": "e18p2",
+     "imgKey": "img-e18p2"
+    },
+    {
+     "caption": "[2.4–3.6s] El toque en la cúspide: Un pequeño Muki travieso trepa con determinación hasta la cima cargando un brillante adorno de estrella dorada con el símbolo de Los Dos Claus, tambaleándose cómicamente antes de lograr el equilibrio perfecto.",
+     "id": "e18p3",
+     "imgKey": "img-e18p3"
+    },
+    {
+     "caption": "[3.6–4.8s] ¡Encendido mágico!: El Muki de la punta alza la estrella y esta libera un destello de polvo morado luminoso que desciende en espiral por toda la estructura, haciendo que los afros de todos los Mukis titilen como foquitos navideños.",
+     "id": "e18p4",
+     "imgKey": "img-e18p4"
+    },
+    {
+     "caption": "[4.8–5.6s] Pose final de árbol navideño: Plano general frontal. Todos los Mukis que forman el árbol sonríen a la cámara en pose triunfal y sacuden sus afros iluminados, celebrando su creación con una alegre risa colectiva.",
+     "id": "e18p5",
+     "imgKey": "img-e18p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DR7GFh3kWd6/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis trepándose uno encima del otro para formar un árbol de navidad"
+  },
+  {
+   "desc": "Mukis comiendo frutas gigantes. Picotas y mangos\nPublicación: REEL · Personajes: Muki",
+   "formatId": 4,
+   "id": 19,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Descubrimiento frutal: Un Muki chibi de afro morado contempla maravillado un mango y una picota gigantes a su escala. A su lado, el Magiómetro reacciona echa chispas de polvo mágico morado.",
+     "id": "e19p1",
+     "imgKey": "img-e19p1"
+    },
+    {
+     "caption": "[1.2–2.5s] Atracón de mango: El Muki abraza emocionado el mango gigante y le da un enorme mordisco, haciendo saltar gotas de jugo brillante que se mezclan con polvo morado de Los Dos Claus.",
+     "id": "e19p2",
+     "imgKey": "img-e19p2"
+    },
+    {
+     "caption": "[2.5–4.0s] Zambullida en la picota: El Muki rueda hacia la picota gigante y se zambulle de cabeza en ella; su afro morado rebota alegremente mientras come frenéticamente.",
+     "id": "e19p3",
+     "imgKey": "img-e19p3"
+    },
+    {
+     "caption": "[4.0–5.5s] Satisfacción mágica: El Muki reaparece manchado de fruta, con una gran sonrisa comiendo con la boca llena, sosteniendo un pequeño libro de 'Los Dos Claus' mientras una ráfaga de polvo morado llena la pantalla.",
+     "id": "e19p4",
+     "imgKey": "img-e19p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DZsLkbxOEna/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis comiendo frutas gigantes. Picotas y mangos"
+  },
+  {
+   "desc": "Mukis cocinando para Tayta, Santa, los elfos y los renos y las alpacas. Gran cena navideña. Mesa llena de comidas en la fábrica de la magia.\nPublicación: ILU FIJA · Personajes: Muki, Alpaca, renos, Tayta, Claus, Elfo · Nota: Mucha info",
+   "formatId": 5,
+   "id": 20,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Gran Cena Navideña en la Fábrica de la Magia: Encuadre de plano general angular que abarca el cálido comedor de la Fábrica de la Magia, iluminado por guirnaldas andinas y luces festivas. En el centro, una larga mesa de madera está colmada de comida navideña peruana e internacional (panetones, chocolate caliente humeante, tamales y pavo glaseado). A la cabeza de la mesa, Tayta Claus (con su gorro andino) y Santa Claus brindan sonrientes con tazones festivos. A los lados, los elfos y los renos comparten asientos riendo alegremente, mientras una alpaca voladora de pelaje esponjoso asoma su cabeza con una bufanda colorida comiendo galletas. En primer plano y sobre la mesa, varios Mukis chibi de afros morados y delantales de cocina flotan y corretean afanados: uno sirve chocolate desde una jarra alta, otro lleva una bandeja gigante de panetón, y el Muki chef principal sostiene con orgullo el Magiómetro morado de 'Los Dos Claus', el cual emite una lluvia brillante de polvo mágico morado que sazona mágicamente toda la cena festiva.",
+     "id": "e20p1",
+     "imgKey": "img-e20p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis cocinando para Tayta, Santa, los elfos y los renos y las alpacas.…",
+   "refs": []
+  },
+  {
+   "desc": "Mukis haciendo natilla colombiana, Bogotá lo hace con leche y cremoso, y antioquia lo hace firme y con panela y canela. Una pared de natilla dura y otra liquida. Muki atravesándolo.\nPublicación: CARRUSEL · Personajes: Muki · Nota: No se entiende.",
+   "formatId": 5,
+   "id": 21,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: El duelo de la Natilla Colombiana: En la cocina mágica navideña, dos Mukis chibi de afro morado preparan natilla colombiana en pailas humeantes con destellos de polvo morado. A la izquierda, un Muki cocina la versión antioqueña (firme, oscura con panela y canela); a la derecha, otro Muki bate la versión bogotana (blanca, lechosa y ultra cremosa).",
+     "id": "e21p1",
+     "imgKey": "img-e21p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: El muro firme vs. el muro cremoso: Para comparar sus consistencias, los Mukis levantan dos grandes paredes de natilla: una pared sólida, compacta y acaramelada por la panela antioqueña, y al lado una pared translúcida, suave y casi líquida de natilla bogotana.",
+     "id": "e21p2",
+     "imgKey": "img-e21p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: El salto de prueba: Un tercer Muki intrépido, con un libro de recetas mágicas de Los Dos Claus bajo el brazo, toma impulso y se lanza en picada para atravesar ambas paredes de golpe, rompiendo con fuerza la textura firme de panela y chapoteando a través de la masa líquida.",
+     "id": "e21p3",
+     "imgKey": "img-e21p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: El veredicto más dulce: El Muki aterriza feliz en el suelo sosteniendo una cuchara gigante, cubierto mitad de caramelo de panela y mitad de crema blanca, saboreando ambas delicias mientras su afro morado expulsa chispas mágicas de celebración.",
+     "id": "e21p4",
+     "imgKey": "img-e21p4"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis haciendo natilla colombiana, Bogotá lo hace con leche y cremoso,…",
+   "refs": []
+  },
+  {
+   "desc": "Mukis comparando buñuelos colombianos, que el suyo es más esponjoso que el del otro. Como si fueran almohadas gigantes. Están saltando y durmiendo en ellos.\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 5,
+   "id": 22,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "La Batalla del Buñuelo Más Esponjoso: Plano medio general en la acogedora cocina navideña iluminada con tonos dorados. Sobre una mesa de madera espolvoreada con harina y azúcar, reposan dos buñuelos colombianos colosales y perfectamente dorados, con textura suave como almohadones gigantes. A la izquierda, un Muki chibi de afro morado y pequeño poncho salta enérgico en el aire sobre su buñuelo, presumiendo su rebote elástico con una sonrisa triunfal de ojos entrecerrados. A la derecha, un segundo Muki chibi duerme plácidamente hundido en el centro de su propio buñuelo hiper-esponjoso, acurrucado como en una nube tibia con expresión de absoluta relajación. Entre ambos, destellos de polvo mágico morado flotan en el vapor caliente de la masa recién hecha, mientras al fondo sobre la mesa un pequeño Magiómetro de madera emite un brillo morado midiendo la esponjosidad mágica.",
+     "id": "e22p1",
+     "imgKey": "img-e22p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis comparando buñuelos colombianos, que el suyo es más esponjoso que…",
+   "refs": []
+  },
+  {
+   "desc": "Muki poniendo salsa de vitelo tonné y otro lamiéndolo en un loop. Quality control campaign\nPublicación: CARRUSEL · Personajes: Muki",
+   "formatId": 5,
+   "id": 23,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: Precisión culinaria: Plano medio en la cocina navideña andina. Un Muki chibi de afro morado, con delantal festivo y gorrito de chef, decora con total concentración una fuente de vitelo tonné usando una cuchara de madera, dejando caer una línea perfecta de salsa cremosa entre destellos de polvo mágico morado. En la esquina superior luce el sello 'Control de Calidad: Paso 1'.",
+     "id": "e23p1",
+     "imgKey": "img-e23p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: El catador secreto: El Muki cocinero avanza a la siguiente rebanada para seguir salseando. Justo detrás, un segundo Muki asoma la cabeza desde el borde de la mesa y, con una rapidez cómica, le pasa una gran lengüetada a la rebanada recién decorada, dejándola completamente limpia y reluciente.",
+     "id": "e23p2",
+     "imgKey": "img-e23p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: El loop infinito: El Muki cocinero retrocede confundido al ver la carne sin salsa y vuelve a verter una generosa porción. Al instante, la lengua del segundo Muki vuelve a barrer la salsa en una sincronización perfecta. Al lado de la bandeja, un pequeño Magiómetro morado marca 'Consumo detectado' mientras la salsa desaparece una y otra vez.",
+     "id": "e23p3",
+     "imgKey": "img-e23p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: Remate de Calidad Aprobada: Plano frontal cómico. El segundo Muki sonríe de oreja a oreja con bigote de salsa vitelo tonné y levanta el pulgar aprobando el plato; el Muki chef lo observa con una ceja alzada y la cuchara en alto, resignado y divertido. Aparece un gran sello gráfico de 'Los Dos Claus: Calidad 100% Garantizada'.",
+     "id": "e23p4",
+     "imgKey": "img-e23p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DXXegoJD4Wp/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki poniendo salsa de vitelo tonné y otro lamiéndolo en un loop.…"
+  },
+  {
+   "desc": "Muki comiendo pannetone y quitando pasas como si fueran homiguitas que se vuelven a meter al panettone y suenan como de cristal.\nPublicación: CARRUSEL · Personajes: Muki",
+   "formatId": 5,
+   "id": 24,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: El festín del panettone: Plano medio de un Muki chibi con su esponjoso afro morado, sosteniendo con ambas manos una rebanada gigante de panettone navideño tradicional. Destellos de polvo mágico morado flotan alrededor mientras el Muki se prepara para dar el primer bocado con ojos brillantes.",
+     "id": "e24p1",
+     "imgKey": "img-e24p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: Selección minuciosa: Primer plano del Muki haciendo una mueca cómica y pellizcando con sus deditos una pasa arrugada para sacarla del pan. Al colocarla en el plato, la pasa despliega patitas diminutas como una pequeña hormiga cristalina.",
+     "id": "e24p2",
+     "imgKey": "img-e24p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: Pasas rebeldes: Plano detalle donde la pasa-hormiguita corre velozmente de regreso trepando por la masa dorada del panettone. Cada pasito produce un sonido mágico de tintineo de cristal ('clink, clink') desprendiendo chispas púrpuras mientras se vuelve a sumergir en la miga.",
+     "id": "e24p3",
+     "imgKey": "img-e24p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: Rendición deliciosa: Plano general de remate. Toda una hilera de pasitas-hormiga marchan cantando en tintineos de cristal de vuelta al panettone. El Muki, sorprendido y divertido, suspira con una sonrisa resignada y le da un enorme mordisco a la rebanada completa entre una explosión de confeti y polvo morado de Los Dos Claus.",
+     "id": "e24p4",
+     "imgKey": "img-e24p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DZowvVBtTpF/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki comiendo pannetone y quitando pasas como si fueran homiguitas que…"
+  },
+  {
+   "desc": "Mukis y Tayta cocinando parrilla navideña Grilling and Chilling. Mukis cocinando unos asados uno parado juzgando al otro.\nPublicación: ILU FIJA · Personajes: Muki, Tayta",
+   "formatId": 5,
+   "id": 25,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Grilling and Chilling en los Andes: Plano general medio en un cálido patio andino decorado con luces navideñas. En el centro, sobre una parrilla rústica humeante llena de cortes y anticuchos, dos Mukis chibi de afro morado protagonizan una divertida disputa culinaria: uno, con un pequeño delantal y gorro de chef torcido, suda concentrado mientras voltea la carne con unas pinzas gigantes para su tamaño; el otro Muki está de pie sobre un banquito al lado, con los brazos cruzados, una ceja levantada y mirada hipercrítica juzgando cada movimiento. En el fondo, en una mecedora adornada con motivos andinos, Tayta Claus reposa en actitud relajada ('chilling') con un delantal navideño y una taza humeante, sonriendo divertido por la escena. Elemento de marca: el humo de las brasas desprende destellos mágicos de polvo morado brillante y, colgado a un costado de la parrilla, un Magiómetro morado mide la temperatura con chispas de luz navideña.",
+     "id": "e25p1",
+     "imgKey": "img-e25p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DX0ejzwTSag/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis y Tayta cocinando parrilla navideña Grilling and Chilling. Mukis…"
+  },
+  {
+   "desc": "Muki echado nadando en un cola de mono chileno.\nPublicación: CARRUSEL · Personajes: Muki",
+   "formatId": 5,
+   "id": 26,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: La Tentación Cremosa: Plano general dentro de una cocina navideña festiva. Sobre la mesa reposa una enorme y elegante copa de cristal con Cola de Mono chileno, decorada con una ramita de canela y escarcha de polvo mágico morado en el borde. En el borde de la copa, un tierno Muki chibi de afro morado mira el contenido fascinado, listo para lanzarse.",
+     "id": "e26p1",
+     "imgKey": "img-e26p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: El Clavado Dulce: Plano medio de acción dinámica. El Muki salta alegremente de panzazo hacia el centro de la copa. Diminutas gotas cremosas de café con leche y destellos de polvo morado salpican en cámara lenta al romper la superficie espumosa.",
+     "id": "e26p2",
+     "imgKey": "img-e26p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: Relajo en el Cóctel: Plano cenital medio. El Muki flota plácidamente de espaldas en el Cola de Mono como si fuera una piscina temperada, remando suavemente con sus manitas chibi mientras su afro morado flota esponjoso sobre la espuma.",
+     "id": "e26p3",
+     "imgKey": "img-e26p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: Jacuzzi Navideño: Primer plano tierno y divertido. El Muki descansa la cabeza sobre una estrella de anís flotante a modo de almohada de piscina, sosteniendo una mini pajita y sonriendo con los ojos cerrados, rodeado por el brillo tenue del Magiómetro morado que ilumina la copa.",
+     "id": "e26p4",
+     "imgKey": "img-e26p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DaP3G4EPcAf/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki echado nadando en un cola de mono chileno."
+  },
+  {
+   "desc": "Mukis tomando un clericó y se ve como una chispita mariposa. It will Sparkle my life.\nPublicación: CARRUSEL · Personajes: Muki · Nota: Un clericó es como un champán.",
+   "formatId": 5,
+   "id": 27,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1 - El brindis misterioso: Plano medio en la cocina festiva andina. Un tierno Muki chibi de afro morado sostiene con ambas manos una pequeña copa de cristal llena de clericó navideño efervescente, adornado con trocitos de frutas andinas y destellos de polvo mágico morado. El Muki mira la copa con ojos brillantes y una sonrisa expectante, listo para dar el primer sorbo.",
+     "id": "e27p1",
+     "imgKey": "img-e27p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2 - El primer sorbo efervescente: Primer plano del Muki probando el clericó. Sus mejillas se inflan de felicidad y sus enormes ojos se iluminan; pequeñas burbujas doradas y moradas ascienden desde la copa, flotando a su alrededor y desprendiendo un suave tintineo mágico.",
+     "id": "e27p2",
+     "imgKey": "img-e27p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3 - Chisporroteo mágico: Plano entero. La magia del clericó se activa por completo: chispas brillantes doradas y moradas empiezan a brotar de la copa y del afro esponjoso del Muki, emulando el crepitar encendido de una chispita mariposa navideña. El Muki flota levemente por la emoción.",
+     "id": "e27p3",
+     "imgKey": "img-e27p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4 - ¡It will Sparkle my life!: Remate visual brillante y festivo. El Muki resplandece totalmente iluminado como una viva chispita mariposa, despidiendo estelas de luz chispeante y polvo morado de Los Dos Claus que iluminan toda la cocina, alzando su copa en alto con una sonrisa radiante y festiva.",
+     "id": "e27p4",
+     "imgKey": "img-e27p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DXM3ga5EXqs/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis tomando un clericó y se ve como una chispita mariposa. It will…"
+  },
+  {
+   "desc": "Niño en una bicicleta llorando, se acerca un amigo y lo abraza, y magia se dispara hacia adentro de la tierra durante el abrazo, y siguen en bici\nPublicación: CARRUSEL · Personajes: Muki, Humano niño",
+   "formatId": 6,
+   "id": 28,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: Lágrimas junto al camino: Plano medio de un niño sentado en la acera junto a su bicicleta caída, frotándose los ojos con tristeza y llorando. La atmósfera es cálida pero melancólica en una callecita andina al atardecer.",
+     "id": "e28p1",
+     "imgKey": "img-e28p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: Un amigo llega al rescate: Llega su mejor amigo en otra bicicleta, frenando a un lado con expresión de profunda empatía. Deja caer su bici y se apresura con los brazos abiertos hacia su amigo para consolarlo.",
+     "id": "e28p2",
+     "imgKey": "img-e28p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: El abrazo y el destello subterráneo: Plano detalle del cálido y sincero abrazo entre los dos niños. En el punto de contacto surge un intenso destello de polvo mágico morado que se transforma en un haz de luz resplandeciente disparándose en línea recta hacia el interior de la tierra.",
+     "id": "e28p3",
+     "imgKey": "img-e28p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: La magia llega al Muki: Corte transversal subterráneo: un tierno Muki chibi de afro morado en su túnel decorado con motivos navideños recibe el destello morado con asombro y alegría, viendo cómo recarga de energía mágica su pequeño taller minero.",
+     "id": "e28p4",
+     "imgKey": "img-e28p4"
+    },
+    {
+     "caption": "Lámina 5 — Lámina 5: La ruta continúa con alegría: De vuelta en la superficie, ambos niños pedalean felices y sonrientes uno al lado del otro en sus bicicletas camino al horizonte, dejando una sutil estela de chispas moradas en el aire.",
+     "id": "e28p5",
+     "imgKey": "img-e28p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Niño en una bicicleta llorando, se acerca un amigo y lo abraza, y magia…",
+   "refs": []
+  },
+  {
+   "desc": "Mukis emocionandose cuando te recoge tus papas del nido.\nPublicación: ILU FIJA · Personajes: Muki, Humano niño · Nota: FALTA referencia.",
+   "formatId": 6,
+   "id": 29,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Emoción a la salida del nido: Plano medio general a la altura de los ojos de los niños en la colorida puerta de un nido preescolar. En el centro, un niño humano con mandil escolar y mochila pequeña corre con los brazos abiertos y una enorme sonrisa hacia la entrada, donde se divisan las siluetas afectuosas de sus padres esperándolo. Flotando y brincando a su alrededor, dos Mukis chibi de esponjoso afro morado saltan de pura euforia y empatía, con los ojos brillantes y puños al aire celebrando la llegada de los papás. Una estela destellante de polvo mágico morado de Los Dos Claus con pequeñas notas musicales luminosas envuelve la escena, capturando la mágica alegría del momento.",
+     "id": "e29p1",
+     "imgKey": "img-e29p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis emocionandose cuando te recoge tus papas del nido.",
+   "refs": []
+  },
+  {
+   "desc": "Muki metiéndose en la cama cogiendo peluche de alpaca.\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 6,
+   "id": 30,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Acurrucado con la alpaca: Plano medio cálido e íntimo en la habitación rústica del taller. El Muki chibi, vistiendo un tierno pijama andino y con su esponjoso afro morado ligeramente despeinado, se desliza debajo de una suave manta con patrones geométricos coloridos. Tiene los ojitos entrecerrados con una expresión plácida y adormilada mientras abraza con ternura contra su pecho un peluche esponjoso de alpaca blanca con borlas multicolores. En la mesita de noche de madera descansa un pequeño Magiómetro morado en forma de candil que emite un resplandor cálido y un rastro flotante de polvo mágico morado que titila suavemente alrededor de la cama.",
+     "id": "e30p1",
+     "imgKey": "img-e30p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DYb7NnOp5Cc/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki metiéndose en la cama cogiendo peluche de alpaca."
+  },
+  {
+   "desc": "Cocinando: Un niño y un muki cocinando comiendose los ingredientes con complicidad - se llama \"Control de Calidad\"\nPublicación: CARRUSEL · Personajes: Muki, Humano niño",
+   "formatId": 6,
+   "id": 31,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — 1. Misión repostera: En una acogedora cocina con toques andinos navideños, un niño con gorro de chef y un Muki chibi de afro morado están frente a una mesa llena de ingredientes: harina, fresas, masa y chispas de chocolate. Al centro descansa abierto el libro de recetas ilustrado de Los Dos Claus, rodeado de sutiles destellos de polvo mágico morado. Ambos miran los insumos con ojos brillantes.",
+     "id": "e31p1",
+     "imgKey": "img-e31p1"
+    },
+    {
+     "caption": "Lámina 2 — 2. La mirada cómplice: Plano medio. El niño sostiene la cuchara de palo frente al tazón, pero su mirada se desvía tentada hacia el plato de fresas glaseadas. El Muki, sentado sobre el frasco de azúcar, le devuelve una mirada de absoluta complicidad y asiente lentamente con una sonrisa pícara.",
+     "id": "e31p2",
+     "imgKey": "img-e31p2"
+    },
+    {
+     "caption": "Lámina 3 — 3. Inspección rigurosa: Acción simultánea: el niño se mete un puñado de chispas de chocolate a la boca mientras el Muki se zampa una fresa entera de un solo bocado. Ambos mastican con los ojos cerrados de placer, mejillas infladas como ardillas y una estela de chispitas moradas flotando de felicidad.",
+     "id": "e31p3",
+     "imgKey": "img-e31p3"
+    },
+    {
+     "caption": "Lámina 4 — 4. Control de Calidad: Aprobado: Plano general de remate. Los tazones de ingredientes están completamente vacíos y el bol de masa casi sin nada. El niño y el Muki tienen bigotes de crema y chocolate; el Muki levanta el pulgar aprobando la 'calidad' mientras ambos chocan los puños sonrientes, con el libro de Los Dos Claus de fondo como único testigo del festín.",
+     "id": "e31p4",
+     "imgKey": "img-e31p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DZ_MHEOpgBX/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Cocinando: Un niño y un muki cocinando comiendose los ingredientes con…"
+  },
+  {
+   "desc": "Later becomes Never, Mukis haciendo algo que normalmente dejarías para después que te da felicidad. Carrusel, un muki haciendo algo metafórico.\nPublicación: CARRUSEL · Personajes: Muki · Nota: EXPLICAR",
+   "formatId": 6,
+   "id": 32,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: El frasco de la alegría postergada: Plano medio. Un Muki chibi de afro morado sostiene un frasco resplandeciente lleno de polvo mágico morado y notas musicales andinas brillantes. Su rostro refleja ilusión, pero duda frente a un estante mientras piensa en guardarlo: 'Mejor después, cuando tenga tiempo'.",
+     "id": "e32p1",
+     "imgKey": "img-e32p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: La repisa del 'Algún día': Plano general. El Muki coloca su frasco mágico en una repisa alta y polvorienta llena de cajas grises olvidadas ('Mañana', 'Luego', 'Algún día'). La luz morada del frasco empieza a atenuarse bajo una capa de polvo grisáceo.",
+     "id": "e32p2",
+     "imgKey": "img-e32p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: La revelación metafórica: Primer plano del Muki mirando hacia arriba con sorpresa y tristeza al notar cómo la repisa se cubre de telarañas y el brillo se apaga lentamente: 'El después se convierte en nunca'.",
+     "id": "e32p3",
+     "imgKey": "img-e32p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: El rescate del momento presente: Plano dinámico. El Muki da un salto decidido, rescata el frasco antes de que se apague, lo destapa de golpe y saca una pequeña zampoña andina. Una explosión de chispas y polvo mágico morado inunda toda la escena.",
+     "id": "e32p4",
+     "imgKey": "img-e32p4"
+    },
+    {
+     "caption": "Lámina 5 — Lámina 5: La felicidad no espera: Plano entero. El Muki baila y toca felizmente su melodía navideña envuelto en destellos púrpuras y calidez andina, celebrando el haber elegido su alegría hoy: 'Haz hoy lo que te hace feliz'.",
+     "id": "e32p5",
+     "imgKey": "img-e32p5"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Later becomes Never, Mukis haciendo algo que normalmente dejarías para…",
+   "refs": []
+  },
+  {
+   "desc": "Sparkle my life - Mukis y tayta y alpacas sentados viendo fuegos artificiales\nPublicación: CARRUSEL · Personajes: Muki, Alpaca, Tayta",
+   "formatId": 6,
+   "id": 33,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Esperando la magia en la colina: Plano general al atardecer andino. Tayta Claus, un Muki chibi de afro morado y una tierna alpaca están sentados juntos sobre mantas tejidas en la cima de un cerro nevado, mirando con ilusión hacia el cielo oscuro mientras el Muki sostiene una chispa de polvo mágico morado entre sus manitas.",
+     "id": "e33p1",
+     "imgKey": "img-e33p1"
+    },
+    {
+     "caption": "Lámina 2 — Los primeros destellos en el cielo: Plano medio. El cielo nocturno estalla con los primeros fuegos artificiales mágicos en tonos dorados y morados. La alpaca abre sus enormes ojos reflejando las luces y Tayta Claus sonríe con calidez señalando las formas brillantes en lo alto.",
+     "id": "e33p2",
+     "imgKey": "img-e33p2"
+    },
+    {
+     "caption": "Lámina 3 — Brillo en los ojos y ternura compartida: Primer plano emotivo. El Muki chibi mira fascinado hacia arriba, con su esponjoso afro morado teñido por los resplandores pirotécnicos, y se acurruca con ternura apoyando su cabeza en el brazo de Tayta Claus mientras flotan suaves chispitas mágicas a su alrededor.",
+     "id": "e33p3",
+     "imgKey": "img-e33p3"
+    },
+    {
+     "caption": "Lámina 4 — Noche de chispas y unión: Plano general dorsal. Vistos desde atrás, Tayta Claus rodea con su brazo al Muki y acaricia el lomo de la alpaca, contemplando juntos el gran final de fuegos artificiales que forman constelaciones brillantes y estelas moradas sobre la noche andina.",
+     "id": "e33p4",
+     "imgKey": "img-e33p4"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Sparkle my life - Mukis y tayta y alpacas sentados viendo fuegos…",
+   "refs": []
+  },
+  {
+   "desc": "Muki graduandose haciendo el baile.\nPublicación: REEL · Personajes: Muki, Humano niño",
+   "formatId": 6,
+   "id": 34,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] La Entrega del Diploma: Plano medio. Un niño humano con poncho festivo le entrega solemnemente un mini diploma enrollado con cinta andina a Muki, quien luce un birrete de graduación tambaleándose sobre su voluminoso afro morado.",
+     "id": "e34p1",
+     "imgKey": "img-e34p1"
+    },
+    {
+     "caption": "[1.2–2.3s] La Emoción y el Beat: Primer plano de Muki recibiendo el diploma. Sus ojos brillan de emoción y pequeñas chispas de polvo mágico morado brotan de su afro al sonar el primer golpe de ritmo musical.",
+     "id": "e34p2",
+     "imgKey": "img-e34p2"
+    },
+    {
+     "caption": "[2.3–3.8s] El Baile de Graduación: Plano entero dinámico. Muki rompe la solemnidad y desata un baile enérgico y cómico, agitando el diploma como batuta mientras hace pasos de zapateo urbano y rebota sobre sus pies chibi.",
+     "id": "e34p3",
+     "imgKey": "img-e34p3"
+    },
+    {
+     "caption": "[3.8–4.9s] Fiesta Compartida: El niño humano se contagia del ritmo y aplaude emocionado marcando el compás, mientras Muki hace un giro acrobático apoyado en su afro morado, esparciendo estelas de brillo morado por el escenario.",
+     "id": "e34p4",
+     "imgKey": "img-e34p4"
+    },
+    {
+     "caption": "[4.9–6.0s] Pose Final Triunfal: Pose final congelada de victoria: Muki lanza el birrete al aire, muerde el diploma sonriendo con orgullo a la cámara y cae confeti con destellos de magia morada de Los Dos Claus.",
+     "id": "e34p5",
+     "imgKey": "img-e34p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DaLEDMIgVxf/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki graduandose haciendo el baile."
+  },
+  {
+   "desc": "2 niños y 2 mukis jugando con agua: manguera, aspersores sacar la lengua, corriendo.\nPublicación: CARRUSEL · Personajes: Muki, Humano niño",
+   "formatId": 6,
+   "id": 35,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — ¡Día de calor y aspersores!: En un patio andino soleado, dos niños y dos Mukis chibi de afro morado se preparan para jugar. Uno de los niños abre la llave del agua y el aspersor de jardín empieza a girar a toda velocidad, lanzando chorros de agua brillante cargados de pequeñas chispas de polvo mágico morado.",
+     "id": "e35p1",
+     "imgKey": "img-e35p1"
+    },
+    {
+     "caption": "Lámina 2 — Atrapando gotas con la lengua: Plano medio divertido donde un niño y un Muki están agachados frente al aspersor con la lengua afuera, intentando atrapar las gotas al vuelo. El afro morado del Muki absorbe el agua como una esponja y empieza a inflarse cómicamente de forma redonda y esponjosa.",
+     "id": "e35p2",
+     "imgKey": "img-e35p2"
+    },
+    {
+     "caption": "Lámina 3 — ¡Carrera con la manguera!: El segundo niño corre empuñando la manguera, lanzando un arco de agua fresca hacia el otro Muki. El pequeño duende corre veloz y risueño esquivando el chorro con piruetas chibi, dejando un rastro de huellitas húmedas y destellos morados sobre el pasto.",
+     "id": "e35p3",
+     "imgKey": "img-e35p3"
+    },
+    {
+     "caption": "Lámina 4 — Empapados y felices: Remate cómico y tierno: los dos Mukis, con sus afros morados empapados y pesados, se sacuden enérgicamente como perritos. El agua sale disparada salpicando de lleno a los dos niños, quienes caen al pasto riendo a carcajadas bajo un arcoíris brillante con el sello mágico de Los Dos Claus.",
+     "id": "e35p4",
+     "imgKey": "img-e35p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DYUq3aACYLU/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "2 niños y 2 mukis jugando con agua: manguera, aspersores sacar la…"
+  },
+  {
+   "desc": "Niños y mukis jugando fútbol (mundialito) jugando futbol y que se escuche sus risas. Magia se dispara hacia abajo\nPublicación: CARRUSEL · Personajes: Muki, Humano niño",
+   "formatId": 6,
+   "id": 36,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — ¡Arranca el Mundialito!: Plano general de una pintoresca canchita andina rodeada de montañas. Un grupo de niños con chullos abrigadores y mukis de esponjoso afro morado juegan un partido de fútbol lleno de energía, risas y saltos de alegría alrededor del balón.",
+     "id": "e36p1",
+     "imgKey": "img-e36p1"
+    },
+    {
+     "caption": "Lámina 2 — Gambeta y risas: Plano medio dinámico. Un muki chibi hace un divertido regate usando su afro morado para amortiguar el pase, mientras un niño corre a su lado riéndose a carcajadas para recibir el centro frente a los arcos de piedras.",
+     "id": "e36p2",
+     "imgKey": "img-e36p2"
+    },
+    {
+     "caption": "Lámina 3 — ¡El zapatazo de pura emoción!: Plano cerrado de acción. El niño conecta una volea perfecta directo al arco improvisado. Las carcajadas y la euforia colectiva provocan que una intensa chispa de polvo mágico morado brote del impacto del balón.",
+     "id": "e36p3",
+     "imgKey": "img-e36p3"
+    },
+    {
+     "caption": "Lámina 4 — Magia hacia las profundidades: Corte transversal dinámico del terreno. Mientras arriba niños y mukis saltan celebrando el golazo entre risas, un haz de brillante magia morada de Los Dos Claus se dispara velozmente hacia abajo, atravesando la tierra hacia los túneles subterráneos.",
+     "id": "e36p4",
+     "imgKey": "img-e36p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DY-h3sjPXdJ/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Niños y mukis jugando fútbol (mundialito) jugando futbol y que se…"
+  },
+  {
+   "desc": "Mukis y niños recolectando conchas en la arena.\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 6,
+   "id": 37,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Tesoros en la orilla: Plano medio con ángulo bajo a nivel de la arena en una cálida playa costera. En el centro, un Muki chibi de esponjoso afro morado está en cuclillas, maravillado, sosteniendo con ambas manos una concha marina nacarada que emite un sutil resplandor y destellos flotantes de polvo mágico morado de Los Dos Claus. A su lado, un niño y una niña con ropa veraniega y detalles andinos sonríen alegremente: el niño arrodillado deposita conchas en un pequeño balde playero mientras la niña señala con entusiasmo una hilera de caracoles en la arena húmeda. Al fondo, las suaves olas del mar reflejan la luz dorada de la tarde, integrando la magia navideña peruana en la orilla marina.",
+     "id": "e37p1",
+     "imgKey": "img-e37p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DZowvVBtTpF/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis y niños recolectando conchas en la arena."
+  },
+  {
+   "desc": "Un muki sentandose al frente de un ventilador. Ver referencia de video de niño. \"sientate cerca y di AAAAAAAA\"\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 6,
+   "id": 38,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Muki y la voz de robot: Plano medio frontal en el taller. Un pequeño Muki chibi está sentado en el suelo con las piernas abiertas frente a la rejilla de un ventilador de mesa encendido a máxima potencia. Con los ojos bien abiertos llenos de fascinación infantil y la boca abierta en una gran 'O', grita '¡AAAAAAAA!' mientras el flujo de aire hace vibrar cómicamente sus mejillas y echa hacia atrás su esponjoso afro morado. Como elemento de Los Dos Claus, la brisa del ventilador levanta y esparce diminutas partículas de polvo mágico morado brillante y notas musicales luminosas que flotan y ondulan al ritmo entrecortado de su voz.",
+     "id": "e38p1",
+     "imgKey": "img-e38p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DWwt2hsjFG-/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Un muki sentandose al frente de un ventilador. Ver referencia de video…"
+  },
+  {
+   "desc": "Una alpaca relajando en la arena tirandose arena. Magia se dispara hacia abajo\nPublicación: REEL · Personajes: Alpaca",
+   "formatId": 6,
+   "id": 39,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Relajo absoluto: Plano medio de la alpaca de Los Dos Claus echada plácidamente sobre un montículo de arena cálida, con los ojos entrecerrados y una expresión de total deleite.",
+     "id": "e39p1",
+     "imgKey": "img-e39p1"
+    },
+    {
+     "caption": "[1.2–2.4s] El baño de arena: La alpaca usa sus patas delanteras con ritmo suave para levantarse arena y echársela sobre el lomo y el cuello, disfrutando de su sesión de spa.",
+     "id": "e39p2",
+     "imgKey": "img-e39p2"
+    },
+    {
+     "caption": "[2.4–3.6s] Carga de energía morada: Al rascar más profundo, la arena entre sus pezuñas empieza a brillar intensamente con polvo mágico morado de Los Dos Claus, acumulando energía brillante.",
+     "id": "e39p3",
+     "imgKey": "img-e39p3"
+    },
+    {
+     "caption": "[3.6–4.8s] Disparo hacia abajo: ¡Fwoosh! Un chorro concentrado de magia morada se dispara con fuerza verticalmente hacia el suelo, perforando la arena y propulsando a la alpaca ligeramente hacia arriba con cara de cómica sorpresa.",
+     "id": "e39p4",
+     "imgKey": "img-e39p4"
+    },
+    {
+     "caption": "[4.8–6.0s] Flotando en chispas: La alpaca queda suspendida suavemente a unos centímetros del suelo, rodeada de una lluvia de chispas moradas y arena flotante, parpadeando con ternura hacia la cámara.",
+     "id": "e39p5",
+     "imgKey": "img-e39p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DY8WiuIz7_l/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Una alpaca relajando en la arena tirandose arena. Magia se dispara…"
+  },
+  {
+   "desc": "Mukis y elfos, tayta y santa, renos y alpacas, niño y niña, jugando UNO y riéndose. Magia se dispara hacia abajo\nPublicación: REEL · Personajes: Muki · Nota: Ver referencia  y usar esa música.",
+   "formatId": 6,
+   "id": 40,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] La gran ronda de UNO: Plano general cálido en la cabaña: Tayta Claus, Santa Claus, un niño, una niña, elfos, un reno y una alpaca están sentados en círculo alrededor de una mesa baja jugando UNO con mucha emoción. En primer plano, un Muki de afro morado sostiene sus cartas con mirada pícara y concentrada.",
+     "id": "e40p1",
+     "imgKey": "img-e40p1"
+    },
+    {
+     "caption": "[1.2–2.3s] ¡Tirada ganadora!: El Muki salta sobre la mesa y estampa triunfalmente una carta especial en el centro del montón al grito de victoria. La mesa vibra y partículas de polvo mágico morado de Los Dos Claus comienzan a arremolinarse rápidamente alrededor del mazo de cartas.",
+     "id": "e40p2",
+     "imgKey": "img-e40p2"
+    },
+    {
+     "caption": "[2.3–3.5s] Carcajadas en grupo: Santa Claus y Tayta Claus estallan en carcajadas agarrándose la panza, los niños celebran aplaudiendo y los elfos junto a la alpaca y el reno se ríen a carcajadas mientras las cartas flotan suavemente por el aire.",
+     "id": "e40p3",
+     "imgKey": "img-e40p3"
+    },
+    {
+     "caption": "[3.5–4.7s] Descarga mágica hacia abajo: La intensa alegría y risas del grupo sobrecargan la energía festiva: un potente y brillante haz de magia morada y destellos dorados se dispara desde el centro de la mesa verticalmente hacia abajo, atravesando el suelo con un estallido luminoso.",
+     "id": "e40p4",
+     "imgKey": "img-e40p4"
+    },
+    {
+     "caption": "[4.7–5.8s] Brillo final y festejo: Plano general iluminado intensamente desde abajo por el resplandor morado. Todos continúan riéndose y festejando abrazados mientras la magia sigue fluyendo hacia abajo, cerrando con el ambiente alegre y festivo de Los Dos Claus.",
+     "id": "e40p5",
+     "imgKey": "img-e40p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DZAyqXuoKFU/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis y elfos, tayta y santa, renos y alpacas, niño y niña, jugando UNO…"
+  },
+  {
+   "desc": "Muki pisando una hoja seca, sonido de ASMR\nPublicación: REEL · Personajes: Muki",
+   "formatId": 6,
+   "id": 41,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.3s] El hallazgo perfecto: Plano medio. El Muki camina dando pequeños brinquitos con su afro morado, cuando de pronto se detiene en seco. Su mirada se fija en el suelo: una hoja seca dorada y perfectamente crujiente lo espera.",
+     "id": "e41p1",
+     "imgKey": "img-e41p1"
+    },
+    {
+     "caption": "[1.3–2.6s] Tensión y enfoque ASMR: Primer plano detallado. El Muki se inclina con expresión de extrema concentración chibi y eleva lentamente su pequeña botita justo encima de la hoja, creando un momento de anticipación silenciosa.",
+     "id": "e41p2",
+     "imgKey": "img-e41p2"
+    },
+    {
+     "caption": "[2.6–4.0s] El CRUNCH definitivo: Plano detalle a nivel del suelo. La botita baja con precisión y aplasta la hoja en cámara lenta con un sonido de crujido ultra nítido y satisfactorio (ASMR), liberando un sutil estallido de polvo mágico morado.",
+     "id": "e41p3",
+     "imgKey": "img-e41p3"
+    },
+    {
+     "caption": "[4.0–5.5s] Éxtasis sonoro: Plano medio. El Muki cierra los ojos y exhala con una sonrisa de absoluta paz y placer sensorial, mientras pequeñas chispas moradas flotan a su alrededor celebrando el crujido perfecto.",
+     "id": "e41p4",
+     "imgKey": "img-e41p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DT2jAarElS8/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki pisando una hoja seca, sonido de ASMR"
+  },
+  {
+   "desc": "Un monton de Mukis empiezan a correr gritando de felicidad, y Tayta se une\nPublicación: REEL · Personajes: Muki, Tayta",
+   "formatId": 6,
+   "id": 42,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] El estallido de emoción: Plano medio bajo. Un grupo de Mukis chibi de afros morados abren enormes ojos brillantes y dan un salto sincronizado, gritando de pura felicidad mientras estalla una nube brillante de polvo mágico morado a su alrededor.",
+     "id": "e42p1",
+     "imgKey": "img-e42p1"
+    },
+    {
+     "caption": "[1.2–2.6s] La estampida Muki: Plano general dinámico. Decenas de Mukis empiezan a correr a toda velocidad en una estampida caótica y tierna, agitando los brazos al aire y dejando una estela de chispas moradas y pequeñas notas musicales flotando en el camino.",
+     "id": "e42p2",
+     "imgKey": "img-e42p2"
+    },
+    {
+     "caption": "[2.6–4.2s] Tayta Claus se suma: Cámara en paneo lateral veloz. Tayta Claus entra de golpe en el cuadro corriendo con zancadas gigantes y llenas de entusiasmo, su poncho andino ondeando al viento mientras ríe a carcajadas y levanta los puños para liderar la carrera.",
+     "id": "e42p3",
+     "imgKey": "img-e42p3"
+    },
+    {
+     "caption": "[4.2–5.5s] Carrera festiva imparable: Plano frontal en contrapicado. Tayta y la multitud de Mukis corren juntos hacia la cámara gritando de alegría al unísono, rebotando en sincronía en un torbellino de afros morados, sonrisas y destellos de magia navideña.",
+     "id": "e42p4",
+     "imgKey": "img-e42p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DX2WuRPSRBd/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Un monton de Mukis empiezan a correr gritando de felicidad, y Tayta se…"
+  },
+  {
+   "desc": "Elfo termina un juguete, muki salta y lo llena de magia, juguete cobra vida.\nPublicación: REEL · Personajes: Muki, Elfo · Nota: Los elfos crean los juguetes, los mukis los animan",
+   "formatId": 7,
+   "id": 43,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] El toque final del Elfo: Plano medio en el taller compartido (Norte y Sur). Un Elfo concentrado da el último pincelazo a un juguete de madera impecable, suspira con orgullo y lo coloca sobre la mesa, aún totalmente inerte.",
+     "id": "e43p1",
+     "imgKey": "img-e43p1"
+    },
+    {
+     "caption": "[1.2–2.4s] Entrada acrobática del Muki: Un Muki chibi con afro morado entra en escena de un salto enérgico, aterrizando ágilmente sobre la mesa junto al Elfo, sonriendo con picardía y sacudiendo sus manitas cargadas de brillo.",
+     "id": "e43p2",
+     "imgKey": "img-e43p2"
+    },
+    {
+     "caption": "[2.4–3.6s] Inyección de polvo morado: El Muki gira en el aire y rocía una nube brillante de polvo mágico morado (elemento característico de Los Dos Claus) que envuelve por completo al juguete de madera.",
+     "id": "e43p3",
+     "imgKey": "img-e43p3"
+    },
+    {
+     "caption": "[3.6–4.8s] El juguete cobra vida: El polvo morado es absorbido por el juguete; sus ojos pintados parpadean, sus extremidades se estiran con un brillo mágico y da su primer salto lleno de vida y alegría.",
+     "id": "e43p4",
+     "imgKey": "img-e43p4"
+    },
+    {
+     "caption": "[4.8–6.0s] Celebración Norte y Sur: El Elfo y el Muki chocan los puños sonrientes en perfecta sincronía, mientras el juguete animado baila entre ambos iluminado por tenues destellos morados.",
+     "id": "e43p5",
+     "imgKey": "img-e43p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DK15kSYKTpV/?img_index=1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Elfo termina un juguete, muki salta y lo llena de magia, juguete cobra…"
+  },
+  {
+   "desc": "Tayta volando alpacas y Santa volando renos\nPublicación: ILU FIJA · Personajes: Alpaca, Tayta, Claus, renos",
+   "formatId": 7,
+   "id": 44,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Vuelo Cruzado: Norte y Sur en las Alturas: Plano general dinámico y cinematográfico en contrapicado nocturno que ilustra el contraste Norte vs Sur en pleno cielo estrellado. A la izquierda, Santa Claus en su clásico trineo rojo ríe a carcajadas con las riendas tensas, impulsado por sus renos que galopan sobre estelas de polvo dorado y escarcha. A la derecha, en perfecto paralelismo visual, Tayta Claus surca el firmamento con su poncho andino ondeando al viento, guiando con júbilo a sus alpacas voladoras adornadas con coloridos pompones y chullos festivos. Entre ambas formaciones se entrelaza el elemento distintivo de Los Dos Claus: una brillante estela de polvo mágico morado y notas musicales resplandecientes que brotan de los cascos de las alpacas y conectan ambos mundos en una armoniosa y mágica carrera aérea.",
+     "id": "e44p1",
+     "imgKey": "img-e44p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DbdSNo9yMHV/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Tayta volando alpacas y Santa volando renos"
+  },
+  {
+   "desc": "Elfo tomando chocolate caliente gigante, y Muki metiéndole helado GIGANTE.\nPublicación: ILU FIJA · Personajes: Muki, Elfo",
+   "formatId": 7,
+   "id": 45,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Contraste Dulce: Chocolate Hirviente vs Helado Colosal: Plano medio general con composición dividida en contraste Norte vs Sur. A la izquierda, un Elfo con orejas puntiagudas, gorro verde y bufanda bien ajustada, abraza y bebe felizmente con los ojos cerrados de una taza humeante y gigante de chocolate caliente coronada con malvaviscos. A la derecha, irrumpe un Muki chibi con su esponjoso afro morado brillante y poncho andino veraniego, empujando con una sonrisa traviesa y enérgica un barquillero con una torre de helado GIGANTE de sabores peruanos (lúcuma y chicha morada) directamente frente a la cara sorprendida del Elfo. Entre ambos destella un remolino de polvo mágico morado de Los Dos Claus que fusiona los vapores cálidos del chocolate con la bruma helada y refrescante del cono gigante.",
+     "id": "e45p1",
+     "imgKey": "img-e45p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DDd6zjyxWaF/?img_index=1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Elfo tomando chocolate caliente gigante, y Muki metiéndole helado…"
+  },
+  {
+   "desc": "Elfo comiendo panetón y Muki metiéndole helado gigante.\nPublicación: CARRUSEL · Personajes: Muki, Elfo · Nota: combinar",
+   "formatId": 7,
+   "id": 46,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1 - Tradición del Norte con sabor a fiesta: Plano medio. Un Elfo del Polo Norte sostiene felizmente una tajada clásica de panetón recién cortado, preparándose para darle un mordisco ceremonioso bajo una tenue estela de polvo morado navideño.",
+     "id": "e46p1",
+     "imgKey": "img-e46p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2 - La irrupción del Muki: El Muki chibi de afro morado aparece flotando con energía desbordante, cargando con ambas manos una bola gigantesca de helado artesanal brillante de lúcuma que supera su propio tamaño, envuelta en destellos del Magiómetro morado.",
+     "id": "e46p2",
+     "imgKey": "img-e46p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3 - ¡Fusión de Navidad del Sur!: Momento de impacto cómico: el Muki encaja con entusiasmo la bola gigante de helado directamente dentro del panetón del Elfo, desbordando crema helada y chispas mágicas moradas por todas partes mientras el Elfo abre los ojos de par en par.",
+     "id": "e46p3",
+     "imgKey": "img-e46p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4 - El veredicto helado (Norte + Sur): Remate. El Elfo tiene la boca y mejillas completamente llenas de la combinación de panetón con helado, con expresión de éxtasis y leve congelamiento cerebral ('brain freeze'), mientras el Muki baila alegremente a su lado tocando una pequeña zampoña con notas musicales moradas.",
+     "id": "e46p4",
+     "imgKey": "img-e46p4"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Elfo comiendo panetón y Muki metiéndole helado gigante.",
+   "refs": []
+  },
+  {
+   "desc": "Tayta comiendo un plato de arroz, pure y pavo, y Santa comiendo galletas con leche\nPublicación: ILU FIJA · Personajes: Tayta, Claus",
+   "formatId": 7,
+   "id": 47,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Cena Criolla vs Tradición del Norte: Plano medio con composición simétrica de contraste Norte vs Sur frente a una mesa festiva compartida. A la izquierda, Tayta Claus, vistiendo su chullo y poncho andino, sostiene feliz un tenedor a punto de saborear un humeante plato tradicional peruano servido con pavo jugoso, arroz navideño y puré dorado, con expresión de deleite absoluto. A la derecha, Santa Claus, con su clásico traje rojo y barba blanca, sonríe con ternura mientras moja una crujiente galleta de jengibre en un gran vaso de leche fresca. En el centro de la mesa, como elemento de Los Dos Claus, el Magiómetro reposa emitiendo un resplandor cálido y un rastro de polvillo mágico morado que flota suavemente entre los dos banquetes, uniendo ambas tradiciones navideñas.",
+     "id": "e47p1",
+     "imgKey": "img-e47p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Tayta comiendo un plato de arroz, pure y pavo, y Santa comiendo…",
+   "refs": []
+  },
+  {
+   "desc": "Elfos en chiminea, y Mukis con fuegos artificiales\nPublicación: CARRUSEL · Personajes: Muki, Elfo",
+   "formatId": 7,
+   "id": 48,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: Tradición del Norte (Chimenea acogedora): Plano medio de un Elfo sonriente en el Polo Norte atizando suavemente el fuego de una chimenea rústica de piedra. Viste su clásico traje verde y sostiene una taza humeante de chocolate, mientras afuera cae una suave nevada.",
+     "id": "e48p1",
+     "imgKey": "img-e48p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: Fiesta del Sur (Fuegos artificiales): Plano medio dinámico de un Muki de afro morado sobre un tejado de tejas andinas. Con lentes protectores chibis y una mecha mágica, enciende un cohete artesanal decorado con motivos incaicos que desprende chispas y polvo morado brillante.",
+     "id": "e48p2",
+     "imgKey": "img-e48p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: Norte vs Sur (Tranquilidad vs Estallido): Composición dividida: a la izquierda, el Elfo intenta relajarse junto al calor de la chimenea pero se sorprende por los estruendos lejanos; a la derecha, varios Mukis celebran bailando mientras el cielo nocturno se ilumina con espectaculares fuegos artificiales en tonos morados y dorados.",
+     "id": "e48p3",
+     "imgKey": "img-e48p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: Remate (La magia compartida): Plano general donde el Elfo sube al tejado junto a la chimenea y se maravilla al ver el cielo lleno de luces; el Muki le ofrece con una sonrisa una bengala de luz morada brillante, fusionando la calidez del fuego y la fiesta de Los Dos Claus.",
+     "id": "e48p4",
+     "imgKey": "img-e48p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DWcBxxtjFHO/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Elfos en chiminea, y Mukis con fuegos artificiales"
+  },
+  {
+   "desc": "Elfos haciendo hombres de nieve, mukis haciendo castillos de arena\nPublicación: ILU FIJA · Personajes: Muki, Elfo",
+   "formatId": 7,
+   "id": 49,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Norte vs Sur: Esculturas Navideñas: Composición de pantalla dividida con contraste directo Norte/Sur. A la izquierda (Norte helado), un elfo menudo de orejas puntiagudas y traje verde invernal sonríe con orgullo mientras ajusta una zanahoria como nariz a un muñeco de nieve regordete bajo una suave ventisca. A la derecha (Sur soleado y veraniego), un muki chibi de frondoso afro morado, con lentes de sol y una pequeña pala, ríe alegremente terminando de moldear un elaborado castillo de arena adornado con conchitas marinas. Como elemento de marca de Los Dos Claus, el muki espolvorea brillante polvo mágico morado sobre la torre principal del castillo, haciéndolo destellar con magia andina mientras conecta visualmente ambas navidades.",
+     "id": "e49p1",
+     "imgKey": "img-e49p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DYUXzm-NUlZ/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Elfos haciendo hombres de nieve, mukis haciendo castillos de arena"
+  },
+  {
+   "desc": "Elfos y mukis decorando árbol de navidad con artefactos de todo el mundo\nPublicación: ILU FIJA · Personajes: Muki, Elfo",
+   "formatId": 7,
+   "id": 50,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "El Árbol del Mundo: Fusión Norte y Sur: Plano medio general en contrapicado suave centrado en un frondoso árbol de Navidad iluminado con calidez festiva. A la izquierda (Norte), un elfo espigado y sonriente, con traje escandinavo verde y rojo, cuelga en una rama alta un delicado cascanueces de madera vintage y una esfera de cristal europea. A la derecha (Sur), un Muki chibi con frondoso afro morado y un colorido poncho andino levita alegremente sobre una pequeña nube de escarcha, colocando con entusiasmo un diminuto Torito de Pucará brillante y una zampoña dorada en las ramas. Alrededor de todo el árbol serpentea una brillante espiral de polvo mágico morado (Magiómetro morado) que hace tintinear y flotar los diversos adornos globales (farolillos asiáticos, máscaras artesanales, campanas nórdicas y retablos ayacuchanos), logrando una composición vibrante, simétrica y llena de alegría integradora entre ambos polos.",
+     "id": "e50p1",
+     "imgKey": "img-e50p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DRu5oU3DLUc/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Elfos y mukis decorando árbol de navidad con artefactos de todo el mundo"
+  },
+  {
+   "desc": "Tayta y Santa soplando el polvo magico a las alpacas y a los renos para que vuelen, pero estornudan y sacuden su crin.\nPublicación: ILU FIJA · Personajes: Alpaca, renos, Tayta, Claus",
+   "formatId": 8,
+   "id": 51,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Estornudo de Polvo Mágico: Plano general medio en el establo andino-ártico. En primer término, Tayta Claus (con su poncho festivo) y Santa Claus aparecen agachados de perfil, con las mejillas infladas y soplando finos destellos de polvo mágico morado desde las palmas de sus manos. En el centro, una esponjosa alpaca andina y un simpático reno reaccionan cómicamente al polvo en la nariz: la alpaca tiene los ojos apretados en una mueca graciosa mientras suelta un estornudo expansivo ('¡Aaa-chís!'), sacudiendo con fuerza su abombada lana blanca y haciendo flotar rizos y brillos; a su lado, el reno sacude enérgicamente su cuello y cornamenta, con la lengua de fuera y orejas temblorosas. El elemento de Los Dos Claus destaca en la densa nube de polvo mágico morado brillante y chispas doradas que envuelve a los animales, elevándolos sutilmente unos centímetros del suelo cubierto de paja y nieve.",
+     "id": "e51p1",
+     "imgKey": "img-e51p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Tayta y Santa soplando el polvo magico a las alpacas y a los renos para…",
+   "refs": []
+  },
+  {
+   "desc": "Un muki jugando con las alpacas voladoras y renos abrazandolas y dandoles besos. Como si fueran terneras o perros cachorros, que se meten en su cara y la lamen.\nPublicación: ILU FIJA · Personajes: Muki, Alpaca, renos",
+   "formatId": 8,
+   "id": 52,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Mimos y lengüetazos mágicos en la nieve: Plano medio a ras de suelo y muy cálido. En el centro, un tierno Muki chibi con su voluminoso afro morado está recostado sobre un manto de nieve esponjosa y heno andino, riendo a carcajadas con los ojos cerrados de pura felicidad. A su alrededor, una cría de alpaca voladora de pelaje blanco y lanoso y un reno bebé lo colman de cariño como si fueran cachorros juguetones: la alpaquita se estira sobre su pecho lamiéndole la mejilla con una lengua rosada y tierna, mientras el renito le empuja cariñosamente la otra mejilla con su hocico húmedo y patitas inquietas. El Muki abraza con ambos brazos el cuello de la alpaca en un apretón rebosante de ternura. Destellos y finas espirales de polvo mágico morado de Los Dos Claus flotan en el aire, desprendiéndose del pelaje de las criaturas y del afro del Muki al revolcarse en el juego.",
+     "id": "e52p1",
+     "imgKey": "img-e52p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DaZwklYB87q/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Un muki jugando con las alpacas voladoras y renos abrazandolas y…"
+  },
+  {
+   "desc": "Muki montando una alpaca voladora como un jinete. Alpaca con lentes de piloto (goggles), movimientos como los pegasos de fantasia de disney\nPublicación: REEL · Personajes: Muki, Alpaca",
+   "formatId": 8,
+   "id": 53,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] El despegue del jinete Muki: Plano medio dinámico en contrapicado. Una alpaca esponjosa con lentes de piloto (goggles) 'galopa' majestuosamente en el aire nocturno como el Pegaso de Disney. Sobre su lomo, un Muki chibi con su esponjoso afro morado sujeta las riendas como un jinete profesional, sonriendo con determinación.",
+     "id": "e53p1",
+     "imgKey": "img-e53p1"
+    },
+    {
+     "caption": "[1.2–2.3s] Salto sobre las nubes y estela mágica: Plano general lateral. La alpaca realiza una zancada amplia y elegante en el aire, pisando una nube andina iluminada. Sus pezuñas despiden una brillante estela de polvo mágico morado (brand Los Dos Claus) que ilumina la noche estrellada.",
+     "id": "e53p2",
+     "imgKey": "img-e53p2"
+    },
+    {
+     "caption": "[2.3–3.5s] Close-up: Actitud y velocidad: Primer plano veloz. La alpaca sacude la cabeza con gracia; el reflejo de la luna brilla en sus goggles de aviador. El Muki se inclina hacia adelante adoptando pose aerodinámica de jockey, con su afro morado vibrando cómicamente por el viento.",
+     "id": "e53p3",
+     "imgKey": "img-e53p3"
+    },
+    {
+     "caption": "[3.5–4.6s] Maniobra aérea de fantasía: Cámara en giro semicircular. La alpaca ejecuta un elegante giro en espiral ascendente con la ligereza de una criatura mítica clásica, envolviéndose en espirales de chispas moradas y pequeñas notas musicales mágicas.",
+     "id": "e53p4",
+     "imgKey": "img-e53p4"
+    },
+    {
+     "caption": "[4.6–5.5s] Vuelo triunfal hacia el horizonte: Plano general de espaldas en aceleración. Jinete Muki y alpaca se alejan a toda velocidad hacia la cordillera nevada, cruzando frente a una enorme luna llena y dejando un rastro final resplandeciente de magia morada.",
+     "id": "e53p5",
+     "imgKey": "img-e53p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.tiktok.com/@vibeyvidzz/video/6954987892699663621"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Muki montando una alpaca voladora como un jinete. Alpaca con lentes de…"
+  },
+  {
+   "desc": "Tayta caminando y le está dando sombra a un muki como referencia del pato.\nPublicación: CARRUSEL · Personajes: Muki, Tayta",
+   "formatId": 8,
+   "id": 54,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: Un sol andino implacable: Plano medio bajo un cielo despejado y brillante de los Andes. Un pequeño Muki chibi con su esponjoso afro morado camina fatigado por el sendero, tapándose los ojos del sol mientras pequeñas chispas de polvo mágico morado brotan como gotas de sudor cómico.",
+     "id": "e54p1",
+     "imgKey": "img-e54p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: La sombra salvadora: Plano en contrapicado. Una gran silueta protectora cae sobre el Muki, cubriéndolo completamente con una sombra fresca. El Muki frena en seco, suspira aliviado y su afro morado recupera su brillo y volumen al instante.",
+     "id": "e54p2",
+     "imgKey": "img-e54p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: Al compás del paso (Referencia del pato): Plano lateral amplio imitando el meme del pato y el caminante. Tayta Claus avanza a paso lento y sincronizado con su poncho tradicional navideño, cuidando deliberadamente que su sombra cubra en cada paso al Muki, quien camina con pasitos rápidos y decididos bajo el resguardo de Tayta. Al fondo, surcan el cielo un par de alpacas voladoras.",
+     "id": "e54p3",
+     "imgKey": "img-e54p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: Paseo en sintonía: Plano medio conjunto. El Muki marcha feliz y orgulloso dentro de la sombra protectora sacando una pequeña zampoña para marcar el ritmo, mientras Tayta Claus lo observa desde arriba con una sonrisa tierna y paternal, avanzando juntos en perfecta armonía.",
+     "id": "e54p4",
+     "imgKey": "img-e54p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DY-j1oJPJGR/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Tayta caminando y le está dando sombra a un muki como referencia del…"
+  },
+  {
+   "desc": "Mukis en el trabajo, LOFI.\nPublicación: REEL · Personajes: Muki",
+   "formatId": 9,
+   "id": 55,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Setup Lofi Muki: Plano medio acogedor con iluminación cálida. Un Muki chibi con grandes audífonos sobre su voluminoso afro morado teclea concentrado en una laptop decorada con un sticker de 'Los Dos Claus'.",
+     "id": "e55p1",
+     "imgKey": "img-e55p1"
+    },
+    {
+     "caption": "[1.2–2.4s] Ritmo y concentración: Primer plano del rostro del Muki. Asiente suavemente la cabeza al compás del ritmo lofi relajante con ojos tiernos y enfocados, mientras de su taza humea un vapor con sutil polvo mágico morado.",
+     "id": "e55p2",
+     "imgKey": "img-e55p2"
+    },
+    {
+     "caption": "[2.4–3.6s] Detalles del espacio de trabajo: Plano detalle del escritorio: junto a la laptop reposa un cuaderno abierto de 'Los Dos Claus' y un mini Magiómetro de escritorio marcando calma; la patita chibi del Muki mueve el mouse con precisión.",
+     "id": "e55p3",
+     "imgKey": "img-e55p3"
+    },
+    {
+     "caption": "[3.6–4.8s] Pausa reconfortante: Plano medio. El Muki toma su taza tibia, da un pequeño sorbo reconfortante y sonríe hacia la ventana, donde se ve la noche andina con estrellas titilantes.",
+     "id": "e55p4",
+     "imgKey": "img-e55p4"
+    },
+    {
+     "caption": "[4.8–5.5s] Loop infinito de trabajo: El Muki regresa sus manos al teclado y continúa trabajando fluidamente mientras cabecea al compás, cerrando en un bucle visual suave y perfecto de estilo lofi.",
+     "id": "e55p5",
+     "imgKey": "img-e55p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DWcBxxtjFHO/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis en el trabajo, LOFI."
+  },
+  {
+   "desc": "Un muki con animales en los bolsillos  que recolectado de la playa cangrejos, muy muys. Ver referencia.\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 9,
+   "id": 56,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Tesoros de la orilla: Amigos marinos en el bolsillo: Plano medio entero con vista frontal sobre una cálida playa de arena peruana. En el centro, un tierno Muki chibi de gran afro morado esponjoso y mejillas sonrojadas sonríe con orgullo infantil mientras sostiene abiertos los grandes bolsillos de su overol playero. De los bolsillos asoman simpáticos cangrejitos rojos y morados saludando con sus tenazas y varios 'muy muys' regordetes y curiosos que asoman sus ojitos. Entre la arena y la ropa del Muki flota un suave rastro de polvo morado mágico de Magiómetro que hace brillar a los animalitos recolectados con destellos festivos, conectando el encanto costeño con la magia navideña de Los Dos Claus.",
+     "id": "e56p1",
+     "imgKey": "img-e56p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DZNKdFeyoTr/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Un muki con animales en los bolsillos que recolectado de la playa…"
+  },
+  {
+   "desc": "Mukis comiendose galletas escondidas\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 9,
+   "id": 57,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "El festín secreto de los Mukis: Plano medio en contrapicado dentro del rincón oculto de una alacena rústica andina iluminada tenuemente. Tres pequeños Mukis chibi de esponjosos afros morados están apretujados sobre un costal de harina, dándose un banquete a escondidas con galletas navideñas peruanas (en forma de estrellas y alpacas). El Muki central tiene las mejillas infladas y la boca llena de migajas mientras sostiene una galleta mordida con ambas manos y sonríe con picardía culpable; a su izquierda, otro Muki hace el gesto de silencio llevándose un dedito regordete a los labios mientras oculta una galleta a su espalda; a la derecha, un tercer Muki asoma la cabeza desde el interior de una lata abierta de galletas decorada con motivos navideños. Entre las migajas y el desorden juguetón, flotan brillantes destellos y espirales de polvo mágico morado de Los Dos Claus que iluminan mágicamente sus caritas traviesas.",
+     "id": "e57p1",
+     "imgKey": "img-e57p1"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis comiendose galletas escondidas",
+   "refs": []
+  },
+  {
+   "desc": "Mukis bailando como graduación\nPublicación: REEL · Personajes: Muki",
+   "formatId": 9,
+   "id": 58,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.3s] Inicio del vals de graduación: Plano general de un grupo de Mukis chibi con sus afros morados luciendo pequeños birretes y estolas andinas brillantes. Se balancean en parejas en una pista iluminada por polvo mágico morado, bailando con pasos solemnes y divertidos de fiesta de graduación.",
+     "id": "e58p1",
+     "imgKey": "img-e58p1"
+    },
+    {
+     "caption": "[1.3–2.6s] El giro con diploma mágico: Plano medio de un Muki girando graciosamente a su pareja mientras sostiene un diploma mágico enrollado con el sello de Los Dos Claus. Estelas de chispas moradas y notas musicales flotan al compás del ritmo festivo.",
+     "id": "e58p2",
+     "imgKey": "img-e58p2"
+    },
+    {
+     "caption": "[2.6–4.0s] Coreografía grupal y zapateo festivo: La toma se abre mientras los Mukis forman una fila de baile sincronizado, combinando el clásico vals de promo con un alegre zapateo andino. Sus afros morados rebotan al unísono y un libro mágico abierto en el fondo proyecta destellos morados.",
+     "id": "e58p3",
+     "imgKey": "img-e58p3"
+    },
+    {
+     "caption": "[4.0–5.5s] Lanzamiento de birretes y pose final: Todos los Mukis se agrupan en primer plano, saltan sonrientes y lanzan sus birretes al aire. Una explosión de confeti y polvo morado llena la pantalla en un congelado final lleno de alegría.",
+     "id": "e58p4",
+     "imgKey": "img-e58p4"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis bailando como graduación",
+   "refs": []
+  },
+  {
+   "desc": "Los mukis cogiendo objetos de tradicionales de países y haciendo cosas metafóricas con ellos, como dormir en zapatos, o ponerse cosas en la cabeza que no van.\nPublicación: CARRUSEL · Personajes: Muki · Nota: Especificar acciones, que no sean muchas.",
+   "formatId": 10,
+   "id": 59,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1 - ¡Tesoros del mundo!: Un grupo de curiosos Mukis chibi con esponjosos afros morados descubre una repisa llena de souvenirs y objetos tradicionales de diferentes países, iluminados por un suave brillo de polvo mágico morado.",
+     "id": "e59p1",
+     "imgKey": "img-e59p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2 - Siesta en zuecos: Un tierno Muki utiliza un colorido zueco tradicional holandés de madera como una cama acolchada, acurrucándose plácidamente adentro con una diminuta manta andina.",
+     "id": "e59p2",
+     "imgKey": "img-e59p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3 - Sombreros improvisados: En el centro, dos Mukis juegan a vestirse: uno se pone una pequeña taza de té de porcelana como casco real y el otro se encaja la mitad inferior de una matrioska en la cabeza a modo de sombrero.",
+     "id": "e59p3",
+     "imgKey": "img-e59p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4 - El desfile intercultural: Plano general de remate: los Mukis posan felices con su disparatada colección de objetos mal utilizados, mientras flotan notas musicales moradas y un mini libro de Los Dos Claus reposa entre los recuerdos.",
+     "id": "e59p4",
+     "imgKey": "img-e59p4"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Los mukis cogiendo objetos de tradicionales de países y haciendo cosas…",
+   "refs": []
+  },
+  {
+   "desc": "Mukis leyendo y recordando, muriendosé de risa, y actuando escenas de los libros Los dos Claus, con burbujas de imaginación\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 11,
+   "id": 60,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Risas y fantasía entre páginas: Plano general medio en contrapicado suave en un acogedor rincón minero-navideño iluminado por farolitos andinos. En el centro, un grupo de Mukis chibi con sus esponjosos afros morados estalla en carcajadas incontenibles: uno de ellos está sentado con las piernas cruzadas sosteniendo el libro ilustrado abierto de 'Los Dos Claus', secándose una lágrima de risa mientras señala una página; otro Muki rueda de espaldas en el suelo agarrándose la barriga de tanto reír, y un tercer Muki, de pie sobre un cojín andino, actúa cómicamente con un poncho miniatura exagerando una pose heroica. De las páginas del libro emana un brillante polvo mágico morado que asciende y forma translúcidas burbujas de imaginación en el aire, dentro de las cuales se aprecian viñetas flotantes estilo boceto animado que recrean divertidas anécdotas de Tayta Claus y Santa junto a las alpacas voladoras.",
+     "id": "e60p1",
+     "imgKey": "img-e60p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DI19AnexpJ3/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis leyendo y recordando, muriendosé de risa, y actuando escenas de…"
+  },
+  {
+   "desc": "Mukis leyendo los dos claus en un sillón y el mundo de los dos claus se les explota hacia afuera\nPublicación: REEL · Personajes: Muki",
+   "formatId": 11,
+   "id": 61,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Lectura en el sillón: Dos pequeños Mukis de afro morado están acurrucados juntos en un sillón acogedor, hojeando concentrados el libro ilustrado de 'Los Dos Claus'.",
+     "id": "e61p1",
+     "imgKey": "img-e61p1"
+    },
+    {
+     "caption": "[1.2–2.3s] Destello de magia morada: De las páginas abiertas del libro empieza a brotar un resplandor dorado y polvo mágico morado; los ojos de los Mukis se abren con asombro e ilusión.",
+     "id": "e61p2",
+     "imgKey": "img-e61p2"
+    },
+    {
+     "caption": "[2.3–3.6s] Explosión del mundo navideño: ¡El mundo del libro explota hacia afuera en estilo pop-up 3D! Alpacas voladoras, estrellas andinas, renos y copos de nieve luminosos brotan disparados hacia la cámara.",
+     "id": "e61p3",
+     "imgKey": "img-e61p3"
+    },
+    {
+     "caption": "[3.6–4.7s] Inmersión total en la fantasía: La sala se transforma en un cielo estrellado navideño: siluetas de Tayta Claus y Santa surcan el aire mientras los Mukis flotan ligeramente sobre el sillón extasiados.",
+     "id": "e61p4",
+     "imgKey": "img-e61p4"
+    },
+    {
+     "caption": "[4.7–5.5s] Felicidad y cierre mágico: Una estela de chispas moradas rodea a los Mukis, quienes abrazan el libro con una sonrisa radiante mientras los elementos mágicos siguen revoloteando a su alrededor.",
+     "id": "e61p5",
+     "imgKey": "img-e61p5"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DXtnJANCVP5/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis leyendo los dos claus en un sillón y el mundo de los dos claus se…"
+  },
+  {
+   "desc": "Mukis leyendo los dos claus en un fuerte de sábanas como un circo gigante.\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 11,
+   "id": 62,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "El Circo Mágico en el Fuerte de Sábanas: Plano general medio dentro de un acogedor fuerte de sábanas ensamblado con telas a rayas rojas y blancas y mantas con motivos andinos, simulando la gran carpa de un circo gigante iluminada por guirnaldas de luces cálidas. En el centro, sobre cojines esponjosos, un grupo de Mukis chibi de frondoso afro morado se reúne emocionado: uno de ellos sostiene abierto el gran libro ilustrado de 'Los Dos Claus', mientras los demás Mukis observan con ojos brillantes de asombro y sonrisas gigantes. Desde las páginas abiertas del libro emana un torbellino resplandeciente de polvo mágico morado que se eleva hacia la cúspide de la carpa de sábanas, proyectando siluetas luminosas de alpacas haciendo acrobacias circenses y a Tayta Claus como maestro de ceremonias imaginario.",
+     "id": "e62p1",
+     "imgKey": "img-e62p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DYb7NnOp5Cc/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis leyendo los dos claus en un fuerte de sábanas como un circo…"
+  },
+  {
+   "desc": "Mukis leyendo los dos claus en la playa. En el mar en un flotador con forma de alpaca voladora.\nPublicación: ILU FIJA · Personajes: Muki",
+   "formatId": 11,
+   "id": 63,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lectura mágica en la playa: Plano medio general luminoso y veraniego. Un Muki chibi de esponjoso afro morado flota relajado sobre el mar cristalino y turquesa dentro de un colorido flotador inflable con forma de alpaca voladora (con simpáticas alitas a los lados y diseño andino festivo). Con una expresión de asombro y tierna sonrisa, el Muki sostiene abierto el libro de cuentos de 'Los Dos Claus', del cual emanan destellos y suaves partículas de polvo mágico morado que brillan bajo la luz dorada del sol playero.",
+     "id": "e63p1",
+     "imgKey": "img-e63p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DaP3G4EPcAf/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis leyendo los dos claus en la playa. En el mar en un flotador con…"
+  },
+  {
+   "desc": "Mukis haciendo coreografías mágicas de ritmos mundialment conocidos por ser de hemisferio sur. Bad bunny?\nPublicación: REEL · Personajes: Muki · Nota: Especificar coreografías, serán pocas.",
+   "formatId": 12,
+   "id": 64,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.2s] Intro con flow navideño: Plano general frontal. Un trío de Mukis chibi con afros morados y lentes de sol entra a cuadro marcando el pulso con la cabeza y botines al compás de un beat urbano latino, mientras un Magiómetro de fondo parpadea en morado.",
+     "id": "e64p1",
+     "imgKey": "img-e64p1"
+    },
+    {
+     "caption": "[1.2–2.5s] El rebote urbano (Bad Bunny style): Plano medio. Los Mukis cruzan los brazos y ejecutan al unísono un rebote rítmico de rodillas y hombros característico del dembow; con cada golpe de cadera se desprenden ondas expansivas de polvo mágico morado.",
+     "id": "e64p2",
+     "imgKey": "img-e64p2"
+    },
+    {
+     "caption": "[2.5–3.8s] Giro y zapateo tropical: Corte dinámico. Los Mukis hacen un giro en 360° sincronizado y rematan con un enérgico paso lateral de cumbia urbana, dejando estelas luminosas y notas musicales moradas flotando alrededor de sus afros.",
+     "id": "e64p3",
+     "imgKey": "img-e64p3"
+    },
+    {
+     "caption": "[3.8–5.0s] Pose final de portada: Cámara rápida a plano entero. Los tres Mukis aterrizan en una pose congelada de videoclip mirando a cámara con actitud genial, mientras una lluvia de confeti morado y destellos mágicos sella la coreografía.",
+     "id": "e64p4",
+     "imgKey": "img-e64p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DSsa-T3EZEt/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis haciendo coreografías mágicas de ritmos mundialment conocidos por…"
+  },
+  {
+   "desc": "Salen los objetos que dejas para después pero mejor hacerlos ahora que te dan felicidad.\nPublicación: ILU FIJA · Personajes: Muki · Nota: No se entiende",
+   "formatId": 13,
+   "id": 65,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Hacerlo hoy da felicidad: Plano medio general y acogedor. En el centro, un Muki chibi de frondoso afro morado sonríe con radiante entusiasmo mientras abraza un gran libro ilustrado de 'Los Dos Claus', decidiendo disfrutarlo en el presente. A su alrededor flotan mágicamente, envueltos en un dinámico remolino de polvo mágico morado brillante, diversos objetos de pasatiempos postergados que cobran vida y color: un charango listo para tocar notas musicales luminosas, una taza humeante de chocolate caliente con canela, ovillos de lana andina a medio tejer y pinceles chispeantes. La iluminación es cálida y festiva, transmitiendo alivio y alegría pura al no posponer los pequeños momentos felices.",
+     "id": "e65p1",
+     "imgKey": "img-e65p1"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DY06tiVvsYf/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Salen los objetos que dejas para después pero mejor hacerlos ahora que…"
+  },
+  {
+   "desc": "Mukis escribiendo un mensaje de felicidad en la arena\nPublicación: CARRUSEL · Personajes: Muki",
+   "formatId": 13,
+   "id": 66,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: Huellitas en la orilla: Plano medio general. Tres Mukis chibi con sus esponjosos afros morados llegan corriendo a una playa de arena dorada al atardecer. Uno de ellos clava una ramita mágica en la arena, dejando escapar destellos de polvo mágico morado mientras señala con entusiasmo el suelo liso.",
+     "id": "e66p1",
+     "imgKey": "img-e66p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: Trazo y chispas mágicas: Plano detalle y acción. Dos Mukis trabajan coordinados en la arena: uno dibuja letras grandes y fluidas con la varita que desprende una estela luminosa violeta, mientras otro coloca conchitas marinas y cristales brillantes como acentos decorativos.",
+     "id": "e66p2",
+     "imgKey": "img-e66p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: La revelación del mensaje: Plano cenital amplio. Se revela la obra completa inscrita en la arena: '¡Siembra felicidad, cosecha amor!', rodeada por un corazón gigante trazado con polvo mágico morado de Los Dos Claus que brilla intensamente contra el dorado de la arena.",
+     "id": "e66p3",
+     "imgKey": "img-e66p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: Abrazo y buenos deseos: Plano medio frontal. Los Mukis posan felices en primer plano frente a su mensaje en la arena, mirando a la cámara con amplias sonrisas y gestos de corazón con sus manitas, rodeados de suaves partículas mágicas moradas que flotan hacia el cielo nocturno.",
+     "id": "e66p4",
+     "imgKey": "img-e66p4"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis escribiendo un mensaje de felicidad en la arena",
+   "refs": []
+  },
+  {
+   "desc": "Mukis escribiendo un mensaje de felicidad en un vidrio\nPublicación: CARRUSEL · Personajes: Muki",
+   "formatId": 13,
+   "id": 67,
+   "kind": "Ilustración",
+   "panels": [
+    {
+     "caption": "Lámina 1 — Lámina 1: El lienzo empañado: Plano medio de un tierno Muki chibi de afro morado frente a una gran ventana fría. Con mejillas infladas, sopla con entusiasmo sobre el cristal ('¡Huuu!'), generando una capa de vapor brillante iluminada con sutil polvillo mágico morado.",
+     "id": "e67p1",
+     "imgKey": "img-e67p1"
+    },
+    {
+     "caption": "Lámina 2 — Lámina 2: Trazando con ilusión: Primer plano del dedito del Muki dibujando sobre el vaho del vidrio. Con expresión de máxima concentración, va dejando líneas limpias de las que brotan pequeños destellos morados mientras empieza a formar una palabra.",
+     "id": "e67p2",
+     "imgKey": "img-e67p2"
+    },
+    {
+     "caption": "Lámina 3 — Lámina 3: Detalles y adornos andinos: Un segundo Muki chibi de afro morado se asoma para ayudar, dibujando en la parte superior pequeñas estrellas luminosas y la tierna silueta de una alpaca con gorrito navideño, dejando rastros de magia púrpura a su paso.",
+     "id": "e67p3",
+     "imgKey": "img-e67p3"
+    },
+    {
+     "caption": "Lámina 4 — Lámina 4: El mensaje de felicidad: Plano general desde afuera del vidrio. Se revela el mensaje completo y brillante: '¡MUCHA FELICIDAD! ✨', mientras ambos Mukis sonríen de oreja a oreja pegando sus naricitas al cristal iluminado por la mágica noche navideña.",
+     "id": "e67p4",
+     "imgKey": "img-e67p4"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis escribiendo un mensaje de felicidad en un vidrio",
+   "refs": []
+  },
+  {
+   "desc": "Mukis viendo luciérnagas hacer figuras como tayta, renos y navidad\nPublicación: REEL · Personajes: Muki",
+   "formatId": 13,
+   "id": 68,
+   "kind": "Animación",
+   "panels": [
+    {
+     "caption": "[0.0–1.3s] Noche mágica en los Andes: En una colina andina nocturna bajo las estrellas, un grupo de Mukis chibi de esponjoso afro morado miran maravillados cómo un enjambre de luciérnagas brillantes y polvo mágico morado comienza a elevarse y danzar en el aire.",
+     "id": "e68p1",
+     "imgKey": "img-e68p1"
+    },
+    {
+     "caption": "[1.3–2.6s] La silueta de Tayta Claus: Las luciérnagas trazan estelas de luz dorada y morada, organizándose en el cielo nocturno para formar la reluciente figura sonriente de Tayta Claus con su característico chullo. Los Mukis sonríen con ojos brillantes llenos de ilusión.",
+     "id": "e68p2",
+     "imgKey": "img-e68p2"
+    },
+    {
+     "caption": "[2.6–4.1s] Renos y magia navideña: Con un giro dinámico y rítmico, el enjambre se transforma fluidamente en la silueta de un reno saltando junto a estrellas parpadeantes. Los Mukis dan saltitos de alegría y aplauden emocionados ante el espectáculo luminoso.",
+     "id": "e68p3",
+     "imgKey": "img-e68p3"
+    },
+    {
+     "caption": "[4.1–5.5s] Un árbol de luz y felicidad: Las luciérnagas explotan suavemente en un gran árbol de Navidad resplandeciente coronado por una estrella dorada. Una lluvia de chispas moradas baña a los Mukis, quienes se abrazan celebrando un momento de pura felicidad navideña.",
+     "id": "e68p4",
+     "imgKey": "img-e68p4"
+    }
+   ],
+   "refs": [
+    {
+     "note": "Referencia de la hoja (loglines)",
+     "url": "https://www.instagram.com/p/DaQF37cuYmT/"
+    }
+   ],
+   "status": "✏️ Storyboard",
+   "style": "Chibi / cute (principal)",
+   "title": "Mukis viendo luciérnagas hacer figuras como tayta, renos y navidad"
+  }
+ ],
+ "nextId": 69
+}
