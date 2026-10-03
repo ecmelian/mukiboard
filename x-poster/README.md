@@ -49,12 +49,12 @@ Add `"xqueue": { ".indexOn": ["status"] }` to the database rules so the review p
 Default template:
 
 ```
-💩 {species}{shiny} spotted in {city} · {date} {time} UTC
+{icon} {species}{shiny} spotted in {city} · {date} {time} UTC
 {map}
 #mierdasdelmundo #{citytag}
 ```
 
-Placeholders: `{species}` `{rarity}` `{shiny}` `{cp}` `{city}` `{cc}` `{citytag}` `{date}` `{time}` `{map}` `{trainer}`. The map link points at OpenStreetMap with the rounded coordinates. Long texts lose their hashtags first, then get cut, so they always fit.
+Placeholders: `{icon}` (💩 🚗 🔒 🚧 🗑️ for the kind of shit) `{kind}` `{species}` `{rarity}` `{shiny}` `{cp}` `{city}` `{cc}` `{citytag}` `{date}` `{time}` `{map}` `{trainer}`. The map link points at OpenStreetMap with the rounded coordinates. Long texts lose their hashtags first, then get cut, so they always fit.
 
 ## Endpoints
 

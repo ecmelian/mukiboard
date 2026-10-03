@@ -23,7 +23,7 @@ mierdasdelmundo turns the shit on the sidewalks of big cities into a game (the a
 
 ## 3. The engine: the app and its data
 
-What exists today: a phone-only web app, no store needed, in six languages, aware of 190 big cities. You photograph a poop, catch a species (32, five rarities, shinies), earn XP and badges, and the capture goes on a map with its time and place. Optional world sync shares sightings, a world map, a leaderboard and a city ranking.
+What exists today: a phone-only web app, no store needed, in six languages, aware of 190 big cities. You photograph the remains of shitty behavior, say what it is (dog poop, a car where it shouldn't be, a lock where it shouldn't be, a cone holding public parking, dumped trash), catch a species (64 across the five kinds, five rarities, shinies), earn XP and badges, and the capture goes on a map with its time and place. Optional world sync shares sightings, a world map, a leaderboard and a city ranking.
 
 What every capture produces: a photo, a timestamp, a location (rounded to about 11 m when shared), a city, a species and rarity, a trainer. In aggregate: hotspots, time-of-day patterns, a city ranking, streaks.
 

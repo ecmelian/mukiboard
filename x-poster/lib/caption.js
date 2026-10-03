@@ -1,9 +1,12 @@
 'use strict';
 // Turns a queued capture into the text of the post.
 //
-// POST_TEMPLATE placeholders: {species} {rarity} {shiny} {cp} {city} {cc}
+// POST_TEMPLATE placeholders: {icon} {kind} {species} {rarity} {shiny} {cp} {city} {cc}
 // {citytag} {date} {time} {map} {trainer}
-const DEFAULT_TEMPLATE = '💩 {species}{shiny} spotted in {city} · {date} {time} UTC\n{map}\n#mierdasdelmundo #{citytag}';
+const DEFAULT_TEMPLATE = '{icon} {species}{shiny} spotted in {city} · {date} {time} UTC\n{map}\n#mierdasdelmundo #{citytag}';
+
+// kinds of shit the app captures; the icon opens the post
+const KINDS = { poop: { icon: '💩', label: 'dog poop' }, car: { icon: '🚗', label: 'car where it shouldn\'t be' }, lock: { icon: '🔒', label: 'lock where it shouldn\'t be' }, cone: { icon: '🚧', label: 'cone holding public parking' }, trash: { icon: '🗑️', label: 'dumped trash' } };
 
 const RARITY_ORDER = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
 
@@ -19,7 +22,10 @@ function mapLink(lat, lng) {
 
 function render(item, template) {
   const d = new Date(item.ts || Date.now());
+  const kind = KINDS[item.kind] ? item.kind : 'poop';
   const vars = {
+    icon: KINDS[kind].icon,
+    kind: KINDS[kind].label,
     species: item.species || 'A poop',
     rarity: RARITY_ORDER.includes(item.rarity) ? item.rarity : 'common',
     shiny: item.shiny ? ' ✨' : '',
@@ -49,4 +55,4 @@ function render(item, template) {
   return text;
 }
 
-module.exports = { render, cityTag, mapLink, DEFAULT_TEMPLATE };
+module.exports = { render, cityTag, mapLink, DEFAULT_TEMPLATE, KINDS };

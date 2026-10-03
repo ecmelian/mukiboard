@@ -28,7 +28,10 @@ process.env.FIREBASE_URL = 'https://fake-db.test'; process.env.FIREBASE_ROOT = '
   assert(txt.includes('#mierdasdelmundo #SaoPaulo'), txt);
   const long = caption.render({ species: 'X'.repeat(400), city: 'Madrid', ts: 0, lat: 40.4, lng: -3.7 });
   assert(long.replace(/https?:\/\/\S+/g, '').length <= 280 - 23, 'long caption trimmed: ' + long.length);
-  console.log('PASS caption rendering and trimming');
+  const car = caption.render({ kind: 'car', species: 'Double Parker', city: 'Madrid', ts: 0, lat: 40.4, lng: -3.7 });
+  assert(car.startsWith('🚗 Double Parker spotted in Madrid'), car);
+  assert.strictEqual(caption.render({ kind: 'cone', species: 'Cone Wall', city: 'Lisboa', ts: 0, lat: 38.7, lng: -9.1 }, '{icon} {kind}: {species}'), '🚧 cone holding public parking: Cone Wall');
+  console.log('PASS caption rendering, kinds and trimming');
 }
 
 // ---- fake database + fake X behind global fetch ----
@@ -67,7 +70,7 @@ const server = http.createServer((req, res) => { const h = handlers[req.url.spli
   await new Promise(r => server.listen(0, '127.0.0.1', r)); const base = `http://127.0.0.1:${server.address().port}`;
   const call = async (path, method = 'GET', body, headers = {}) => { const r = await realFetch(base + path, { method, headers: Object.assign(body ? { 'Content-Type': 'application/json' } : {}, headers), body: body ? JSON.stringify(body) : undefined }); const txt = await r.text(); let data; try { data = JSON.parse(txt); } catch (e) { data = txt; } return { status: r.status, data, headers: r.headers }; };
   const jpeg = 'data:image/jpeg;base64,' + Buffer.from([0xFF, 0xD8, 0xFF, 0xE0, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0xFF, 0xD9]).toString('base64');
-  const good = (id) => ({ id, ts: Date.UTC(2026, 9, 3, 9, 30), lat: 40.41679, lng: -3.70379, city: 'Madrid', cc: 'ES', species: 'Metro Mouth', speciesId: 'metro', rarity: 'rare', shiny: false, cp: 321, size: 'M', fresh: 'fresh', trainer: 'Ana', tid: 't_1', faces: 1, blurred: true, image: jpeg });
+  const good = (id) => ({ id, ts: Date.UTC(2026, 9, 3, 9, 30), lat: 40.41679, lng: -3.70379, city: 'Madrid', cc: 'ES', species: 'Metro Mouth', speciesId: 'metro', rarity: 'rare', shiny: false, cp: 321, kind: 'car', size: 'M', fresh: 'fresh', trainer: 'Ana', tid: 't_1', faces: 1, blurred: true, image: jpeg });
 
   let r = await call('/api/submit', 'OPTIONS'); assert.strictEqual(r.status, 204); assert.strictEqual(r.headers.get('access-control-allow-origin'), '*'); console.log('PASS CORS preflight');
   r = await call('/api/submit', 'POST', Object.assign(good('c_nolur'), { blurred: false })); assert.strictEqual(r.status, 400); assert(/blurred/.test(r.data.error)); console.log('PASS unblurred photo refused');
@@ -75,7 +78,7 @@ const server = http.createServer((req, res) => { const h = handlers[req.url.spli
   r = await call('/api/submit', 'POST', Object.assign(good('c_noloc'), { lat: null })); assert.strictEqual(r.status, 400); assert(/location/.test(r.data.error)); console.log('PASS capture without location refused');
   r = await call('/api/submit', 'POST', Object.assign(good('c_badimg'), { image: 'data:text/plain;base64,aGk=' })); assert.strictEqual(r.status, 400); console.log('PASS non-image refused');
   r = await call('/api/submit', 'POST', good('c_one')); assert.strictEqual(r.status, 202); assert.deepStrictEqual(r.data, { id: 'c_one', status: 'pending' }); console.log('PASS valid capture queued (202 pending)');
-  assert.strictEqual(dbGet(['mdm', 'xqueue', 'c_one']).lat, 40.417); assert.strictEqual(dbGet(['mdm', 'xqueue', 'c_one']).status, 'pending'); assert.strictEqual(dbGet(['mdm', 'ximg', 'c_one']), jpeg); assert(!('image' in dbGet(['mdm', 'xqueue', 'c_one']))); console.log('PASS stored with 3-decimal coordinates, photo in its own node');
+  assert.strictEqual(dbGet(['mdm', 'xqueue', 'c_one']).lat, 40.417); assert.strictEqual(dbGet(['mdm', 'xqueue', 'c_one']).status, 'pending'); assert.strictEqual(dbGet(['mdm', 'xqueue', 'c_one']).kind, 'car'); assert.strictEqual(dbGet(['mdm', 'ximg', 'c_one']), jpeg); assert(!('image' in dbGet(['mdm', 'xqueue', 'c_one']))); console.log('PASS stored with 3-decimal coordinates, photo in its own node');
   r = await call('/api/submit', 'POST', good('c_one')); assert.strictEqual(r.status, 200); assert.strictEqual(r.data.status, 'pending'); console.log('PASS resubmitting the same capture returns its status without a new entry');
   r = await call('/api/status?id=c_one'); assert.strictEqual(r.status, 200); assert.deepStrictEqual(r.data, { id: 'c_one', status: 'pending', url: '' }); console.log('PASS status endpoint');
   r = await call('/api/status?id=c_nope'); assert.strictEqual(r.status, 404); r = await call('/api/status?id=../x'); assert.strictEqual(r.status, 400); console.log('PASS status rejects unknown and malformed ids');
@@ -83,7 +86,7 @@ const server = http.createServer((req, res) => { const h = handlers[req.url.spli
 
   r = await call('/api/review'); assert.strictEqual(r.status, 401); r = await call('/api/review?key=wrong&list=1'); assert.strictEqual(r.status, 401); r = await call('/api/review', 'POST', { id: 'c_one', action: 'approve' }); assert.strictEqual(r.status, 401); console.log('PASS review page and actions need the admin key');
   r = await call('/api/review?key=test-admin-key'); assert.strictEqual(r.status, 200); assert(/X review/.test(r.data) && /Approve and post/.test(r.data)); console.log('PASS review page served');
-  r = await call('/api/review?key=test-admin-key&list=1'); assert.strictEqual(r.status, 200); assert.strictEqual(r.data.items.length, 1); assert.strictEqual(r.data.items[0].id, 'c_one'); assert(r.data.items[0].caption.includes('Metro Mouth')); assert(!('ip' in r.data.items[0]) || r.data.items[0].ip === undefined); console.log('PASS pending list with caption, no IP hash');
+  r = await call('/api/review?key=test-admin-key&list=1'); assert.strictEqual(r.status, 200); assert.strictEqual(r.data.items.length, 1); assert.strictEqual(r.data.items[0].id, 'c_one'); assert(r.data.items[0].caption.startsWith('🚗 Metro Mouth')); assert(!('ip' in r.data.items[0]) || r.data.items[0].ip === undefined); console.log('PASS pending list with caption, no IP hash');
   r = await call('/api/review?key=test-admin-key&img=c_one'); assert.strictEqual(r.status, 200); assert.strictEqual(r.headers.get('content-type'), 'image/jpeg'); console.log('PASS queued photo served to the reviewer');
   r = await call('/api/review', 'POST', { key: 'test-admin-key', id: 'c_one', action: 'approve', text: 'Custom text from the reviewer' }); assert.strictEqual(r.status, 200); assert.deepStrictEqual(r.data, { id: 'c_one', status: 'posted', url: 'https://x.com/mierdasdelmundo/status/1234567890' }); console.log('PASS approve uploads the photo and posts');
   assert.strictEqual(xCalls.length, 2); assert(xCalls[0].url.endsWith('/2/media/upload')); assert(JSON.parse(xCalls[1].body).text === 'Custom text from the reviewer'); assert.strictEqual(dbGet(['mdm', 'ximg', 'c_one']), null); assert.strictEqual(dbGet(['mdm', 'xqueue', 'c_one']).postId, '1234567890'); console.log('PASS media upload then post with the edited text; photo removed from the queue');

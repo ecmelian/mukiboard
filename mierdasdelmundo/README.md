@@ -1,13 +1,14 @@
 # 💩 mierdasdelmundo
 
-*Gotta scoop 'em all.* A phone-only, Pokémon-GO-style web app for capturing, timestamping and mapping the dog poops of the world's big cities. In any language.
+*Gotta scoop 'em all.* A phone-only, Pokémon-GO-style web app for capturing, timestamping and mapping the shit of the world's big cities: dog poop, cars where they shouldn't be, locks where they shouldn't be, cones holding public parking and dumped trash. The remains of shitty behavior, in any language.
 
-Spot a poop → tap the shutter → tag its size and freshness → flick the poop bag at it. If it doesn't break free, it's yours: timestamped, geotagged, assigned to its big city, identified as one of 32 species across 5 rarities, and added to your **Mierdex** and to the map.
+Spot some shit → tap the shutter → say what it is (💩 🚗 🔒 🚧 🗑️) → tag its size and freshness → flick the poop bag at it. If it doesn't break free, it's yours: timestamped, geotagged, assigned to its big city, identified as one of 64 species across 5 kinds and 5 rarities, and added to your **Mierdex** and to the map.
 
 ## Features
 
+- 🏷️ **Five kinds of shit.** Dog poop (32 species), cars where they shouldn't be (Sidewalk Hog, Double Parker, Disabled Spot Thief…), locks where they shouldn't be (Orphan Lock, Love Lock, Bench Hostage…), cones and other things holding public parking (The Reserver, Chair Claim, DIY Bollard…) and dumped trash (Bagged and Abandoned, Mattress Monday, Scooter in the River…), 8 species each. The kind is picked in the encounter, filters the Mierdex, shows on the map pins and the share cards, and has its own badges (Jack of All Shit for one of each, and 10-of-a-kind badges).
 - 📱 **Phones only.** On a desktop browser the app shows a QR code to open it on a phone instead (append `?dev=1` to the URL to bypass the gate while developing).
-- 🌍 **Any language.** The interface, the 32 species with their entries, the 18 badges and the dates follow the phone's language: English, Spanish, Portuguese, French, German and Italian are built in, anything else falls back to English, and the language can be switched in Trainer → Settings. Adding a language is one dictionary in `index.html`.
+- 🌍 **Any language.** The interface, the 64 species with their entries, the 23 badges and the dates follow the phone's language: English, Spanish, Portuguese, French, German and Italian are built in, anything else falls back to English, and the language can be switched in Trainer → Settings. Adding a language is one dictionary in `index.html`.
 - 🏙️ **Built for big cities.** A built-in table of about 190 big cities assigns every capture within 60 km to its city. Captures show their city, the trainer profile counts cities and names a home city, two badges reward capturing in 3 and 10 cities, city-dwelling species (Metro Mouth, Tourist Trap, Bus Stop Bomber, Crosswalk Crumb…) are more common inside a city, and the world sync ranks cities by number of poops.
 - 📸 **Live camera viewfinder** with shutter, camera flip and gallery import. Falls back to the phone's camera app when the live camera isn't available.
 - 🕒 **Timestamp + 📍 GPS** on every capture (local time with UTC offset, coordinates with accuracy). Imported photos get their real date and location from EXIF when present.
@@ -16,7 +17,7 @@ Spot a poop → tap the shutter → tag its size and freshness → flick the poo
 - 🗺️ **Map** of your captures (Leaflet + OpenStreetMap). Set or fix a capture's location by tapping the map; edit its time; add notes.
 - 🌐 **World sync** (optional): publish captures to a shared Firebase Realtime Database to see everyone's sightings on the map, a trainer leaderboard and the city ranking.
 - 🖼️ **Share cards**: the photo stamped with species, rarity, CP, city, time and coordinates, sent through the system share sheet.
-- 🙈 **Faces blurred on the phone.** Before a photo is saved, faces are found on the device (MediaPipe, downloaded once and cached; nothing is uploaded for the check) and replaced by a coarse mosaic. A *Blur a spot* tool in the capture detail covers anything the detector missed. Switch in Trainer → Settings.
+- 🙈 **Faces blurred on the phone.** Before a photo is saved, faces are found on the device (MediaPipe, downloaded once and cached; nothing is uploaded for the check) and replaced by a coarse mosaic. A *Blur a spot* tool in the capture detail covers anything the detector missed, license plates included. Switch in Trainer → Settings.
 - 𝕏 **Official X account** (optional): captures with a location are sent, faces blurred, to a small reviewed queue; the account owner approves each post before it goes live. See `../x-poster`.
 - 💾 **Local-first**: photos and captures live in IndexedDB on the device. JSON export/import for backups. Installable PWA that works offline after the first load (map tiles need a connection).
 

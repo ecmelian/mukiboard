@@ -4,6 +4,7 @@
 const { cors, send, readJson, httpError, ipHash } = require('../lib/http');
 const store = require('../lib/store');
 const x = require('../lib/x');
+const caption = require('../lib/caption');
 
 const MAX_IMAGE = 1.5 * 1024 * 1024;
 const ID_RE = /^[A-Za-z0-9_-]{4,64}$/;
@@ -18,6 +19,7 @@ function clean(b) {
     lng: num(b.lng, -180, 180),
     city: str(b.city, 60) || null,
     cc: str(b.cc, 2).toUpperCase() || null,
+    kind: caption.KINDS[b.kind] ? b.kind : 'poop',
     species: str(b.species, 40) || 'A poop',
     speciesId: str(b.speciesId, 40) || null,
     rarity: str(b.rarity, 12) || 'common',
