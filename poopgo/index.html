@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6B4423">
+<meta name="description" content="Poop GO — capture, timestamp and map the dog poops of the world. Take a picture, flick the bag, fill your Poopédex.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Poop GO">
+<title>Poop GO</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<style>
+  :root{
+    --bg:#FBF4E8; --card:#FFFFFF; --ink:#3B2A1E; --ink-soft:#8A7260;
+    --brown:#6B4423; --brown-dark:#4A2E16;
+    --green:#5BA85A; --green-dark:#3E8A3E; --gold:#F2B134; --red:#E2574C; --blue:#3D8BE8;
+    --c-common:#8E8E8E; --c-uncommon:#5BA85A; --c-rare:#3D8BE8; --c-epic:#9B59E8; --c-legendary:#F2A51A;
+    --radius:18px; --shadow:0 4px 16px rgba(59,42,30,.12);
+    --tab-h:64px; --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;color:inherit}
+  input,textarea,select{font-family:inherit;font-size:15px;color:var(--ink)}
+  h1,h2,h3,.display{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-weight:400;letter-spacing:.5px}
+  [hidden]{display:none!important}
+  a{color:var(--blue)}
+
+  /* ---------- shell ---------- */
+  #app{max-width:560px;margin:0 auto;min-height:100vh;min-height:100dvh;position:relative;background:var(--bg)}
+  .view{display:none;min-height:100vh;min-height:100dvh;padding-bottom:calc(var(--tab-h) + var(--sab))}
+  .view.active{display:block}
+  .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;height:calc(var(--tab-h) + var(--sab));padding-bottom:var(--sab);background:#fff;border-top:1px solid #eadfcf;display:flex;z-index:40}
+  .tabbar button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:700;color:var(--ink-soft);position:relative}
+  .tabbar button .ico{font-size:24px;line-height:1}
+  .tabbar button.active{color:var(--brown)}
+  .tabbar button .badge{position:absolute;top:8px;left:calc(50% + 8px);background:var(--red);color:#fff;border-radius:999px;font-size:10px;padding:1px 6px;min-width:18px;text-align:center}
+  .page-head{position:sticky;top:0;z-index:5;background:var(--brown);color:#fff;padding:calc(12px + var(--sat)) 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .page-head h1{font-size:24px}
+  .page-body{padding:14px}
+  h3.sec{font-size:16px;color:var(--brown);margin:18px 4px 8px;display:flex;align-items:center;gap:8px}
+  h3.sec span{font-family:system-ui,sans-serif;font-size:12px;color:var(--ink-soft);font-weight:700}
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+  .btn{border:none;background:#EFE4D2;color:var(--brown-dark);padding:12px 18px;border-radius:14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .btn:disabled{opacity:.45;cursor:default}
+  .btn.primary{background:var(--green);color:#fff}
+  .btn.danger{background:#FBE3E0;color:var(--red)}
+  .btn.sm{padding:8px 12px;font-size:13px;border-radius:10px}
+  .row{display:flex;gap:10px}
+  .row .btn{flex:1}
+  .pill{background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);white-space:nowrap}
+  .pill.ok{background:rgba(91,168,90,.9)} .pill.err{background:rgba(226,87,76,.9)}
+  .rpill{color:#fff;border-radius:999px;padding:4px 12px;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
+  .rpill.cp{background:var(--brown-dark);text-transform:none}
+  .r-common{background:var(--c-common)} .r-uncommon{background:var(--c-uncommon)} .r-rare{background:var(--c-rare)} .r-epic{background:var(--c-epic)} .r-legendary{background:var(--c-legendary)}
+  .pill-row{display:flex;gap:8px;justify-content:center;margin:8px 0;flex-wrap:wrap}
+  .pill-row.left{justify-content:flex-start}
+  .input{width:100%;border:1px solid #eadfcf;border-radius:10px;padding:9px 10px;background:#FFFDF8;font-size:13px}
+  .empty{text-align:center;padding:60px 24px;color:var(--ink-soft);font-size:14px}
+  .empty .big{font-size:56px;margin-bottom:8px}
+  .big{font-size:56px}
+
+  /* ---------- catch (camera) ---------- */
+  #view-catch{padding-bottom:0;min-height:0}
+  .cam{position:relative;height:calc(100vh - var(--tab-h) - var(--sab));height:calc(100dvh - var(--tab-h) - var(--sab));background:#111;overflow:hidden}
+  #cam{width:100%;height:100%;object-fit:cover;display:block;background:#111}
+  .cam-off{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#3a2b1f,#120d09);color:#fff;text-align:center;padding:24px}
+  .cam-off .big{margin-bottom:10px}
+  .cam-off p{opacity:.85;margin:0 auto 16px;max-width:300px;font-size:14px}
+  .cam-top{position:absolute;top:0;left:0;right:0;padding:calc(12px + var(--sat)) 14px 0;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+  .logo{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:26px;color:#fff;text-shadow:2px 2px 0 rgba(0,0,0,.45);line-height:1}
+  .logo span{color:var(--gold)}
+  .cam-clock{position:absolute;top:calc(50px + var(--sat));right:14px;color:#fff;font-size:12px;font-weight:600;opacity:.9;text-shadow:1px 1px 0 rgba(0,0,0,.6);font-variant-numeric:tabular-nums}
+  .cam-hint{position:absolute;bottom:128px;left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:600;text-shadow:1px 1px 2px rgba(0,0,0,.7);pointer-events:none;padding:0 20px}
+  .cam-bottom{position:absolute;bottom:0;left:0;right:0;padding:40px 28px 24px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.55))}
+  .round{width:52px;height:52px;border-radius:50%;border:none;background:rgba(255,255,255,.22);color:#fff;font-size:22px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .shutter{width:84px;height:84px;border-radius:50%;border:5px solid #fff;background:transparent;padding:5px}
+  .shutter span{display:block;width:100%;height:100%;border-radius:50%;background:#fff;transition:transform .1s}
+  .shutter:active span{transform:scale(.85)}
+  .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .25s}
+  .flash.on{opacity:.9;transition:none}
+
+  /* ---------- overlays ---------- */
+  .overlay{position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column}
+  .overlay.sheet{background:rgba(30,20,12,.6);align-items:center;justify-content:flex-end;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+
+  /* encounter */
+  #encounter{touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
+  #encImg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:filter .5s}
+  #encounter.caught #encImg{filter:saturate(.3) brightness(.45)}
+  .enc-top{position:absolute;top:calc(18px + var(--sat));left:0;right:0;text-align:center;color:#fff;padding:0 20px;text-shadow:2px 2px 0 rgba(0,0,0,.55);z-index:2}
+  .enc-title{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:28px;line-height:1.1}
+  .enc-sub{font-size:13px;font-weight:600;opacity:.95;margin-top:6px}
+  .ring{position:absolute;left:50%;top:40%;width:170px;height:170px;margin:-85px 0 0 -85px;border:4px solid rgba(255,255,255,.95);border-radius:50%;box-shadow:0 0 0 6px rgba(0,0,0,.25),inset 0 0 0 4px rgba(0,0,0,.2);animation:pulse 1.6s ease-in-out infinite;z-index:1}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(.7);opacity:1}}
+  .enc-tags{position:absolute;left:0;right:0;bottom:196px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 16px;z-index:2}
+  .enc-tags .lbl{font-size:11px;color:#fff;font-weight:700;text-shadow:1px 1px 0 rgba(0,0,0,.6);letter-spacing:1px;text-transform:uppercase}
+  .seg{display:flex;background:rgba(0,0,0,.55);border-radius:999px;padding:4px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .seg button{border:none;background:none;color:#fff;padding:8px 14px;border-radius:999px;font-weight:700;font-size:13px}
+  .seg button.on{background:#fff;color:var(--brown-dark)}
+  .enc-bottom{position:absolute;left:0;right:0;bottom:0;padding:0 20px calc(22px + var(--sab));display:flex;align-items:flex-end;justify-content:space-between;z-index:3}
+  .link{border:none;background:rgba(0,0,0,.55);color:#fff;padding:10px 14px;border-radius:999px;font-weight:700;font-size:13px;margin-bottom:28px}
+  .bagwrap{width:120px;height:140px;position:relative;display:flex;flex-direction:column;align-items:center;transition:transform .45s cubic-bezier(.2,.8,.2,1);touch-action:none;cursor:grab}
+  .bagwrap.dragging{transition:none;cursor:grabbing}
+  .bagwrap.flying{transition:transform .6s cubic-bezier(.25,.1,.25,1)}
+  .bagwrap.flying .bag-hint{opacity:0}
+  .bag{width:110px;height:110px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))}
+  .bag svg{width:100%;height:100%;display:block}
+  .bag.wobble{animation:wobble .6s ease-in-out}
+  @keyframes wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-16deg)}75%{transform:rotate(16deg)}}
+  .bag.burst{animation:burst .45s ease-out forwards}
+  @keyframes burst{to{transform:scale(1.8);opacity:0}}
+  .bag-hint{color:#fff;font-size:12px;font-weight:700;text-shadow:1px 1px 0 rgba(0,0,0,.6);margin-top:4px;animation:bob 1.4s ease-in-out infinite;transition:opacity .3s}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .enc-msg{position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);background:rgba(0,0,0,.72);color:#fff;padding:14px 22px;border-radius:16px;font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:24px;text-align:center;animation:popin .3s;z-index:2;white-space:nowrap}
+  @keyframes popin{from{transform:translate(-50%,-50%) scale(.6);opacity:0}}
+  .shiny-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.35),transparent 55%);animation:pulse 1.2s ease-in-out infinite;z-index:1}
+
+  /* result */
+  #result{background:rgba(20,12,6,.88);align-items:center;justify-content:center;padding:16px;overflow:auto}
+  .result-card{width:100%;max-width:420px;text-align:center;animation:cardin .4s cubic-bezier(.2,.8,.2,1);margin:auto}
+  @keyframes cardin{from{transform:scale(.7) translateY(40px);opacity:0}}
+  .gotcha{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:46px;color:var(--green);line-height:1;text-shadow:3px 3px 0 #EFE4D2}
+  .result-photo{position:relative;margin:12px 0;border-radius:14px;overflow:hidden;aspect-ratio:4/3;background:#eee}
+  .result-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .new-tag{position:absolute;top:10px;left:10px;background:var(--gold);color:#3E2510;font-family:'Luckiest Guy','Comic Sans MS',cursive;padding:5px 12px;border-radius:999px;transform:rotate(-6deg);font-size:18px;box-shadow:var(--shadow)}
+  .shiny-tag{position:absolute;top:10px;right:10px;background:linear-gradient(90deg,#ff8a8a,#ffe27a,#8affc1,#8ad0ff,#d08aff);color:#3E2510;font-weight:800;padding:5px 10px;border-radius:999px;font-size:12px;box-shadow:var(--shadow)}
+  .result-card h2{font-size:30px;color:var(--brown-dark);line-height:1.1}
+  .dex-text{font-size:14px;color:var(--ink-soft);font-style:italic;margin:6px 0 10px}
+  .meta{font-size:13px;color:var(--ink);display:grid;gap:5px;text-align:left;background:#FBF4E8;border-radius:12px;padding:10px 12px;word-break:break-word}
+  .meta small{color:var(--ink-soft)}
+  .xp-gain{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:28px;color:var(--c-rare);margin:12px 0 4px}
+  .levelup{background:linear-gradient(90deg,#F2B134,#F28B34);color:#3E2510;border-radius:12px;padding:10px;font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:20px;margin:8px 0}
+  .unlock{display:flex;align-items:center;gap:10px;background:#FFF6DB;border:1px solid #F2D27A;border-radius:12px;padding:8px 12px;margin:6px 0;text-align:left;font-size:13px}
+  .unlock .ic{font-size:26px}
+  .unlock b{display:block}
+  .result-card .row{margin-top:14px}
+  .confetti{position:fixed;top:-12px;width:10px;height:14px;z-index:150;pointer-events:none;animation:fall linear forwards;border-radius:2px}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.7}}
+
+  /* detail sheet */
+  #detail .card{width:100%;max-width:560px;max-height:92vh;max-height:92dvh;overflow:auto;border-radius:22px 22px 0 0;padding:0 0 calc(16px + var(--sab));animation:slideup .3s cubic-bezier(.2,.8,.2,1)}
+  @keyframes slideup{from{transform:translateY(80px);opacity:0}}
+  .d-photo{aspect-ratio:4/3;background:#222;position:relative}
+  .d-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .d-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:18px}
+  .d-body{padding:14px 16px}
+  .d-body h2{font-size:26px;color:var(--brown-dark);line-height:1.1}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;font-size:13px;margin:10px 0;word-break:break-word}
+  .kv b{color:var(--ink-soft);font-weight:600;white-space:nowrap}
+  textarea.notes{width:100%;border:1px solid #eadfcf;border-radius:12px;padding:10px;min-height:64px;resize:vertical;background:#FFFDF8;font-size:14px}
+  .d-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  .d-actions .btn{padding:11px 8px;font-size:14px}
+
+  /* ---------- map ---------- */
+  #view-map{position:relative;padding-bottom:0;min-height:0;z-index:0;isolation:isolate}
+  #map{height:calc(100vh - var(--tab-h) - var(--sab));height:calc(100dvh - var(--tab-h) - var(--sab));background:#dfe8d8;z-index:0;overflow:hidden}
+  .map-logo{position:absolute;top:calc(12px + var(--sat));left:12px;z-index:400;background:rgba(255,255,255,.92);border-radius:999px;padding:6px 12px;font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:18px;color:var(--brown-dark);box-shadow:var(--shadow);pointer-events:none}
+  .map-logo span{color:var(--green-dark)}
+  .map-ctl{position:absolute;right:12px;top:calc(60px + var(--sat));z-index:400;display:flex;flex-direction:column;gap:8px}
+  .map-ctl button{width:44px;height:44px;border-radius:12px;border:none;background:#fff;box-shadow:var(--shadow);font-size:20px}
+  .map-ctl button.on{background:var(--green);color:#fff;box-shadow:0 0 0 3px rgba(91,168,90,.35)}
+  .pin{width:36px;height:36px;border-radius:50%;background:#fff;border:3px solid var(--c-common);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.35);line-height:1}
+  .pin.world{width:26px;height:26px;font-size:14px;border-width:2px;opacity:.92;background:#FBF4E8}
+  .pin.shiny{box-shadow:0 0 0 3px rgba(255,226,122,.9),0 2px 6px rgba(0,0,0,.35)}
+  .pin.me{width:18px;height:18px;border:3px solid #fff;background:var(--blue);box-shadow:0 0 0 6px rgba(61,139,232,.3)}
+  .map-banner{position:absolute;top:calc(12px + var(--sat));left:12px;right:68px;z-index:401;background:#fff;border-radius:12px;padding:10px 12px;box-shadow:var(--shadow);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .map-offline{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--ink-soft);background:var(--bg);z-index:300}
+  .leaflet-popup-content{margin:10px 12px;font-size:13px;line-height:1.4}
+  .leaflet-popup-content .pop{min-width:150px}
+  .pop img{width:100%;border-radius:8px;display:block;margin-bottom:6px;aspect-ratio:4/3;object-fit:cover;background:#eee}
+  .pop .rpill{font-size:10px;padding:2px 8px}
+  .pop .btn{margin-top:6px;width:100%}
+  .leaflet-container{font-family:inherit}
+
+  /* ---------- poopédex ---------- */
+  .subtabs{display:flex;background:rgba(255,255,255,.15);border-radius:12px;padding:3px}
+  .subtabs button{border:none;background:none;color:#fff;padding:6px 12px;border-radius:10px;font-weight:700;font-size:13px}
+  .subtabs button.on{background:#fff;color:var(--brown)}
+  .chips{display:flex;gap:6px;overflow-x:auto;padding:12px 14px 0;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{border:none;background:#fff;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--ink-soft);white-space:nowrap;box-shadow:var(--shadow)}
+  .chip.on{background:var(--brown);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:14px}
+  .cap{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:none;text-align:left;padding:0;display:block;width:100%}
+  .cap .ph{aspect-ratio:1;background:#eee;position:relative}
+  .cap .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .cap .ph .rdot{position:absolute;top:7px;left:7px;width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 2px #fff}
+  .cap .ph .sh{position:absolute;top:4px;right:7px;font-size:14px}
+  .cap .ph .nl{position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px}
+  .cap .nm{font-weight:700;font-size:13px;padding:8px 10px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cap .tm{font-size:11px;color:var(--ink-soft);padding:2px 10px 10px}
+  .sp-group{padding:4px 14px 10px}
+  .sp-group h3{font-size:16px;margin:10px 0 6px;display:flex;align-items:center;gap:8px}
+  .sp-group h3 .rpill{font-size:10px}
+  .sp{display:flex;align-items:center;gap:12px;background:#fff;border-radius:12px;padding:10px 12px;margin-bottom:6px;box-shadow:var(--shadow)}
+  .sp .ic{font-size:30px;width:46px;text-align:center;position:relative;line-height:1}
+  .sp.unk .ic{filter:brightness(0);opacity:.3}
+  .sp .ic small{position:absolute;right:-2px;bottom:-4px;font-size:15px}
+  .sp .nm{font-weight:700;font-size:14px}
+  .sp .ds{font-size:12px;color:var(--ink-soft)}
+  .sp .ct{margin-left:auto;font-size:12px;font-weight:700;color:var(--ink-soft);white-space:nowrap}
+
+  /* ---------- trainer ---------- */
+  .profile{display:flex;align-items:center;gap:14px}
+  .avatar{width:72px;height:72px;border-radius:50%;background:#FBF4E8;display:flex;align-items:center;justify-content:center;font-size:40px;border:3px solid var(--green);flex-shrink:0;line-height:1}
+  .profile input{border:none;border-bottom:2px dashed #eadfcf;font-size:20px;font-weight:800;width:100%;background:none;padding:4px 0;color:var(--brown-dark);outline:none}
+  .profile input:focus{border-bottom-color:var(--green)}
+  .lvl{font-family:'Luckiest Guy','Comic Sans MS',cursive;color:var(--brown);font-size:18px;margin-top:4px}
+  .xpbar{height:10px;background:#EFE4D2;border-radius:6px;overflow:hidden;margin-top:6px}
+  .xpbar div{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:6px;transition:width .4s}
+  .xptxt{font-size:11px;color:var(--ink-soft);margin-top:4px;font-weight:600}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+  .stat{background:#FBF4E8;border-radius:12px;padding:10px 6px;text-align:center}
+  .stat.wide{grid-column:1 / -1}
+  .stat b{display:block;font-size:22px;font-family:'Luckiest Guy','Comic Sans MS',cursive;color:var(--brown-dark);font-weight:400;line-height:1.1}
+  .stat span{font-size:11px;color:var(--ink-soft);font-weight:700}
+  .badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .bd{text-align:center;background:#FBF4E8;border-radius:12px;padding:10px 4px;font-size:10px;font-weight:700;color:var(--ink-soft)}
+  .bd .ic{font-size:28px;display:block;margin-bottom:4px;line-height:1}
+  .bd.locked{opacity:.4;filter:grayscale(1)}
+  .set-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #f1e8da;font-size:14px}
+  .set-row:last-child{border-bottom:none}
+  .set-row small{display:block;color:var(--ink-soft);font-size:12px;font-weight:500}
+  .set-row .input{margin-top:6px}
+  .switch{position:relative;width:48px;height:28px;flex-shrink:0}
+  .switch input{opacity:0;width:0;height:0;position:absolute}
+  .switch i{position:absolute;inset:0;background:#d9cfbf;border-radius:999px;transition:.2s;cursor:pointer}
+  .switch i:before{content:'';position:absolute;width:22px;height:22px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  .switch input:checked+i{background:var(--green)}
+  .switch input:checked+i:before{transform:translateX(20px)}
+  .lb-title{font-weight:800;margin:12px 0 4px;font-size:14px}
+  .lb-title small{font-weight:500;color:var(--ink-soft)}
+  .lb{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f1e8da;font-size:14px}
+  .lb:last-child{border-bottom:none}
+  .lb .rk{width:22px;font-weight:800;color:var(--ink-soft)}
+  .lb .av{font-size:22px;line-height:1}
+  .lb .nm{flex:1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lb .xp{font-size:12px;color:var(--ink-soft);white-space:nowrap}
+  .lb.me{background:#FFF6DB;margin:0 -8px;padding:7px 8px;border-radius:8px}
+
+  #toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 16px + var(--sab));transform:translateX(-50%) translateY(20px);background:#3B2A1E;color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:.25s;z-index:300;pointer-events:none;max-width:90%;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%)}
+  @media (prefers-reduced-motion:reduce){ *{animation-duration:.01s!important;transition-duration:.01s!important} }
+</style>
+</head>
+<body>
+<div id="app">
+<main>
+
+<!-- ================= CATCH ================= -->
+<section id="view-catch" class="view active">
+  <div class="cam">
+    <video id="cam" autoplay playsinline muted></video>
+    <div class="cam-off" id="camOff" hidden>
+      <div>
+        <div class="big">📷</div>
+        <p id="camOffMsg">Camera not available.</p>
+        <button class="btn primary" id="btnFileCam">Take a photo</button>
+      </div>
+    </div>
+    <div class="cam-top">
+      <div class="logo">💩 Poop <span>GO</span></div>
+      <div class="pill" id="geoPill">📡 GPS…</div>
+    </div>
+    <div class="cam-clock" id="clock"></div>
+    <div class="cam-hint" id="camHint">Spot a poop? Tap the shutter to start an encounter.</div>
+    <div class="cam-bottom">
+      <button class="round" id="btnGallery" title="Import a photo from your gallery" aria-label="Import from gallery">🖼️</button>
+      <button class="shutter" id="btnShutter" aria-label="Capture"><span></span></button>
+      <button class="round" id="btnFlip" title="Flip camera" aria-label="Flip camera">🔄</button>
+    </div>
+    <div class="flash" id="flash"></div>
+  </div>
+</section>
+
+<!-- ================= MAP ================= -->
+<section id="view-map" class="view">
+  <div id="map"></div>
+  <div class="map-logo">💩 Poop <span>GO</span> · <span id="mapCount">0</span> captured</div>
+  <div class="map-ctl">
+    <button id="btnLocate" title="My location" aria-label="My location">🎯</button>
+    <button id="btnFit" title="Fit all captures" aria-label="Fit all captures">🗂️</button>
+    <button id="btnWorld" title="Poops of the world" aria-label="Poops of the world">🌍</button>
+  </div>
+  <div class="map-banner" id="mapBanner" hidden><span id="mapBannerTxt">Tap the map to set the location</span><button class="btn sm" id="mapBannerCancel">Cancel</button></div>
+  <div class="map-offline" id="mapOffline" hidden><div><div class="big">🗺️</div><p>The map needs an internet connection the first time it loads. Reload once you are back online.</p></div></div>
+</section>
+
+<!-- ================= POOPÉDEX ================= -->
+<section id="view-dex" class="view">
+  <div class="page-head">
+    <h1>Poopédex</h1>
+    <div class="subtabs"><button data-dex="captures" class="on">Captures</button><button data-dex="species">Species</button></div>
+  </div>
+  <div class="chips" id="dexChips"></div>
+  <div id="dexBody"></div>
+</section>
+
+<!-- ================= TRAINER ================= -->
+<section id="view-trainer" class="view">
+  <div class="page-head"><h1>Trainer</h1><span class="pill" id="trainerLvl">Lv 1</span></div>
+  <div class="page-body">
+    <div class="card">
+      <div class="profile">
+        <button class="avatar" id="avatarBtn" title="Change avatar">🧑‍🦱</button>
+        <div style="flex:1;min-width:0">
+          <input id="nameInput" placeholder="Your trainer name" maxlength="24" autocomplete="off">
+          <div class="lvl" id="lvlTxt">Level 1</div>
+          <div class="xpbar"><div id="xpFill" style="width:0%"></div></div>
+          <div class="xptxt" id="xpTxt"></div>
+        </div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <h3 class="sec">Badges <span id="badgeCount"></span></h3>
+    <div class="card"><div class="badges" id="badges"></div></div>
+
+    <h3 class="sec">Poops of the world</h3>
+    <div class="card">
+      <div class="set-row"><div><b>World sync</b><small>Share your captures on the global map and leaderboard</small></div><label class="switch"><input type="checkbox" id="cloudOn"><i></i></label></div>
+      <div id="cloudCfg">
+        <div class="set-row" style="display:block"><small>Firebase Realtime Database URL</small><input class="input" id="cloudUrl" placeholder="https://your-project-default-rtdb.firebaseio.com" autocomplete="off" spellcheck="false"></div>
+        <div class="set-row"><div><b>Auto-publish new captures</b><small>Captures without a location are never published</small></div><label class="switch"><input type="checkbox" id="autoPublish"><i></i></label></div>
+        <div class="set-row"><div><b>Unpublished captures</b><small id="unpubTxt">0</small></div><button class="btn sm" id="btnPublishAll">Publish all</button></div>
+        <div id="leaderboard"></div>
+      </div>
+    </div>
+
+    <h3 class="sec">Settings</h3>
+    <div class="card">
+      <div class="set-row"><div><b>Sound effects</b></div><label class="switch"><input type="checkbox" id="soundOn"><i></i></label></div>
+      <div class="set-row" id="installRow" hidden><div><b>Install app</b><small>Add Poop GO to your home screen</small></div><button class="btn sm primary" id="btnInstall">Install</button></div>
+      <div class="set-row"><div><b>Backup</b><small>Export everything (photos included) as JSON</small></div><div class="row"><button class="btn sm" id="btnExport">Export</button><button class="btn sm" id="btnImport">Import</button></div></div>
+      <div class="set-row"><div><b>Reset</b><small>Delete all captures on this device</small></div><button class="btn sm danger" id="btnReset">Delete all</button></div>
+      <div class="set-row"><small>Trainer ID <span id="tidTxt"></span> · Poop GO v1.0 · Everything is stored on this device unless World sync is on.</small></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<nav class="tabbar">
+  <button data-tab="catch" class="active"><span class="ico">📸</span>Catch</button>
+  <button data-tab="map"><span class="ico">🗺️</span>Map</button>
+  <button data-tab="dex"><span class="ico">📖</span>Poopédex<span class="badge" id="dexBadge" hidden>0</span></button>
+  <button data-tab="trainer"><span class="ico">🧑‍🦱</span>Trainer</button>
+</nav>
+</div>
+
+<!-- ================= ENCOUNTER ================= -->
+<div id="encounter" class="overlay" hidden>
+  <img id="encImg" alt="The poop you just photographed">
+  <div class="shiny-glow" id="shinyGlow" hidden></div>
+  <div class="enc-top"><div class="enc-title" id="encTitle">A wild poop appeared!</div><div class="enc-sub" id="encSub"></div></div>
+  <div class="ring" id="ring"></div>
+  <div class="enc-msg" id="encMsg" hidden></div>
+  <div class="enc-tags">
+    <div class="lbl">Size</div>
+    <div class="seg" id="segSize"><button data-v="S">S</button><button data-v="M" class="on">M</button><button data-v="L">L</button><button data-v="XL">XL</button></div>
+    <div class="lbl">Freshness</div>
+    <div class="seg" id="segFresh"><button data-v="fresh" class="on">Fresh</button><button data-v="dry">Dry</button><button data-v="fossil">Fossil</button></div>
+  </div>
+  <div class="enc-bottom">
+    <button class="link" id="encCancel">Run away</button>
+    <div class="bagwrap" id="bagWrap">
+      <div class="bag" id="bag">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <defs><linearGradient id="bagG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FD67E"/><stop offset="1" stop-color="#3E8A3E"/></linearGradient></defs>
+          <path d="M50 6 l12 10 -7 7 h-10 l-7 -7z" fill="#3E8A3E" stroke="#2F6B2F" stroke-width="2"/>
+          <path d="M30 24 h40 c7 0 11 6 10 13 l-4 40 c-1 9 -8 15 -16 15 h-20 c-8 0 -15 -6 -16 -15 l-4 -40 c-1 -7 3 -13 10 -13z" fill="url(#bagG)" stroke="#2F6B2F" stroke-width="3"/>
+          <ellipse cx="50" cy="23" rx="13" ry="5" fill="#2F6B2F"/>
+          <circle cx="42" cy="50" r="3.2" fill="#2F6B2F"/><circle cx="58" cy="50" r="3.2" fill="#2F6B2F"/>
+          <path d="M39 61 q11 9 22 0" stroke="#2F6B2F" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="bag-hint">flick up to throw ⬆</div>
+    </div>
+    <button class="link" id="encThrow">Throw</button>
+  </div>
+</div>
+
+<!-- ================= RESULT ================= -->
+<div id="result" class="overlay" hidden>
+  <div class="card result-card">
+    <div class="gotcha">GOTCHA!</div>
+    <div class="result-photo"><img id="resImg" alt="Captured poop"><div class="new-tag" id="resNew" hidden>NEW!</div><div class="shiny-tag" id="resShiny" hidden>✨ SHINY</div></div>
+    <h2 id="resName"></h2>
+    <div class="pill-row"><span class="rpill" id="resRarity"></span><span class="rpill cp" id="resCp"></span></div>
+    <p class="dex-text" id="resDex"></p>
+    <div class="meta"><div>🕒 <span id="resTime"></span></div><div>📍 <span id="resLoc"></span></div></div>
+    <div class="xp-gain" id="resXp"></div>
+    <div id="resUnlocks"></div>
+    <div class="row"><button class="btn" id="resShare">Share card</button><button class="btn primary" id="resDone">Done</button></div>
+  </div>
+</div>
+
+<!-- ================= DETAIL ================= -->
+<div id="detail" class="overlay sheet" hidden>
+  <div class="card">
+    <div class="d-photo"><img id="dImg" alt="Captured poop"><button class="d-close" id="dClose" aria-label="Close">✕</button></div>
+    <div class="d-body">
+      <h2 id="dName"></h2>
+      <div class="pill-row left"><span class="rpill" id="dRarity"></span><span class="rpill cp" id="dCp"></span></div>
+      <p class="dex-text" id="dDex"></p>
+      <div class="kv" id="dKv"></div>
+      <textarea class="notes" id="dNotes" placeholder="Notes — which dog? which street? how bad?"></textarea>
+      <div class="d-actions">
+        <button class="btn" id="dShare">🖼️ Share card</button>
+        <button class="btn" id="dLoc">📍 Set location</button>
+        <button class="btn" id="dTime">🕒 Edit time</button>
+        <button class="btn" id="dPublish" hidden>🌍 Publish</button>
+        <button class="btn danger" id="dDelete">🗑 Delete</button>
+      </div>
+      <div id="dTimeEdit" hidden style="margin-top:10px"><input type="datetime-local" class="input" id="dTimeInput"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<input type="file" id="fileCam" accept="image/*" capture="environment" hidden>
+<input type="file" id="fileGal" accept="image/*" hidden>
+<input type="file" id="fileImport" accept="application/json,.json" hidden>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+'use strict';
+/* =====================================================================
+   Poop GO — capture, timestamp and map the dog poops of the world.
+   Single-file app. Data lives in IndexedDB on the device; the optional
+   "World sync" talks to a Firebase Realtime Database over plain REST.
+   ===================================================================== */
+
+/* ---------------- utils ---------------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const uid=(p='c')=>p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const rndi=(a,b)=>Math.floor(rnd(a,b+1));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad2=n=>String(n).padStart(2,'0');
+const fmtDT=ts=>new Intl.DateTimeFormat(undefined,{dateStyle:'medium',timeStyle:'short'}).format(new Date(ts));
+function fmtISO(ts){ const d=new Date(ts), off=-d.getTimezoneOffset(), s=off>=0?'+':'-';
+  return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}${s}${pad2(Math.floor(Math.abs(off)/60))}:${pad2(Math.abs(off)%60)}`; }
+const dayKey=ts=>{ const d=new Date(ts); return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; };
+function timeAgo(ts){ const s=Math.round((Date.now()-ts)/1000); if(s<60) return 'just now'; const m=Math.round(s/60); if(m<60) return m+' min ago';
+  const h=Math.round(m/60); if(h<24) return h+' h ago'; const d=Math.round(h/24); if(d<30) return d+' d ago'; const mo=Math.round(d/30); if(mo<12) return mo+' mo ago'; return Math.round(mo/12)+' y ago'; }
+const fmtCoord=(lat,lng)=>`${Math.abs(lat).toFixed(5)}° ${lat>=0?'N':'S'}, ${Math.abs(lng).toFixed(5)}° ${lng>=0?'E':'W'}`;
+function haversine(a,b){ const R=6371000, toR=x=>x*Math.PI/180; const dLat=toR(b.lat-a.lat), dLng=toR(b.lng-a.lng);
+  const h=Math.sin(dLat/2)**2+Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLng/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
+const fmtDist=m=>m<1000? Math.round(m)+' m' : (m/1000).toFixed(m<10000?1:0)+' km';
+let toastT; function toast(msg,ms=2400){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),ms); }
+function weightedPick(w){ const ks=Object.keys(w); let tot=0; ks.forEach(k=>tot+=Math.max(0,w[k]||0)); if(tot<=0) return ks[rndi(0,ks.length-1)];
+  let r=Math.random()*tot; for(const k of ks){ r-=Math.max(0,w[k]||0); if(r<=0) return k; } return ks[ks.length-1]; }
+function download(blob,name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),3000); }
+
+/* ---------------- game data ---------------- */
+const RARITY={
+  common:   {label:'Common',    color:'#8E8E8E', weight:50, xp:25,  cp:[10,100],   catch:1.0},
+  uncommon: {label:'Uncommon',  color:'#5BA85A', weight:28, xp:50,  cp:[80,250],   catch:0.9},
+  rare:     {label:'Rare',      color:'#3D8BE8', weight:14, xp:100, cp:[200,500],  catch:0.75},
+  epic:     {label:'Epic',      color:'#9B59E8', weight:6,  xp:200, cp:[450,900],  catch:0.6},
+  legendary:{label:'Legendary', color:'#F2A51A', weight:2,  xp:500, cp:[850,1500], catch:0.5},
+};
+const RARITY_ORDER=Object.keys(RARITY);
+const SIZES={S:{label:'Small',mul:.8},M:{label:'Medium',mul:1},L:{label:'Large',mul:1.2},XL:{label:'XL',mul:1.5}};
+const FRESH={fresh:{label:'Fresh'},dry:{label:'Dry'},fossil:{label:'Fossil'}};
+const SHINY_RATE=1/50;
+// ctx for boosts: {size, fresh, hour}
+const SPECIES=[
+  {id:'sidewalk_nugget',name:'Sidewalk Nugget',rarity:'common',icon:'🧱',dex:'The most common specimen on Earth. Found wherever a human forgot the bag.'},
+  {id:'lawn_lurker',name:'Lawn Lurker',rarity:'common',icon:'🌿',dex:'Hides in tall grass. Usually discovered by a shoe.'},
+  {id:'curb_crumble',name:'Curb Crumble',rarity:'common',icon:'🧂',dex:'Dries fast in the sun and crumbles at the slightest touch.',boost:c=>c.fresh==='dry'?2.5:.8},
+  {id:'park_pebble',name:'Park Pebble',rarity:'common',icon:'🪨',dex:'Small, round and surprisingly aerodynamic.',boost:c=>c.size==='S'?2.5:.7},
+  {id:'gravel_gremlin',name:'Gravel Gremlin',rarity:'common',icon:'🪵',dex:'Blends into gravel paths. A master of camouflage.'},
+  {id:'morning_dropper',name:'Morning Dropper',rarity:'common',icon:'🌅',dex:'Appears at dawn, during the first walk of the day.',boost:c=>c.hour>=5&&c.hour<9?3:.4},
+  {id:'puddle_pal',name:'Puddle Pal',rarity:'common',icon:'💧',dex:'Prefers damp spots. Do not step in it. Seriously.',boost:c=>c.fresh==='fresh'?1.4:.6},
+  {id:'trail_tumbler',name:'Trail Tumbler',rarity:'common',icon:'🥾',dex:'Rolls slightly downhill on hiking trails.'},
+  {id:'curb_coil',name:'Curb Coil',rarity:'uncommon',icon:'🌀',dex:'A tidy spiral. Its author was clearly a perfectionist.'},
+  {id:'twin_stack',name:'Twin Stack',rarity:'uncommon',icon:'✌️',dex:'Two segments, one event. Twice the evidence.'},
+  {id:'mulch_mimic',name:'Mulch Mimic',rarity:'uncommon',icon:'🍂',dex:'Nearly indistinguishable from bark mulch. Nearly.',boost:c=>c.fresh==='dry'?2:1},
+  {id:'snow_slug',name:'Snow Slug',rarity:'uncommon',icon:'❄️',dex:'Winter variant. Preserved by the cold for weeks.'},
+  {id:'beach_blob',name:'Beach Blob',rarity:'uncommon',icon:'🏖️',dex:'Half sand, half regret.'},
+  {id:'doorstep_diplomat',name:'Doorstep Diplomat',rarity:'uncommon',icon:'🚪',dex:'Left precisely on a doorstep. A message, surely.'},
+  {id:'hydrant_hugger',name:'Hydrant Hugger',rarity:'uncommon',icon:'🧯',dex:'Always within one meter of a fire hydrant.'},
+  {id:'golden_log',name:'Golden Log',rarity:'rare',icon:'🥇',dex:'Shimmers in the afternoon light. Larger than it has any right to be.',boost:c=>c.size==='L'||c.size==='XL'?2:1},
+  {id:'triple_tower',name:'Triple Tower',rarity:'rare',icon:'🗼',dex:'Three segments stacked. Architecture at its finest.'},
+  {id:'bike_lane_bandit',name:'Bike Lane Bandit',rarity:'rare',icon:'🚲',dex:'Lies in wait for cyclists. Rarely survives the encounter.'},
+  {id:'zen_spiral',name:'Zen Spiral',rarity:'rare',icon:'🧘',dex:'Perfectly coiled. Some say it brings inner calm.'},
+  {id:'great_dane_deposit',name:'Great Dane Deposit',rarity:'rare',icon:'🐕',dex:'Leaves no doubt about the size of its author.',boost:c=>c.size==='XL'?3:c.size==='L'?1.5:.5},
+  {id:'playground_phantom',name:'Playground Phantom',rarity:'rare',icon:'👻',dex:'Nobody saw it arrive. Everyone saw it leave, on a shoe.'},
+  {id:'mega_mound',name:'Mega Mound',rarity:'epic',icon:'⛰️',dex:'A monument. Visible from the other side of the park.',boost:c=>c.size==='XL'?3:c.size==='L'?1.2:.4},
+  {id:'glitter_ghost',name:'Glitter Ghost',rarity:'epic',icon:'✨',dex:'Someone fed that dog glitter. It sparkles.'},
+  {id:'frozen_fossil',name:'Frozen Fossil',rarity:'epic',icon:'🦴',dex:'Ancient. Petrified. Possibly older than the sidewalk.',boost:c=>c.fresh==='fossil'?4:.3},
+  {id:'midnight_menace',name:'Midnight Menace',rarity:'epic',icon:'🌙',dex:'Only appears between midnight and 5 AM. Strictly nocturnal.',boost:c=>c.hour<5?5:0},
+  {id:'dragon_dump',name:'The Dragon Dump',rarity:'legendary',icon:'🐉',dex:'Legends speak of it. Few have witnessed it. Fewer have cleaned it.',boost:c=>c.size==='XL'?2:1},
+  {id:'rainbow_relic',name:'Rainbow Relic',rarity:'legendary',icon:'🌈',dex:'Impossibly colorful. Scientists remain baffled.'},
+  {id:'everest_pile',name:'Everest Pile',rarity:'legendary',icon:'🏔️',dex:'Peak performance. Bring a sherpa.',boost:c=>c.size==='XL'?3:c.size==='L'?1:.3},
+];
+const SPECIES_BY_ID=Object.fromEntries(SPECIES.map(s=>[s.id,s]));
+const speciesOf=id=>SPECIES_BY_ID[id]||{id,name:'Unknown Poop',rarity:'common',icon:'❓',dex:'An unidentified specimen.'};
+const BADGES=[
+  {id:'first',icon:'🥇',name:'First Scoop',desc:'Capture your first poop',test:s=>s.total>=1},
+  {id:'ten',icon:'🔟',name:'Double Digits',desc:'Capture 10 poops',test:s=>s.total>=10},
+  {id:'fifty',icon:'🧹',name:'Street Sweeper',desc:'Capture 50 poops',test:s=>s.total>=50},
+  {id:'hundred',icon:'💯',name:'Centurion',desc:'Capture 100 poops',test:s=>s.total>=100},
+  {id:'night',icon:'🌙',name:'Night Owl',desc:'Capture one between midnight and 5 AM',test:s=>s.night},
+  {id:'dawn',icon:'🌅',name:'Early Bird',desc:'Capture one between 5 and 8 AM',test:s=>s.dawn},
+  {id:'streak3',icon:'🔥',name:'On a Roll',desc:'3-day capture streak',test:s=>s.bestStreak>=3},
+  {id:'streak7',icon:'📅',name:'Weekly Warrior',desc:'7-day capture streak',test:s=>s.bestStreak>=7},
+  {id:'shiny',icon:'✨',name:'Shiny Hunter',desc:'Capture a shiny poop',test:s=>s.shiny>=1},
+  {id:'legend',icon:'🐉',name:'Legend',desc:'Capture a legendary poop',test:s=>s.legendary>=1},
+  {id:'explorer',icon:'🧭',name:'Explorer',desc:'Captures more than 1 km apart',test:s=>s.span>=1000},
+  {id:'globe',icon:'🌍',name:'Globetrotter',desc:'Captures more than 100 km apart',test:s=>s.span>=100000},
+  {id:'collector',icon:'📸',name:'Collector',desc:'Capture 10 different species',test:s=>s.speciesCount>=10},
+  {id:'bigone',icon:'🏔️',name:'The Big One',desc:'Capture an XL poop',test:s=>s.xl>=1},
+  {id:'archaeo',icon:'🦴',name:'Archaeologist',desc:'Capture a fossilized poop',test:s=>s.fossil>=1},
+  {id:'master',icon:'👑',name:'Poop Master',desc:'Complete the Poopédex',test:s=>s.speciesCount>=SPECIES.length},
+];
+const AVATARS=['🧑‍🦱','👩‍🦰','🧔','👩‍🦳','🧒','👴','🧑‍🚀','🥷','🧙','🐶','🐕','🦮','🐩','🐕‍🦺','💩'];
+
+function rollSpecies(ctx){
+  const w={}; for(const r of RARITY_ORDER) w[r]=RARITY[r].weight;
+  if(ctx.size==='XL'){ w.rare*=1.5; w.epic*=1.7; w.legendary*=2.2; }
+  else if(ctx.size==='L'){ w.rare*=1.2; w.epic*=1.2; }
+  else if(ctx.size==='S'){ w.common*=1.3; }
+  if(ctx.fresh==='fossil'){ w.rare*=1.2; w.epic*=1.5; }
+  const rarity=weightedPick(w);
+  const pool=SPECIES.filter(s=>s.rarity===rarity);
+  const sw={}; pool.forEach(s=>sw[s.id]=s.boost?s.boost(ctx):1);
+  return {species:weightedPick(sw), rarity, shiny:Math.random()<SHINY_RATE};
+}
+const levelFor=xp=>Math.min(50,Math.floor(Math.sqrt(Math.max(0,xp)/100))+1);
+const xpAt=l=>100*(l-1)*(l-1);
+
+/* ---------------- storage (IndexedDB) ---------------- */
+const DB_NAME='poopgo', DB_VER=1; let _db=null;
+function db(){ if(_db) return Promise.resolve(_db); return new Promise((res,rej)=>{ const q=indexedDB.open(DB_NAME,DB_VER);
+  q.onupgradeneeded=e=>{ const d=e.target.result; if(!d.objectStoreNames.contains('captures')){ const s=d.createObjectStore('captures',{keyPath:'id'}); s.createIndex('ts','ts'); } if(!d.objectStoreNames.contains('photos')) d.createObjectStore('photos'); };
+  q.onsuccess=e=>{ _db=e.target.result; _db.onversionchange=()=>{ _db.close(); _db=null; }; res(_db); }; q.onerror=()=>rej(q.error||new Error('IndexedDB unavailable')); }); }
+async function tx(store,mode,fn){ const d=await db(); return new Promise((res,rej)=>{ const t=d.transaction(store,mode); const r=fn(t.objectStore(store));
+  t.oncomplete=()=>res(r instanceof IDBRequest?r.result:r); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error||new Error('aborted')); }); }
+const dbGetAll=s=>tx(s,'readonly',o=>o.getAll());
+const dbGet=(s,k)=>tx(s,'readonly',o=>o.get(k));
+const dbPut=(s,v,k)=>tx(s,'readwrite',o=>k!==undefined?o.put(v,k):o.put(v));
+const dbDel=(s,k)=>tx(s,'readwrite',o=>o.delete(k));
+const dbClear=s=>tx(s,'readwrite',o=>o.clear());
+
+/* ---------------- state ---------------- */
+let captures=[];            // newest first
+const LS_PROFILE='poopgo-profile', LS_SETTINGS='poopgo-settings', LS_SEEN='poopgo-seen-badges';
+const loadJSON=(k,d)=>{ try{ return Object.assign({},d,JSON.parse(localStorage.getItem(k)||'null')||{}); }catch(e){ return {...d}; } };
+let profile=loadJSON(LS_PROFILE,{name:'',avatar:'🧑‍🦱',tid:uid('t'),created:Date.now()});
+let settings=loadJSON(LS_SETTINGS,{cloudOn:false,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'poopgo',autoPublish:true,sound:true,facing:'environment'});
+const saveProfile=()=>localStorage.setItem(LS_PROFILE,JSON.stringify(profile));
+const saveSettings=()=>localStorage.setItem(LS_SETTINGS,JSON.stringify(settings));
+saveProfile();
+const loadSeen=()=>{ try{ return JSON.parse(localStorage.getItem(LS_SEEN)||'[]'); }catch(e){ return []; } };
+function markBadgesSeen(){ const st=computeStats(); localStorage.setItem(LS_SEEN,JSON.stringify(BADGES.filter(b=>b.test(st)).map(b=>b.id))); }
+async function saveCapture(c){ await dbPut('captures',c); }
+
+/* ---------------- stats & progression ---------------- */
+const RANK={common:0,uncommon:1,rare:2,epic:3,legendary:4};
+function computeStats(list=captures){
+  const st={total:list.length,xp:0,night:false,dawn:false,shiny:0,legendary:0,xl:0,fossil:0,species:{},speciesCount:0,curStreak:0,bestStreak:0,span:0,today:0,week:0,rarest:null,located:0};
+  const days=new Set(); let minLat=90,maxLat=-90,minLng=180,maxLng=-180,hasLoc=false;
+  const todayK=dayKey(Date.now()), weekAgo=Date.now()-7*864e5;
+  for(const c of list){
+    st.xp+=c.xp||0; const h=new Date(c.ts).getHours(); if(h<5) st.night=true; if(h>=5&&h<8) st.dawn=true;
+    if(c.shiny) st.shiny++; if(c.rarity==='legendary') st.legendary++; if(c.size==='XL') st.xl++; if(c.fresh==='fossil') st.fossil++;
+    st.species[c.species]=(st.species[c.species]||0)+1; const dk=dayKey(c.ts); days.add(dk); if(dk===todayK) st.today++; if(c.ts>=weekAgo) st.week++;
+    if(c.lat!=null&&c.lng!=null){ hasLoc=true; st.located++; minLat=Math.min(minLat,c.lat); maxLat=Math.max(maxLat,c.lat); minLng=Math.min(minLng,c.lng); maxLng=Math.max(maxLng,c.lng); }
+    if(!st.rarest || (RANK[c.rarity]||0)>(RANK[st.rarest.rarity]||0) || ((RANK[c.rarity]||0)===(RANK[st.rarest.rarity]||0) && (c.cp||0)>(st.rarest.cp||0))) st.rarest=c;
+  }
+  st.speciesCount=Object.keys(st.species).filter(id=>SPECIES_BY_ID[id]).length;
+  if(hasLoc) st.span=haversine({lat:minLat,lng:minLng},{lat:maxLat,lng:maxLng});
+  const sorted=[...days].sort(); let best=0,run=0,prev=null;
+  for(const d of sorted){ run=(prev && (Date.UTC(+d.slice(0,4),+d.slice(5,7)-1,+d.slice(8,10))-Date.UTC(+prev.slice(0,4),+prev.slice(5,7)-1,+prev.slice(8,10)))===864e5)?run+1:1; best=Math.max(best,run); prev=d; }
+  st.bestStreak=best;
+  let k=todayK; if(!days.has(k)) k=dayKey(Date.now()-864e5); let cur=0;
+  while(days.has(k)){ cur++; k=dayKey(new Date(k+'T12:00:00').getTime()-864e5); }
+  st.curStreak=cur; return st;
+}
+
+/* ---------------- images & EXIF ---------------- */
+function loadImage(src){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error('Could not decode image')); i.src=src; }); }
+async function blobToImage(blob){ const u=URL.createObjectURL(blob); try{ return await loadImage(u); } finally{ setTimeout(()=>URL.revokeObjectURL(u),2000); } }
+function blobToDataUrl(b){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(r.error); r.readAsDataURL(b); }); }
+function dataUrlToBlob(du){ const i=du.indexOf(','); const mime=(/data:([^;]+)/.exec(du.slice(0,i))||[])[1]||'image/jpeg'; const bin=atob(du.slice(i+1)); const arr=new Uint8Array(bin.length); for(let j=0;j<bin.length;j++) arr[j]=bin.charCodeAt(j); return new Blob([arr],{type:mime}); }
+// Draw a video frame or image to JPEG (max 1280px) + a 240px thumbnail data URL.
+function frameToBlobs(src,w,h){
+  const MAX=1280, s=Math.min(1,MAX/Math.max(w,h)); const cw=Math.max(1,Math.round(w*s)), ch=Math.max(1,Math.round(h*s));
+  const c=document.createElement('canvas'); c.width=cw; c.height=ch; c.getContext('2d').drawImage(src,0,0,cw,ch);
+  const ts=Math.min(1,240/Math.max(cw,ch)); const t=document.createElement('canvas'); t.width=Math.max(1,Math.round(cw*ts)); t.height=Math.max(1,Math.round(ch*ts)); t.getContext('2d').drawImage(c,0,0,t.width,t.height);
+  return new Promise((res,rej)=>c.toBlob(b=>b?res({blob:b,thumb:t.toDataURL('image/jpeg',.7),w:cw,h:ch}):rej(new Error('Could not encode photo')),'image/jpeg',.85));
+}
+async function shrinkDataUrl(du,max,q=.6){ const img=await loadImage(du); const s=Math.min(1,max/Math.max(img.width,img.height)); const c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(img.width*s)); c.height=Math.max(1,Math.round(img.height*s)); c.getContext('2d').drawImage(img,0,0,c.width,c.height); return c.toDataURL('image/jpeg',q); }
+// Minimal EXIF reader: DateTimeOriginal + GPS. Returns {ts?, lat?, lng?}. Throws on malformed data (caller catches).
+function parseExif(buf){
+  const dv=new DataView(buf), out={}; if(dv.byteLength<4||dv.getUint16(0)!==0xFFD8) return out; let off=2;
+  while(off+4<=dv.byteLength){ const marker=dv.getUint16(off); if((marker&0xFF00)!==0xFF00||marker===0xFFDA||marker===0xFFD9) break; const len=dv.getUint16(off+2);
+    if(marker===0xFFE1 && off+10<=dv.byteLength && dv.getUint32(off+4)===0x45786966){ parseTiff(dv,off+10,out); break; } off+=2+len; }
+  return out;
+}
+function parseTiff(dv,tiff,out){
+  const le=dv.getUint16(tiff)===0x4949; const u16=o=>dv.getUint16(o,le), u32=o=>dv.getUint32(o,le); if(u16(tiff+2)!==42) return;
+  const readIfd=o=>{ const n=u16(o), tags={}; for(let i=0;i<n;i++){ const e=o+2+i*12; tags[u16(e)]={type:u16(e+2),count:u32(e+4),voff:e+8}; } return tags; };
+  const SZ={1:1,2:1,3:2,4:4,5:8,7:1,9:4,10:8};
+  const val=t=>{ const size=SZ[t.type]||1, total=size*t.count, o=total>4?tiff+u32(t.voff):t.voff;
+    if(t.type===2){ let s=''; for(let i=0;i<t.count;i++){ const c=dv.getUint8(o+i); if(!c) break; s+=String.fromCharCode(c); } return s; }
+    const a=[]; for(let i=0;i<t.count;i++){ const p=o+i*size; if(t.type===3) a.push(u16(p)); else if(t.type===4) a.push(u32(p)); else if(t.type===5) a.push(u32(p)/(u32(p+4)||1));
+      else if(t.type===9) a.push(dv.getInt32(p,le)); else if(t.type===10) a.push(dv.getInt32(p,le)/(dv.getInt32(p+4,le)||1)); else a.push(dv.getUint8(p)); } return a; };
+  const t0=readIfd(tiff+u32(tiff+4));
+  if(t0[0x8769]){ const ex=readIfd(tiff+val(t0[0x8769])[0]); const d=ex[0x9003]&&val(ex[0x9003]); const m=d&&/^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/.exec(d);
+    if(m){ const ts=new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+m[6]).getTime(); if(isFinite(ts)&&ts>0) out.ts=ts; } }
+  if(t0[0x8825]){ const g=readIfd(tiff+val(t0[0x8825])[0]);
+    if(g[2]&&g[4]){ const la=val(g[2]), lo=val(g[4]); const lat=(la[0]||0)+(la[1]||0)/60+(la[2]||0)/3600, lng=(lo[0]||0)+(lo[1]||0)/60+(lo[2]||0)/3600;
+      const latRef=g[1]?val(g[1]):'N', lngRef=g[3]?val(g[3]):'E';
+      if(isFinite(lat)&&isFinite(lng)&&lat<=90&&lng<=180&&(lat||lng)){ out.lat=latRef==='S'?-lat:lat; out.lng=lngRef==='W'?-lng:lng; } } }
+}
+
+/* ---------------- camera ---------------- */
+const cam={stream:null,facing:settings.facing||'environment',ok:false,starting:false,wanted:false};
+async function camStart(){
+  cam.wanted=true; if(cam.starting||cam.stream) return; cam.starting=true; const v=$('#cam');
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.isSecureContext){ camFallback(window.isSecureContext?'This browser has no camera API.':'The live camera needs HTTPS (or localhost). You can still take photos with your camera app.'); cam.starting=false; return; }
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:cam.facing},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    if(!cam.wanted){ stream.getTracks().forEach(t=>t.stop()); cam.starting=false; return; }
+    cam.stream=stream; v.srcObject=stream; await v.play().catch(()=>{}); cam.ok=true; $('#camOff').hidden=true;
+  }catch(e){ camFallback(e&&e.name==='NotAllowedError'?'Camera permission denied. You can still take photos with your camera app.':'No camera found here. You can still take photos with your camera app.'); }
+  cam.starting=false;
+}
+function camStop(){ cam.wanted=false; if(cam.stream){ cam.stream.getTracks().forEach(t=>t.stop()); cam.stream=null; } cam.ok=false; const v=$('#cam'); if(v&&v.srcObject) v.srcObject=null; }
+function camFallback(msg){ cam.ok=false; $('#camOffMsg').textContent=msg; $('#camOff').hidden=false; }
+function flash(){ const f=$('#flash'); f.classList.add('on'); requestAnimationFrame(()=>requestAnimationFrame(()=>f.classList.remove('on'))); }
+
+/* ---------------- geolocation ---------------- */
+const geo={fix:null,watchId:null,status:'off',err:null};
+function renderGeo(){ const p=$('#geoPill'); p.className='pill';
+  if(geo.status==='ok'&&geo.fix){ p.classList.add('ok'); p.textContent=`📍 GPS ±${Math.round(geo.fix.acc||0)} m`; }
+  else if(geo.status==='acquiring'){ p.textContent='📡 Finding GPS…'; }
+  else if(geo.status==='error'){ p.classList.add('err'); p.textContent=geo.err&&geo.err.code===1?'📍 GPS denied':'📍 No GPS fix'; }
+  else p.textContent='📍 GPS off'; }
+function geoStart(){ if(!navigator.geolocation){ geo.status='error'; renderGeo(); return; } if(geo.watchId!=null) return; geo.status=geo.fix?'ok':'acquiring'; renderGeo();
+  geo.watchId=navigator.geolocation.watchPosition(p=>{ geo.fix={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()}; geo.status='ok'; renderGeo(); updateMeMarker(); },
+    e=>{ geo.err=e; if(!geo.fix){ geo.status='error'; renderGeo(); } },{enableHighAccuracy:true,maximumAge:5000,timeout:20000}); }
+function geoStop(){ if(geo.watchId!=null){ navigator.geolocation.clearWatch(geo.watchId); geo.watchId=null; } }
+function geoNow(){ if(geo.fix&&Date.now()-geo.fix.t<45000) return Promise.resolve(geo.fix);
+  return new Promise(res=>{ if(!navigator.geolocation) return res(null);
+    navigator.geolocation.getCurrentPosition(p=>{ geo.fix={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()}; geo.status='ok'; renderGeo(); res(geo.fix); },
+      ()=>res(geo.fix||null),{enableHighAccuracy:true,timeout:8000,maximumAge:60000}); }); }
+
+/* ---------------- encounter & capture ---------------- */
+let enc=null; const bagDrag={dx:0,dy:0};
+async function onShutter(){
+  if(!cam.ok){ $('#fileCam').click(); return; }
+  const v=$('#cam'); if(!v.videoWidth){ toast('Camera is still starting…'); return; }
+  flash();
+  try{ const fr=await frameToBlobs(v,v.videoWidth,v.videoHeight); const loc=freshFix(); startEncounter({...fr,ts:Date.now(),loc,src:'camera',tsFrom:'now',locFrom:loc?'gps':''}); if(!loc) refreshEncLoc(enc); }
+  catch(e){ toast('Capture failed: '+e.message); }
+}
+async function onFile(file,fromGallery){
+  if(!file) return; if(!/^image\//.test(file.type||'')&&!/\.(jpe?g|png|webp|heic)$/i.test(file.name||'')){ toast('Please pick an image'); return; }
+  let exif={}; try{ exif=parseExif(await file.slice(0,512*1024).arrayBuffer()); }catch(e){ exif={}; }
+  try{
+    const img=await blobToImage(file); const fr=await frameToBlobs(img,img.naturalWidth,img.naturalHeight);
+    let ts=Date.now(), tsFrom='now';
+    if(exif.ts){ ts=exif.ts; tsFrom='exif'; } else if(fromGallery&&file.lastModified&&file.lastModified<Date.now()-60000){ ts=file.lastModified; tsFrom='file'; }
+    let loc=null, locFrom='';
+    if(exif.lat!=null){ loc={lat:exif.lat,lng:exif.lng,acc:null,t:ts}; locFrom='exif'; } else if(!fromGallery){ loc=freshFix(); locFrom=loc?'gps':''; }
+    startEncounter({...fr,ts,loc,src:fromGallery?'gallery':'camera',tsFrom,locFrom}); if(!loc&&!fromGallery) refreshEncLoc(enc);
+  }catch(e){ toast('Could not read that photo: '+e.message); }
+}
+const freshFix=()=>geo.fix&&Date.now()-geo.fix.t<45000?geo.fix:null;
+async function refreshEncLoc(e){ const f=await geoNow(); if(f&&enc===e&&!enc.loc){ enc.loc=f; enc.locFrom='gps'; updateEncSub(); } }
+function updateEncSub(){ if(!enc) return; const when=enc.tsFrom==='now'?'':` · 🕒 ${fmtDT(enc.ts)}${enc.tsFrom==='exif'?' (photo date)':' (file date)'}`;
+  $('#encSub').textContent=(enc.loc?`📍 ${enc.locFrom==='exif'?'Location from photo':'GPS fix'} · tag it, then flick the bag`:(enc.src==='gallery'?'📍 No location in this photo — set it on the map later':'📍 Waiting for GPS… you can set the spot on the map later')+' · tag it, then flick the bag')+when; }
+function startEncounter(data){
+  enc={...data,size:'M',fresh:'fresh',roll:null,attempts:0,throwing:false};
+  const ov=$('#encounter'); ov.classList.remove('caught'); $('#shinyGlow').hidden=true;
+  const img=$('#encImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(enc.blob);
+  $$('#segSize button').forEach(b=>b.classList.toggle('on',b.dataset.v==='M'));
+  $$('#segFresh button').forEach(b=>b.classList.toggle('on',b.dataset.v==='fresh'));
+  $('#encTitle').textContent='A wild poop appeared!';
+  updateEncSub();
+  $('#encMsg').hidden=true; bagReset(); ov.hidden=false;
+}
+function bagReset(){ const w=$('#bagWrap'); w.className='bagwrap'; w.style.transform=''; bagDrag.dx=0; bagDrag.dy=0; const b=$('#bag'); b.className='bag'; b.style.opacity='1'; }
+function cancelEncounter(force){ if(!force&&enc&&enc.throwing) return; const img=$('#encImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.removeAttribute('src'); $('#encounter').hidden=true; enc=null; }
+async function throwBag(){
+  if(!enc||enc.throwing) return; enc.throwing=true; enc.attempts++;
+  if(!enc.roll) enc.roll=rollSpecies({size:enc.size,fresh:enc.fresh,hour:new Date(enc.ts).getHours()});
+  const sp=speciesOf(enc.roll.species); $('#encMsg').hidden=true;
+  const w=$('#bagWrap'), b=$('#bag'), ring=$('#ring'); const br=b.getBoundingClientRect(), rr=ring.getBoundingClientRect();
+  const dx=(rr.left+rr.width/2)-(br.left+br.width/2), dy=(rr.top+rr.height/2)-(br.top+br.height/2);
+  w.classList.remove('dragging'); w.classList.add('flying'); w.style.transform=`translate(${bagDrag.dx+dx}px,${bagDrag.dy+dy}px) scale(.45) rotate(360deg)`; sfx('throw');
+  await wait(650);
+  if(!enc) return;
+  const chance=Math.min(1,RARITY[enc.roll.rarity].catch+0.15*(enc.attempts-1)); const caught=Math.random()<chance;
+  const wobbles=caught?3:rndi(1,2);
+  for(let i=0;i<wobbles;i++){ b.classList.remove('wobble'); void b.offsetWidth; b.classList.add('wobble'); sfx('tick'); await wait(680); if(!enc) return; }
+  if(caught){ sfx('catch'); $('#encounter').classList.add('caught'); b.style.opacity='0'; if(enc.roll.shiny) $('#shinyGlow').hidden=false; await wait(300); await finishCapture(); }
+  else{ b.classList.add('burst'); sfx('fail'); await wait(450); if(!enc) return; $('#encTitle').textContent=`The ${sp.name} broke free!`; $('#encSub').textContent='Flick again — it can\'t run far.';
+    const m=$('#encMsg'); m.textContent='Oh no! It broke free!'; m.hidden=false; bagReset(); enc.throwing=false; }
+}
+async function finishCapture(){
+  const r=enc.roll, sp=speciesOf(r.species), R=RARITY[r.rarity];
+  const before=computeStats(); const isNew=!before.species[r.species];
+  const cp=Math.round(rnd(R.cp[0],R.cp[1])*SIZES[enc.size].mul*(r.shiny?1.25:1));
+  const xp=R.xp+(isNew?50:0)+(r.shiny?100:0);
+  const c={id:uid('c'),ts:enc.ts,tz:Intl.DateTimeFormat().resolvedOptions().timeZone,lat:enc.loc?enc.loc.lat:null,lng:enc.loc?enc.loc.lng:null,acc:enc.loc&&enc.loc.acc!=null?Math.round(enc.loc.acc):null,
+    species:r.species,rarity:r.rarity,shiny:!!r.shiny,cp,size:enc.size,fresh:enc.fresh,xp,attempts:enc.attempts,src:enc.src,tsFrom:enc.tsFrom||'now',locFrom:enc.locFrom||'',notes:'',thumb:enc.thumb,w:enc.w,h:enc.h,created:Date.now(),published:0};
+  try{ await dbPut('photos',enc.blob,c.id); await saveCapture(c); }catch(e){ toast('Could not save: '+e.message); enc.throwing=false; return; }
+  captures.unshift(c); captures.sort((a,b)=>b.ts-a.ts);
+  const after=computeStats(); const lvlBefore=levelFor(before.xp), lvlAfter=levelFor(after.xp);
+  const seen=new Set(loadSeen()); const unlocked=BADGES.filter(b=>b.test(after)&&!seen.has(b.id)); unlocked.forEach(b=>seen.add(b.id)); localStorage.setItem(LS_SEEN,JSON.stringify([...seen]));
+  showResult(c,{isNew,unlocked,levelUp:lvlAfter>lvlBefore?lvlAfter:0});
+  renderAll();
+  if(settings.cloudOn&&settings.autoPublish&&c.lat!=null) publishCapture(c).then(()=>renderTrainerIfVisible()).catch(e=>toast('World sync: '+e.message));
+}
+
+/* ---------------- result & share card ---------------- */
+function showResult(c,info){
+  const sp=speciesOf(c.species);
+  const img=$('#resImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=$('#encImg').src;
+  $('#resNew').hidden=!info.isNew; $('#resShiny').hidden=!c.shiny;
+  $('#resName').textContent=sp.name; $('#resRarity').className='rpill r-'+c.rarity; $('#resRarity').textContent=RARITY[c.rarity].label; $('#resCp').textContent='CP '+c.cp;
+  $('#resDex').textContent=`${sp.icon} ${sp.dex}`;
+  $('#resTime').innerHTML=`${esc(fmtDT(c.ts))} <small>· ${esc(fmtISO(c.ts))}</small>`;
+  $('#resLoc').textContent=c.lat!=null?`${fmtCoord(c.lat,c.lng)}${c.acc?` (±${c.acc} m)`:''}`:'No location — set it on the map later';
+  $('#resXp').textContent=`+${c.xp} XP`;
+  let html=''; if(info.levelUp) html+=`<div class="levelup">⬆️ Level up! You reached level ${info.levelUp}</div>`;
+  for(const b of info.unlocked) html+=`<div class="unlock"><span class="ic">${b.icon}</span><div><b>Badge unlocked: ${esc(b.name)}</b>${esc(b.desc)}</div></div>`;
+  $('#resUnlocks').innerHTML=html; $('#result').dataset.id=c.id; $('#result').hidden=false; confetti(c.shiny?120:60);
+}
+function closeResult(){ $('#result').hidden=true; cancelEncounter(true); }
+function confetti(n){ const cols=['#F2B134','#5BA85A','#3D8BE8','#9B59E8','#E2574C','#fff'];
+  for(let i=0;i<n;i++){ const d=document.createElement('div'); d.className='confetti'; d.style.left=Math.random()*100+'vw'; d.style.background=cols[i%cols.length];
+    d.style.animationDuration=(1.6+Math.random()*1.6)+'s'; d.style.animationDelay=(Math.random()*.5)+'s'; d.style.width=(6+Math.random()*8)+'px'; document.body.appendChild(d); setTimeout(()=>d.remove(),4000); } }
+let actx=null;
+function sfx(kind){ if(!settings.sound) return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume();
+  const o=actx.createOscillator(), g=actx.createGain(); o.connect(g); g.connect(actx.destination); const t=actx.currentTime;
+  const P={throw:[300,700,.18],tick:[520,520,.07],catch:[523,1046,.4],fail:[400,140,.35]}[kind]||[440,440,.1];
+  o.type=kind==='catch'?'triangle':'sine'; o.frequency.setValueAtTime(P[0],t); o.frequency.exponentialRampToValueAtTime(P[1],t+P[2]);
+  g.gain.setValueAtTime(.12,t); g.gain.exponentialRampToValueAtTime(.0001,t+P[2]); o.start(t); o.stop(t+P[2]+.03); }catch(e){} }
+function roundRect(x,px,py,w,h,r){ x.beginPath(); x.moveTo(px+r,py); x.arcTo(px+w,py,px+w,py+h,r); x.arcTo(px+w,py+h,px,py+h,r); x.arcTo(px,py+h,px,py,r); x.arcTo(px,py,px+w,py,r); x.closePath(); }
+async function renderCard(c){
+  const sp=speciesOf(c.species), R=RARITY[c.rarity]; const blob=await dbGet('photos',c.id); const img=await (blob?blobToImage(blob):loadImage(c.thumb));
+  try{ await document.fonts.load('80px "Luckiest Guy"'); }catch(e){}
+  const W=1080,H=1350, cv=document.createElement('canvas'); cv.width=W; cv.height=H; const x=cv.getContext('2d');
+  const s=Math.max(W/img.width,H/img.height), dw=img.width*s, dh=img.height*s; x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);
+  let g=x.createLinearGradient(0,H*.5,0,H); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.88)'); x.fillStyle=g; x.fillRect(0,0,W,H);
+  g=x.createLinearGradient(0,0,0,220); g.addColorStop(0,'rgba(0,0,0,.55)'); g.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=g; x.fillRect(0,0,W,220);
+  const DISP='"Luckiest Guy","Comic Sans MS",system-ui,sans-serif', BODY='system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  x.textBaseline='middle'; x.font=`52px ${DISP}`; x.fillStyle='#fff'; x.shadowColor='rgba(0,0,0,.6)'; x.shadowBlur=8; x.fillText('💩 POOP GO',56,96); x.shadowBlur=0;
+  x.font=`bold 30px ${BODY}`; const rl=R.label.toUpperCase()+(c.shiny?'  ✨ SHINY':''); const rw=x.measureText(rl).width+56; x.fillStyle=R.color; roundRect(x,W-56-rw,62,rw,68,34); x.fill(); x.fillStyle='#fff'; x.textAlign='center'; x.fillText(rl,W-56-rw/2,96); x.textAlign='left';
+  let fs=96; x.font=`${fs}px ${DISP}`; while(x.measureText(sp.name).width>W-112&&fs>40){ fs-=4; x.font=`${fs}px ${DISP}`; }
+  x.fillStyle='#fff'; x.shadowColor='rgba(0,0,0,.7)'; x.shadowBlur=10; x.fillText(sp.name,56,H-330); x.shadowBlur=0;
+  x.font=`bold 38px ${BODY}`; x.fillStyle='#F2B134'; x.fillText(`CP ${c.cp}  ·  ${SIZES[c.size]?SIZES[c.size].label:c.size}  ·  ${FRESH[c.fresh]?FRESH[c.fresh].label:c.fresh}  ·  ${sp.icon}`,56,H-250);
+  x.font=`36px ${BODY}`; x.fillStyle='#fff'; x.fillText(`🕒 ${fmtDT(c.ts)}`,56,H-180);
+  x.fillText(c.lat!=null?`📍 ${fmtCoord(c.lat,c.lng)}`:'📍 Location unknown',56,H-118);
+  x.font=`28px ${BODY}`; x.fillStyle='rgba(255,255,255,.75)'; x.fillText(`${fmtISO(c.ts)}  ·  gotta scoop 'em all`,56,H-56);
+  return new Promise((res,rej)=>cv.toBlob(b=>b?res(b):rej(new Error('Could not render card')),'image/jpeg',.9));
+}
+async function shareCapture(c){
+  try{ const blob=await renderCard(c); const sp=speciesOf(c.species); const file=new File([blob],`poopgo-${c.id}.jpg`,{type:'image/jpeg'});
+    const text=`I captured a ${c.shiny?'✨ shiny ':''}${sp.name} (${RARITY[c.rarity].label}, CP ${c.cp}) on ${fmtDT(c.ts)} with Poop GO 💩 #poopgo`;
+    if(navigator.canShare&&navigator.canShare({files:[file]})) await navigator.share({files:[file],title:'Poop GO',text});
+    else { download(blob,file.name); toast('Card saved to your downloads'); }
+  }catch(e){ if(!e||e.name!=='AbortError') toast('Share failed: '+(e&&e.message||e)); }
+}
+
+/* ---------------- map ---------------- */
+let map=null, myLayer=null, worldLayer=null, meMarker=null, worldOn=false, pick=null, mapInited=false;
+function pinIcon(rarity,shiny,world){ const col=(RARITY[rarity]||RARITY.common).color;
+  return L.divIcon({className:'',html:`<div class="pin${world?' world':''}${shiny?' shiny':''}" style="border-color:${col}">💩</div>`,iconSize:world?[26,26]:[36,36],iconAnchor:world?[13,13]:[18,18],popupAnchor:[0,world?-14:-18]}); }
+function initMap(){
+  if(mapInited||!window.L) return; mapInited=true;
+  map=L.map('map',{zoomControl:false}).setView([20,0],2);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  myLayer=L.layerGroup().addTo(map); worldLayer=L.layerGroup().addTo(map);
+  map.on('click',e=>{ if(pick){ const cb=pick.cb; pickEnd(); cb(e.latlng); } });
+  map.on('popupopen',e=>{ const el=e.popup.getElement(); const im=el&&el.querySelector('img[data-thumb]'); if(im){ const id=im.dataset.thumb; im.removeAttribute('data-thumb'); cloudReq('/thumbs/'+encodeURIComponent(id),'GET').then(d=>{ if(typeof d==='string'&&d.startsWith('data:image/')) im.src=d; else im.remove(); }).catch(()=>im.remove()); } });
+  renderMarkers(); updateMeMarker(); fitToCaptures();
+}
+function showMap(){ if(!window.L){ $('#mapOffline').hidden=false; return; } $('#mapOffline').hidden=true; initMap(); setTimeout(()=>map.invalidateSize(),60); }
+function renderMarkers(){ if(!mapInited) return; myLayer.clearLayers(); let n=0;
+  for(const c of captures){ if(c.lat==null||c.lng==null) continue; n++; L.marker([c.lat,c.lng],{icon:pinIcon(c.rarity,c.shiny,false),title:speciesOf(c.species).name}).bindPopup(()=>popupHtml(c)).addTo(myLayer); }
+  $('#mapCount').textContent=n; }
+function popupHtml(c){ const sp=speciesOf(c.species); return `<div class="pop"><img src="${c.thumb}" alt=""><b>${c.shiny?'✨ ':''}${esc(sp.name)}</b> <span class="rpill r-${c.rarity}">${RARITY[c.rarity].label}</span><br><small>🕒 ${esc(fmtDT(c.ts))} · CP ${c.cp}</small><button class="btn sm" onclick="openDetail('${c.id}')">View</button></div>`; }
+function worldPopupHtml(s){ const sp=speciesOf(s.species), R=RARITY[s.rarity]||RARITY.common;
+  return `<div class="pop"><img data-thumb="${esc(s.id)}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><b>${s.shiny?'✨ ':''}${esc(sp.name)}</b> <span class="rpill" style="background:${R.color}">${R.label}</span><br><small>by ${esc(s.trainer||'Anonymous')} · ${esc(timeAgo(s.ts))}</small><br><small>🕒 ${esc(fmtDT(s.ts))} · CP ${+s.cp||0}</small></div>`; }
+function fitToCaptures(){ if(!mapInited) return; const pts=captures.filter(c=>c.lat!=null&&c.lng!=null).map(c=>[c.lat,c.lng]);
+  if(pts.length) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:16}); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],15); }
+function updateMeMarker(){ if(!mapInited||!geo.fix) return; const ll=[geo.fix.lat,geo.fix.lng]; if(!meMarker){ meMarker=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin me"></div>',iconSize:[18,18],iconAnchor:[9,9]}),interactive:false,zIndexOffset:500}).addTo(map); } else meMarker.setLatLng(ll); }
+async function locateMe(){ if(!mapInited) return; geoStart(); const f=await geoNow(); if(!f){ toast('No GPS fix yet'); return; } updateMeMarker(); map.setView([f.lat,f.lng],Math.max(map.getZoom(),16)); }
+async function toggleWorld(){
+  if(!mapInited) return; if(!settings.cloudOn){ toast('Turn on World sync in the Trainer tab first'); return; }
+  worldOn=!worldOn; $('#btnWorld').classList.toggle('on',worldOn); if(!worldOn){ worldLayer.clearLayers(); return; }
+  try{ toast('Loading poops of the world…'); const list=await fetchWorld(); if(!worldOn) return; worldLayer.clearLayers(); const mine=new Set(captures.map(c=>c.id)); let n=0; const pts=[];
+    for(const s of list){ if(mine.has(s.id)||typeof s.lat!=='number'||typeof s.lng!=='number') continue; n++; pts.push([s.lat,s.lng]); L.marker([s.lat,s.lng],{icon:pinIcon(s.rarity,!!s.shiny,true)}).bindPopup(()=>worldPopupHtml(s)).addTo(worldLayer); }
+    toast(n?`${n} poops from other trainers`:'No sightings from others yet — be the first!'); if(n&&!captures.some(c=>c.lat!=null)) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:14});
+  }catch(e){ worldOn=false; $('#btnWorld').classList.remove('on'); toast('World: '+e.message); }
+}
+function pickStart(cb,center){ if(!window.L){ toast('The map is not available offline'); return; } pick={cb}; $('#mapBanner').hidden=false; showTab('map'); if(center) map.setView(center,17); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],16); }
+function pickEnd(){ pick=null; $('#mapBanner').hidden=true; }
+
+/* ---------------- poopédex & detail ---------------- */
+let dexTab='captures', dexFilter='all', detailId=null;
+function renderDex(){
+  const st=computeStats(); const chips=[['all','All'],...RARITY_ORDER.map(r=>[r,RARITY[r].label])];
+  $('#dexChips').innerHTML=chips.map(([k,l])=>`<button class="chip${dexFilter===k?' on':''}" data-f="${k}">${l}</button>`).join('');
+  const body=$('#dexBody');
+  if(dexTab==='captures'){
+    const list=captures.filter(c=>dexFilter==='all'||c.rarity===dexFilter);
+    if(!list.length){ body.innerHTML=`<div class="empty"><div class="big">💩</div>${captures.length?'Nothing of this rarity yet.':'No captures yet.<br>Go find some poop!'}</div>`; return; }
+    body.innerHTML='<div class="grid">'+list.map(c=>{ const sp=speciesOf(c.species); return `<button class="cap" data-open="${c.id}"><div class="ph"><img src="${c.thumb}" alt="" loading="lazy"><span class="rdot" style="background:${RARITY[c.rarity].color}"></span>${c.shiny?'<span class="sh">✨</span>':''}${c.lat==null?'<span class="nl">no 📍</span>':''}</div><div class="nm">${esc(sp.name)}</div><div class="tm">🕒 ${esc(timeAgo(c.ts))} · CP ${c.cp}</div></button>`; }).join('')+'</div>';
+  } else {
+    let html=''; for(const r of RARITY_ORDER){ if(dexFilter!=='all'&&dexFilter!==r) continue; const pool=SPECIES.filter(s=>s.rarity===r); const caught=pool.filter(s=>st.species[s.id]).length;
+      html+=`<div class="sp-group"><h3><span class="rpill r-${r}">${RARITY[r].label}</span> ${caught}/${pool.length}</h3>`+pool.map(s=>{ const n=st.species[s.id]||0;
+        return `<div class="sp${n?'':' unk'}"><div class="ic">💩<small>${n?s.icon:''}</small></div><div><div class="nm">${n?esc(s.name):'???'}</div><div class="ds">${n?esc(s.dex):'Not captured yet.'}</div></div><div class="ct">${n?'×'+n:''}</div></div>`; }).join('')+'</div>'; }
+    body.innerHTML=`<div class="empty" style="padding:14px 24px 0">${st.speciesCount}/${SPECIES.length} species discovered</div>`+html;
+  }
+}
+async function openDetail(id){
+  const c=captures.find(x=>x.id===id); if(!c) return; detailId=id; const sp=speciesOf(c.species);
+  const img=$('#dImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=c.thumb;
+  dbGet('photos',id).then(b=>{ if(b&&detailId===id) img.src=URL.createObjectURL(b); }).catch(()=>{});
+  $('#dName').textContent=(c.shiny?'✨ ':'')+sp.name; $('#dRarity').className='rpill r-'+c.rarity; $('#dRarity').textContent=RARITY[c.rarity].label; $('#dCp').textContent='CP '+c.cp; $('#dDex').textContent=`${sp.icon} ${sp.dex}`;
+  const kv=[['Captured',`${fmtDT(c.ts)}<br><small>${fmtISO(c.ts)}${c.tsFrom==='exif'?' · from photo EXIF':c.tsFrom==='file'?' · from file date':''}</small>`],
+    ['Location',c.lat!=null?`${fmtCoord(c.lat,c.lng)}${c.acc?` <small>(±${c.acc} m)</small>`:''}${c.locFrom==='exif'?' <small>· from photo EXIF</small>':c.locFrom==='manual'?' <small>· set manually</small>':''}`:'<i>Not set</i>'],
+    ['Tags',`${SIZES[c.size]?SIZES[c.size].label:c.size} · ${FRESH[c.fresh]?FRESH[c.fresh].label:c.fresh}`],['Throws',c.attempts||1],['XP',`+${c.xp}`],['Source',c.src==='gallery'?'Imported photo':'Camera'],
+    ['World',c.published?`Published ${timeAgo(c.published)}`:'Not published']];
+  $('#dKv').innerHTML=kv.map(([k,v])=>`<b>${k}</b><span>${v}</span>`).join('');
+  $('#dNotes').value=c.notes||''; $('#dPublish').hidden=!settings.cloudOn; $('#dPublish').textContent=c.published?'🌍 Published ✓':'🌍 Publish'; $('#dPublish').disabled=!!c.published;
+  $('#dTimeEdit').hidden=true; const d=new Date(c.ts); $('#dTimeInput').value=`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  $('#detail').hidden=false;
+}
+function closeDetail(){ const img=$('#dImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); $('#detail').hidden=true; detailId=null; }
+const curDetail=()=>captures.find(c=>c.id===detailId);
+async function deleteCapture(c){
+  if(!confirm(`Delete this ${speciesOf(c.species).name}? This cannot be undone.`)) return;
+  try{ await dbDel('captures',c.id); await dbDel('photos',c.id); }catch(e){ toast('Delete failed: '+e.message); return; }
+  captures=captures.filter(x=>x.id!==c.id); closeDetail(); renderAll(); toast('Deleted');
+  if(c.published&&settings.cloudOn){ cloudReq('/sightings/'+encodeURIComponent(c.id),'DELETE').catch(()=>{}); cloudReq('/thumbs/'+encodeURIComponent(c.id),'DELETE').catch(()=>{}); }
+}
+
+/* ---------------- trainer, settings, backup ---------------- */
+function renderTrainer(){
+  const st=computeStats(), lvl=levelFor(st.xp);
+  $('#trainerLvl').textContent='Lv '+lvl; $('#avatarBtn').textContent=profile.avatar; if(document.activeElement!==$('#nameInput')) $('#nameInput').value=profile.name;
+  $('#lvlTxt').textContent='Level '+lvl+(lvl>=50?' · MAX':''); const a=xpAt(lvl), b=xpAt(lvl+1); const pct=lvl>=50?100:Math.round((st.xp-a)/(b-a)*100);
+  $('#xpFill').style.width=pct+'%'; $('#xpTxt').textContent=lvl>=50?`${st.xp} XP`:`${st.xp} XP · ${b-st.xp} XP to level ${lvl+1}`;
+  const rarest=st.rarest?`${st.rarest.shiny?'✨ ':''}${speciesOf(st.rarest.species).name} (CP ${st.rarest.cp})`:'—';
+  $('#stats').innerHTML=[['💩',st.total,'Captures'],['📅',st.today,'Today'],['🔥',st.curStreak,'Day streak'],['📖',`${st.speciesCount}/${SPECIES.length}`,'Species'],['✨',st.shiny,'Shiny'],['🧭',st.span?fmtDist(st.span):'—','Range']]
+    .map(([i,v,l])=>`<div class="stat"><b>${v}</b><span>${i} ${l}</span></div>`).join('')+`<div class="stat wide"><b style="font-size:17px">${esc(rarest)}</b><span>🏆 Rarest catch</span></div>`;
+  const earned=new Set(BADGES.filter(b=>b.test(st)).map(b=>b.id)); $('#badgeCount').textContent=`${earned.size}/${BADGES.length}`;
+  $('#badges').innerHTML=BADGES.map(b=>`<div class="bd${earned.has(b.id)?'':' locked'}" title="${esc(b.desc)}"><span class="ic">${b.icon}</span>${esc(b.name)}</div>`).join('');
+  $('#cloudOn').checked=settings.cloudOn; if(document.activeElement!==$('#cloudUrl')) $('#cloudUrl').value=settings.cloudUrl; $('#autoPublish').checked=settings.autoPublish; $('#cloudCfg').hidden=!settings.cloudOn;
+  const unpub=captures.filter(c=>!c.published&&c.lat!=null).length; $('#unpubTxt').textContent=unpub?`${unpub} with a location, ready to publish`:'Everything with a location is published'; $('#btnPublishAll').disabled=!unpub;
+  $('#soundOn').checked=settings.sound; $('#tidTxt').textContent=profile.tid;
+  if(settings.cloudOn) renderLeaderboard(); else $('#leaderboard').innerHTML='';
+}
+function renderTrainerIfVisible(){ if($('#view-trainer').classList.contains('active')) renderTrainer(); }
+async function exportAll(){
+  const out={app:'poopgo',version:1,exportedAt:new Date().toISOString(),profile:{name:profile.name,avatar:profile.avatar,tid:profile.tid},captures:[]};
+  for(const c of captures){ let photo=null; try{ const b=await dbGet('photos',c.id); if(b) photo=await blobToDataUrl(b); }catch(e){} out.captures.push({...c,photo}); }
+  download(new Blob([JSON.stringify(out)],{type:'application/json'}),`poopgo-backup-${dayKey(Date.now())}.json`); toast(`Exported ${captures.length} captures`);
+}
+async function importFile(file){
+  if(!file) return;
+  try{ const d=JSON.parse(await file.text()); if(!d||d.app!=='poopgo'||!Array.isArray(d.captures)) throw new Error('not a Poop GO backup');
+    const have=new Set(captures.map(c=>c.id)); let n=0;
+    for(const c of d.captures){ if(!c||typeof c.id!=='string'||have.has(c.id)||typeof c.ts!=='number'||!RARITY[c.rarity]) continue; const {photo,...rec}=c; rec.published=0;
+      if(typeof photo==='string'&&photo.startsWith('data:image/')) await dbPut('photos',dataUrlToBlob(photo),rec.id); if(typeof rec.thumb!=='string') rec.thumb=photo||''; await saveCapture(rec); captures.push(rec); have.add(rec.id); n++; }
+    captures.sort((a,b)=>b.ts-a.ts);
+    if(d.profile){ if(!profile.name&&typeof d.profile.name==='string') profile.name=d.profile.name.slice(0,24); if(AVATARS.includes(d.profile.avatar)) profile.avatar=d.profile.avatar; saveProfile(); }
+    markBadgesSeen(); renderAll(); toast(`Imported ${n} captures`);
+  }catch(e){ toast('Import failed: '+e.message); }
+}
+async function resetAll(){
+  if(!confirm(`Delete all ${captures.length} captures from this device? Export a backup first if you want to keep them.`)) return;
+  try{ await dbClear('captures'); await dbClear('photos'); }catch(e){ toast('Reset failed: '+e.message); return; }
+  captures=[]; localStorage.setItem(LS_SEEN,'[]'); renderAll(); toast('All captures deleted');
+}
+
+/* ---------------- world sync (Firebase RTDB via REST) ---------------- */
+const cloudBase=()=>settings.cloudUrl.trim().replace(/\/+$/,'')+'/'+(settings.cloudRoot||'poopgo').replace(/^\/+|\/+$/g,'');
+async function cloudReq(path,method='GET',body){
+  if(!/^https:\/\//.test(settings.cloudUrl.trim())) throw new Error('set a valid https:// database URL');
+  const [p,q]=path.split('?'); const url=cloudBase()+p+'.json'+(q?'?'+q:'');
+  const r=await fetch(url,{method,body:body===undefined?undefined:JSON.stringify(body)}).catch(()=>{ throw new Error('network error'); });
+  if(!r.ok){ let msg='HTTP '+r.status; try{ const j=await r.json(); if(j&&j.error) msg+=' — '+j.error; }catch(e){} throw new Error(msg); }
+  return r.status===204?null:r.json();
+}
+async function publishCapture(c){
+  if(!settings.cloudOn) throw new Error('World sync is off'); if(c.lat==null||c.lng==null) throw new Error('no location');
+  const s={id:c.id,ts:c.ts,lat:+c.lat.toFixed(4),lng:+c.lng.toFixed(4),species:c.species,rarity:c.rarity,shiny:!!c.shiny,cp:c.cp,size:c.size,fresh:c.fresh,trainer:(profile.name||'Anonymous').slice(0,24),tid:profile.tid,avatar:profile.avatar,pub:Date.now()};
+  await cloudReq('/sightings/'+encodeURIComponent(c.id),'PUT',s);
+  if(c.thumb){ try{ await cloudReq('/thumbs/'+encodeURIComponent(c.id),'PUT',await shrinkDataUrl(c.thumb,96)); }catch(e){} }
+  c.published=Date.now(); await saveCapture(c); updateLeaderboard().catch(()=>{});
+}
+async function publishAll(){
+  const list=captures.filter(c=>!c.published&&c.lat!=null); if(!list.length) return; const btn=$('#btnPublishAll'); btn.disabled=true; let n=0;
+  for(const c of list){ try{ await publishCapture(c); n++; btn.textContent=`${n}/${list.length}`; }catch(e){ toast('World sync: '+e.message); break; } }
+  btn.textContent='Publish all'; renderTrainer(); if(n) toast(`Published ${n} capture${n>1?'s':''} to the world`);
+}
+async function fetchWorld(){
+  let all; try{ all=await cloudReq('/sightings?orderBy="ts"&limitToLast=2000'); }catch(e){ all=await cloudReq('/sightings'); }
+  return Object.values(all||{}).filter(s=>s&&typeof s==='object'&&typeof s.id==='string'&&typeof s.ts==='number').sort((a,b)=>b.ts-a.ts).slice(0,2000);
+}
+async function updateLeaderboard(){ const st=computeStats(); await cloudReq('/trainers/'+encodeURIComponent(profile.tid),'PUT',{tid:profile.tid,name:(profile.name||'Anonymous').slice(0,24),avatar:profile.avatar,xp:st.xp,level:levelFor(st.xp),captures:st.total,species:st.speciesCount,updated:Date.now()}); }
+let lbSeq=0;
+async function renderLeaderboard(){
+  const el=$('#leaderboard'), seq=++lbSeq; el.innerHTML='<div class="lb-title">🏆 Top trainers <small>loading…</small></div>';
+  try{ const all=await cloudReq('/trainers'); if(seq!==lbSeq) return; const list=Object.values(all||{}).filter(t=>t&&typeof t.xp==='number').sort((a,b)=>b.xp-a.xp).slice(0,10);
+    if(!list.length){ el.innerHTML='<div class="lb-title">🏆 Top trainers</div><small>No trainers yet — publish a capture to appear here.</small>'; return; }
+    el.innerHTML='<div class="lb-title">🏆 Top trainers</div>'+list.map((t,i)=>`<div class="lb${t.tid===profile.tid?' me':''}"><span class="rk">${i+1}</span><span class="av">${esc(AVATARS.includes(t.avatar)?t.avatar:'🧑')}</span><span class="nm">${esc(String(t.name||'Anonymous').slice(0,24))}</span><span class="xp">Lv ${+t.level||1} · ${Math.round(t.xp)} XP · ${+t.captures||0} 💩</span></div>`).join('');
+  }catch(e){ if(seq!==lbSeq) return; el.innerHTML=`<div class="lb-title">🏆 Top trainers</div><small>Couldn't load: ${esc(e.message)}</small>`; }
+}
+
+/* ---------------- tabs, events, init ---------------- */
+let currentTab='catch';
+function showTab(name){
+  currentTab=name; $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name)); $$('.tabbar button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  if(name==='catch'){ camStart(); geoStart(); } else { camStop(); if(name!=='map') geoStop(); }
+  if(name==='map'){ geoStart(); showMap(); } if(name==='dex') renderDex(); if(name==='trainer') renderTrainer();
+  if(name!=='map'&&pick) pickEnd(); window.scrollTo(0,0);
+}
+function renderAll(){ const n=captures.length; const b=$('#dexBadge'); b.hidden=!n; b.textContent=n; renderMarkers(); if(currentTab==='dex') renderDex(); if(currentTab==='trainer') renderTrainer(); }
+function bindEvents(){
+  $$('.tabbar button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  $('#btnShutter').addEventListener('click',onShutter); $('#btnFileCam').addEventListener('click',()=>$('#fileCam').click()); $('#btnGallery').addEventListener('click',()=>$('#fileGal').click());
+  $('#btnFlip').addEventListener('click',()=>{ cam.facing=cam.facing==='environment'?'user':'environment'; settings.facing=cam.facing; saveSettings(); camStop(); camStart(); });
+  $('#fileCam').addEventListener('change',e=>{ onFile(e.target.files[0],false); e.target.value=''; }); $('#fileGal').addEventListener('change',e=>{ onFile(e.target.files[0],true); e.target.value=''; });
+  $('#fileImport').addEventListener('change',e=>{ importFile(e.target.files[0]); e.target.value=''; });
+  // encounter
+  $('#segSize').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||!enc) return; enc.size=b.dataset.v; $$('#segSize button').forEach(x=>x.classList.toggle('on',x===b)); });
+  $('#segFresh').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||!enc) return; enc.fresh=b.dataset.v; $$('#segFresh button').forEach(x=>x.classList.toggle('on',x===b)); });
+  $('#encCancel').addEventListener('click',()=>cancelEncounter(false)); $('#encThrow').addEventListener('click',throwBag);
+  (function(){ const w=$('#bagWrap'); let st=null;
+    w.addEventListener('pointerdown',e=>{ if(!enc||enc.throwing) return; st={x:e.clientX,y:e.clientY}; try{ w.setPointerCapture(e.pointerId); }catch(err){} w.classList.add('dragging'); e.preventDefault(); });
+    w.addEventListener('pointermove',e=>{ if(!st) return; bagDrag.dx=e.clientX-st.x; bagDrag.dy=e.clientY-st.y; w.style.transform=`translate(${bagDrag.dx}px,${bagDrag.dy}px)`; });
+    const end=e=>{ if(!st) return; const dy=e.clientY-st.y; st=null; w.classList.remove('dragging'); if(dy<-60) throwBag(); else { bagDrag.dx=0; bagDrag.dy=0; w.style.transform=''; } };
+    w.addEventListener('pointerup',end); w.addEventListener('pointercancel',end); })();
+  // result
+  $('#resDone').addEventListener('click',closeResult); $('#resShare').addEventListener('click',()=>{ const c=captures.find(x=>x.id===$('#result').dataset.id); if(c) shareCapture(c); });
+  // detail
+  $('#dClose').addEventListener('click',closeDetail); $('#detail').addEventListener('click',e=>{ if(e.target===$('#detail')) closeDetail(); });
+  $('#dShare').addEventListener('click',()=>{ const c=curDetail(); if(c) shareCapture(c); });
+  $('#dDelete').addEventListener('click',()=>{ const c=curDetail(); if(c) deleteCapture(c); });
+  $('#dPublish').addEventListener('click',async()=>{ const c=curDetail(); if(!c) return; if(c.lat==null){ toast('Set a location first'); return; } try{ $('#dPublish').disabled=true; await publishCapture(c); toast('Published to the world 🌍'); openDetail(c.id); }catch(e){ $('#dPublish').disabled=false; toast('World sync: '+e.message); } });
+  $('#dLoc').addEventListener('click',()=>{ const c=curDetail(); if(!c) return; const id=c.id; closeDetail();
+    pickStart(ll=>{ const cc=captures.find(x=>x.id===id); if(!cc) return; cc.lat=+ll.lat.toFixed(6); cc.lng=+ll.lng.toFixed(6); cc.acc=null; cc.locFrom='manual'; cc.published=0; saveCapture(cc).then(()=>{ renderAll(); toast('Location set 📍'); openDetail(id); }); }, c.lat!=null?[c.lat,c.lng]:null); });
+  $('#dTime').addEventListener('click',()=>{ const e=$('#dTimeEdit'); e.hidden=!e.hidden; if(!e.hidden) $('#dTimeInput').focus(); });
+  $('#dTimeInput').addEventListener('change',e=>{ const c=curDetail(); if(!c||!e.target.value) return; const t=new Date(e.target.value).getTime(); if(!isFinite(t)) return; c.ts=t; c.tsFrom='manual'; c.published=0; saveCapture(c).then(()=>{ captures.sort((a,b)=>b.ts-a.ts); renderAll(); toast('Time updated 🕒'); openDetail(c.id); }); });
+  let notesT; $('#dNotes').addEventListener('input',e=>{ const c=curDetail(); if(!c) return; c.notes=e.target.value.slice(0,500); clearTimeout(notesT); notesT=setTimeout(()=>saveCapture(c),400); });
+  // dex
+  $$('.subtabs button').forEach(b=>b.addEventListener('click',()=>{ dexTab=b.dataset.dex; $$('.subtabs button').forEach(x=>x.classList.toggle('on',x===b)); renderDex(); }));
+  $('#dexChips').addEventListener('click',e=>{ const b=e.target.closest('.chip'); if(!b) return; dexFilter=b.dataset.f; renderDex(); });
+  $('#dexBody').addEventListener('click',e=>{ const b=e.target.closest('[data-open]'); if(b) openDetail(b.dataset.open); });
+  // map
+  $('#btnLocate').addEventListener('click',locateMe); $('#btnFit').addEventListener('click',()=>{ fitToCaptures(); if(!captures.some(c=>c.lat!=null)) toast('No located captures yet'); }); $('#btnWorld').addEventListener('click',toggleWorld); $('#mapBannerCancel').addEventListener('click',pickEnd);
+  // trainer & settings
+  let nameT; $('#nameInput').addEventListener('input',e=>{ profile.name=e.target.value.trim().slice(0,24); clearTimeout(nameT); nameT=setTimeout(()=>{ saveProfile(); if(settings.cloudOn) updateLeaderboard().catch(()=>{}); },500); });
+  $('#avatarBtn').addEventListener('click',()=>{ const i=AVATARS.indexOf(profile.avatar); profile.avatar=AVATARS[(i+1)%AVATARS.length]; saveProfile(); $('#avatarBtn').textContent=profile.avatar; });
+  $('#cloudOn').addEventListener('change',e=>{ settings.cloudOn=e.target.checked; saveSettings(); renderTrainer(); if(settings.cloudOn) toast('World sync on — captures with a location can now be published'); else { worldOn=false; if(worldLayer) worldLayer.clearLayers(); $('#btnWorld').classList.remove('on'); } });
+  $('#cloudUrl').addEventListener('change',e=>{ settings.cloudUrl=e.target.value.trim(); saveSettings(); if(settings.cloudOn) renderLeaderboard(); });
+  $('#autoPublish').addEventListener('change',e=>{ settings.autoPublish=e.target.checked; saveSettings(); });
+  $('#btnPublishAll').addEventListener('click',publishAll);
+  $('#soundOn').addEventListener('change',e=>{ settings.sound=e.target.checked; saveSettings(); });
+  $('#btnExport').addEventListener('click',exportAll); $('#btnImport').addEventListener('click',()=>$('#fileImport').click()); $('#btnReset').addEventListener('click',resetAll);
+  let installEvt=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; $('#installRow').hidden=false; });
+  $('#btnInstall').addEventListener('click',async()=>{ if(!installEvt) return; installEvt.prompt(); await installEvt.userChoice.catch(()=>{}); installEvt=null; $('#installRow').hidden=true; });
+  window.addEventListener('appinstalled',()=>{ $('#installRow').hidden=true; toast('Poop GO installed 💩'); });
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden) camStop(); else if(currentTab==='catch') camStart(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#result').hidden) closeResult(); else if(!$('#encounter').hidden&&enc&&!enc.throwing) cancelEncounter(); } });
+  const tick=()=>{ const d=new Date(); $('#clock').textContent=`${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`; }; tick(); setInterval(tick,1000);
+}
+window.openDetail=openDetail;
+(async function init(){
+  try{ captures=(await dbGetAll('captures')).sort((a,b)=>b.ts-a.ts); }catch(e){ captures=[]; toast('Storage unavailable: '+e.message,5000); }
+  if(localStorage.getItem(LS_SEEN)==null) markBadgesSeen();
+  bindEvents(); renderAll(); showTab('catch');
+  if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>
