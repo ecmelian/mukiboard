@@ -23,7 +23,7 @@ mierdasdelmundo turns the shit on the sidewalks of big cities into a game (the a
 
 ## 3. The engine: the app and its data
 
-What exists today: a phone-only web app, no store needed, in six languages, aware of 190 big cities. You photograph the remains of shitty behavior, say what it is (dog poop, a car where it shouldn't be, a lock where it shouldn't be, a cone holding public parking, dumped trash), catch a species (64 across the five kinds, five rarities, shinies), earn XP and badges, and the capture goes on a map with its time and place. Optional world sync shares sightings, a world map, a leaderboard and a city ranking.
+What exists today: a phone-only web app, no store needed, in six languages, aware of 190 big cities. You photograph the remains of shitty behavior, the app recognizes what it is (dog poop, a car where it shouldn't be, a lock where it shouldn't be, a cone holding public parking, dumped trash), catch a species (64 across the five kinds, five rarities, shinies), earn XP and badges, and the capture goes on a map with its time and place. Optional world sync shares sightings, a world map, a leaderboard and a city ranking.
 
 What every capture produces: a photo, a timestamp, a location (rounded to about 11 m when shared), a city, a species and rarity, a trainer. In aggregate: hotspots, time-of-day patterns, a city ranking, streaks.
 
@@ -34,6 +34,8 @@ Next in the app, in this order:
 3. "Adopt this shit" from the capture detail (see 4.4).
 4. Monthly city challenges and seasonal leaderboards.
 5. A "Shitty Index" per city, updated weekly from the data.
+
+Already in: every sighting is public on a street-level map with its photo, where it is and when it was there, and anyone standing on the spot can confirm it's gone. Ten confirmations mark it cleared. That is the app's own cleaning loop, and the data the cleaning fund works from.
 
 ## 4. Business lines
 
