@@ -1,7 +1,7 @@
 {
-  "name": "Poop GO",
-  "short_name": "Poop GO",
-  "description": "Capture, timestamp and map the dog poops of the world.",
+  "name": "mierdasdelmundo",
+  "short_name": "mierdasdelmundo",
+  "description": "Capture, timestamp and map the dog poops of the world's big cities.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#6B4423">
+<meta name="description" content="mierdasdelmundo — capture, timestamp and map the dog poops of the world's big cities. Take a picture, flick the bag, fill your Mierdex.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="mierdasdelmundo">
+<title>mierdasdelmundo</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<style>
+  :root{
+    --bg:#FBF4E8; --card:#FFFFFF; --ink:#3B2A1E; --ink-soft:#8A7260;
+    --brown:#6B4423; --brown-dark:#4A2E16;
+    --green:#5BA85A; --green-dark:#3E8A3E; --gold:#F2B134; --red:#E2574C; --blue:#3D8BE8;
+    --c-common:#8E8E8E; --c-uncommon:#5BA85A; --c-rare:#3D8BE8; --c-epic:#9B59E8; --c-legendary:#F2A51A;
+    --radius:18px; --shadow:0 4px 16px rgba(59,42,30,.12);
+    --tab-h:64px; --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;color:inherit}
+  input,textarea,select{font-family:inherit;font-size:15px;color:var(--ink)}
+  h1,h2,h3,.display{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-weight:400;letter-spacing:.5px}
+  [hidden]{display:none!important}
+  a{color:var(--blue)}
+
+  /* ---------- shell ---------- */
+  #app{max-width:560px;margin:0 auto;min-height:100vh;min-height:100dvh;position:relative;background:var(--bg)}
+  .view{display:none;min-height:100vh;min-height:100dvh;padding-bottom:calc(var(--tab-h) + var(--sab))}
+  .view.active{display:block}
+  .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;height:calc(var(--tab-h) + var(--sab));padding-bottom:var(--sab);background:#fff;border-top:1px solid #eadfcf;display:flex;z-index:40}
+  .tabbar button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:700;color:var(--ink-soft);position:relative;min-width:0;padding:0 2px}
+  .tabbar button span.lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .tabbar button .ico{font-size:24px;line-height:1}
+  .tabbar button.active{color:var(--brown)}
+  .tabbar button .badge{position:absolute;top:8px;left:calc(50% + 8px);background:var(--red);color:#fff;border-radius:999px;font-size:10px;padding:1px 6px;min-width:18px;text-align:center}
+  .page-head{position:sticky;top:0;z-index:5;background:var(--brown);color:#fff;padding:calc(12px + var(--sat)) 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .page-head h1{font-size:24px}
+  .page-body{padding:14px}
+  h3.sec{font-size:16px;color:var(--brown);margin:18px 4px 8px;display:flex;align-items:center;gap:8px}
+  h3.sec span{font-family:system-ui,sans-serif;font-size:12px;color:var(--ink-soft);font-weight:700}
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+  .btn{border:none;background:#EFE4D2;color:var(--brown-dark);padding:12px 18px;border-radius:14px;font-weight:700;font-size:15px;white-space:nowrap}
+  .btn:disabled{opacity:.45;cursor:default}
+  .btn.primary{background:var(--green);color:#fff}
+  .btn.danger{background:#FBE3E0;color:var(--red)}
+  .btn.sm{padding:8px 12px;font-size:13px;border-radius:10px}
+  .row{display:flex;gap:10px}
+  .row .btn{flex:1}
+  .pill{background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);white-space:nowrap}
+  .pill.ok{background:rgba(91,168,90,.9)} .pill.err{background:rgba(226,87,76,.9)}
+  .rpill{color:#fff;border-radius:999px;padding:4px 12px;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
+  .rpill.cp{background:var(--brown-dark);text-transform:none}
+  .r-common{background:var(--c-common)} .r-uncommon{background:var(--c-uncommon)} .r-rare{background:var(--c-rare)} .r-epic{background:var(--c-epic)} .r-legendary{background:var(--c-legendary)}
+  .pill-row{display:flex;gap:8px;justify-content:center;margin:8px 0;flex-wrap:wrap}
+  .pill-row.left{justify-content:flex-start}
+  .input{width:100%;border:1px solid #eadfcf;border-radius:10px;padding:9px 10px;background:#FFFDF8;font-size:13px}
+  select.input{width:auto;min-width:140px}
+  .empty{text-align:center;padding:60px 24px;color:var(--ink-soft);font-size:14px}
+  .empty .big{font-size:56px;margin-bottom:8px}
+  .big{font-size:56px}
+
+  /* ---------- phone-only gate ---------- */
+  .gate{position:fixed;inset:0;z-index:500;background:radial-gradient(circle at 50% 20%,#4a2e16,#1f140b);display:flex;align-items:center;justify-content:center;padding:24px;color:#fff;text-align:center}
+  .gate-card{max-width:420px;width:100%}
+  .gate-logo{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:34px;color:#fff;text-shadow:3px 3px 0 rgba(0,0,0,.4);margin-bottom:8px}
+  .gate-logo span{color:var(--gold)}
+  .gate h2{font-size:24px;margin:10px 0 6px;color:#fff}
+  .gate p{opacity:.9;font-size:15px;line-height:1.45;margin-bottom:18px}
+  .qr{width:220px;height:220px;margin:0 auto 12px;background:#fff;border-radius:16px;padding:10px;display:flex;align-items:center;justify-content:center}
+  .qr svg{width:100%;height:100%}
+  .gate-url{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;word-break:break-all;background:rgba(255,255,255,.12);border-radius:10px;padding:8px 10px;margin-bottom:10px;user-select:all}
+  .gate small{opacity:.75;font-size:12px}
+
+  /* ---------- catch (camera) ---------- */
+  #view-catch{padding-bottom:0;min-height:0}
+  .cam{position:relative;height:calc(100vh - var(--tab-h) - var(--sab));height:calc(100dvh - var(--tab-h) - var(--sab));background:#111;overflow:hidden}
+  #cam{width:100%;height:100%;object-fit:cover;display:block;background:#111}
+  .cam-off{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#3a2b1f,#120d09);color:#fff;text-align:center;padding:24px}
+  .cam-off .big{margin-bottom:10px}
+  .cam-off p{opacity:.85;margin:0 auto 16px;max-width:300px;font-size:14px}
+  .cam-top{position:absolute;top:0;left:0;right:0;padding:calc(12px + var(--sat)) 14px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
+  .logo{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:21px;color:#fff;text-shadow:2px 2px 0 rgba(0,0,0,.45);line-height:1;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .logo span{color:var(--gold)}
+  .cam-clock{position:absolute;top:calc(50px + var(--sat));right:14px;color:#fff;font-size:12px;font-weight:600;opacity:.9;text-shadow:1px 1px 0 rgba(0,0,0,.6);font-variant-numeric:tabular-nums}
+  .cam-city{position:absolute;top:calc(50px + var(--sat));left:14px;color:#fff;font-size:12px;font-weight:700;opacity:.95;text-shadow:1px 1px 0 rgba(0,0,0,.6)}
+  .cam-hint{position:absolute;bottom:128px;left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:600;text-shadow:1px 1px 2px rgba(0,0,0,.7);pointer-events:none;padding:0 20px}
+  .cam-bottom{position:absolute;bottom:0;left:0;right:0;padding:40px 28px 24px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.55))}
+  .round{width:52px;height:52px;border-radius:50%;border:none;background:rgba(255,255,255,.22);color:#fff;font-size:22px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .shutter{width:84px;height:84px;border-radius:50%;border:5px solid #fff;background:transparent;padding:5px}
+  .shutter span{display:block;width:100%;height:100%;border-radius:50%;background:#fff;transition:transform .1s}
+  .shutter:active span{transform:scale(.85)}
+  .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .25s}
+  .flash.on{opacity:.9;transition:none}
+
+  /* ---------- overlays ---------- */
+  .overlay{position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column}
+  .overlay.sheet{background:rgba(30,20,12,.6);align-items:center;justify-content:flex-end;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+
+  /* encounter */
+  #encounter{touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
+  #encImg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:filter .5s}
+  #encounter.caught #encImg{filter:saturate(.3) brightness(.45)}
+  .enc-top{position:absolute;top:calc(18px + var(--sat));left:0;right:0;text-align:center;color:#fff;padding:0 20px;text-shadow:2px 2px 0 rgba(0,0,0,.55);z-index:2}
+  .enc-title{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:26px;line-height:1.1}
+  .enc-sub{font-size:13px;font-weight:600;opacity:.95;margin-top:6px}
+  .ring{position:absolute;left:50%;top:40%;width:170px;height:170px;margin:-85px 0 0 -85px;border:4px solid rgba(255,255,255,.95);border-radius:50%;box-shadow:0 0 0 6px rgba(0,0,0,.25),inset 0 0 0 4px rgba(0,0,0,.2);animation:pulse 1.6s ease-in-out infinite;z-index:1}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(.7);opacity:1}}
+  .enc-tags{position:absolute;left:0;right:0;bottom:196px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 16px;z-index:2}
+  .enc-tags .lbl{font-size:11px;color:#fff;font-weight:700;text-shadow:1px 1px 0 rgba(0,0,0,.6);letter-spacing:1px;text-transform:uppercase}
+  .seg{display:flex;background:rgba(0,0,0,.55);border-radius:999px;padding:4px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .seg button{border:none;background:none;color:#fff;padding:8px 14px;border-radius:999px;font-weight:700;font-size:13px}
+  .seg button.on{background:#fff;color:var(--brown-dark)}
+  .enc-bottom{position:absolute;left:0;right:0;bottom:0;padding:0 20px calc(22px + var(--sab));display:flex;align-items:flex-end;justify-content:space-between;z-index:3}
+  .link{border:none;background:rgba(0,0,0,.55);color:#fff;padding:10px 14px;border-radius:999px;font-weight:700;font-size:13px;margin-bottom:28px}
+  .bagwrap{width:120px;height:140px;position:relative;display:flex;flex-direction:column;align-items:center;transition:transform .45s cubic-bezier(.2,.8,.2,1);touch-action:none;cursor:grab}
+  .bagwrap.dragging{transition:none;cursor:grabbing}
+  .bagwrap.flying{transition:transform .6s cubic-bezier(.25,.1,.25,1)}
+  .bagwrap.flying .bag-hint{opacity:0}
+  .bag{width:110px;height:110px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))}
+  .bag svg{width:100%;height:100%;display:block}
+  .bag.wobble{animation:wobble .6s ease-in-out}
+  @keyframes wobble{0%,100%{transform:rotate(0)}25%{transform:rotate(-16deg)}75%{transform:rotate(16deg)}}
+  .bag.burst{animation:burst .45s ease-out forwards}
+  @keyframes burst{to{transform:scale(1.8);opacity:0}}
+  .bag-hint{color:#fff;font-size:12px;font-weight:700;text-shadow:1px 1px 0 rgba(0,0,0,.6);margin-top:4px;animation:bob 1.4s ease-in-out infinite;transition:opacity .3s;text-align:center;white-space:nowrap}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .enc-msg{position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);background:rgba(0,0,0,.72);color:#fff;padding:14px 22px;border-radius:16px;font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:22px;text-align:center;animation:popin .3s;z-index:2;max-width:90%}
+  @keyframes popin{from{transform:translate(-50%,-50%) scale(.6);opacity:0}}
+  .shiny-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.35),transparent 55%);animation:pulse 1.2s ease-in-out infinite;z-index:1}
+
+  /* result */
+  #result{background:rgba(20,12,6,.88);align-items:center;justify-content:center;padding:16px;overflow:auto}
+  .result-card{width:100%;max-width:420px;text-align:center;animation:cardin .4s cubic-bezier(.2,.8,.2,1);margin:auto}
+  @keyframes cardin{from{transform:scale(.7) translateY(40px);opacity:0}}
+  .gotcha{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:44px;color:var(--green);line-height:1;text-shadow:3px 3px 0 #EFE4D2}
+  .result-photo{position:relative;margin:12px 0;border-radius:14px;overflow:hidden;aspect-ratio:4/3;background:#eee}
+  .result-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .new-tag{position:absolute;top:10px;left:10px;background:var(--gold);color:#3E2510;font-family:'Luckiest Guy','Comic Sans MS',cursive;padding:5px 12px;border-radius:999px;transform:rotate(-6deg);font-size:18px;box-shadow:var(--shadow)}
+  .shiny-tag{position:absolute;top:10px;right:10px;background:linear-gradient(90deg,#ff8a8a,#ffe27a,#8affc1,#8ad0ff,#d08aff);color:#3E2510;font-weight:800;padding:5px 10px;border-radius:999px;font-size:12px;box-shadow:var(--shadow)}
+  .result-card h2{font-size:28px;color:var(--brown-dark);line-height:1.1}
+  .dex-text{font-size:14px;color:var(--ink-soft);font-style:italic;margin:6px 0 10px}
+  .meta{font-size:13px;color:var(--ink);display:grid;gap:5px;text-align:left;background:#FBF4E8;border-radius:12px;padding:10px 12px;word-break:break-word}
+  .meta small{color:var(--ink-soft)}
+  .xp-gain{font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:28px;color:var(--c-rare);margin:12px 0 4px}
+  .levelup{background:linear-gradient(90deg,#F2B134,#F28B34);color:#3E2510;border-radius:12px;padding:10px;font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:20px;margin:8px 0}
+  .unlock{display:flex;align-items:center;gap:10px;background:#FFF6DB;border:1px solid #F2D27A;border-radius:12px;padding:8px 12px;margin:6px 0;text-align:left;font-size:13px}
+  .unlock .ic{font-size:26px}
+  .unlock b{display:block}
+  .result-card .row{margin-top:14px}
+  .confetti{position:fixed;top:-12px;width:10px;height:14px;z-index:150;pointer-events:none;animation:fall linear forwards;border-radius:2px}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.7}}
+
+  /* detail sheet */
+  #detail .card{width:100%;max-width:560px;max-height:92vh;max-height:92dvh;overflow:auto;border-radius:22px 22px 0 0;padding:0 0 calc(16px + var(--sab));animation:slideup .3s cubic-bezier(.2,.8,.2,1)}
+  @keyframes slideup{from{transform:translateY(80px);opacity:0}}
+  .d-photo{aspect-ratio:4/3;background:#222;position:relative}
+  .d-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .d-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:18px}
+  .d-body{padding:14px 16px}
+  .d-body h2{font-size:26px;color:var(--brown-dark);line-height:1.1}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;font-size:13px;margin:10px 0;word-break:break-word}
+  .kv b{color:var(--ink-soft);font-weight:600;white-space:nowrap}
+  textarea.notes{width:100%;border:1px solid #eadfcf;border-radius:12px;padding:10px;min-height:64px;resize:vertical;background:#FFFDF8;font-size:14px}
+  .d-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  .d-actions .btn{padding:11px 8px;font-size:14px;white-space:normal}
+
+  /* ---------- map ---------- */
+  #view-map{position:relative;padding-bottom:0;min-height:0;z-index:0;isolation:isolate}
+  #map{height:calc(100vh - var(--tab-h) - var(--sab));height:calc(100dvh - var(--tab-h) - var(--sab));background:#dfe8d8;z-index:0;overflow:hidden}
+  .map-logo{position:absolute;top:calc(12px + var(--sat));left:12px;z-index:400;display:flex;flex-direction:column;gap:6px;align-items:flex-start;pointer-events:none}
+  .map-logo .brand{background:rgba(255,255,255,.92);border-radius:999px;padding:6px 12px;font-family:'Luckiest Guy','Comic Sans MS',cursive;font-size:17px;color:var(--brown-dark);box-shadow:var(--shadow)}
+  .map-logo .brand span{color:var(--green-dark)}
+  .map-logo .count{background:rgba(255,255,255,.92);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;color:var(--ink-soft);box-shadow:var(--shadow)}
+  .map-ctl{position:absolute;right:12px;top:calc(60px + var(--sat));z-index:400;display:flex;flex-direction:column;gap:8px}
+  .map-ctl button{width:44px;height:44px;border-radius:12px;border:none;background:#fff;box-shadow:var(--shadow);font-size:20px}
+  .map-ctl button.on{background:var(--green);color:#fff;box-shadow:0 0 0 3px rgba(91,168,90,.35)}
+  .pin{width:36px;height:36px;border-radius:50%;background:#fff;border:3px solid var(--c-common);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.35);line-height:1}
+  .pin.world{width:26px;height:26px;font-size:14px;border-width:2px;opacity:.92;background:#FBF4E8}
+  .pin.shiny{box-shadow:0 0 0 3px rgba(255,226,122,.9),0 2px 6px rgba(0,0,0,.35)}
+  .pin.me{width:18px;height:18px;border:3px solid #fff;background:var(--blue);box-shadow:0 0 0 6px rgba(61,139,232,.3)}
+  .map-banner{position:absolute;top:calc(12px + var(--sat));left:12px;right:68px;z-index:401;background:#fff;border-radius:12px;padding:10px 12px;box-shadow:var(--shadow);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .map-offline{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--ink-soft);background:var(--bg);z-index:300}
+  .leaflet-popup-content{margin:10px 12px;font-size:13px;line-height:1.4}
+  .leaflet-popup-content .pop{min-width:150px}
+  .pop img{width:100%;border-radius:8px;display:block;margin-bottom:6px;aspect-ratio:4/3;object-fit:cover;background:#eee}
+  .pop .rpill{font-size:10px;padding:2px 8px}
+  .pop .btn{margin-top:6px;width:100%}
+  .leaflet-container{font-family:inherit}
+
+  /* ---------- mierdex ---------- */
+  .subtabs{display:flex;background:rgba(255,255,255,.15);border-radius:12px;padding:3px}
+  .subtabs button{border:none;background:none;color:#fff;padding:6px 12px;border-radius:10px;font-weight:700;font-size:13px}
+  .subtabs button.on{background:#fff;color:var(--brown)}
+  .chips{display:flex;gap:6px;overflow-x:auto;padding:12px 14px 0;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{border:none;background:#fff;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--ink-soft);white-space:nowrap;box-shadow:var(--shadow)}
+  .chip.on{background:var(--brown);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:14px}
+  .cap{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:none;text-align:left;padding:0;display:block;width:100%}
+  .cap .ph{aspect-ratio:1;background:#eee;position:relative}
+  .cap .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .cap .ph .rdot{position:absolute;top:7px;left:7px;width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 2px #fff}
+  .cap .ph .sh{position:absolute;top:4px;right:7px;font-size:14px}
+  .cap .ph .nl{position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:2px 6px;border-radius:999px}
+  .cap .nm{font-weight:700;font-size:13px;padding:8px 10px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cap .tm{font-size:11px;color:var(--ink-soft);padding:2px 10px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sp-group{padding:4px 14px 10px}
+  .sp-group h3{font-size:16px;margin:10px 0 6px;display:flex;align-items:center;gap:8px}
+  .sp-group h3 .rpill{font-size:10px}
+  .sp{display:flex;align-items:center;gap:12px;background:#fff;border-radius:12px;padding:10px 12px;margin-bottom:6px;box-shadow:var(--shadow)}
+  .sp .ic{font-size:30px;width:46px;text-align:center;position:relative;line-height:1;flex-shrink:0}
+  .sp.unk .ic{filter:brightness(0);opacity:.3}
+  .sp .ic small{position:absolute;right:-2px;bottom:-4px;font-size:15px}
+  .sp .nm{font-weight:700;font-size:14px}
+  .sp .ds{font-size:12px;color:var(--ink-soft)}
+  .sp .ct{margin-left:auto;font-size:12px;font-weight:700;color:var(--ink-soft);white-space:nowrap}
+
+  /* ---------- trainer ---------- */
+  .profile{display:flex;align-items:center;gap:14px}
+  .avatar{width:72px;height:72px;border-radius:50%;background:#FBF4E8;display:flex;align-items:center;justify-content:center;font-size:40px;border:3px solid var(--green);flex-shrink:0;line-height:1}
+  .profile input{border:none;border-bottom:2px dashed #eadfcf;font-size:20px;font-weight:800;width:100%;background:none;padding:4px 0;color:var(--brown-dark);outline:none}
+  .profile input:focus{border-bottom-color:var(--green)}
+  .lvl{font-family:'Luckiest Guy','Comic Sans MS',cursive;color:var(--brown);font-size:18px;margin-top:4px}
+  .xpbar{height:10px;background:#EFE4D2;border-radius:6px;overflow:hidden;margin-top:6px}
+  .xpbar div{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:6px;transition:width .4s}
+  .xptxt{font-size:11px;color:var(--ink-soft);margin-top:4px;font-weight:600}
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:14px}
+  .stat{background:#FBF4E8;border-radius:12px;padding:10px 6px;text-align:center;grid-column:span 2;min-width:0}
+  .stat.half{grid-column:span 3}
+  .stat b{display:block;font-size:22px;font-family:'Luckiest Guy','Comic Sans MS',cursive;color:var(--brown-dark);font-weight:400;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .stat span{font-size:11px;color:var(--ink-soft);font-weight:700}
+  .badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .bd{text-align:center;background:#FBF4E8;border-radius:12px;padding:10px 4px;font-size:10px;font-weight:700;color:var(--ink-soft);min-width:0;overflow-wrap:anywhere}
+  .bd .ic{font-size:28px;display:block;margin-bottom:4px;line-height:1}
+  .bd.locked{opacity:.4;filter:grayscale(1)}
+  .set-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #f1e8da;font-size:14px}
+  .set-row:last-child{border-bottom:none}
+  .set-row small{display:block;color:var(--ink-soft);font-size:12px;font-weight:500}
+  .set-row .input{margin-top:6px}
+  .set-row select.input{margin-top:0}
+  .switch{position:relative;width:48px;height:28px;flex-shrink:0}
+  .switch input{opacity:0;width:0;height:0;position:absolute}
+  .switch i{position:absolute;inset:0;background:#d9cfbf;border-radius:999px;transition:.2s;cursor:pointer}
+  .switch i:before{content:'';position:absolute;width:22px;height:22px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  .switch input:checked+i{background:var(--green)}
+  .switch input:checked+i:before{transform:translateX(20px)}
+  .lb-title{font-weight:800;margin:12px 0 4px;font-size:14px}
+  .lb-title small{font-weight:500;color:var(--ink-soft)}
+  .lb{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f1e8da;font-size:14px}
+  .lb:last-child{border-bottom:none}
+  .lb .rk{width:22px;font-weight:800;color:var(--ink-soft)}
+  .lb .av{font-size:22px;line-height:1}
+  .lb .nm{flex:1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .lb .xp{font-size:12px;color:var(--ink-soft);white-space:nowrap}
+  .lb.me{background:#FFF6DB;margin:0 -8px;padding:7px 8px;border-radius:8px}
+
+  #toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 16px + var(--sab));transform:translateX(-50%) translateY(20px);background:#3B2A1E;color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:.25s;z-index:300;pointer-events:none;max-width:90%;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%)}
+  @media (prefers-reduced-motion:reduce){ *{animation-duration:.01s!important;transition-duration:.01s!important} }
+</style>
+</head>
+<body>
+<div id="gate" class="gate" hidden>
+  <div class="gate-card">
+    <div class="gate-logo">💩 mierdas<span>del</span>mundo</div>
+    <h2 data-i18n="gate_title"></h2>
+    <p data-i18n="gate_body"></p>
+    <div class="qr" id="qr"></div>
+    <div class="gate-url" id="gateUrl"></div>
+    <small data-i18n="gate_scan"></small>
+  </div>
+</div>
+<div id="app">
+<main>
+
+<!-- ================= CATCH ================= -->
+<section id="view-catch" class="view active">
+  <div class="cam">
+    <video id="cam" autoplay playsinline muted></video>
+    <div class="cam-off" id="camOff" hidden>
+      <div>
+        <div class="big">📷</div>
+        <p id="camOffMsg"></p>
+        <button class="btn primary" id="btnFileCam" data-i18n="take_photo"></button>
+      </div>
+    </div>
+    <div class="cam-top">
+      <div class="logo">💩 mierdas<span>del</span>mundo</div>
+      <div class="pill" id="geoPill"></div>
+    </div>
+    <div class="cam-city" id="camCity"></div>
+    <div class="cam-clock" id="clock"></div>
+    <div class="cam-hint" id="camHint" data-i18n="cam_hint"></div>
+    <div class="cam-bottom">
+      <button class="round" id="btnGallery" data-i18n-title="gallery">🖼️</button>
+      <button class="shutter" id="btnShutter" aria-label="Capture"><span></span></button>
+      <button class="round" id="btnFlip" data-i18n-title="flip">🔄</button>
+    </div>
+    <div class="flash" id="flash"></div>
+  </div>
+</section>
+
+<!-- ================= MAP ================= -->
+<section id="view-map" class="view">
+  <div id="map"></div>
+  <div class="map-logo"><div class="brand">💩 mierdas<span>del</span>mundo</div><div class="count" id="mapCount"></div></div>
+  <div class="map-ctl">
+    <button id="btnLocate" data-i18n-title="locate">🎯</button>
+    <button id="btnFit" data-i18n-title="fit">🗂️</button>
+    <button id="btnWorld" data-i18n-title="world_btn">🌍</button>
+  </div>
+  <div class="map-banner" id="mapBanner" hidden><span data-i18n="pick_hint"></span><button class="btn sm" id="mapBannerCancel" data-i18n="cancel"></button></div>
+  <div class="map-offline" id="mapOffline" hidden><div><div class="big">🗺️</div><p data-i18n="map_offline"></p></div></div>
+</section>
+
+<!-- ================= MIERDEX ================= -->
+<section id="view-dex" class="view">
+  <div class="page-head">
+    <h1>Mierdex</h1>
+    <div class="subtabs"><button data-dex="captures" class="on" data-i18n="dex_captures"></button><button data-dex="species" data-i18n="dex_species"></button></div>
+  </div>
+  <div class="chips" id="dexChips"></div>
+  <div id="dexBody"></div>
+</section>
+
+<!-- ================= TRAINER ================= -->
+<section id="view-trainer" class="view">
+  <div class="page-head"><h1 data-i18n="tab_trainer"></h1><span class="pill" id="trainerLvl"></span></div>
+  <div class="page-body">
+    <div class="card">
+      <div class="profile">
+        <button class="avatar" id="avatarBtn" data-i18n-title="avatar_title">🧑‍🦱</button>
+        <div style="flex:1;min-width:0">
+          <input id="nameInput" data-i18n-ph="name_ph" maxlength="24" autocomplete="off">
+          <div class="lvl" id="lvlTxt"></div>
+          <div class="xpbar"><div id="xpFill" style="width:0%"></div></div>
+          <div class="xptxt" id="xpTxt"></div>
+        </div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <h3 class="sec"><span style="font-family:inherit;font-size:inherit;color:inherit" data-i18n="badges"></span> <span id="badgeCount"></span></h3>
+    <div class="card"><div class="badges" id="badges"></div></div>
+
+    <h3 class="sec" data-i18n="world_btn"></h3>
+    <div class="card">
+      <div class="set-row"><div><b data-i18n="sync"></b><small data-i18n="sync_sub"></small></div><label class="switch"><input type="checkbox" id="cloudOn"><i></i></label></div>
+      <div id="cloudCfg">
+        <div class="set-row" style="display:block"><small data-i18n="db_url"></small><input class="input" id="cloudUrl" placeholder="https://your-project-default-rtdb.firebaseio.com" autocomplete="off" spellcheck="false"></div>
+        <div class="set-row"><div><b data-i18n="autopub"></b><small data-i18n="autopub_sub"></small></div><label class="switch"><input type="checkbox" id="autoPublish"><i></i></label></div>
+        <div class="set-row"><div><b data-i18n="unpub"></b><small id="unpubTxt"></small></div><button class="btn sm" id="btnPublishAll" data-i18n="publish_all"></button></div>
+        <div id="leaderboard"></div>
+        <div id="cityboard"></div>
+      </div>
+    </div>
+
+    <h3 class="sec" data-i18n="settings"></h3>
+    <div class="card">
+      <div class="set-row"><div><b data-i18n="language"></b></div><select class="input" id="langSel"></select></div>
+      <div class="set-row"><div><b data-i18n="sound"></b></div><label class="switch"><input type="checkbox" id="soundOn"><i></i></label></div>
+      <div class="set-row" id="installRow" hidden><div><b data-i18n="install"></b><small data-i18n="install_sub"></small></div><button class="btn sm primary" id="btnInstall" data-i18n="install_btn"></button></div>
+      <div class="set-row"><div><b data-i18n="backup"></b><small data-i18n="backup_sub"></small></div><div class="row"><button class="btn sm" id="btnExport" data-i18n="export"></button><button class="btn sm" id="btnImport" data-i18n="import"></button></div></div>
+      <div class="set-row"><div><b data-i18n="reset"></b><small data-i18n="reset_sub"></small></div><button class="btn sm danger" id="btnReset" data-i18n="delete_all"></button></div>
+      <div class="set-row"><small id="footerTxt"></small></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<nav class="tabbar">
+  <button data-tab="catch" class="active"><span class="ico">📸</span><span class="lbl" data-i18n="tab_catch"></span></button>
+  <button data-tab="map"><span class="ico">🗺️</span><span class="lbl" data-i18n="tab_map"></span></button>
+  <button data-tab="dex"><span class="ico">📖</span><span class="lbl">Mierdex</span><span class="badge" id="dexBadge" hidden>0</span></button>
+  <button data-tab="trainer"><span class="ico">🧑‍🦱</span><span class="lbl" data-i18n="tab_trainer"></span></button>
+</nav>
+</div>
+
+<!-- ================= ENCOUNTER ================= -->
+<div id="encounter" class="overlay" hidden>
+  <img id="encImg" alt="">
+  <div class="shiny-glow" id="shinyGlow" hidden></div>
+  <div class="enc-top"><div class="enc-title" id="encTitle"></div><div class="enc-sub" id="encSub"></div></div>
+  <div class="ring" id="ring"></div>
+  <div class="enc-msg" id="encMsg" hidden></div>
+  <div class="enc-tags">
+    <div class="lbl" data-i18n="size"></div>
+    <div class="seg" id="segSize"><button data-v="S">S</button><button data-v="M" class="on">M</button><button data-v="L">L</button><button data-v="XL">XL</button></div>
+    <div class="lbl" data-i18n="fresh"></div>
+    <div class="seg" id="segFresh"><button data-v="fresh" class="on" data-i18n="fr_fresh"></button><button data-v="dry" data-i18n="fr_dry"></button><button data-v="fossil" data-i18n="fr_fossil"></button></div>
+  </div>
+  <div class="enc-bottom">
+    <button class="link" id="encCancel" data-i18n="run"></button>
+    <div class="bagwrap" id="bagWrap">
+      <div class="bag" id="bag">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <defs><linearGradient id="bagG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FD67E"/><stop offset="1" stop-color="#3E8A3E"/></linearGradient></defs>
+          <path d="M50 6 l12 10 -7 7 h-10 l-7 -7z" fill="#3E8A3E" stroke="#2F6B2F" stroke-width="2"/>
+          <path d="M30 24 h40 c7 0 11 6 10 13 l-4 40 c-1 9 -8 15 -16 15 h-20 c-8 0 -15 -6 -16 -15 l-4 -40 c-1 -7 3 -13 10 -13z" fill="url(#bagG)" stroke="#2F6B2F" stroke-width="3"/>
+          <ellipse cx="50" cy="23" rx="13" ry="5" fill="#2F6B2F"/>
+          <circle cx="42" cy="50" r="3.2" fill="#2F6B2F"/><circle cx="58" cy="50" r="3.2" fill="#2F6B2F"/>
+          <path d="M39 61 q11 9 22 0" stroke="#2F6B2F" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="bag-hint" data-i18n="flick"></div>
+    </div>
+    <button class="link" id="encThrow" data-i18n="throw"></button>
+  </div>
+</div>
+
+<!-- ================= RESULT ================= -->
+<div id="result" class="overlay" hidden>
+  <div class="card result-card">
+    <div class="gotcha" data-i18n="gotcha"></div>
+    <div class="result-photo"><img id="resImg" alt=""><div class="new-tag" id="resNew" hidden data-i18n="new"></div><div class="shiny-tag" id="resShiny" hidden data-i18n="shiny_tag"></div></div>
+    <h2 id="resName"></h2>
+    <div class="pill-row"><span class="rpill" id="resRarity"></span><span class="rpill cp" id="resCp"></span></div>
+    <p class="dex-text" id="resDex"></p>
+    <div class="meta"><div>🕒 <span id="resTime"></span></div><div>🏙️ <span id="resCity"></span></div><div>📍 <span id="resLoc"></span></div></div>
+    <div class="xp-gain" id="resXp"></div>
+    <div id="resUnlocks"></div>
+    <div class="row"><button class="btn" id="resShare" data-i18n="share_card"></button><button class="btn primary" id="resDone" data-i18n="done"></button></div>
+  </div>
+</div>
+
+<!-- ================= DETAIL ================= -->
+<div id="detail" class="overlay sheet" hidden>
+  <div class="card">
+    <div class="d-photo"><img id="dImg" alt=""><button class="d-close" id="dClose" aria-label="Close">✕</button></div>
+    <div class="d-body">
+      <h2 id="dName"></h2>
+      <div class="pill-row left"><span class="rpill" id="dRarity"></span><span class="rpill cp" id="dCp"></span></div>
+      <p class="dex-text" id="dDex"></p>
+      <div class="kv" id="dKv"></div>
+      <textarea class="notes" id="dNotes" data-i18n-ph="notes_ph"></textarea>
+      <div class="d-actions">
+        <button class="btn" id="dShare" data-i18n="share_card_i"></button>
+        <button class="btn" id="dLoc" data-i18n="set_loc"></button>
+        <button class="btn" id="dTime" data-i18n="edit_time"></button>
+        <button class="btn" id="dPublish" hidden></button>
+        <button class="btn danger" id="dDelete" data-i18n="delete"></button>
+      </div>
+      <div id="dTimeEdit" hidden style="margin-top:10px"><input type="datetime-local" class="input" id="dTimeInput"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<input type="file" id="fileCam" accept="image/*" capture="environment" hidden>
+<input type="file" id="fileGal" accept="image/*" hidden>
+<input type="file" id="fileImport" accept="application/json,.json" hidden>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+'use strict';
+/* =====================================================================
+   mierdasdelmundo — capture, timestamp and map the dog poops of the
+   world's big cities. Phone-only single-file app. Data lives in
+   IndexedDB on the device; the optional "World sync" talks to a Firebase
+   Realtime Database over plain REST.
+   ===================================================================== */
+
+/* ---------------- languages ---------------- */
+const LANGS={en:'English',es:'Español',pt:'Português',fr:'Français',de:'Deutsch',it:'Italiano'};
+const I18N={
+en:{tagline:"gotta scoop 'em all",tab_catch:'Catch',tab_map:'Map',tab_trainer:'Trainer',
+ cam_na:'Camera not available.',cam_https:'The live camera needs HTTPS. You can still take photos with your camera app.',cam_noapi:'This browser has no camera API.',cam_denied:'Camera permission denied. You can still take photos with your camera app.',cam_none:'No camera found. You can still take photos with your camera app.',
+ take_photo:'Take a photo',cam_hint:'Spot a poop? Tap the shutter to start an encounter.',cam_starting:'Camera is still starting…',gallery:'Import a photo from your gallery',flip:'Flip camera',
+ gps_acc:'GPS ±{n} m',gps_finding:'Finding GPS…',gps_denied:'GPS denied',gps_none:'No GPS fix',gps_off:'GPS off',
+ captured_n:'{n} captured',locate:'My location',fit:'Fit all captures',world_btn:'Poops of the world',pick_hint:'Tap the map to set the location',cancel:'Cancel',
+ map_offline:'The map needs an internet connection the first time it loads. Reload once you are back online.',view:'View',
+ dex_captures:'Captures',dex_species:'Species',all:'All',dex_empty:'No captures yet.<br>Go find some poop!',dex_empty_rarity:'Nothing of this rarity yet.',not_captured:'Not captured yet.',species_disc:'{a}/{b} species discovered',
+ lv:'Lv {n}',level:'Level {n}',max:'MAX',xp_only:'{xp} XP',xp_next:'{xp} XP · {need} XP to level {n}',name_ph:'Your trainer name',avatar_title:'Change avatar',
+ st_captures:'Captures',st_today:'Today',st_streak:'Day streak',st_species:'Species',st_cities:'Cities',st_shiny:'Shiny',st_rarest:'Rarest catch',st_home:'Home city',
+ badges:'Badges',sync:'World sync',sync_sub:'Share your captures on the global map and leaderboard',db_url:'Firebase Realtime Database URL',autopub:'Auto-publish new captures',autopub_sub:'Captures without a location are never published',
+ unpub:'Unpublished captures',unpub_n:'{n} with a location, ready to publish',unpub_0:'Everything with a location is published',publish_all:'Publish all',
+ lb_title:'Top trainers',lb_loading:'loading…',lb_empty:'No trainers yet. Publish a capture to appear here.',lb_err:"Couldn't load: {e}",cities_title:'Top cities',cities_empty:'No sightings yet.',
+ settings:'Settings',sound:'Sound effects',language:'Language',install:'Install app',install_sub:'Add mierdasdelmundo to your home screen',install_btn:'Install',backup:'Backup',backup_sub:'Export everything (photos included) as JSON',export:'Export',import:'Import',reset:'Reset',reset_sub:'Delete all captures on this device',delete_all:'Delete all',
+ footer:'Trainer ID {id} · mierdasdelmundo v1.0 · Everything stays on this device unless World sync is on.',
+ enc_title:'A wild poop appeared!',enc_gps:'GPS fix',enc_exif:'Location from photo',enc_tag:'tag it, then flick the bag',enc_noloc_gallery:'No location in this photo. Set it on the map later',enc_noloc_wait:'Waiting for GPS. You can set the spot on the map later',photo_date:'photo date',file_date:'file date',
+ size:'Size',fresh:'Freshness',run:'Run away',throw:'Throw',flick:'flick up to throw ⬆',broke_title:'The {name} broke free!',broke_sub:"Flick again. It can't run far.",broke_msg:'Oh no! It broke free!',
+ gotcha:'GOTCHA!',new:'NEW!',shiny_tag:'✨ SHINY',cp:'CP',no_loc:'No location. Set it on the map later',xp_gain:'+{n} XP',levelup:'⬆️ Level up! You reached level {n}',badge_unlocked:'Badge unlocked: {name}',share_card:'Share card',share_card_i:'🖼️ Share card',done:'Done',
+ k_captured:'Captured',k_location:'Location',k_city:'City',k_tags:'Tags',k_throws:'Throws',k_source:'Source',k_world:'World',from_exif:'from photo EXIF',from_file:'from file date',manual:'set manually',not_set:'Not set',src_gallery:'Imported photo',src_camera:'Camera',published_ago:'Published {ago}',not_published:'Not published',
+ notes_ph:'Notes: which dog? which street? how bad?',set_loc:'📍 Set location',edit_time:'🕒 Edit time',publish:'🌍 Publish',published:'🌍 Published ✓',delete:'🗑 Delete',
+ confirm_delete:'Delete this {name}? This cannot be undone.',confirm_reset:'Delete all {n} captures from this device? Export a backup first if you want to keep them.',
+ t_deleted:'Deleted',t_loc_set:'Location set 📍',t_time:'Time updated 🕒',t_set_loc_first:'Set a location first',t_published:'Published to the world 🌍',t_world_err:'World sync: {e}',t_world_on:'World sync on. Captures with a location can now be published',t_world_first:'Turn on World sync in the Trainer tab first',t_world_loading:'Loading poops of the world…',t_world_n:'{n} poops from other trainers',t_world_0:'No sightings from others yet. Be the first!',t_world_prefix:'World: {e}',
+ t_no_gps:'No GPS fix yet',t_no_located:'No located captures yet',t_map_offline:'The map is not available offline',t_pick_image:'Please pick an image',t_capture_fail:'Capture failed: {e}',t_photo_fail:'Could not read that photo: {e}',t_save_fail:'Could not save: {e}',t_delete_fail:'Delete failed: {e}',t_card_saved:'Card saved to your downloads',t_share_fail:'Share failed: {e}',
+ t_exported:'Exported {n} captures',t_imported:'Imported {n} captures',t_import_fail:'Import failed: {e}',t_not_backup:'not a mierdasdelmundo backup',t_reset_fail:'Reset failed: {e}',t_reset_done:'All captures deleted',t_published_n:'Published {n} to the world',t_installed:'mierdasdelmundo installed 💩',t_storage:'Storage unavailable: {e}',
+ e_sync_off:'World sync is off',e_no_loc:'no location',e_bad_url:'set a valid https:// database URL',e_network:'network error',
+ share_text:'I caught a {shiny}{name} ({rarity}, {cpl} {cp}) in {city} on {date} with mierdasdelmundo 💩 #mierdasdelmundo',outside:'Outside the big cities',
+ gate_title:'mierdasdelmundo is a phone app',gate_body:'Open this link on your phone, then add it to your home screen.',gate_scan:"Scan it with your phone's camera",
+ r_common:'Common',r_uncommon:'Uncommon',r_rare:'Rare',r_epic:'Epic',r_legendary:'Legendary',sz_S:'Small',sz_M:'Medium',sz_L:'Large',sz_XL:'XL',fr_fresh:'Fresh',fr_dry:'Dry',fr_fossil:'Fossil'},
+es:{tagline:'hazte con todas',tab_catch:'Atrapar',tab_map:'Mapa',tab_trainer:'Entrenador',
+ cam_na:'Cámara no disponible.',cam_https:'La cámara en vivo necesita HTTPS. Puedes seguir haciendo fotos con la app de cámara.',cam_noapi:'Este navegador no tiene acceso a la cámara.',cam_denied:'Permiso de cámara denegado. Puedes seguir haciendo fotos con la app de cámara.',cam_none:'No se encontró ninguna cámara. Puedes seguir haciendo fotos con la app de cámara.',
+ take_photo:'Hacer una foto',cam_hint:'¿Ves una mierda? Pulsa el disparador para empezar el encuentro.',cam_starting:'La cámara aún se está iniciando…',gallery:'Importar una foto de la galería',flip:'Cambiar de cámara',
+ gps_acc:'GPS ±{n} m',gps_finding:'Buscando GPS…',gps_denied:'GPS denegado',gps_none:'Sin señal GPS',gps_off:'GPS apagado',
+ captured_n:'{n} atrapadas',locate:'Mi ubicación',fit:'Ver todas las capturas',world_btn:'Mierdas del mundo',pick_hint:'Toca el mapa para fijar la ubicación',cancel:'Cancelar',
+ map_offline:'El mapa necesita conexión la primera vez que se carga. Recarga cuando vuelvas a tener internet.',view:'Ver',
+ dex_captures:'Capturas',dex_species:'Especies',all:'Todas',dex_empty:'Todavía no has atrapado nada.<br>¡Sal a buscar mierdas!',dex_empty_rarity:'Nada de esta rareza todavía.',not_captured:'Aún no atrapada.',species_disc:'{a}/{b} especies descubiertas',
+ lv:'Nv {n}',level:'Nivel {n}',max:'MÁX',xp_only:'{xp} XP',xp_next:'{xp} XP · {need} XP para el nivel {n}',name_ph:'Tu nombre de entrenador',avatar_title:'Cambiar avatar',
+ st_captures:'Capturas',st_today:'Hoy',st_streak:'Días seguidos',st_species:'Especies',st_cities:'Ciudades',st_shiny:'Brillantes',st_rarest:'Captura más rara',st_home:'Ciudad base',
+ badges:'Medallas',sync:'Sincronización mundial',sync_sub:'Comparte tus capturas en el mapa y la clasificación mundial',db_url:'URL de Firebase Realtime Database',autopub:'Publicar capturas nuevas automáticamente',autopub_sub:'Las capturas sin ubicación nunca se publican',
+ unpub:'Capturas sin publicar',unpub_n:'{n} con ubicación, listas para publicar',unpub_0:'Todo lo que tiene ubicación está publicado',publish_all:'Publicar todo',
+ lb_title:'Mejores entrenadores',lb_loading:'cargando…',lb_empty:'Aún no hay entrenadores. Publica una captura para aparecer aquí.',lb_err:'No se pudo cargar: {e}',cities_title:'Ciudades con más mierdas',cities_empty:'Todavía no hay avistamientos.',
+ settings:'Ajustes',sound:'Efectos de sonido',language:'Idioma',install:'Instalar la app',install_sub:'Añade mierdasdelmundo a tu pantalla de inicio',install_btn:'Instalar',backup:'Copia de seguridad',backup_sub:'Exporta todo (fotos incluidas) en JSON',export:'Exportar',import:'Importar',reset:'Reiniciar',reset_sub:'Borra todas las capturas de este dispositivo',delete_all:'Borrar todo',
+ footer:'ID de entrenador {id} · mierdasdelmundo v1.0 · Todo se queda en este dispositivo salvo que actives la sincronización mundial.',
+ enc_title:'¡Ha aparecido una mierda salvaje!',enc_gps:'Posición GPS',enc_exif:'Ubicación de la foto',enc_tag:'etiquétala y lanza la bolsa',enc_noloc_gallery:'La foto no tiene ubicación. Fíjala en el mapa después',enc_noloc_wait:'Esperando el GPS. Puedes fijar el sitio en el mapa después',photo_date:'fecha de la foto',file_date:'fecha del archivo',
+ size:'Tamaño',fresh:'Frescura',run:'Huir',throw:'Lanzar',flick:'desliza hacia arriba para lanzar ⬆',broke_title:'¡{name} se ha escapado!',broke_sub:'Lanza otra vez. No puede ir muy lejos.',broke_msg:'¡Oh, no! ¡Se ha escapado!',
+ gotcha:'¡ATRAPADA!',new:'¡NUEVA!',shiny_tag:'✨ BRILLANTE',cp:'PC',no_loc:'Sin ubicación. Fíjala en el mapa después',xp_gain:'+{n} XP',levelup:'⬆️ ¡Subes de nivel! Has llegado al nivel {n}',badge_unlocked:'Medalla desbloqueada: {name}',share_card:'Compartir tarjeta',share_card_i:'🖼️ Compartir tarjeta',done:'Listo',
+ k_captured:'Atrapada',k_location:'Ubicación',k_city:'Ciudad',k_tags:'Etiquetas',k_throws:'Lanzamientos',k_source:'Origen',k_world:'Mundo',from_exif:'de los datos EXIF de la foto',from_file:'de la fecha del archivo',manual:'fijada a mano',not_set:'Sin fijar',src_gallery:'Foto importada',src_camera:'Cámara',published_ago:'Publicada {ago}',not_published:'Sin publicar',
+ notes_ph:'Notas: ¿qué perro? ¿qué calle? ¿cómo de grave?',set_loc:'📍 Fijar ubicación',edit_time:'🕒 Editar hora',publish:'🌍 Publicar',published:'🌍 Publicada ✓',delete:'🗑 Borrar',
+ confirm_delete:'¿Borrar esta {name}? No se puede deshacer.',confirm_reset:'¿Borrar las {n} capturas de este dispositivo? Exporta una copia antes si quieres conservarlas.',
+ t_deleted:'Borrada',t_loc_set:'Ubicación fijada 📍',t_time:'Hora actualizada 🕒',t_set_loc_first:'Fija primero una ubicación',t_published:'Publicada al mundo 🌍',t_world_err:'Sincronización: {e}',t_world_on:'Sincronización activada. Ya puedes publicar las capturas con ubicación',t_world_first:'Activa primero la sincronización mundial en la pestaña Entrenador',t_world_loading:'Cargando mierdas del mundo…',t_world_n:'{n} mierdas de otros entrenadores',t_world_0:'Todavía no hay avistamientos de otros. ¡Sé el primero!',t_world_prefix:'Mundo: {e}',
+ t_no_gps:'Aún no hay señal GPS',t_no_located:'Aún no hay capturas con ubicación',t_map_offline:'El mapa no está disponible sin conexión',t_pick_image:'Elige una imagen',t_capture_fail:'Error al capturar: {e}',t_photo_fail:'No se pudo leer la foto: {e}',t_save_fail:'No se pudo guardar: {e}',t_delete_fail:'Error al borrar: {e}',t_card_saved:'Tarjeta guardada en descargas',t_share_fail:'No se pudo compartir: {e}',
+ t_exported:'{n} capturas exportadas',t_imported:'{n} capturas importadas',t_import_fail:'Error al importar: {e}',t_not_backup:'no es una copia de mierdasdelmundo',t_reset_fail:'Error al reiniciar: {e}',t_reset_done:'Todas las capturas borradas',t_published_n:'{n} publicadas al mundo',t_installed:'mierdasdelmundo instalada 💩',t_storage:'Almacenamiento no disponible: {e}',
+ e_sync_off:'La sincronización está desactivada',e_no_loc:'sin ubicación',e_bad_url:'introduce una URL de base de datos https:// válida',e_network:'error de red',
+ share_text:'He atrapado una {name}{shiny} ({rarity}, {cpl} {cp}) en {city} el {date} con mierdasdelmundo 💩 #mierdasdelmundo',outside:'Fuera de las grandes ciudades',
+ gate_title:'mierdasdelmundo es una app para el móvil',gate_body:'Abre este enlace en tu móvil y añádelo a la pantalla de inicio.',gate_scan:'Escanéalo con la cámara del móvil',
+ r_common:'Común',r_uncommon:'Poco común',r_rare:'Rara',r_epic:'Épica',r_legendary:'Legendaria',sz_S:'Pequeña',sz_M:'Mediana',sz_L:'Grande',sz_XL:'XL',fr_fresh:'Fresca',fr_dry:'Seca',fr_fossil:'Fósil'},
+pt:{tagline:'apanha-as todas',tab_catch:'Apanhar',tab_map:'Mapa',tab_trainer:'Treinador',
+ cam_na:'Câmara não disponível.',cam_https:'A câmara em direto precisa de HTTPS. Podes continuar a tirar fotos com a app da câmara.',cam_noapi:'Este navegador não tem acesso à câmara.',cam_denied:'Permissão de câmara negada. Podes continuar a tirar fotos com a app da câmara.',cam_none:'Nenhuma câmara encontrada. Podes continuar a tirar fotos com a app da câmara.',
+ take_photo:'Tirar uma foto',cam_hint:'Vês uma merda? Toca no botão para começar o encontro.',cam_starting:'A câmara ainda está a iniciar…',gallery:'Importar uma foto da galeria',flip:'Mudar de câmara',
+ gps_acc:'GPS ±{n} m',gps_finding:'A procurar GPS…',gps_denied:'GPS negado',gps_none:'Sem sinal GPS',gps_off:'GPS desligado',
+ captured_n:'{n} apanhadas',locate:'A minha localização',fit:'Ver todas as capturas',world_btn:'Merdas do mundo',pick_hint:'Toca no mapa para definir a localização',cancel:'Cancelar',
+ map_offline:'O mapa precisa de internet na primeira vez que carrega. Recarrega quando voltares a ter ligação.',view:'Ver',
+ dex_captures:'Capturas',dex_species:'Espécies',all:'Todas',dex_empty:'Ainda não apanhaste nada.<br>Vai à procura de merdas!',dex_empty_rarity:'Nada desta raridade ainda.',not_captured:'Ainda não apanhada.',species_disc:'{a}/{b} espécies descobertas',
+ lv:'Nv {n}',level:'Nível {n}',max:'MÁX',xp_only:'{xp} XP',xp_next:'{xp} XP · {need} XP para o nível {n}',name_ph:'O teu nome de treinador',avatar_title:'Mudar avatar',
+ st_captures:'Capturas',st_today:'Hoje',st_streak:'Dias seguidos',st_species:'Espécies',st_cities:'Cidades',st_shiny:'Brilhantes',st_rarest:'Captura mais rara',st_home:'Cidade base',
+ badges:'Medalhas',sync:'Sincronização mundial',sync_sub:'Partilha as tuas capturas no mapa e na classificação mundial',db_url:'URL do Firebase Realtime Database',autopub:'Publicar novas capturas automaticamente',autopub_sub:'As capturas sem localização nunca são publicadas',
+ unpub:'Capturas por publicar',unpub_n:'{n} com localização, prontas a publicar',unpub_0:'Tudo o que tem localização está publicado',publish_all:'Publicar tudo',
+ lb_title:'Melhores treinadores',lb_loading:'a carregar…',lb_empty:'Ainda não há treinadores. Publica uma captura para apareceres aqui.',lb_err:'Não foi possível carregar: {e}',cities_title:'Cidades com mais merdas',cities_empty:'Ainda não há avistamentos.',
+ settings:'Ajustes',sound:'Efeitos sonoros',language:'Idioma',install:'Instalar a app',install_sub:'Adiciona mierdasdelmundo ao ecrã inicial',install_btn:'Instalar',backup:'Cópia de segurança',backup_sub:'Exporta tudo (fotos incluídas) em JSON',export:'Exportar',import:'Importar',reset:'Repor',reset_sub:'Apaga todas as capturas deste dispositivo',delete_all:'Apagar tudo',
+ footer:'ID de treinador {id} · mierdasdelmundo v1.0 · Tudo fica neste dispositivo a menos que ligues a sincronização mundial.',
+ enc_title:'Apareceu uma merda selvagem!',enc_gps:'Posição GPS',enc_exif:'Localização da foto',enc_tag:'etiqueta-a e lança o saco',enc_noloc_gallery:'A foto não tem localização. Define-a no mapa depois',enc_noloc_wait:'À espera do GPS. Podes definir o local no mapa depois',photo_date:'data da foto',file_date:'data do ficheiro',
+ size:'Tamanho',fresh:'Frescura',run:'Fugir',throw:'Lançar',flick:'desliza para cima para lançar ⬆',broke_title:'{name} escapou!',broke_sub:'Lança outra vez. Não vai longe.',broke_msg:'Oh não! Escapou!',
+ gotcha:'APANHADA!',new:'NOVA!',shiny_tag:'✨ BRILHANTE',cp:'PC',no_loc:'Sem localização. Define-a no mapa depois',xp_gain:'+{n} XP',levelup:'⬆️ Subiste de nível! Chegaste ao nível {n}',badge_unlocked:'Medalha desbloqueada: {name}',share_card:'Partilhar cartão',share_card_i:'🖼️ Partilhar cartão',done:'Feito',
+ k_captured:'Apanhada',k_location:'Localização',k_city:'Cidade',k_tags:'Etiquetas',k_throws:'Lançamentos',k_source:'Origem',k_world:'Mundo',from_exif:'dos dados EXIF da foto',from_file:'da data do ficheiro',manual:'definida à mão',not_set:'Por definir',src_gallery:'Foto importada',src_camera:'Câmara',published_ago:'Publicada {ago}',not_published:'Não publicada',
+ notes_ph:'Notas: que cão? que rua? quão grave?',set_loc:'📍 Definir localização',edit_time:'🕒 Editar hora',publish:'🌍 Publicar',published:'🌍 Publicada ✓',delete:'🗑 Apagar',
+ confirm_delete:'Apagar esta {name}? Não é possível desfazer.',confirm_reset:'Apagar as {n} capturas deste dispositivo? Exporta uma cópia primeiro se as quiseres guardar.',
+ t_deleted:'Apagada',t_loc_set:'Localização definida 📍',t_time:'Hora atualizada 🕒',t_set_loc_first:'Define primeiro uma localização',t_published:'Publicada para o mundo 🌍',t_world_err:'Sincronização: {e}',t_world_on:'Sincronização ligada. Já podes publicar as capturas com localização',t_world_first:'Liga primeiro a sincronização mundial no separador Treinador',t_world_loading:'A carregar merdas do mundo…',t_world_n:'{n} merdas de outros treinadores',t_world_0:'Ainda não há avistamentos de outros. Sê o primeiro!',t_world_prefix:'Mundo: {e}',
+ t_no_gps:'Ainda não há sinal GPS',t_no_located:'Ainda não há capturas com localização',t_map_offline:'O mapa não está disponível offline',t_pick_image:'Escolhe uma imagem',t_capture_fail:'Erro ao capturar: {e}',t_photo_fail:'Não foi possível ler a foto: {e}',t_save_fail:'Não foi possível guardar: {e}',t_delete_fail:'Erro ao apagar: {e}',t_card_saved:'Cartão guardado nas transferências',t_share_fail:'Não foi possível partilhar: {e}',
+ t_exported:'{n} capturas exportadas',t_imported:'{n} capturas importadas',t_import_fail:'Erro ao importar: {e}',t_not_backup:'não é uma cópia de mierdasdelmundo',t_reset_fail:'Erro ao repor: {e}',t_reset_done:'Todas as capturas apagadas',t_published_n:'{n} publicadas para o mundo',t_installed:'mierdasdelmundo instalada 💩',t_storage:'Armazenamento indisponível: {e}',
+ e_sync_off:'A sincronização está desligada',e_no_loc:'sem localização',e_bad_url:'indica um URL de base de dados https:// válido',e_network:'erro de rede',
+ share_text:'Apanhei uma {name}{shiny} ({rarity}, {cpl} {cp}) em {city} a {date} com mierdasdelmundo 💩 #mierdasdelmundo',outside:'Fora das grandes cidades',
+ gate_title:'mierdasdelmundo é uma app para o telemóvel',gate_body:'Abre esta ligação no telemóvel e adiciona-a ao ecrã inicial.',gate_scan:'Lê o código com a câmara do telemóvel',
+ r_common:'Comum',r_uncommon:'Incomum',r_rare:'Rara',r_epic:'Épica',r_legendary:'Lendária',sz_S:'Pequena',sz_M:'Média',sz_L:'Grande',sz_XL:'XL',fr_fresh:'Fresca',fr_dry:'Seca',fr_fossil:'Fóssil'},
+fr:{tagline:'attrape-les toutes',tab_catch:'Attraper',tab_map:'Carte',tab_trainer:'Dresseur',
+ cam_na:'Caméra indisponible.',cam_https:"La caméra en direct nécessite HTTPS. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_noapi:"Ce navigateur n'a pas accès à la caméra.",cam_denied:"Accès à la caméra refusé. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_none:"Aucune caméra trouvée. Tu peux quand même prendre des photos avec l'appli appareil photo.",
+ take_photo:'Prendre une photo',cam_hint:'Une crotte en vue ? Appuie sur le déclencheur pour lancer la rencontre.',cam_starting:'La caméra démarre encore…',gallery:'Importer une photo de la galerie',flip:'Changer de caméra',
+ gps_acc:'GPS ±{n} m',gps_finding:'Recherche GPS…',gps_denied:'GPS refusé',gps_none:'Pas de signal GPS',gps_off:'GPS désactivé',
+ captured_n:'{n} attrapées',locate:'Ma position',fit:'Voir toutes les captures',world_btn:'Crottes du monde',pick_hint:"Touche la carte pour définir l'emplacement",cancel:'Annuler',
+ map_offline:"La carte a besoin d'une connexion lors du premier chargement. Recharge la page une fois en ligne.",view:'Voir',
+ dex_captures:'Captures',dex_species:'Espèces',all:'Toutes',dex_empty:"Aucune capture pour l'instant.<br>Va chercher des crottes !",dex_empty_rarity:"Rien de cette rareté pour l'instant.",not_captured:'Pas encore attrapée.',species_disc:'{a}/{b} espèces découvertes',
+ lv:'Niv {n}',level:'Niveau {n}',max:'MAX',xp_only:'{xp} XP',xp_next:'{xp} XP · {need} XP avant le niveau {n}',name_ph:'Ton nom de dresseur',avatar_title:"Changer d'avatar",
+ st_captures:'Captures',st_today:"Aujourd'hui",st_streak:"Jours d'affilée",st_species:'Espèces',st_cities:'Villes',st_shiny:'Brillantes',st_rarest:'Prise la plus rare',st_home:"Ville d'attache",
+ badges:'Badges',sync:'Synchro mondiale',sync_sub:'Partage tes captures sur la carte et le classement mondial',db_url:'URL Firebase Realtime Database',autopub:'Publier automatiquement les nouvelles captures',autopub_sub:'Les captures sans emplacement ne sont jamais publiées',
+ unpub:'Captures non publiées',unpub_n:'{n} avec emplacement, prêtes à publier',unpub_0:'Tout ce qui a un emplacement est publié',publish_all:'Tout publier',
+ lb_title:'Meilleurs dresseurs',lb_loading:'chargement…',lb_empty:'Pas encore de dresseurs. Publie une capture pour apparaître ici.',lb_err:'Chargement impossible : {e}',cities_title:'Villes les plus crottées',cities_empty:"Pas encore d'observations.",
+ settings:'Réglages',sound:'Effets sonores',language:'Langue',install:"Installer l'appli",install_sub:"Ajoute mierdasdelmundo à ton écran d'accueil",install_btn:'Installer',backup:'Sauvegarde',backup_sub:'Exporte tout (photos comprises) en JSON',export:'Exporter',import:'Importer',reset:'Réinitialiser',reset_sub:'Supprime toutes les captures de cet appareil',delete_all:'Tout supprimer',
+ footer:'ID dresseur {id} · mierdasdelmundo v1.0 · Tout reste sur cet appareil sauf si la synchro mondiale est activée.',
+ enc_title:'Une crotte sauvage apparaît !',enc_gps:'Position GPS',enc_exif:'Emplacement de la photo',enc_tag:'étiquette-la, puis lance le sac',enc_noloc_gallery:"Pas d'emplacement dans cette photo. Place-la sur la carte plus tard",enc_noloc_wait:'En attente du GPS. Tu pourras placer le point sur la carte plus tard',photo_date:'date de la photo',file_date:'date du fichier',
+ size:'Taille',fresh:'Fraîcheur',run:'Fuir',throw:'Lancer',flick:'glisse vers le haut pour lancer ⬆',broke_title:"{name} s'est échappée !",broke_sub:"Relance. Elle n'ira pas loin.",broke_msg:"Oh non ! Elle s'est échappée !",
+ gotcha:'ATTRAPÉE !',new:'NOUVEAU !',shiny_tag:'✨ BRILLANTE',cp:'PC',no_loc:"Pas d'emplacement. Place-la sur la carte plus tard",xp_gain:'+{n} XP',levelup:'⬆️ Niveau supérieur ! Tu atteins le niveau {n}',badge_unlocked:'Badge débloqué : {name}',share_card:'Partager la carte',share_card_i:'🖼️ Partager la carte',done:'Terminé',
+ k_captured:'Attrapée',k_location:'Emplacement',k_city:'Ville',k_tags:'Étiquettes',k_throws:'Lancers',k_source:'Source',k_world:'Monde',from_exif:"d'après les données EXIF",from_file:"d'après la date du fichier",manual:'défini à la main',not_set:'Non défini',src_gallery:'Photo importée',src_camera:'Caméra',published_ago:'Publiée {ago}',not_published:'Non publiée',
+ notes_ph:'Notes : quel chien ? quelle rue ? à quel point ?',set_loc:"📍 Définir l'emplacement",edit_time:"🕒 Modifier l'heure",publish:'🌍 Publier',published:'🌍 Publiée ✓',delete:'🗑 Supprimer',
+ confirm_delete:"Supprimer cette {name} ? C'est irréversible.",confirm_reset:"Supprimer les {n} captures de cet appareil ? Exporte une sauvegarde d'abord si tu veux les garder.",
+ t_deleted:'Supprimée',t_loc_set:'Emplacement défini 📍',t_time:'Heure mise à jour 🕒',t_set_loc_first:"Définis d'abord un emplacement",t_published:'Publiée au monde 🌍',t_world_err:'Synchro : {e}',t_world_on:'Synchro activée. Les captures avec emplacement peuvent être publiées',t_world_first:"Active d'abord la synchro mondiale dans l'onglet Dresseur",t_world_loading:'Chargement des crottes du monde…',t_world_n:"{n} crottes d'autres dresseurs",t_world_0:"Pas encore d'observations des autres. Sois le premier !",t_world_prefix:'Monde : {e}',
+ t_no_gps:'Pas encore de signal GPS',t_no_located:'Pas encore de captures localisées',t_map_offline:"La carte n'est pas disponible hors ligne",t_pick_image:'Choisis une image',t_capture_fail:'Échec de la capture : {e}',t_photo_fail:'Impossible de lire cette photo : {e}',t_save_fail:"Impossible d'enregistrer : {e}",t_delete_fail:'Échec de la suppression : {e}',t_card_saved:'Carte enregistrée dans les téléchargements',t_share_fail:'Échec du partage : {e}',
+ t_exported:'{n} captures exportées',t_imported:'{n} captures importées',t_import_fail:"Échec de l'import : {e}",t_not_backup:"ce n'est pas une sauvegarde mierdasdelmundo",t_reset_fail:'Échec de la réinitialisation : {e}',t_reset_done:'Toutes les captures supprimées',t_published_n:'{n} publiées au monde',t_installed:'mierdasdelmundo installée 💩',t_storage:'Stockage indisponible : {e}',
+ e_sync_off:'La synchro est désactivée',e_no_loc:"pas d'emplacement",e_bad_url:'indique une URL de base de données https:// valide',e_network:'erreur réseau',
+ share_text:"J'ai attrapé une {name}{shiny} ({rarity}, {cpl} {cp}) à {city} le {date} avec mierdasdelmundo 💩 #mierdasdelmundo",outside:'Hors des grandes villes',
+ gate_title:'mierdasdelmundo est une appli pour téléphone',gate_body:"Ouvre ce lien sur ton téléphone, puis ajoute-le à l'écran d'accueil.",gate_scan:"Scanne-le avec l'appareil photo du téléphone",
+ r_common:'Commune',r_uncommon:'Peu commune',r_rare:'Rare',r_epic:'Épique',r_legendary:'Légendaire',sz_S:'Petite',sz_M:'Moyenne',sz_L:'Grande',sz_XL:'XL',fr_fresh:'Fraîche',fr_dry:'Sèche',fr_fossil:'Fossile'},
+de:{tagline:'schnapp sie dir alle',tab_catch:'Fangen',tab_map:'Karte',tab_trainer:'Trainer',
+ cam_na:'Kamera nicht verfügbar.',cam_https:'Die Live-Kamera braucht HTTPS. Fotos gehen trotzdem über die Kamera-App.',cam_noapi:'Dieser Browser hat keinen Kamerazugriff.',cam_denied:'Kamerazugriff verweigert. Fotos gehen trotzdem über die Kamera-App.',cam_none:'Keine Kamera gefunden. Fotos gehen trotzdem über die Kamera-App.',
+ take_photo:'Foto aufnehmen',cam_hint:'Haufen entdeckt? Tipp auf den Auslöser und starte die Begegnung.',cam_starting:'Die Kamera startet noch…',gallery:'Foto aus der Galerie importieren',flip:'Kamera wechseln',
+ gps_acc:'GPS ±{n} m',gps_finding:'GPS wird gesucht…',gps_denied:'GPS verweigert',gps_none:'Kein GPS-Signal',gps_off:'GPS aus',
+ captured_n:'{n} gefangen',locate:'Mein Standort',fit:'Alle Fänge anzeigen',world_btn:'Haufen der Welt',pick_hint:'Tipp auf die Karte, um den Ort festzulegen',cancel:'Abbrechen',
+ map_offline:'Die Karte braucht beim ersten Laden eine Internetverbindung. Lade die Seite neu, sobald du online bist.',view:'Ansehen',
+ dex_captures:'Fänge',dex_species:'Arten',all:'Alle',dex_empty:'Noch keine Fänge.<br>Geh raus und such Haufen!',dex_empty_rarity:'Noch nichts dieser Seltenheit.',not_captured:'Noch nicht gefangen.',species_disc:'{a}/{b} Arten entdeckt',
+ lv:'Lv {n}',level:'Level {n}',max:'MAX',xp_only:'{xp} XP',xp_next:'{xp} XP · {need} XP bis Level {n}',name_ph:'Dein Trainername',avatar_title:'Avatar ändern',
+ st_captures:'Fänge',st_today:'Heute',st_streak:'Tage in Folge',st_species:'Arten',st_cities:'Städte',st_shiny:'Glänzend',st_rarest:'Seltenster Fang',st_home:'Heimatstadt',
+ badges:'Abzeichen',sync:'Welt-Sync',sync_sub:'Teile deine Fänge auf der Weltkarte und in der Rangliste',db_url:'Firebase Realtime Database URL',autopub:'Neue Fänge automatisch veröffentlichen',autopub_sub:'Fänge ohne Standort werden nie veröffentlicht',
+ unpub:'Unveröffentlichte Fänge',unpub_n:'{n} mit Standort, bereit zur Veröffentlichung',unpub_0:'Alles mit Standort ist veröffentlicht',publish_all:'Alle veröffentlichen',
+ lb_title:'Top-Trainer',lb_loading:'lädt…',lb_empty:'Noch keine Trainer. Veröffentliche einen Fang, um hier zu erscheinen.',lb_err:'Laden fehlgeschlagen: {e}',cities_title:'Städte mit den meisten Haufen',cities_empty:'Noch keine Sichtungen.',
+ settings:'Einstellungen',sound:'Soundeffekte',language:'Sprache',install:'App installieren',install_sub:'Füge mierdasdelmundo deinem Startbildschirm hinzu',install_btn:'Installieren',backup:'Sicherung',backup_sub:'Alles (inklusive Fotos) als JSON exportieren',export:'Exportieren',import:'Importieren',reset:'Zurücksetzen',reset_sub:'Alle Fänge auf diesem Gerät löschen',delete_all:'Alles löschen',
+ footer:'Trainer-ID {id} · mierdasdelmundo v1.0 · Alles bleibt auf diesem Gerät, solange Welt-Sync aus ist.',
+ enc_title:'Ein wilder Haufen erscheint!',enc_gps:'GPS-Position',enc_exif:'Standort aus dem Foto',enc_tag:'markieren, dann die Tüte werfen',enc_noloc_gallery:'Kein Standort im Foto. Später auf der Karte setzen',enc_noloc_wait:'Warte auf GPS. Den Ort kannst du später auf der Karte setzen',photo_date:'Fotodatum',file_date:'Dateidatum',
+ size:'Größe',fresh:'Frische',run:'Weglaufen',throw:'Werfen',flick:'nach oben wischen zum Werfen ⬆',broke_title:'{name} hat sich befreit!',broke_sub:'Nochmal werfen. Weit kommt er nicht.',broke_msg:'Oh nein! Er ist entkommen!',
+ gotcha:'GEFANGEN!',new:'NEU!',shiny_tag:'✨ GLÄNZEND',cp:'WP',no_loc:'Kein Standort. Später auf der Karte setzen',xp_gain:'+{n} XP',levelup:'⬆️ Level-Up! Du hast Level {n} erreicht',badge_unlocked:'Abzeichen freigeschaltet: {name}',share_card:'Karte teilen',share_card_i:'🖼️ Karte teilen',done:'Fertig',
+ k_captured:'Gefangen',k_location:'Standort',k_city:'Stadt',k_tags:'Merkmale',k_throws:'Würfe',k_source:'Quelle',k_world:'Welt',from_exif:'aus den EXIF-Daten',from_file:'aus dem Dateidatum',manual:'manuell gesetzt',not_set:'Nicht gesetzt',src_gallery:'Importiertes Foto',src_camera:'Kamera',published_ago:'Veröffentlicht {ago}',not_published:'Nicht veröffentlicht',
+ notes_ph:'Notizen: Welcher Hund? Welche Straße? Wie schlimm?',set_loc:'📍 Standort setzen',edit_time:'🕒 Zeit ändern',publish:'🌍 Veröffentlichen',published:'🌍 Veröffentlicht ✓',delete:'🗑 Löschen',
+ confirm_delete:'Diesen {name} löschen? Das lässt sich nicht rückgängig machen.',confirm_reset:'Alle {n} Fänge von diesem Gerät löschen? Exportiere vorher eine Sicherung, wenn du sie behalten willst.',
+ t_deleted:'Gelöscht',t_loc_set:'Standort gesetzt 📍',t_time:'Zeit aktualisiert 🕒',t_set_loc_first:'Setze zuerst einen Standort',t_published:'Für die Welt veröffentlicht 🌍',t_world_err:'Welt-Sync: {e}',t_world_on:'Welt-Sync an. Fänge mit Standort können jetzt veröffentlicht werden',t_world_first:'Schalte zuerst Welt-Sync im Trainer-Tab ein',t_world_loading:'Haufen der Welt werden geladen…',t_world_n:'{n} Haufen von anderen Trainern',t_world_0:'Noch keine Sichtungen von anderen. Sei der Erste!',t_world_prefix:'Welt: {e}',
+ t_no_gps:'Noch kein GPS-Signal',t_no_located:'Noch keine Fänge mit Standort',t_map_offline:'Die Karte ist offline nicht verfügbar',t_pick_image:'Bitte ein Bild auswählen',t_capture_fail:'Aufnahme fehlgeschlagen: {e}',t_photo_fail:'Foto konnte nicht gelesen werden: {e}',t_save_fail:'Speichern fehlgeschlagen: {e}',t_delete_fail:'Löschen fehlgeschlagen: {e}',t_card_saved:'Karte in Downloads gespeichert',t_share_fail:'Teilen fehlgeschlagen: {e}',
+ t_exported:'{n} Fänge exportiert',t_imported:'{n} Fänge importiert',t_import_fail:'Import fehlgeschlagen: {e}',t_not_backup:'keine mierdasdelmundo-Sicherung',t_reset_fail:'Zurücksetzen fehlgeschlagen: {e}',t_reset_done:'Alle Fänge gelöscht',t_published_n:'{n} für die Welt veröffentlicht',t_installed:'mierdasdelmundo installiert 💩',t_storage:'Speicher nicht verfügbar: {e}',
+ e_sync_off:'Welt-Sync ist aus',e_no_loc:'kein Standort',e_bad_url:'gib eine gültige https://-Datenbank-URL ein',e_network:'Netzwerkfehler',
+ share_text:'Ich habe einen {shiny}{name} ({rarity}, {cpl} {cp}) in {city} am {date} mit mierdasdelmundo gefangen 💩 #mierdasdelmundo',outside:'Außerhalb der Großstädte',
+ gate_title:'mierdasdelmundo ist eine App fürs Handy',gate_body:'Öffne diesen Link auf deinem Handy und füge ihn dem Startbildschirm hinzu.',gate_scan:'Mit der Handykamera scannen',
+ r_common:'Gewöhnlich',r_uncommon:'Ungewöhnlich',r_rare:'Selten',r_epic:'Episch',r_legendary:'Legendär',sz_S:'Klein',sz_M:'Mittel',sz_L:'Groß',sz_XL:'XL',fr_fresh:'Frisch',fr_dry:'Trocken',fr_fossil:'Fossil'},
+it:{tagline:'acchiappale tutte',tab_catch:'Cattura',tab_map:'Mappa',tab_trainer:'Allenatore',
+ cam_na:'Fotocamera non disponibile.',cam_https:"La fotocamera dal vivo richiede HTTPS. Puoi comunque scattare foto con l'app fotocamera.",cam_noapi:'Questo browser non ha accesso alla fotocamera.',cam_denied:"Permesso fotocamera negato. Puoi comunque scattare foto con l'app fotocamera.",cam_none:"Nessuna fotocamera trovata. Puoi comunque scattare foto con l'app fotocamera.",
+ take_photo:'Scatta una foto',cam_hint:"Vedi una cacca? Tocca il pulsante di scatto per iniziare l'incontro.",cam_starting:'La fotocamera si sta ancora avviando…',gallery:'Importa una foto dalla galleria',flip:'Cambia fotocamera',
+ gps_acc:'GPS ±{n} m',gps_finding:'Ricerca GPS…',gps_denied:'GPS negato',gps_none:'Nessun segnale GPS',gps_off:'GPS spento',
+ captured_n:'{n} catturate',locate:'La mia posizione',fit:'Mostra tutte le catture',world_btn:'Cacche del mondo',pick_hint:'Tocca la mappa per impostare la posizione',cancel:'Annulla',
+ map_offline:'La mappa richiede una connessione al primo caricamento. Ricarica quando sei di nuovo online.',view:'Vedi',
+ dex_captures:'Catture',dex_species:'Specie',all:'Tutte',dex_empty:'Nessuna cattura ancora.<br>Vai a cercare cacche!',dex_empty_rarity:'Niente di questa rarità ancora.',not_captured:'Non ancora catturata.',species_disc:'{a}/{b} specie scoperte',
+ lv:'Lv {n}',level:'Livello {n}',max:'MAX',xp_only:'{xp} XP',xp_next:'{xp} XP · {need} XP al livello {n}',name_ph:'Il tuo nome da allenatore',avatar_title:'Cambia avatar',
+ st_captures:'Catture',st_today:'Oggi',st_streak:'Giorni di fila',st_species:'Specie',st_cities:'Città',st_shiny:'Brillanti',st_rarest:'Cattura più rara',st_home:'Città base',
+ badges:'Medaglie',sync:'Sincronizzazione mondiale',sync_sub:'Condividi le tue catture sulla mappa e in classifica mondiale',db_url:'URL Firebase Realtime Database',autopub:'Pubblica automaticamente le nuove catture',autopub_sub:'Le catture senza posizione non vengono mai pubblicate',
+ unpub:'Catture non pubblicate',unpub_n:'{n} con posizione, pronte da pubblicare',unpub_0:'Tutto ciò che ha una posizione è pubblicato',publish_all:'Pubblica tutto',
+ lb_title:'Migliori allenatori',lb_loading:'caricamento…',lb_empty:'Nessun allenatore ancora. Pubblica una cattura per apparire qui.',lb_err:'Impossibile caricare: {e}',cities_title:'Città con più cacche',cities_empty:'Nessun avvistamento ancora.',
+ settings:'Impostazioni',sound:'Effetti sonori',language:'Lingua',install:"Installa l'app",install_sub:'Aggiungi mierdasdelmundo alla schermata Home',install_btn:'Installa',backup:'Backup',backup_sub:'Esporta tutto (foto incluse) in JSON',export:'Esporta',import:'Importa',reset:'Reimposta',reset_sub:'Elimina tutte le catture su questo dispositivo',delete_all:'Elimina tutto',
+ footer:'ID allenatore {id} · mierdasdelmundo v1.0 · Tutto resta su questo dispositivo a meno che la sincronizzazione mondiale non sia attiva.',
+ enc_title:'È apparsa una cacca selvatica!',enc_gps:'Posizione GPS',enc_exif:'Posizione dalla foto',enc_tag:'etichettala, poi lancia il sacchetto',enc_noloc_gallery:'Nessuna posizione nella foto. Impostala sulla mappa dopo',enc_noloc_wait:'In attesa del GPS. Puoi impostare il punto sulla mappa dopo',photo_date:'data della foto',file_date:'data del file',
+ size:'Dimensione',fresh:'Freschezza',run:'Scappa',throw:'Lancia',flick:'scorri in alto per lanciare ⬆',broke_title:'{name} è scappata!',broke_sub:'Lancia di nuovo. Non andrà lontano.',broke_msg:'Oh no! È scappata!',
+ gotcha:'PRESA!',new:'NUOVA!',shiny_tag:'✨ BRILLANTE',cp:'PL',no_loc:'Nessuna posizione. Impostala sulla mappa dopo',xp_gain:'+{n} XP',levelup:'⬆️ Livello superiore! Hai raggiunto il livello {n}',badge_unlocked:'Medaglia sbloccata: {name}',share_card:'Condividi la card',share_card_i:'🖼️ Condividi la card',done:'Fatto',
+ k_captured:'Catturata',k_location:'Posizione',k_city:'Città',k_tags:'Etichette',k_throws:'Lanci',k_source:'Origine',k_world:'Mondo',from_exif:'dai dati EXIF della foto',from_file:'dalla data del file',manual:'impostata a mano',not_set:'Non impostata',src_gallery:'Foto importata',src_camera:'Fotocamera',published_ago:'Pubblicata {ago}',not_published:'Non pubblicata',
+ notes_ph:'Note: quale cane? quale via? quanto grave?',set_loc:'📍 Imposta posizione',edit_time:'🕒 Modifica ora',publish:'🌍 Pubblica',published:'🌍 Pubblicata ✓',delete:'🗑 Elimina',
+ confirm_delete:'Eliminare questa {name}? Non si può annullare.',confirm_reset:'Eliminare tutte le {n} catture da questo dispositivo? Esporta prima un backup se vuoi conservarle.',
+ t_deleted:'Eliminata',t_loc_set:'Posizione impostata 📍',t_time:'Ora aggiornata 🕒',t_set_loc_first:'Imposta prima una posizione',t_published:'Pubblicata al mondo 🌍',t_world_err:'Sincronizzazione: {e}',t_world_on:'Sincronizzazione attiva. Ora puoi pubblicare le catture con posizione',t_world_first:'Attiva prima la sincronizzazione mondiale nella scheda Allenatore',t_world_loading:'Caricamento cacche del mondo…',t_world_n:'{n} cacche di altri allenatori',t_world_0:'Nessun avvistamento dagli altri ancora. Sii il primo!',t_world_prefix:'Mondo: {e}',
+ t_no_gps:'Nessun segnale GPS ancora',t_no_located:'Nessuna cattura con posizione ancora',t_map_offline:'La mappa non è disponibile offline',t_pick_image:"Scegli un'immagine",t_capture_fail:'Cattura fallita: {e}',t_photo_fail:'Impossibile leggere la foto: {e}',t_save_fail:'Impossibile salvare: {e}',t_delete_fail:'Eliminazione fallita: {e}',t_card_saved:'Card salvata nei download',t_share_fail:'Condivisione fallita: {e}',
+ t_exported:'{n} catture esportate',t_imported:'{n} catture importate',t_import_fail:'Importazione fallita: {e}',t_not_backup:'non è un backup di mierdasdelmundo',t_reset_fail:'Reimpostazione fallita: {e}',t_reset_done:'Tutte le catture eliminate',t_published_n:'{n} pubblicate al mondo',t_installed:'mierdasdelmundo installata 💩',t_storage:'Archiviazione non disponibile: {e}',
+ e_sync_off:'La sincronizzazione è disattivata',e_no_loc:'nessuna posizione',e_bad_url:'inserisci un URL del database https:// valido',e_network:'errore di rete',
+ share_text:'Ho catturato una {name}{shiny} ({rarity}, {cpl} {cp}) a {city} il {date} con mierdasdelmundo 💩 #mierdasdelmundo',outside:'Fuori dalle grandi città',
+ gate_title:"mierdasdelmundo è un'app per il telefono",gate_body:'Apri questo link sul telefono e aggiungilo alla schermata Home.',gate_scan:'Inquadralo con la fotocamera del telefono',
+ r_common:'Comune',r_uncommon:'Non comune',r_rare:'Rara',r_epic:'Epica',r_legendary:'Leggendaria',sz_S:'Piccola',sz_M:'Media',sz_L:'Grande',sz_XL:'XL',fr_fresh:'Fresca',fr_dry:'Secca',fr_fossil:'Fossile'},
+};
+
+/* ---------------- utils ---------------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const uid=(p='c')=>p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const rndi=(a,b)=>Math.floor(rnd(a,b+1));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad2=n=>String(n).padStart(2,'0');
+let lang='en';
+function t(key,vars){ let s=(I18N[lang]&&I18N[lang][key])??I18N.en[key]??key; if(vars) for(const k in vars) s=s.split('{'+k+'}').join(String(vars[k])); return s; }
+const locale=()=>{ const nl=navigator.language||''; return nl.toLowerCase().startsWith(lang)?nl:lang; };
+const fmtDT=ts=>{ try{ return new Intl.DateTimeFormat(locale(),{dateStyle:'medium',timeStyle:'short'}).format(new Date(ts)); }catch(e){ return new Date(ts).toLocaleString(); } };
+const fmtDate=ts=>{ try{ return new Intl.DateTimeFormat(locale(),{dateStyle:'medium'}).format(new Date(ts)); }catch(e){ return new Date(ts).toLocaleDateString(); } };
+function fmtISO(ts){ const d=new Date(ts), off=-d.getTimezoneOffset(), s=off>=0?'+':'-';
+  return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}${s}${pad2(Math.floor(Math.abs(off)/60))}:${pad2(Math.abs(off)%60)}`; }
+const dayKey=ts=>{ const d=new Date(ts); return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; };
+function timeAgo(ts){ const s=Math.round((Date.now()-ts)/1000); let v=0,u='second';
+  if(s>=45&&s<3600){ v=-Math.round(s/60); u='minute'; } else if(s>=3600&&s<86400){ v=-Math.round(s/3600); u='hour'; } else if(s>=86400&&s<30*86400){ v=-Math.round(s/86400); u='day'; } else if(s>=30*86400&&s<365*86400){ v=-Math.round(s/2592000); u='month'; } else if(s>=365*86400){ v=-Math.round(s/31536000); u='year'; }
+  try{ const rtf=new Intl.RelativeTimeFormat(locale(),{numeric:'auto'}); return rtf.format(v,u); }catch(e){ return v===0?'now':`${-v} ${u}`; } }
+const fmtCoord=(lat,lng)=>`${Math.abs(lat).toFixed(5)}° ${lat>=0?'N':'S'}, ${Math.abs(lng).toFixed(5)}° ${lng>=0?'E':'W'}`;
+function haversine(a,b){ const R=6371000, toR=x=>x*Math.PI/180; const dLat=toR(b.lat-a.lat), dLng=toR(b.lng-a.lng);
+  const h=Math.sin(dLat/2)**2+Math.cos(toR(a.lat))*Math.cos(toR(b.lat))*Math.sin(dLng/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
+let toastT; function toast(msg,ms=2400){ const el=$('#toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),ms); }
+function weightedPick(w){ const ks=Object.keys(w); let tot=0; ks.forEach(k=>tot+=Math.max(0,w[k]||0)); if(tot<=0) return ks[rndi(0,ks.length-1)];
+  let r=Math.random()*tot; for(const k of ks){ r-=Math.max(0,w[k]||0); if(r<=0) return k; } return ks[ks.length-1]; }
+function download(blob,name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),3000); }
+
+/* ---------------- game data ---------------- */
+const RARITY={
+  common:   {color:'#8E8E8E', weight:50, xp:25,  cp:[10,100],   catch:1.0},
+  uncommon: {color:'#5BA85A', weight:28, xp:50,  cp:[80,250],   catch:0.9},
+  rare:     {color:'#3D8BE8', weight:14, xp:100, cp:[200,500],  catch:0.75},
+  epic:     {color:'#9B59E8', weight:6,  xp:200, cp:[450,900],  catch:0.6},
+  legendary:{color:'#F2A51A', weight:2,  xp:500, cp:[850,1500], catch:0.5},
+};
+const RARITY_ORDER=Object.keys(RARITY);
+const SIZES={S:.8,M:1,L:1.2,XL:1.5};
+const FRESH=['fresh','dry','fossil'];
+const SHINY_RATE=1/50;
+const rarityLabel=r=>t('r_'+r), sizeLabel=s=>t('sz_'+s), freshLabel=f=>t('fr_'+f);
+// ctx for boosts: {size, fresh, hour, city}
+const SPECIES=[
+  {id:'sidewalk_nugget',name:'Sidewalk Nugget',rarity:'common',icon:'🧱',dex:'The most common specimen on Earth. Found wherever a human forgot the bag.'},
+  {id:'lawn_lurker',name:'Lawn Lurker',rarity:'common',icon:'🌿',dex:'Hides in tall grass. Usually discovered by a shoe.'},
+  {id:'curb_crumble',name:'Curb Crumble',rarity:'common',icon:'🧂',dex:'Dries fast in the sun and crumbles at the slightest touch.',boost:c=>c.fresh==='dry'?2.5:.8},
+  {id:'park_pebble',name:'Park Pebble',rarity:'common',icon:'🪨',dex:'Small, round and surprisingly aerodynamic.',boost:c=>c.size==='S'?2.5:.7},
+  {id:'gravel_gremlin',name:'Gravel Gremlin',rarity:'common',icon:'🪵',dex:'Blends into gravel paths. A master of camouflage.'},
+  {id:'morning_dropper',name:'Morning Dropper',rarity:'common',icon:'🌅',dex:'Appears at dawn, during the first walk of the day.',boost:c=>c.hour>=5&&c.hour<9?3:.4},
+  {id:'puddle_pal',name:'Puddle Pal',rarity:'common',icon:'💧',dex:'Prefers damp spots. Do not step in it. Seriously.',boost:c=>c.fresh==='fresh'?1.4:.6},
+  {id:'trail_tumbler',name:'Trail Tumbler',rarity:'common',icon:'🥾',dex:'Rolls slightly downhill on hiking trails.',boost:c=>c.city?.5:2.5},
+  {id:'bus_stop_bomber',name:'Bus Stop Bomber',rarity:'common',icon:'🚌',dex:'Deposited while waiting for the 42. The 42 never came.',boost:c=>c.city?2:.5},
+  {id:'curb_coil',name:'Curb Coil',rarity:'uncommon',icon:'🌀',dex:'A tidy spiral. Its author was clearly a perfectionist.'},
+  {id:'twin_stack',name:'Twin Stack',rarity:'uncommon',icon:'✌️',dex:'Two segments, one event. Twice the evidence.'},
+  {id:'mulch_mimic',name:'Mulch Mimic',rarity:'uncommon',icon:'🍂',dex:'Nearly indistinguishable from bark mulch. Nearly.',boost:c=>c.fresh==='dry'?2:1},
+  {id:'snow_slug',name:'Snow Slug',rarity:'uncommon',icon:'❄️',dex:'Winter variant. Preserved by the cold for weeks.'},
+  {id:'beach_blob',name:'Beach Blob',rarity:'uncommon',icon:'🏖️',dex:'Half sand, half regret.'},
+  {id:'doorstep_diplomat',name:'Doorstep Diplomat',rarity:'uncommon',icon:'🚪',dex:'Left precisely on a doorstep. A message, surely.',boost:c=>c.city?1.5:.7},
+  {id:'hydrant_hugger',name:'Hydrant Hugger',rarity:'uncommon',icon:'🧯',dex:'Always within one meter of a fire hydrant.',boost:c=>c.city?1.5:.7},
+  {id:'crosswalk_crumb',name:'Crosswalk Crumb',rarity:'uncommon',icon:'🚸',dex:'Lives on the zebra stripes. Pedestrians have right of way; it does not care.',boost:c=>c.city?2:.3},
+  {id:'golden_log',name:'Golden Log',rarity:'rare',icon:'🥇',dex:'Shimmers in the afternoon light. Larger than it has any right to be.',boost:c=>c.size==='L'||c.size==='XL'?2:1},
+  {id:'triple_tower',name:'Triple Tower',rarity:'rare',icon:'🗼',dex:'Three segments stacked. Architecture at its finest.'},
+  {id:'bike_lane_bandit',name:'Bike Lane Bandit',rarity:'rare',icon:'🚲',dex:'Lies in wait for cyclists. Rarely survives the encounter.',boost:c=>c.city?1.5:.6},
+  {id:'zen_spiral',name:'Zen Spiral',rarity:'rare',icon:'🧘',dex:'Perfectly coiled. Some say it brings inner calm.'},
+  {id:'great_dane_deposit',name:'Great Dane Deposit',rarity:'rare',icon:'🐕',dex:'Leaves no doubt about the size of its author.',boost:c=>c.size==='XL'?3:c.size==='L'?1.5:.5},
+  {id:'playground_phantom',name:'Playground Phantom',rarity:'rare',icon:'👻',dex:'Nobody saw it arrive. Everyone saw it leave, on a shoe.'},
+  {id:'metro_mouth',name:'Metro Mouth',rarity:'rare',icon:'🚇',dex:'Found at the top of the subway stairs. Commuters know it by name.',boost:c=>c.city?2.5:.2},
+  {id:'mega_mound',name:'Mega Mound',rarity:'epic',icon:'⛰️',dex:'A monument. Visible from the other side of the park.',boost:c=>c.size==='XL'?3:c.size==='L'?1.2:.4},
+  {id:'glitter_ghost',name:'Glitter Ghost',rarity:'epic',icon:'✨',dex:'Someone fed that dog glitter. It sparkles.'},
+  {id:'frozen_fossil',name:'Frozen Fossil',rarity:'epic',icon:'🦴',dex:'Ancient. Petrified. Possibly older than the sidewalk.',boost:c=>c.fresh==='fossil'?4:.3},
+  {id:'midnight_menace',name:'Midnight Menace',rarity:'epic',icon:'🌙',dex:'Only appears between midnight and 5 AM. Strictly nocturnal.',boost:c=>c.hour<5?5:0},
+  {id:'tourist_trap',name:'Tourist Trap',rarity:'epic',icon:'🗽',dex:'Right in front of the monument. In every photo. Forever.',boost:c=>c.city?2.5:.2},
+  {id:'dragon_dump',name:'The Dragon Dump',rarity:'legendary',icon:'🐉',dex:'Legends speak of it. Few have witnessed it. Fewer have cleaned it.',boost:c=>c.size==='XL'?2:1},
+  {id:'rainbow_relic',name:'Rainbow Relic',rarity:'legendary',icon:'🌈',dex:'Impossibly colorful. Scientists remain baffled.'},
+  {id:'everest_pile',name:'Everest Pile',rarity:'legendary',icon:'🏔️',dex:'Peak performance. Bring a sherpa.',boost:c=>c.size==='XL'?3:c.size==='L'?1:.3},
+];
+const SPECIES_BY_ID=Object.fromEntries(SPECIES.map(s=>[s.id,s]));
+const speciesOf=id=>SPECIES_BY_ID[id]||{id,name:'Unknown Poop',rarity:'common',icon:'❓',dex:'An unidentified specimen.'};
+// [name, dex entry] per language; English lives in SPECIES itself.
+const SP_I18N={
+es:{sidewalk_nugget:['Pepita de Acera','El espécimen más común del planeta. Aparece donde alguien olvidó la bolsa.'],lawn_lurker:['Acechadora del Césped','Se esconde entre la hierba alta. Casi siempre la descubre un zapato.'],curb_crumble:['Migaja de Bordillo','Se seca rápido al sol y se deshace al mínimo roce.'],park_pebble:['Guijarro de Parque','Pequeña, redonda y sorprendentemente aerodinámica.'],gravel_gremlin:['Gremlin de Gravilla','Se confunde con los caminos de grava. Una maestra del camuflaje.'],morning_dropper:['Madrugadora','Aparece al amanecer, en el primer paseo del día.'],puddle_pal:['Amiga del Charco','Prefiere los sitios húmedos. No la pises. En serio.'],trail_tumbler:['Rodadora de Sendero','Rueda cuesta abajo, despacito, por los senderos.'],bus_stop_bomber:['Bombardera de Parada','Depositada mientras esperaba el 42. El 42 nunca llegó.'],
+ curb_coil:['Espiral de Bordillo','Una espiral impecable. Su autor era claramente perfeccionista.'],twin_stack:['Doble Montón','Dos tramos, un solo evento. El doble de pruebas.'],mulch_mimic:['Imitadora de Mantillo','Casi imposible de distinguir de la corteza de pino. Casi.'],snow_slug:['Babosa de Nieve','Variante invernal. El frío la conserva durante semanas.'],beach_blob:['Pegote de Playa','Mitad arena, mitad arrepentimiento.'],doorstep_diplomat:['Diplomática de Portal','Dejada justo en la puerta. Un mensaje, sin duda.'],hydrant_hugger:['Abrazafarolas','Siempre a menos de un metro de una farola.'],crosswalk_crumb:['Migaja de Paso de Cebra','Vive sobre las rayas blancas. Los peatones tienen prioridad; a ella le da igual.'],
+ golden_log:['Tronco Dorado','Brilla con la luz de la tarde. Más grande de lo que debería ser legal.'],triple_tower:['Torre Triple','Tres tramos apilados. Arquitectura en estado puro.'],bike_lane_bandit:['Bandida del Carril Bici','Acecha a los ciclistas. Rara vez sobrevive al encuentro.'],zen_spiral:['Espiral Zen','Perfectamente enroscada. Dicen que trae paz interior.'],great_dane_deposit:['Depósito de Gran Danés','No deja ninguna duda sobre el tamaño de su autor.'],playground_phantom:['Fantasma del Parque Infantil','Nadie la vio llegar. Todos la vieron irse, en un zapato.'],metro_mouth:['Boca de Metro','Aparece en lo alto de las escaleras del metro. Los pasajeros la conocen por su nombre.'],
+ mega_mound:['Megamontaña','Un monumento. Se ve desde la otra punta del parque.'],glitter_ghost:['Fantasma de Purpurina','Alguien le dio purpurina a ese perro. Brilla.'],frozen_fossil:['Fósil Congelado','Antigua. Petrificada. Posiblemente más vieja que la acera.'],midnight_menace:['Amenaza de Medianoche','Solo aparece entre las doce y las cinco de la madrugada. Estrictamente nocturna.'],tourist_trap:['Trampa para Turistas','Justo delante del monumento. En todas las fotos. Para siempre.'],
+ dragon_dump:['La Deposición del Dragón','Las leyendas hablan de ella. Pocos la han visto. Menos aún la han limpiado.'],rainbow_relic:['Reliquia Arcoíris','Imposiblemente colorida. La ciencia sigue sin explicación.'],everest_pile:['Pila Everest','Rendimiento de cumbre. Trae un sherpa.']},
+pt:{sidewalk_nugget:['Pepita de Passeio','O espécime mais comum do planeta. Aparece onde alguém esqueceu o saco.'],lawn_lurker:['Espreitadora da Relva','Esconde-se na relva alta. Quase sempre é um sapato que a descobre.'],curb_crumble:['Migalha de Lancil','Seca depressa ao sol e desfaz-se ao mínimo toque.'],park_pebble:['Seixo de Parque','Pequena, redonda e surpreendentemente aerodinâmica.'],gravel_gremlin:['Gremlin do Cascalho','Confunde-se com os caminhos de gravilha. Uma mestre da camuflagem.'],morning_dropper:['Madrugadora','Aparece ao amanhecer, no primeiro passeio do dia.'],puddle_pal:['Amiga da Poça','Prefere sítios húmidos. Não a pises. A sério.'],trail_tumbler:['Rolante de Trilho','Rola devagarinho pela encosta dos trilhos.'],bus_stop_bomber:['Bombista da Paragem','Depositada à espera do 42. O 42 nunca chegou.'],
+ curb_coil:['Espiral de Lancil','Uma espiral impecável. O autor era claramente perfeccionista.'],twin_stack:['Pilha Dupla','Dois segmentos, um só evento. O dobro das provas.'],mulch_mimic:['Imitadora de Casca','Quase impossível de distinguir da casca de pinheiro. Quase.'],snow_slug:['Lesma de Neve','Variante de inverno. O frio conserva-a durante semanas.'],beach_blob:['Bolota de Praia','Metade areia, metade arrependimento.'],doorstep_diplomat:['Diplomata de Soleira','Deixada mesmo à porta. Uma mensagem, sem dúvida.'],hydrant_hugger:['Abraça-Postes','Sempre a menos de um metro de um poste.'],crosswalk_crumb:['Migalha de Passadeira','Vive nas riscas brancas. Os peões têm prioridade; ela está-se nas tintas.'],
+ golden_log:['Tronco Dourado','Brilha à luz da tarde. Maior do que deveria ser permitido.'],triple_tower:['Torre Tripla','Três segmentos empilhados. Arquitetura no seu melhor.'],bike_lane_bandit:['Bandida da Ciclovia','Espera pelos ciclistas. Raramente sobrevive ao encontro.'],zen_spiral:['Espiral Zen','Perfeitamente enrolada. Dizem que traz paz interior.'],great_dane_deposit:['Depósito de Dogue Alemão','Não deixa dúvidas sobre o tamanho do autor.'],playground_phantom:['Fantasma do Parque Infantil','Ninguém a viu chegar. Toda a gente a viu partir, num sapato.'],metro_mouth:['Boca de Metro','Aparece no cimo das escadas do metro. Os passageiros tratam-na pelo nome.'],
+ mega_mound:['Megamonte','Um monumento. Vê-se do outro lado do parque.'],glitter_ghost:['Fantasma de Purpurina','Alguém deu purpurina àquele cão. Brilha.'],frozen_fossil:['Fóssil Congelado','Antiga. Petrificada. Possivelmente mais velha que o passeio.'],midnight_menace:['Ameaça da Meia-Noite','Só aparece entre a meia-noite e as cinco da manhã. Estritamente noturna.'],tourist_trap:['Armadilha para Turistas','Mesmo em frente ao monumento. Em todas as fotos. Para sempre.'],
+ dragon_dump:['O Despejo do Dragão','As lendas falam dele. Poucos o viram. Menos ainda o limparam.'],rainbow_relic:['Relíquia Arco-Íris','Impossivelmente colorida. A ciência continua sem explicação.'],everest_pile:['Pilha Evereste','Desempenho de cume. Traz um sherpa.']},
+fr:{sidewalk_nugget:['Pépite de Trottoir','Le spécimen le plus courant de la planète. Apparaît partout où un humain a oublié le sac.'],lawn_lurker:['Rôdeuse de Pelouse',"Se cache dans l'herbe haute. C'est en général une chaussure qui la découvre."],curb_crumble:['Miette de Caniveau',"Sèche vite au soleil et s'émiette au moindre contact."],park_pebble:['Galet de Parc','Petite, ronde et étonnamment aérodynamique.'],gravel_gremlin:['Gremlin de Gravier','Se fond dans les allées de gravier. Une maîtresse du camouflage.'],morning_dropper:['Lève-tôt',"Apparaît à l'aube, pendant la première promenade de la journée."],puddle_pal:['Copine de Flaque','Préfère les coins humides. Ne marche pas dedans. Vraiment.'],trail_tumbler:['Rouleuse de Sentier','Roule doucement vers le bas sur les sentiers de randonnée.'],bus_stop_bomber:["Bombardière d'Arrêt de Bus","Déposée en attendant le 42. Le 42 n'est jamais passé."],
+ curb_coil:['Spirale de Trottoir','Une spirale impeccable. Son auteur était clairement perfectionniste.'],twin_stack:['Double Tas','Deux segments, un seul événement. Deux fois plus de preuves.'],mulch_mimic:['Imitatrice de Paillis',"Presque impossible à distinguer du paillis d'écorce. Presque."],snow_slug:['Limace des Neiges','Variante hivernale. Le froid la conserve pendant des semaines.'],beach_blob:['Blob de Plage','Moitié sable, moitié regret.'],doorstep_diplomat:['Diplomate de Paillasson','Déposée pile devant la porte. Un message, à coup sûr.'],hydrant_hugger:['Câlineuse de Borne',"Toujours à moins d'un mètre d'une borne d'incendie."],crosswalk_crumb:['Miette de Passage Piéton',"Vit sur les bandes blanches. Les piétons ont la priorité ; elle s'en moque."],
+ golden_log:['Bûche Dorée',"Scintille dans la lumière du soir. Plus grosse qu'elle n'en a le droit."],triple_tower:['Triple Tour',"Trois segments empilés. De l'architecture à l'état pur."],bike_lane_bandit:['Bandit de Piste Cyclable','Guette les cyclistes. Survit rarement à la rencontre.'],zen_spiral:['Spirale Zen',"Parfaitement enroulée. Certains disent qu'elle apaise l'esprit."],great_dane_deposit:['Dépôt de Dogue Allemand','Ne laisse aucun doute sur la taille de son auteur.'],playground_phantom:["Fantôme d'Aire de Jeux","Personne ne l'a vue arriver. Tout le monde l'a vue partir, sous une chaussure."],metro_mouth:['Bouche de Métro','Trône en haut des escaliers du métro. Les usagers la connaissent par son nom.'],
+ mega_mound:['Méga Monticule',"Un monument. Visible depuis l'autre bout du parc."],glitter_ghost:['Fantôme à Paillettes',"Quelqu'un a donné des paillettes à ce chien. Ça brille."],frozen_fossil:['Fossile Gelé','Ancien. Pétrifié. Peut-être plus vieux que le trottoir.'],midnight_menace:['Menace de Minuit',"N'apparaît qu'entre minuit et 5 h du matin. Strictement nocturne."],tourist_trap:['Piège à Touristes','Juste devant le monument. Sur toutes les photos. Pour toujours.'],
+ dragon_dump:['La Bouse du Dragon',"Les légendes en parlent. Peu l'ont vue. Encore moins l'ont ramassée."],rainbow_relic:['Relique Arc-en-ciel',"Impossiblement colorée. Les scientifiques n'y comprennent rien."],everest_pile:['Tas Everest','Performance de sommet. Prévoyez un sherpa.']},
+de:{sidewalk_nugget:['Gehweg-Nugget','Das häufigste Exemplar der Welt. Liegt überall dort, wo ein Mensch die Tüte vergessen hat.'],lawn_lurker:['Rasenlauerer','Versteckt sich im hohen Gras. Meist entdeckt ihn ein Schuh.'],curb_crumble:['Bordstein-Krümel','Trocknet schnell in der Sonne und zerbröselt bei der kleinsten Berührung.'],park_pebble:['Park-Kiesel','Klein, rund und überraschend aerodynamisch.'],gravel_gremlin:['Kies-Gremlin','Verschmilzt mit Kieswegen. Ein Meister der Tarnung.'],morning_dropper:['Frühaufsteher','Erscheint im Morgengrauen, beim ersten Spaziergang des Tages.'],puddle_pal:['Pfützenfreund','Bevorzugt feuchte Stellen. Nicht reintreten. Wirklich nicht.'],trail_tumbler:['Pfad-Roller','Rollt auf Wanderwegen langsam bergab.'],bus_stop_bomber:['Haltestellen-Bomber','Abgelegt beim Warten auf die 42. Die 42 kam nie.'],
+ curb_coil:['Bordstein-Spirale','Eine saubere Spirale. Der Urheber war eindeutig Perfektionist.'],twin_stack:['Doppelstapel','Zwei Segmente, ein Ereignis. Doppelt so viele Beweise.'],mulch_mimic:['Mulch-Imitator','Kaum von Rindenmulch zu unterscheiden. Kaum.'],snow_slug:['Schneeschnecke','Wintervariante. Die Kälte konserviert sie wochenlang.'],beach_blob:['Strand-Klumpen','Halb Sand, halb Reue.'],doorstep_diplomat:['Türschwellen-Diplomat','Genau vor der Haustür platziert. Ganz sicher eine Botschaft.'],hydrant_hugger:['Hydranten-Umarmer','Immer höchstens einen Meter vom Hydranten entfernt.'],crosswalk_crumb:['Zebrastreifen-Krümel','Lebt auf den weißen Streifen. Fußgänger haben Vorrang; ihm ist das egal.'],
+ golden_log:['Goldener Klotz','Schimmert im Nachmittagslicht. Größer, als erlaubt sein sollte.'],triple_tower:['Dreifachturm','Drei Segmente übereinander. Architektur in Reinform.'],bike_lane_bandit:['Radweg-Bandit','Lauert Radfahrern auf. Überlebt die Begegnung selten.'],zen_spiral:['Zen-Spirale','Perfekt gewunden. Manche sagen, sie bringt innere Ruhe.'],great_dane_deposit:['Doggen-Depot','Lässt keinen Zweifel an der Größe des Urhebers.'],playground_phantom:['Spielplatz-Phantom','Niemand sah es kommen. Alle sahen es gehen, an einem Schuh.'],metro_mouth:['U-Bahn-Schlund','Liegt oben an der U-Bahn-Treppe. Pendler kennen ihn beim Namen.'],
+ mega_mound:['Mega-Haufen','Ein Monument. Vom anderen Ende des Parks aus sichtbar.'],glitter_ghost:['Glitzer-Geist','Jemand hat dem Hund Glitzer gefüttert. Es funkelt.'],frozen_fossil:['Gefrorenes Fossil','Uralt. Versteinert. Womöglich älter als der Gehweg.'],midnight_menace:['Mitternachts-Schreck','Erscheint nur zwischen Mitternacht und 5 Uhr. Streng nachtaktiv.'],tourist_trap:['Touristenfalle','Direkt vor dem Denkmal. Auf jedem Foto. Für immer.'],
+ dragon_dump:['Der Drachenhaufen','Legenden erzählen von ihm. Wenige haben ihn gesehen. Noch weniger haben ihn weggemacht.'],rainbow_relic:['Regenbogen-Relikt','Unmöglich bunt. Die Wissenschaft steht vor einem Rätsel.'],everest_pile:['Everest-Haufen','Gipfelleistung. Sherpa mitbringen.']},
+it:{sidewalk_nugget:['Pepita da Marciapiede',"L'esemplare più comune del pianeta. Spunta ovunque qualcuno abbia dimenticato il sacchetto."],lawn_lurker:['Agguato nel Prato',"Si nasconde nell'erba alta. Di solito la scopre una scarpa."],curb_crumble:['Briciola da Cordolo','Si secca in fretta al sole e si sbriciola al minimo tocco.'],park_pebble:['Sassolino da Parco','Piccola, rotonda e sorprendentemente aerodinamica.'],gravel_gremlin:['Gremlin di Ghiaia','Si mimetizza nei vialetti di ghiaia. Una maestra del camuffamento.'],morning_dropper:['Mattiniera',"Compare all'alba, durante la prima passeggiata del giorno."],puddle_pal:['Amica della Pozzanghera','Preferisce i punti umidi. Non calpestarla. Sul serio.'],trail_tumbler:['Rotolante da Sentiero','Rotola piano in discesa lungo i sentieri.'],bus_stop_bomber:['Bombardiera da Fermata','Depositata aspettando il 42. Il 42 non è mai arrivato.'],
+ curb_coil:['Spirale da Cordolo',"Una spirale impeccabile. L'autore era chiaramente un perfezionista."],twin_stack:['Doppio Mucchio','Due segmenti, un solo evento. Il doppio delle prove.'],mulch_mimic:['Imitatrice di Pacciame','Quasi indistinguibile dalla corteccia di pino. Quasi.'],snow_slug:['Lumaca di Neve','Variante invernale. Il freddo la conserva per settimane.'],beach_blob:['Blob da Spiaggia','Metà sabbia, metà rimpianto.'],doorstep_diplomat:['Diplomatica da Zerbino','Lasciata proprio sulla soglia. Un messaggio, di sicuro.'],hydrant_hugger:['Abbraccia-Idranti','Sempre a meno di un metro da un idrante.'],crosswalk_crumb:['Briciola da Strisce','Vive sulle strisce pedonali. I pedoni hanno la precedenza; a lei non importa.'],
+ golden_log:['Tronco Dorato','Luccica nella luce del pomeriggio. Più grande di quanto dovrebbe essere lecito.'],triple_tower:['Torre Tripla','Tre segmenti impilati. Architettura allo stato puro.'],bike_lane_bandit:['Bandita della Pista Ciclabile',"Aspetta i ciclisti. Raramente sopravvive all'incontro."],zen_spiral:['Spirale Zen','Perfettamente avvolta. Dicono che porti pace interiore.'],great_dane_deposit:['Deposito di Alano',"Non lascia dubbi sulla taglia dell'autore."],playground_phantom:['Fantasma del Parco Giochi',"Nessuno l'ha vista arrivare. Tutti l'hanno vista andarsene, su una scarpa."],metro_mouth:['Bocca della Metro','Spunta in cima alle scale della metro. I pendolari la chiamano per nome.'],
+ mega_mound:['Mega Cumulo',"Un monumento. Si vede dall'altra parte del parco."],glitter_ghost:['Fantasma di Glitter','Qualcuno ha dato i brillantini a quel cane. Luccica.'],frozen_fossil:['Fossile Congelato','Antica. Pietrificata. Forse più vecchia del marciapiede.'],midnight_menace:['Minaccia di Mezzanotte','Compare solo tra mezzanotte e le cinque. Rigorosamente notturna.'],tourist_trap:['Trappola per Turisti','Proprio davanti al monumento. In tutte le foto. Per sempre.'],
+ dragon_dump:['La Cacca del Drago',"Le leggende ne parlano. Pochi l'hanno vista. Ancora meno l'hanno pulita."],rainbow_relic:['Reliquia Arcobaleno','Impossibilmente colorata. La scienza non sa spiegarselo.'],everest_pile:['Cumulo Everest','Prestazione da vetta. Porta uno sherpa.']},
+};
+const spName=id=>{ const tr=SP_I18N[lang]&&SP_I18N[lang][id]; return tr?tr[0]:speciesOf(id).name; };
+const spDex=id=>{ const tr=SP_I18N[lang]&&SP_I18N[lang][id]; return tr?tr[1]:speciesOf(id).dex; };
+const BADGES=[
+  {id:'first',icon:'🥇',name:'First Scoop',desc:'Capture your first poop',test:s=>s.total>=1},
+  {id:'ten',icon:'🔟',name:'Double Digits',desc:'Capture 10 poops',test:s=>s.total>=10},
+  {id:'fifty',icon:'🧹',name:'Street Sweeper',desc:'Capture 50 poops',test:s=>s.total>=50},
+  {id:'hundred',icon:'💯',name:'Centurion',desc:'Capture 100 poops',test:s=>s.total>=100},
+  {id:'night',icon:'🌙',name:'Night Owl',desc:'Capture one between midnight and 5 AM',test:s=>s.night},
+  {id:'dawn',icon:'🌅',name:'Early Bird',desc:'Capture one between 5 and 8 AM',test:s=>s.dawn},
+  {id:'streak3',icon:'🔥',name:'On a Roll',desc:'3-day capture streak',test:s=>s.bestStreak>=3},
+  {id:'streak7',icon:'📅',name:'Weekly Warrior',desc:'7-day capture streak',test:s=>s.bestStreak>=7},
+  {id:'shiny',icon:'✨',name:'Shiny Hunter',desc:'Capture a shiny poop',test:s=>s.shiny>=1},
+  {id:'legend',icon:'🐉',name:'Legend',desc:'Capture a legendary poop',test:s=>s.legendary>=1},
+  {id:'explorer',icon:'🧭',name:'Explorer',desc:'Captures more than 1 km apart',test:s=>s.span>=1000},
+  {id:'globe',icon:'🌍',name:'Globetrotter',desc:'Captures more than 100 km apart',test:s=>s.span>=100000},
+  {id:'collector',icon:'📸',name:'Collector',desc:'Capture 10 different species',test:s=>s.speciesCount>=10},
+  {id:'bigone',icon:'🏔️',name:'The Big One',desc:'Capture an XL poop',test:s=>s.xl>=1},
+  {id:'archaeo',icon:'🦴',name:'Archaeologist',desc:'Capture a fossilized poop',test:s=>s.fossil>=1},
+  {id:'cities3',icon:'🏙️',name:'City Hopper',desc:'Capture in 3 different big cities',test:s=>s.cityCount>=3},
+  {id:'cities10',icon:'🌆',name:'Metropolitan',desc:'Capture in 10 different big cities',test:s=>s.cityCount>=10},
+  {id:'master',icon:'👑',name:'Poop Master',desc:'Complete the Mierdex',test:s=>s.speciesCount>=SPECIES.length},
+];
+const BD_I18N={
+es:{first:['Primera Recogida','Atrapa tu primera mierda'],ten:['Dos Cifras','Atrapa 10 mierdas'],fifty:['Barrendera','Atrapa 50 mierdas'],hundred:['Centurión','Atrapa 100 mierdas'],night:['Búho Nocturno','Atrapa una entre medianoche y las 5'],dawn:['Madrugador','Atrapa una entre las 5 y las 8'],streak3:['En Racha','Racha de 3 días'],streak7:['Guerrero Semanal','Racha de 7 días'],shiny:['Cazabrillantes','Atrapa una mierda brillante'],legend:['Leyenda','Atrapa una mierda legendaria'],explorer:['Explorador','Capturas a más de 1 km de distancia'],globe:['Trotamundos','Capturas a más de 100 km de distancia'],collector:['Coleccionista','Atrapa 10 especies distintas'],bigone:['La Grande','Atrapa una mierda XL'],archaeo:['Arqueólogo','Atrapa una mierda fósil'],cities3:['Saltaciudades','Atrapa en 3 grandes ciudades'],cities10:['Metropolitano','Atrapa en 10 grandes ciudades'],master:['Maestro de la Mierda','Completa la Mierdex']},
+pt:{first:['Primeira Apanha','Apanha a tua primeira merda'],ten:['Dois Dígitos','Apanha 10 merdas'],fifty:['Varredor de Rua','Apanha 50 merdas'],hundred:['Centurião','Apanha 100 merdas'],night:['Coruja Noturna','Apanha uma entre a meia-noite e as 5'],dawn:['Madrugador','Apanha uma entre as 5 e as 8'],streak3:['Em Maré','Sequência de 3 dias'],streak7:['Guerreiro Semanal','Sequência de 7 dias'],shiny:['Caçador de Brilhantes','Apanha uma merda brilhante'],legend:['Lenda','Apanha uma merda lendária'],explorer:['Explorador','Capturas a mais de 1 km de distância'],globe:['Globetrotter','Capturas a mais de 100 km de distância'],collector:['Colecionador','Apanha 10 espécies diferentes'],bigone:['A Grande','Apanha uma merda XL'],archaeo:['Arqueólogo','Apanha uma merda fóssil'],cities3:['Salta-Cidades','Apanha em 3 grandes cidades'],cities10:['Metropolitano','Apanha em 10 grandes cidades'],master:['Mestre da Merda','Completa a Mierdex']},
+fr:{first:['Première Pelletée','Attrape ta première crotte'],ten:['Deux Chiffres','Attrape 10 crottes'],fifty:['Balayeur','Attrape 50 crottes'],hundred:['Centurion','Attrape 100 crottes'],night:['Oiseau de Nuit','Attrape une crotte entre minuit et 5 h'],dawn:['Lève-tôt','Attrape une crotte entre 5 h et 8 h'],streak3:['Sur une Lancée','Série de 3 jours'],streak7:['Guerrier de la Semaine','Série de 7 jours'],shiny:['Chasseur de Brillantes','Attrape une crotte brillante'],legend:['Légende','Attrape une crotte légendaire'],explorer:['Explorateur',"Des captures à plus de 1 km l'une de l'autre"],globe:['Globe-trotteur',"Des captures à plus de 100 km l'une de l'autre"],collector:['Collectionneur','Attrape 10 espèces différentes'],bigone:['La Grosse','Attrape une crotte XL'],archaeo:['Archéologue','Attrape une crotte fossile'],cities3:['Saute-Villes','Attrape dans 3 grandes villes'],cities10:['Métropolitain','Attrape dans 10 grandes villes'],master:['Maître des Crottes','Complète le Mierdex']},
+de:{first:['Erste Schaufel','Fang deinen ersten Haufen'],ten:['Zweistellig','Fang 10 Haufen'],fifty:['Straßenfeger','Fang 50 Haufen'],hundred:['Zenturio','Fang 100 Haufen'],night:['Nachteule','Fang einen zwischen Mitternacht und 5 Uhr'],dawn:['Frühaufsteher','Fang einen zwischen 5 und 8 Uhr'],streak3:['Auf Zack','3-Tage-Serie'],streak7:['Wochenkrieger','7-Tage-Serie'],shiny:['Glitzerjäger','Fang einen glänzenden Haufen'],legend:['Legende','Fang einen legendären Haufen'],explorer:['Entdecker','Fänge mehr als 1 km voneinander entfernt'],globe:['Weltenbummler','Fänge mehr als 100 km voneinander entfernt'],collector:['Sammler','Fang 10 verschiedene Arten'],bigone:['Der Große','Fang einen XL-Haufen'],archaeo:['Archäologe','Fang einen versteinerten Haufen'],cities3:['Städtehüpfer','Fänge in 3 Großstädten'],cities10:['Metropolit','Fänge in 10 Großstädten'],master:['Haufenmeister','Vervollständige den Mierdex']},
+it:{first:['Prima Raccolta','Cattura la tua prima cacca'],ten:['Due Cifre','Cattura 10 cacche'],fifty:['Spazzino','Cattura 50 cacche'],hundred:['Centurione','Cattura 100 cacche'],night:['Nottambulo','Catturane una tra mezzanotte e le 5'],dawn:['Mattiniero','Catturane una tra le 5 e le 8'],streak3:['In Serie','Serie di 3 giorni'],streak7:['Guerriero Settimanale','Serie di 7 giorni'],shiny:['Cacciatore di Brillanti','Cattura una cacca brillante'],legend:['Leggenda','Cattura una cacca leggendaria'],explorer:['Esploratore','Catture a più di 1 km di distanza'],globe:['Giramondo','Catture a più di 100 km di distanza'],collector:['Collezionista','Cattura 10 specie diverse'],bigone:['La Grossa','Cattura una cacca XL'],archaeo:['Archeologo','Cattura una cacca fossile'],cities3:['Salta-Città','Cattura in 3 grandi città'],cities10:['Metropolitano','Cattura in 10 grandi città'],master:['Maestro della Cacca','Completa il Mierdex']},
+};
+const bdName=b=>{ const tr=BD_I18N[lang]&&BD_I18N[lang][b.id]; return tr?tr[0]:b.name; };
+const bdDesc=b=>{ const tr=BD_I18N[lang]&&BD_I18N[lang][b.id]; return tr?tr[1]:b.desc; };
+const AVATARS=['🧑‍🦱','👩‍🦰','🧔','👩‍🦳','🧒','👴','🧑‍🚀','🥷','🧙','🐶','🐕','🦮','🐩','🐕‍🦺','💩'];
+
+/* ---------------- big cities (name, country, lat, lng) ---------------- */
+const CITIES=[
+ ['Madrid','ES',40.42,-3.70],['Barcelona','ES',41.39,2.17],['Valencia','ES',39.47,-0.38],['Sevilla','ES',37.39,-5.99],['Málaga','ES',36.72,-4.42],['Bilbao','ES',43.26,-2.93],['Zaragoza','ES',41.65,-0.89],['Palma','ES',39.57,2.65],
+ ['Lisboa','PT',38.72,-9.14],['Porto','PT',41.15,-8.61],['Paris','FR',48.86,2.35],['Marseille','FR',43.30,5.37],['Lyon','FR',45.76,4.84],['Toulouse','FR',43.60,1.44],['Nice','FR',43.71,7.26],['Bordeaux','FR',44.84,-0.58],['Lille','FR',50.63,3.06],
+ ['London','GB',51.51,-0.13],['Manchester','GB',53.48,-2.24],['Birmingham','GB',52.49,-1.89],['Glasgow','GB',55.86,-4.25],['Edinburgh','GB',55.95,-3.19],['Liverpool','GB',53.41,-2.98],['Dublin','IE',53.35,-6.26],
+ ['Berlin','DE',52.52,13.41],['Hamburg','DE',53.55,9.99],['München','DE',48.14,11.58],['Köln','DE',50.94,6.96],['Frankfurt','DE',50.11,8.68],['Stuttgart','DE',48.78,9.18],['Düsseldorf','DE',51.23,6.78],
+ ['Roma','IT',41.90,12.50],['Milano','IT',45.46,9.19],['Napoli','IT',40.85,14.27],['Torino','IT',45.07,7.69],['Firenze','IT',43.77,11.26],['Bologna','IT',44.49,11.34],['Palermo','IT',38.12,13.36],
+ ['Amsterdam','NL',52.37,4.90],['Rotterdam','NL',51.92,4.48],['Brussel','BE',50.85,4.35],['Antwerpen','BE',51.22,4.40],['Wien','AT',48.21,16.37],['Zürich','CH',47.38,8.54],['Genève','CH',46.20,6.14],
+ ['Praha','CZ',50.08,14.44],['Warszawa','PL',52.23,21.01],['Kraków','PL',50.06,19.94],['Budapest','HU',47.50,19.04],['København','DK',55.68,12.57],['Stockholm','SE',59.33,18.07],['Oslo','NO',59.91,10.75],['Helsinki','FI',60.17,24.94],
+ ['Athina','GR',37.98,23.73],['Istanbul','TR',41.01,28.98],['Ankara','TR',39.93,32.86],['Moskva','RU',55.76,37.62],['Sankt-Peterburg','RU',59.93,30.32],['Kyiv','UA',50.45,30.52],['București','RO',44.43,26.10],['Beograd','RS',44.79,20.46],['Zagreb','HR',45.81,15.98],['Sofia','BG',42.70,23.32],
+ ['New York','US',40.71,-74.01],['Los Angeles','US',34.05,-118.24],['Chicago','US',41.88,-87.63],['Houston','US',29.76,-95.37],['Phoenix','US',33.45,-112.07],['Philadelphia','US',39.95,-75.17],['San Antonio','US',29.42,-98.49],['San Diego','US',32.72,-117.16],['Dallas','US',32.78,-96.80],['Austin','US',30.27,-97.74],
+ ['San Francisco','US',37.77,-122.42],['Seattle','US',47.61,-122.33],['Denver','US',39.74,-104.99],['Boston','US',42.36,-71.06],['Washington','US',38.91,-77.04],['Miami','US',25.76,-80.19],['Atlanta','US',33.75,-84.39],['Las Vegas','US',36.17,-115.14],['Portland','US',45.52,-122.68],['Minneapolis','US',44.98,-93.27],
+ ['Toronto','CA',43.65,-79.38],['Montréal','CA',45.50,-73.57],['Vancouver','CA',49.28,-123.12],['Calgary','CA',51.05,-114.07],
+ ['Ciudad de México','MX',19.43,-99.13],['Guadalajara','MX',20.67,-103.35],['Monterrey','MX',25.69,-100.32],['Tijuana','MX',32.51,-117.04],['Puebla','MX',19.04,-98.21],['Ciudad de Guatemala','GT',14.63,-90.51],['San José','CR',9.93,-84.08],['Ciudad de Panamá','PA',8.98,-79.52],['La Habana','CU',23.11,-82.37],['Santo Domingo','DO',18.49,-69.93],['San Juan','PR',18.47,-66.11],
+ ['Bogotá','CO',4.71,-74.07],['Medellín','CO',6.24,-75.58],['Cali','CO',3.45,-76.53],['Caracas','VE',10.49,-66.88],['Quito','EC',-0.18,-78.47],['Guayaquil','EC',-2.17,-79.92],['Lima','PE',-12.05,-77.04],['La Paz','BO',-16.50,-68.15],['Santiago','CL',-33.45,-70.67],
+ ['Buenos Aires','AR',-34.60,-58.38],['Córdoba','AR',-31.42,-64.18],['Rosario','AR',-32.95,-60.64],['Montevideo','UY',-34.90,-56.16],['Asunción','PY',-25.26,-57.58],
+ ['São Paulo','BR',-23.55,-46.63],['Rio de Janeiro','BR',-22.91,-43.17],['Brasília','BR',-15.79,-47.88],['Salvador','BR',-12.97,-38.51],['Belo Horizonte','BR',-19.92,-43.94],['Fortaleza','BR',-3.72,-38.54],['Curitiba','BR',-25.43,-49.27],['Recife','BR',-8.05,-34.88],['Porto Alegre','BR',-30.03,-51.23],
+ ['Tokyo','JP',35.68,139.69],['Osaka','JP',34.69,135.50],['Seoul','KR',37.57,126.98],['Beijing','CN',39.90,116.40],['Shanghai','CN',31.23,121.47],['Shenzhen','CN',22.54,114.06],['Guangzhou','CN',23.13,113.26],['Hong Kong','HK',22.32,114.17],['Taipei','TW',25.03,121.57],
+ ['Bangkok','TH',13.76,100.50],['Singapore','SG',1.35,103.82],['Kuala Lumpur','MY',3.14,101.69],['Jakarta','ID',-6.21,106.85],['Manila','PH',14.60,120.98],['Ho Chi Minh City','VN',10.82,106.63],['Hanoi','VN',21.03,105.85],
+ ['Mumbai','IN',19.08,72.88],['Delhi','IN',28.61,77.21],['Bengaluru','IN',12.97,77.59],['Chennai','IN',13.08,80.27],['Kolkata','IN',22.57,88.36],['Hyderabad','IN',17.39,78.49],['Karachi','PK',24.86,67.01],['Lahore','PK',31.55,74.34],['Dhaka','BD',23.81,90.41],
+ ['Dubai','AE',25.20,55.27],['Riyadh','SA',24.71,46.68],['Tel Aviv','IL',32.09,34.78],['Tehran','IR',35.69,51.39],['Sydney','AU',-33.87,151.21],['Melbourne','AU',-37.81,144.96],['Brisbane','AU',-27.47,153.03],['Perth','AU',-31.95,115.86],['Auckland','NZ',-36.85,174.76],
+ ['Cairo','EG',30.04,31.24],['Lagos','NG',6.52,3.38],['Nairobi','KE',-1.29,36.82],['Johannesburg','ZA',-26.20,28.05],['Cape Town','ZA',-33.93,18.42],['Casablanca','MA',33.57,-7.59],['Accra','GH',5.60,-0.19],['Addis Ababa','ET',9.03,38.74],['Kinshasa','CD',-4.44,15.27],['Alger','DZ',36.75,3.06],['Tunis','TN',36.81,10.18],['Dakar','SN',14.72,-17.47],
+];
+const CITY_RADIUS=60000; // metres: a capture within this distance of a big city belongs to it
+function nearestCity(lat,lng){ if(typeof lat!=='number'||typeof lng!=='number') return null; let best=null;
+  for(const c of CITIES){ if(Math.abs(c[2]-lat)>1||Math.abs(((c[3]-lng+540)%360)-180)>1.5) continue; const d=haversine({lat,lng},{lat:c[2],lng:c[3]}); if(d<=CITY_RADIUS&&(!best||d<best.dist)) best={name:c[0],cc:c[1],dist:d}; }
+  return best; }
+const cityLabel=c=>c&&c.city?`${c.city}, ${c.cc}`:t('outside');
+const cityOf=c=>c&&c.city?c.city:null;
+
+function rollSpecies(ctx){
+  const w={}; for(const r of RARITY_ORDER) w[r]=RARITY[r].weight;
+  if(ctx.size==='XL'){ w.rare*=1.5; w.epic*=1.7; w.legendary*=2.2; }
+  else if(ctx.size==='L'){ w.rare*=1.2; w.epic*=1.2; }
+  else if(ctx.size==='S'){ w.common*=1.3; }
+  if(ctx.fresh==='fossil'){ w.rare*=1.2; w.epic*=1.5; }
+  const rarity=weightedPick(w);
+  const pool=SPECIES.filter(s=>s.rarity===rarity);
+  const sw={}; pool.forEach(s=>sw[s.id]=s.boost?s.boost(ctx):1);
+  return {species:weightedPick(sw), rarity, shiny:Math.random()<SHINY_RATE};
+}
+const levelFor=xp=>Math.min(50,Math.floor(Math.sqrt(Math.max(0,xp)/100))+1);
+const xpAt=l=>100*(l-1)*(l-1);
+
+/* ---------------- storage (IndexedDB) ---------------- */
+const DB_NAME='mierdasdelmundo', DB_VER=1; let _db=null;
+function db(){ if(_db) return Promise.resolve(_db); return new Promise((res,rej)=>{ const q=indexedDB.open(DB_NAME,DB_VER);
+  q.onupgradeneeded=e=>{ const d=e.target.result; if(!d.objectStoreNames.contains('captures')){ const s=d.createObjectStore('captures',{keyPath:'id'}); s.createIndex('ts','ts'); } if(!d.objectStoreNames.contains('photos')) d.createObjectStore('photos'); };
+  q.onsuccess=e=>{ _db=e.target.result; _db.onversionchange=()=>{ _db.close(); _db=null; }; res(_db); }; q.onerror=()=>rej(q.error||new Error('IndexedDB unavailable')); }); }
+async function tx(store,mode,fn){ const d=await db(); return new Promise((res,rej)=>{ const tr=d.transaction(store,mode); const r=fn(tr.objectStore(store));
+  tr.oncomplete=()=>res(r instanceof IDBRequest?r.result:r); tr.onerror=()=>rej(tr.error); tr.onabort=()=>rej(tr.error||new Error('aborted')); }); }
+const dbGetAll=s=>tx(s,'readonly',o=>o.getAll());
+const dbGet=(s,k)=>tx(s,'readonly',o=>o.get(k));
+const dbPut=(s,v,k)=>tx(s,'readwrite',o=>k!==undefined?o.put(v,k):o.put(v));
+const dbDel=(s,k)=>tx(s,'readwrite',o=>o.delete(k));
+const dbClear=s=>tx(s,'readwrite',o=>o.clear());
+
+/* ---------------- state ---------------- */
+let captures=[];            // newest first
+const LS_PROFILE='mdm-profile', LS_SETTINGS='mdm-settings', LS_SEEN='mdm-seen-badges';
+const loadJSON=(k,d)=>{ try{ return Object.assign({},d,JSON.parse(localStorage.getItem(k)||'null')||{}); }catch(e){ return {...d}; } };
+let profile=loadJSON(LS_PROFILE,{name:'',avatar:'🧑‍🦱',tid:uid('t'),created:Date.now()});
+let settings=loadJSON(LS_SETTINGS,{cloudOn:false,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,facing:'environment',lang:''});
+const saveProfile=()=>{ try{ localStorage.setItem(LS_PROFILE,JSON.stringify(profile)); }catch(e){} };
+const saveSettings=()=>{ try{ localStorage.setItem(LS_SETTINGS,JSON.stringify(settings)); }catch(e){} };
+saveProfile();
+const loadSeen=()=>{ try{ return JSON.parse(localStorage.getItem(LS_SEEN)||'[]'); }catch(e){ return []; } };
+function markBadgesSeen(){ const st=computeStats(); try{ localStorage.setItem(LS_SEEN,JSON.stringify(BADGES.filter(b=>b.test(st)).map(b=>b.id))); }catch(e){} }
+async function saveCapture(c){ await dbPut('captures',c); }
+function assignCity(c){ const n=c.lat!=null&&c.lng!=null?nearestCity(c.lat,c.lng):null; c.city=n?n.name:null; c.cc=n?n.cc:null; return c; }
+function detectLang(){ if(settings.lang&&I18N[settings.lang]) return settings.lang; for(const l of (navigator.languages||[navigator.language||'en'])){ const k=String(l).slice(0,2).toLowerCase(); if(I18N[k]) return k; } return 'en'; }
+
+/* ---------------- stats & progression ---------------- */
+const RANK={common:0,uncommon:1,rare:2,epic:3,legendary:4};
+function computeStats(list=captures){
+  const st={total:list.length,xp:0,night:false,dawn:false,shiny:0,legendary:0,xl:0,fossil:0,species:{},speciesCount:0,curStreak:0,bestStreak:0,span:0,today:0,week:0,rarest:null,located:0,cities:{},cityCount:0,homeCity:null};
+  const days=new Set(); let minLat=90,maxLat=-90,minLng=180,maxLng=-180,hasLoc=false;
+  const todayK=dayKey(Date.now()), weekAgo=Date.now()-7*864e5;
+  for(const c of list){
+    st.xp+=c.xp||0; const h=new Date(c.ts).getHours(); if(h<5) st.night=true; if(h>=5&&h<8) st.dawn=true;
+    if(c.shiny) st.shiny++; if(c.rarity==='legendary') st.legendary++; if(c.size==='XL') st.xl++; if(c.fresh==='fossil') st.fossil++;
+    st.species[c.species]=(st.species[c.species]||0)+1; const dk=dayKey(c.ts); days.add(dk); if(dk===todayK) st.today++; if(c.ts>=weekAgo) st.week++;
+    if(c.city){ const k=c.city+', '+c.cc; st.cities[k]=(st.cities[k]||0)+1; }
+    if(c.lat!=null&&c.lng!=null){ hasLoc=true; st.located++; minLat=Math.min(minLat,c.lat); maxLat=Math.max(maxLat,c.lat); minLng=Math.min(minLng,c.lng); maxLng=Math.max(maxLng,c.lng); }
+    if(!st.rarest || (RANK[c.rarity]||0)>(RANK[st.rarest.rarity]||0) || ((RANK[c.rarity]||0)===(RANK[st.rarest.rarity]||0) && (c.cp||0)>(st.rarest.cp||0))) st.rarest=c;
+  }
+  st.speciesCount=Object.keys(st.species).filter(id=>SPECIES_BY_ID[id]).length;
+  st.cityCount=Object.keys(st.cities).length; let hm=0; for(const k in st.cities) if(st.cities[k]>hm){ hm=st.cities[k]; st.homeCity=k; }
+  if(hasLoc) st.span=haversine({lat:minLat,lng:minLng},{lat:maxLat,lng:maxLng});
+  const sorted=[...days].sort(); let best=0,run=0,prev=null;
+  for(const d of sorted){ run=(prev && (Date.UTC(+d.slice(0,4),+d.slice(5,7)-1,+d.slice(8,10))-Date.UTC(+prev.slice(0,4),+prev.slice(5,7)-1,+prev.slice(8,10)))===864e5)?run+1:1; best=Math.max(best,run); prev=d; }
+  st.bestStreak=best;
+  let k=todayK; if(!days.has(k)) k=dayKey(Date.now()-864e5); let cur=0;
+  while(days.has(k)){ cur++; k=dayKey(new Date(k+'T12:00:00').getTime()-864e5); }
+  st.curStreak=cur; return st;
+}
+
+/* ---------------- images & EXIF ---------------- */
+function loadImage(src){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error('Could not decode image')); i.src=src; }); }
+async function blobToImage(blob){ const u=URL.createObjectURL(blob); try{ return await loadImage(u); } finally{ setTimeout(()=>URL.revokeObjectURL(u),2000); } }
+function blobToDataUrl(b){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(r.error); r.readAsDataURL(b); }); }
+function dataUrlToBlob(du){ const i=du.indexOf(','); const mime=(/data:([^;]+)/.exec(du.slice(0,i))||[])[1]||'image/jpeg'; const bin=atob(du.slice(i+1)); const arr=new Uint8Array(bin.length); for(let j=0;j<bin.length;j++) arr[j]=bin.charCodeAt(j); return new Blob([arr],{type:mime}); }
+// Draw a video frame or image to JPEG (max 1280px) + a 240px thumbnail data URL.
+function frameToBlobs(src,w,h){
+  const MAX=1280, s=Math.min(1,MAX/Math.max(w,h)); const cw=Math.max(1,Math.round(w*s)), ch=Math.max(1,Math.round(h*s));
+  const c=document.createElement('canvas'); c.width=cw; c.height=ch; c.getContext('2d').drawImage(src,0,0,cw,ch);
+  const ts=Math.min(1,240/Math.max(cw,ch)); const tc=document.createElement('canvas'); tc.width=Math.max(1,Math.round(cw*ts)); tc.height=Math.max(1,Math.round(ch*ts)); tc.getContext('2d').drawImage(c,0,0,tc.width,tc.height);
+  return new Promise((res,rej)=>c.toBlob(b=>b?res({blob:b,thumb:tc.toDataURL('image/jpeg',.7),w:cw,h:ch}):rej(new Error('Could not encode photo')),'image/jpeg',.85));
+}
+async function shrinkDataUrl(du,max,q=.6){ const img=await loadImage(du); const s=Math.min(1,max/Math.max(img.width,img.height)); const c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(img.width*s)); c.height=Math.max(1,Math.round(img.height*s)); c.getContext('2d').drawImage(img,0,0,c.width,c.height); return c.toDataURL('image/jpeg',q); }
+// Minimal EXIF reader: DateTimeOriginal + GPS. Returns {ts?, lat?, lng?}. Throws on malformed data (caller catches).
+function parseExif(buf){
+  const dv=new DataView(buf), out={}; if(dv.byteLength<4||dv.getUint16(0)!==0xFFD8) return out; let off=2;
+  while(off+4<=dv.byteLength){ const marker=dv.getUint16(off); if((marker&0xFF00)!==0xFF00||marker===0xFFDA||marker===0xFFD9) break; const len=dv.getUint16(off+2);
+    if(marker===0xFFE1 && off+10<=dv.byteLength && dv.getUint32(off+4)===0x45786966){ parseTiff(dv,off+10,out); break; } off+=2+len; }
+  return out;
+}
+function parseTiff(dv,tiff,out){
+  const le=dv.getUint16(tiff)===0x4949; const u16=o=>dv.getUint16(o,le), u32=o=>dv.getUint32(o,le); if(u16(tiff+2)!==42) return;
+  const readIfd=o=>{ const n=u16(o), tags={}; for(let i=0;i<n;i++){ const e=o+2+i*12; tags[u16(e)]={type:u16(e+2),count:u32(e+4),voff:e+8}; } return tags; };
+  const SZ={1:1,2:1,3:2,4:4,5:8,7:1,9:4,10:8};
+  const val=tg=>{ const size=SZ[tg.type]||1, total=size*tg.count, o=total>4?tiff+u32(tg.voff):tg.voff;
+    if(tg.type===2){ let s=''; for(let i=0;i<tg.count;i++){ const c=dv.getUint8(o+i); if(!c) break; s+=String.fromCharCode(c); } return s; }
+    const a=[]; for(let i=0;i<tg.count;i++){ const p=o+i*size; if(tg.type===3) a.push(u16(p)); else if(tg.type===4) a.push(u32(p)); else if(tg.type===5) a.push(u32(p)/(u32(p+4)||1));
+      else if(tg.type===9) a.push(dv.getInt32(p,le)); else if(tg.type===10) a.push(dv.getInt32(p,le)/(dv.getInt32(p+4,le)||1)); else a.push(dv.getUint8(p)); } return a; };
+  const t0=readIfd(tiff+u32(tiff+4));
+  if(t0[0x8769]){ const ex=readIfd(tiff+val(t0[0x8769])[0]); const d=ex[0x9003]&&val(ex[0x9003]); const m=d&&/^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/.exec(d);
+    if(m){ const ts=new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+m[6]).getTime(); if(isFinite(ts)&&ts>0) out.ts=ts; } }
+  if(t0[0x8825]){ const g=readIfd(tiff+val(t0[0x8825])[0]);
+    if(g[2]&&g[4]){ const la=val(g[2]), lo=val(g[4]); const lat=(la[0]||0)+(la[1]||0)/60+(la[2]||0)/3600, lng=(lo[0]||0)+(lo[1]||0)/60+(lo[2]||0)/3600;
+      const latRef=g[1]?val(g[1]):'N', lngRef=g[3]?val(g[3]):'E';
+      if(isFinite(lat)&&isFinite(lng)&&lat<=90&&lng<=180&&(lat||lng)){ out.lat=latRef==='S'?-lat:lat; out.lng=lngRef==='W'?-lng:lng; } } }
+}
+
+/* ---------------- camera ---------------- */
+const cam={stream:null,facing:settings.facing||'environment',ok:false,starting:false,wanted:false,fallbackKey:null};
+async function camStart(){
+  cam.wanted=true; if(cam.starting||cam.stream) return; cam.starting=true; const v=$('#cam');
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.isSecureContext){ camFallback(window.isSecureContext?'cam_noapi':'cam_https'); cam.starting=false; return; }
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:cam.facing},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    if(!cam.wanted){ stream.getTracks().forEach(tr=>tr.stop()); cam.starting=false; return; }
+    cam.stream=stream; v.srcObject=stream; await v.play().catch(()=>{}); cam.ok=true; $('#camOff').hidden=true;
+  }catch(e){ camFallback(e&&e.name==='NotAllowedError'?'cam_denied':'cam_none'); }
+  cam.starting=false;
+}
+function camStop(){ cam.wanted=false; if(cam.stream){ cam.stream.getTracks().forEach(tr=>tr.stop()); cam.stream=null; } cam.ok=false; const v=$('#cam'); if(v&&v.srcObject) v.srcObject=null; }
+function camFallback(key){ cam.ok=false; cam.fallbackKey=key; $('#camOffMsg').textContent=t(key); $('#camOff').hidden=false; }
+function flash(){ const f=$('#flash'); f.classList.add('on'); requestAnimationFrame(()=>requestAnimationFrame(()=>f.classList.remove('on'))); }
+
+/* ---------------- geolocation ---------------- */
+const geo={fix:null,watchId:null,status:'off',err:null};
+function renderGeo(){ const p=$('#geoPill'); p.className='pill';
+  if(geo.status==='ok'&&geo.fix){ p.classList.add('ok'); p.textContent='📍 '+t('gps_acc',{n:Math.round(geo.fix.acc||0)}); }
+  else if(geo.status==='acquiring'){ p.textContent='📡 '+t('gps_finding'); }
+  else if(geo.status==='error'){ p.classList.add('err'); p.textContent='📍 '+t(geo.err&&geo.err.code===1?'gps_denied':'gps_none'); }
+  else p.textContent='📍 '+t('gps_off');
+  const cc=geo.fix?nearestCity(geo.fix.lat,geo.fix.lng):null; $('#camCity').textContent=geo.fix?`🏙️ ${cc?cc.name+', '+cc.cc:t('outside')}`:''; }
+function geoStart(){ if(!navigator.geolocation){ geo.status='error'; renderGeo(); return; } if(geo.watchId!=null) return; geo.status=geo.fix?'ok':'acquiring'; renderGeo();
+  geo.watchId=navigator.geolocation.watchPosition(p=>{ geo.fix={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()}; geo.status='ok'; renderGeo(); updateMeMarker(); },
+    e=>{ geo.err=e; if(!geo.fix){ geo.status='error'; renderGeo(); } },{enableHighAccuracy:true,maximumAge:5000,timeout:20000}); }
+function geoStop(){ if(geo.watchId!=null){ navigator.geolocation.clearWatch(geo.watchId); geo.watchId=null; } }
+function geoNow(){ if(geo.fix&&Date.now()-geo.fix.t<45000) return Promise.resolve(geo.fix);
+  return new Promise(res=>{ if(!navigator.geolocation) return res(null);
+    navigator.geolocation.getCurrentPosition(p=>{ geo.fix={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy,t:Date.now()}; geo.status='ok'; renderGeo(); res(geo.fix); },
+      ()=>res(geo.fix||null),{enableHighAccuracy:true,timeout:8000,maximumAge:60000}); }); }
+const freshFix=()=>geo.fix&&Date.now()-geo.fix.t<45000?geo.fix:null;
+
+/* ---------------- encounter & capture ---------------- */
+let enc=null; const bagDrag={dx:0,dy:0};
+async function onShutter(){
+  if(!cam.ok){ $('#fileCam').click(); return; }
+  const v=$('#cam'); if(!v.videoWidth){ toast(t('cam_starting')); return; }
+  flash();
+  try{ const fr=await frameToBlobs(v,v.videoWidth,v.videoHeight); const loc=freshFix(); startEncounter({...fr,ts:Date.now(),loc,src:'camera',tsFrom:'now',locFrom:loc?'gps':''}); if(!loc) refreshEncLoc(enc); }
+  catch(e){ toast(t('t_capture_fail',{e:e.message})); }
+}
+async function onFile(file,fromGallery){
+  if(!file) return; if(!/^image\//.test(file.type||'')&&!/\.(jpe?g|png|webp|heic)$/i.test(file.name||'')){ toast(t('t_pick_image')); return; }
+  let exif={}; try{ exif=parseExif(await file.slice(0,512*1024).arrayBuffer()); }catch(e){ exif={}; }
+  try{
+    const img=await blobToImage(file); const fr=await frameToBlobs(img,img.naturalWidth,img.naturalHeight);
+    let ts=Date.now(), tsFrom='now';
+    if(exif.ts){ ts=exif.ts; tsFrom='exif'; } else if(fromGallery&&file.lastModified&&file.lastModified<Date.now()-60000){ ts=file.lastModified; tsFrom='file'; }
+    let loc=null, locFrom='';
+    if(exif.lat!=null){ loc={lat:exif.lat,lng:exif.lng,acc:null,t:ts}; locFrom='exif'; } else if(!fromGallery){ loc=freshFix(); locFrom=loc?'gps':''; }
+    startEncounter({...fr,ts,loc,src:fromGallery?'gallery':'camera',tsFrom,locFrom}); if(!loc&&!fromGallery) refreshEncLoc(enc);
+  }catch(e){ toast(t('t_photo_fail',{e:e.message})); }
+}
+async function refreshEncLoc(e){ const f=await geoNow(); if(f&&enc===e&&!enc.loc){ enc.loc=f; enc.locFrom='gps'; updateEncSub(); } }
+function updateEncSub(){ if(!enc) return; const when=enc.tsFrom==='now'?'':` · 🕒 ${fmtDT(enc.ts)} (${t(enc.tsFrom==='exif'?'photo_date':'file_date')})`;
+  const city=enc.loc?nearestCity(enc.loc.lat,enc.loc.lng):null;
+  $('#encSub').textContent=(enc.loc?`📍 ${t(enc.locFrom==='exif'?'enc_exif':'enc_gps')} · 🏙️ ${city?city.name:t('outside')} · ${t('enc_tag')}`:`📍 ${t(enc.src==='gallery'?'enc_noloc_gallery':'enc_noloc_wait')} · ${t('enc_tag')}`)+when; }
+function startEncounter(data){
+  enc={...data,size:'M',fresh:'fresh',roll:null,attempts:0,throwing:false};
+  const ov=$('#encounter'); ov.classList.remove('caught'); $('#shinyGlow').hidden=true;
+  const img=$('#encImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(enc.blob);
+  $$('#segSize button').forEach(b=>b.classList.toggle('on',b.dataset.v==='M'));
+  $$('#segFresh button').forEach(b=>b.classList.toggle('on',b.dataset.v==='fresh'));
+  $('#encTitle').textContent=t('enc_title');
+  updateEncSub();
+  $('#encMsg').hidden=true; bagReset(); ov.hidden=false;
+}
+function bagReset(){ const w=$('#bagWrap'); w.className='bagwrap'; w.style.transform=''; bagDrag.dx=0; bagDrag.dy=0; const b=$('#bag'); b.className='bag'; b.style.opacity='1'; }
+function cancelEncounter(force){ if(!force&&enc&&enc.throwing) return; const img=$('#encImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.removeAttribute('src'); $('#encounter').hidden=true; enc=null; }
+async function throwBag(){
+  if(!enc||enc.throwing) return; enc.throwing=true; enc.attempts++;
+  if(!enc.roll) enc.roll=rollSpecies({size:enc.size,fresh:enc.fresh,hour:new Date(enc.ts).getHours(),city:!!(enc.loc&&nearestCity(enc.loc.lat,enc.loc.lng))});
+  $('#encMsg').hidden=true;
+  const w=$('#bagWrap'), b=$('#bag'), ring=$('#ring'); const br=b.getBoundingClientRect(), rr=ring.getBoundingClientRect();
+  const dx=(rr.left+rr.width/2)-(br.left+br.width/2), dy=(rr.top+rr.height/2)-(br.top+br.height/2);
+  w.classList.remove('dragging'); w.classList.add('flying'); w.style.transform=`translate(${bagDrag.dx+dx}px,${bagDrag.dy+dy}px) scale(.45) rotate(360deg)`; sfx('throw');
+  await wait(650);
+  if(!enc) return;
+  const chance=Math.min(1,RARITY[enc.roll.rarity].catch+0.15*(enc.attempts-1)); const caught=Math.random()<chance;
+  const wobbles=caught?3:rndi(1,2);
+  for(let i=0;i<wobbles;i++){ b.classList.remove('wobble'); void b.offsetWidth; b.classList.add('wobble'); sfx('tick'); await wait(680); if(!enc) return; }
+  if(caught){ sfx('catch'); $('#encounter').classList.add('caught'); b.style.opacity='0'; if(enc.roll.shiny) $('#shinyGlow').hidden=false; await wait(300); await finishCapture(); }
+  else{ b.classList.add('burst'); sfx('fail'); await wait(450); if(!enc) return; $('#encTitle').textContent=t('broke_title',{name:spName(enc.roll.species)}); $('#encSub').textContent=t('broke_sub');
+    const m=$('#encMsg'); m.textContent=t('broke_msg'); m.hidden=false; bagReset(); enc.throwing=false; }
+}
+async function finishCapture(){
+  const r=enc.roll, R=RARITY[r.rarity];
+  const before=computeStats(); const isNew=!before.species[r.species];
+  const cp=Math.round(rnd(R.cp[0],R.cp[1])*SIZES[enc.size]*(r.shiny?1.25:1));
+  const xp=R.xp+(isNew?50:0)+(r.shiny?100:0);
+  const c=assignCity({id:uid('c'),ts:enc.ts,tz:Intl.DateTimeFormat().resolvedOptions().timeZone,lat:enc.loc?enc.loc.lat:null,lng:enc.loc?enc.loc.lng:null,acc:enc.loc&&enc.loc.acc!=null?Math.round(enc.loc.acc):null,
+    species:r.species,rarity:r.rarity,shiny:!!r.shiny,cp,size:enc.size,fresh:enc.fresh,xp,attempts:enc.attempts,src:enc.src,tsFrom:enc.tsFrom||'now',locFrom:enc.locFrom||'',notes:'',thumb:enc.thumb,w:enc.w,h:enc.h,created:Date.now(),published:0});
+  try{ await dbPut('photos',enc.blob,c.id); await saveCapture(c); }catch(e){ toast(t('t_save_fail',{e:e.message})); enc.throwing=false; return; }
+  captures.unshift(c); captures.sort((a,b)=>b.ts-a.ts);
+  const after=computeStats(); const lvlBefore=levelFor(before.xp), lvlAfter=levelFor(after.xp);
+  const seen=new Set(loadSeen()); const unlocked=BADGES.filter(b=>b.test(after)&&!seen.has(b.id)); unlocked.forEach(b=>seen.add(b.id)); try{ localStorage.setItem(LS_SEEN,JSON.stringify([...seen])); }catch(e){}
+  showResult(c,{isNew,unlocked,levelUp:lvlAfter>lvlBefore?lvlAfter:0});
+  renderAll();
+  if(settings.cloudOn&&settings.autoPublish&&c.lat!=null) publishCapture(c).then(()=>renderTrainerIfVisible()).catch(e=>toast(t('t_world_err',{e:e.message})));
+}
+
+/* ---------------- result & share card ---------------- */
+function showResult(c,info){
+  const img=$('#resImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=$('#encImg').src;
+  $('#resNew').hidden=!info.isNew; $('#resShiny').hidden=!c.shiny;
+  $('#resName').textContent=spName(c.species); $('#resRarity').className='rpill r-'+c.rarity; $('#resRarity').textContent=rarityLabel(c.rarity); $('#resCp').textContent=t('cp')+' '+c.cp;
+  $('#resDex').textContent=`${speciesOf(c.species).icon} ${spDex(c.species)}`;
+  $('#resTime').innerHTML=`${esc(fmtDT(c.ts))} <small>· ${esc(fmtISO(c.ts))}</small>`;
+  $('#resCity').textContent=c.lat!=null?cityLabel(c):'—';
+  $('#resLoc').textContent=c.lat!=null?`${fmtCoord(c.lat,c.lng)}${c.acc?` (±${c.acc} m)`:''}`:t('no_loc');
+  $('#resXp').textContent=t('xp_gain',{n:c.xp});
+  let html=''; if(info.levelUp) html+=`<div class="levelup">${esc(t('levelup',{n:info.levelUp}))}</div>`;
+  for(const b of info.unlocked) html+=`<div class="unlock"><span class="ic">${b.icon}</span><div><b>${esc(t('badge_unlocked',{name:bdName(b)}))}</b>${esc(bdDesc(b))}</div></div>`;
+  $('#resUnlocks').innerHTML=html; $('#result').dataset.id=c.id; $('#result').hidden=false; confetti(c.shiny?120:60);
+}
+function closeResult(){ $('#result').hidden=true; cancelEncounter(true); }
+function confetti(n){ const cols=['#F2B134','#5BA85A','#3D8BE8','#9B59E8','#E2574C','#fff'];
+  for(let i=0;i<n;i++){ const d=document.createElement('div'); d.className='confetti'; d.style.left=Math.random()*100+'vw'; d.style.background=cols[i%cols.length];
+    d.style.animationDuration=(1.6+Math.random()*1.6)+'s'; d.style.animationDelay=(Math.random()*.5)+'s'; d.style.width=(6+Math.random()*8)+'px'; document.body.appendChild(d); setTimeout(()=>d.remove(),4000); } }
+let actx=null;
+function sfx(kind){ if(!settings.sound) return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume();
+  const o=actx.createOscillator(), g=actx.createGain(); o.connect(g); g.connect(actx.destination); const t0=actx.currentTime;
+  const P={throw:[300,700,.18],tick:[520,520,.07],catch:[523,1046,.4],fail:[400,140,.35]}[kind]||[440,440,.1];
+  o.type=kind==='catch'?'triangle':'sine'; o.frequency.setValueAtTime(P[0],t0); o.frequency.exponentialRampToValueAtTime(P[1],t0+P[2]);
+  g.gain.setValueAtTime(.12,t0); g.gain.exponentialRampToValueAtTime(.0001,t0+P[2]); o.start(t0); o.stop(t0+P[2]+.03); }catch(e){} }
+function roundRect(x,px,py,w,h,r){ x.beginPath(); x.moveTo(px+r,py); x.arcTo(px+w,py,px+w,py+h,r); x.arcTo(px+w,py+h,px,py+h,r); x.arcTo(px,py+h,px,py,r); x.arcTo(px,py,px+w,py,r); x.closePath(); }
+async function renderCard(c){
+  const sp=speciesOf(c.species), R=RARITY[c.rarity]; const blob=await dbGet('photos',c.id); const img=await (blob?blobToImage(blob):loadImage(c.thumb));
+  try{ await document.fonts.load('80px "Luckiest Guy"'); }catch(e){}
+  const W=1080,H=1350, cv=document.createElement('canvas'); cv.width=W; cv.height=H; const x=cv.getContext('2d');
+  const s=Math.max(W/img.width,H/img.height), dw=img.width*s, dh=img.height*s; x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);
+  let g=x.createLinearGradient(0,H*.5,0,H); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.88)'); x.fillStyle=g; x.fillRect(0,0,W,H);
+  g=x.createLinearGradient(0,0,0,220); g.addColorStop(0,'rgba(0,0,0,.55)'); g.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=g; x.fillRect(0,0,W,220);
+  const DISP='"Luckiest Guy","Comic Sans MS",system-ui,sans-serif', BODY='system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  x.textBaseline='middle'; x.font=`48px ${DISP}`; x.fillStyle='#fff'; x.shadowColor='rgba(0,0,0,.6)'; x.shadowBlur=8; x.fillText('💩 mierdasdelmundo',56,96); x.shadowBlur=0;
+  x.font=`bold 30px ${BODY}`; const rl=rarityLabel(c.rarity).toUpperCase()+(c.shiny?'  '+t('shiny_tag'):''); const rw=x.measureText(rl).width+56; x.fillStyle=R.color; roundRect(x,W-56-rw,150,rw,68,34); x.fill(); x.fillStyle='#fff'; x.textAlign='center'; x.fillText(rl,W-56-rw/2,184); x.textAlign='left';
+  const name=spName(c.species); let fs=96; x.font=`${fs}px ${DISP}`; while(x.measureText(name).width>W-112&&fs>40){ fs-=4; x.font=`${fs}px ${DISP}`; }
+  x.fillStyle='#fff'; x.shadowColor='rgba(0,0,0,.7)'; x.shadowBlur=10; x.fillText(name,56,H-390); x.shadowBlur=0;
+  x.font=`bold 38px ${BODY}`; x.fillStyle='#F2B134'; x.fillText(`${t('cp')} ${c.cp}  ·  ${sizeLabel(c.size)}  ·  ${freshLabel(c.fresh)}  ·  ${sp.icon}`,56,H-310);
+  x.font=`36px ${BODY}`; x.fillStyle='#fff'; x.fillText(`🏙️ ${c.lat!=null?cityLabel(c):'—'}`,56,H-240);
+  x.fillText(`🕒 ${fmtDT(c.ts)}`,56,H-180);
+  x.fillText(c.lat!=null?`📍 ${fmtCoord(c.lat,c.lng)}`:`📍 ${t('not_set')}`,56,H-118);
+  x.font=`28px ${BODY}`; x.fillStyle='rgba(255,255,255,.75)'; x.fillText(`${fmtISO(c.ts)}  ·  ${t('tagline')}`,56,H-56);
+  return new Promise((res,rej)=>cv.toBlob(b=>b?res(b):rej(new Error('Could not render card')),'image/jpeg',.9));
+}
+async function shareCapture(c){
+  try{ const blob=await renderCard(c); const file=new File([blob],`mierdasdelmundo-${c.id}.jpg`,{type:'image/jpeg'});
+    const text=t('share_text',{shiny:c.shiny?'✨ ':'',name:spName(c.species),rarity:rarityLabel(c.rarity),cpl:t('cp'),cp:c.cp,city:c.lat!=null?cityLabel(c):'?',date:fmtDate(c.ts)}).replace(' ✨ ','✨ ');
+    if(navigator.canShare&&navigator.canShare({files:[file]})) await navigator.share({files:[file],title:'mierdasdelmundo',text});
+    else { download(blob,file.name); toast(t('t_card_saved')); }
+  }catch(e){ if(!e||e.name!=='AbortError') toast(t('t_share_fail',{e:e&&e.message||e})); }
+}
+
+/* ---------------- map ---------------- */
+let map=null, myLayer=null, worldLayer=null, meMarker=null, worldOn=false, pick=null, mapInited=false;
+function pinIcon(rarity,shiny,world){ const col=(RARITY[rarity]||RARITY.common).color;
+  return L.divIcon({className:'',html:`<div class="pin${world?' world':''}${shiny?' shiny':''}" style="border-color:${col}">💩</div>`,iconSize:world?[26,26]:[36,36],iconAnchor:world?[13,13]:[18,18],popupAnchor:[0,world?-14:-18]}); }
+function initMap(){
+  if(mapInited||!window.L) return; mapInited=true;
+  map=L.map('map',{zoomControl:false}).setView([20,0],2);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  myLayer=L.layerGroup().addTo(map); worldLayer=L.layerGroup().addTo(map);
+  map.on('click',e=>{ if(pick){ const cb=pick.cb; pickEnd(); cb(e.latlng); } });
+  map.on('popupopen',e=>{ const el=e.popup.getElement(); const im=el&&el.querySelector('img[data-thumb]'); if(im){ const id=im.dataset.thumb; im.removeAttribute('data-thumb'); cloudReq('/thumbs/'+encodeURIComponent(id),'GET').then(d=>{ if(typeof d==='string'&&d.startsWith('data:image/')) im.src=d; else im.remove(); }).catch(()=>im.remove()); } });
+  renderMarkers(); updateMeMarker(); fitToCaptures();
+}
+function showMap(){ if(!window.L){ $('#mapOffline').hidden=false; return; } $('#mapOffline').hidden=true; initMap(); setTimeout(()=>map.invalidateSize(),60); }
+function renderMarkers(){ if(!mapInited) return; myLayer.clearLayers(); let n=0;
+  for(const c of captures){ if(c.lat==null||c.lng==null) continue; n++; L.marker([c.lat,c.lng],{icon:pinIcon(c.rarity,c.shiny,false),title:spName(c.species)}).bindPopup(()=>popupHtml(c)).addTo(myLayer); }
+  $('#mapCount').textContent=t('captured_n',{n}); }
+function popupHtml(c){ return `<div class="pop"><img src="${c.thumb}" alt=""><b>${c.shiny?'✨ ':''}${esc(spName(c.species))}</b> <span class="rpill r-${c.rarity}">${esc(rarityLabel(c.rarity))}</span><br><small>🏙️ ${esc(cityLabel(c))}</small><br><small>🕒 ${esc(fmtDT(c.ts))} · ${esc(t('cp'))} ${c.cp}</small><button class="btn sm" onclick="openDetail('${c.id}')">${esc(t('view'))}</button></div>`; }
+function worldPopupHtml(s){ const R=RARITY[s.rarity]||RARITY.common; const city=s.city?`${esc(String(s.city))}${s.cc?', '+esc(String(s.cc)):''}`:esc(t('outside'));
+  return `<div class="pop"><img data-thumb="${esc(s.id)}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><b>${s.shiny?'✨ ':''}${esc(spName(s.species))}</b> <span class="rpill" style="background:${R.color}">${esc(rarityLabel(RARITY[s.rarity]?s.rarity:'common'))}</span><br><small>🏙️ ${city}</small><br><small>${esc(String(s.trainer||'Anonymous').slice(0,24))} · ${esc(timeAgo(s.ts))}</small><br><small>🕒 ${esc(fmtDT(s.ts))} · ${esc(t('cp'))} ${+s.cp||0}</small></div>`; }
+function fitToCaptures(){ if(!mapInited) return; const pts=captures.filter(c=>c.lat!=null&&c.lng!=null).map(c=>[c.lat,c.lng]);
+  if(pts.length) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:16,animate:false}); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],15,{animate:false}); }
+function updateMeMarker(){ if(!mapInited||!geo.fix) return; const ll=[geo.fix.lat,geo.fix.lng]; if(!meMarker){ meMarker=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin me"></div>',iconSize:[18,18],iconAnchor:[9,9]}),interactive:false,zIndexOffset:500}).addTo(map); } else meMarker.setLatLng(ll); }
+async function locateMe(){ if(!mapInited) return; geoStart(); const f=await geoNow(); if(!f){ toast(t('t_no_gps')); return; } updateMeMarker(); map.setView([f.lat,f.lng],Math.max(map.getZoom(),16)); }
+async function toggleWorld(){
+  if(!mapInited) return; if(!settings.cloudOn){ toast(t('t_world_first')); return; }
+  worldOn=!worldOn; $('#btnWorld').classList.toggle('on',worldOn); if(!worldOn){ worldLayer.clearLayers(); return; }
+  try{ toast(t('t_world_loading')); const list=await fetchWorld(); if(!worldOn) return; worldLayer.clearLayers(); const mine=new Set(captures.map(c=>c.id)); let n=0; const pts=[];
+    for(const s of list){ if(mine.has(s.id)||typeof s.lat!=='number'||typeof s.lng!=='number') continue; n++; pts.push([s.lat,s.lng]); L.marker([s.lat,s.lng],{icon:pinIcon(s.rarity,!!s.shiny,true)}).bindPopup(()=>worldPopupHtml(s)).addTo(worldLayer); }
+    toast(n?t('t_world_n',{n}):t('t_world_0')); if(n&&!captures.some(c=>c.lat!=null)) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:14});
+  }catch(e){ worldOn=false; $('#btnWorld').classList.remove('on'); toast(t('t_world_prefix',{e:e.message})); }
+}
+function pickStart(cb,center){ if(!window.L){ toast(t('t_map_offline')); return; } pick={cb}; $('#mapBanner').hidden=false; showTab('map'); if(center) map.setView(center,17,{animate:false}); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],16,{animate:false}); }
+function pickEnd(){ pick=null; $('#mapBanner').hidden=true; }
+
+/* ---------------- mierdex & detail ---------------- */
+let dexTab='captures', dexFilter='all', detailId=null;
+function renderDex(){
+  const st=computeStats(); const chips=[['all',t('all')],...RARITY_ORDER.map(r=>[r,rarityLabel(r)])];
+  $('#dexChips').innerHTML=chips.map(([k,l])=>`<button class="chip${dexFilter===k?' on':''}" data-f="${k}">${esc(l)}</button>`).join('');
+  const body=$('#dexBody');
+  if(dexTab==='captures'){
+    const list=captures.filter(c=>dexFilter==='all'||c.rarity===dexFilter);
+    if(!list.length){ body.innerHTML=`<div class="empty"><div class="big">💩</div>${captures.length?esc(t('dex_empty_rarity')):t('dex_empty')}</div>`; return; }
+    body.innerHTML='<div class="grid">'+list.map(c=>`<button class="cap" data-open="${c.id}"><div class="ph"><img src="${c.thumb}" alt="" loading="lazy"><span class="rdot" style="background:${RARITY[c.rarity].color}"></span>${c.shiny?'<span class="sh">✨</span>':''}${c.lat==null?'<span class="nl">📍 ?</span>':''}</div><div class="nm">${esc(spName(c.species))}</div><div class="tm">🕒 ${esc(timeAgo(c.ts))} · ${c.lat!=null?'🏙️ '+esc(c.city||t('outside')):esc(t('cp'))+' '+c.cp}</div></button>`).join('')+'</div>';
+  } else {
+    let html=''; for(const r of RARITY_ORDER){ if(dexFilter!=='all'&&dexFilter!==r) continue; const pool=SPECIES.filter(s=>s.rarity===r); const caught=pool.filter(s=>st.species[s.id]).length;
+      html+=`<div class="sp-group"><h3><span class="rpill r-${r}">${esc(rarityLabel(r))}</span> ${caught}/${pool.length}</h3>`+pool.map(s=>{ const n=st.species[s.id]||0;
+        return `<div class="sp${n?'':' unk'}"><div class="ic">💩<small>${n?s.icon:''}</small></div><div><div class="nm">${n?esc(spName(s.id)):'???'}</div><div class="ds">${n?esc(spDex(s.id)):esc(t('not_captured'))}</div></div><div class="ct">${n?'×'+n:''}</div></div>`; }).join('')+'</div>'; }
+    body.innerHTML=`<div class="empty" style="padding:14px 24px 0">${esc(t('species_disc',{a:st.speciesCount,b:SPECIES.length}))}</div>`+html;
+  }
+}
+async function openDetail(id){
+  const c=captures.find(x=>x.id===id); if(!c) return; detailId=id; const sp=speciesOf(c.species);
+  const img=$('#dImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=c.thumb;
+  dbGet('photos',id).then(b=>{ if(b&&detailId===id) img.src=URL.createObjectURL(b); }).catch(()=>{});
+  $('#dName').textContent=(c.shiny?'✨ ':'')+spName(c.species); $('#dRarity').className='rpill r-'+c.rarity; $('#dRarity').textContent=rarityLabel(c.rarity); $('#dCp').textContent=t('cp')+' '+c.cp; $('#dDex').textContent=`${sp.icon} ${spDex(c.species)}`;
+  const kv=[[t('k_captured'),`${esc(fmtDT(c.ts))}<br><small>${fmtISO(c.ts)}${c.tsFrom==='exif'?' · '+esc(t('from_exif')):c.tsFrom==='file'?' · '+esc(t('from_file')):''}</small>`],
+    [t('k_city'),c.lat!=null?esc(cityLabel(c)):'<i>'+esc(t('not_set'))+'</i>'],
+    [t('k_location'),c.lat!=null?`${fmtCoord(c.lat,c.lng)}${c.acc?` <small>(±${c.acc} m)</small>`:''}${c.locFrom==='exif'?' <small>· '+esc(t('from_exif'))+'</small>':c.locFrom==='manual'?' <small>· '+esc(t('manual'))+'</small>':''}`:'<i>'+esc(t('not_set'))+'</i>'],
+    [t('k_tags'),`${esc(sizeLabel(c.size))} · ${esc(freshLabel(c.fresh))}`],[t('k_throws'),c.attempts||1],['XP',`+${c.xp}`],[t('k_source'),esc(t(c.src==='gallery'?'src_gallery':'src_camera'))],
+    [t('k_world'),c.published?esc(t('published_ago',{ago:timeAgo(c.published)})):esc(t('not_published'))]];
+  $('#dKv').innerHTML=kv.map(([k,v])=>`<b>${esc(k)}</b><span>${v}</span>`).join('');
+  $('#dNotes').value=c.notes||''; $('#dPublish').hidden=!settings.cloudOn; $('#dPublish').textContent=t(c.published?'published':'publish'); $('#dPublish').disabled=!!c.published;
+  $('#dTimeEdit').hidden=true; const d=new Date(c.ts); $('#dTimeInput').value=`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  $('#detail').hidden=false;
+}
+function closeDetail(){ const img=$('#dImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); $('#detail').hidden=true; detailId=null; }
+const curDetail=()=>captures.find(c=>c.id===detailId);
+async function deleteCapture(c){
+  if(!confirm(t('confirm_delete',{name:spName(c.species)}))) return;
+  try{ await dbDel('captures',c.id); await dbDel('photos',c.id); }catch(e){ toast(t('t_delete_fail',{e:e.message})); return; }
+  captures=captures.filter(x=>x.id!==c.id); closeDetail(); renderAll(); toast(t('t_deleted'));
+  if(c.published&&settings.cloudOn){ cloudReq('/sightings/'+encodeURIComponent(c.id),'DELETE').catch(()=>{}); cloudReq('/thumbs/'+encodeURIComponent(c.id),'DELETE').catch(()=>{}); }
+}
+
+/* ---------------- trainer, settings, backup ---------------- */
+function renderTrainer(){
+  const st=computeStats(), lvl=levelFor(st.xp);
+  $('#trainerLvl').textContent=t('lv',{n:lvl}); $('#avatarBtn').textContent=profile.avatar; if(document.activeElement!==$('#nameInput')) $('#nameInput').value=profile.name;
+  $('#lvlTxt').textContent=t('level',{n:lvl})+(lvl>=50?' · '+t('max'):''); const a=xpAt(lvl), b=xpAt(lvl+1); const pct=lvl>=50?100:Math.round((st.xp-a)/(b-a)*100);
+  $('#xpFill').style.width=pct+'%'; $('#xpTxt').textContent=lvl>=50?t('xp_only',{xp:st.xp}):t('xp_next',{xp:st.xp,need:b-st.xp,n:lvl+1});
+  const rarest=st.rarest?`${st.rarest.shiny?'✨ ':''}${spName(st.rarest.species)} (${t('cp')} ${st.rarest.cp})`:'—';
+  $('#stats').innerHTML=[['💩',st.total,t('st_captures')],['📅',st.today,t('st_today')],['🔥',st.curStreak,t('st_streak')],['📖',`${st.speciesCount}/${SPECIES.length}`,t('st_species')],['🏙️',st.cityCount,t('st_cities')],['✨',st.shiny,t('st_shiny')]]
+    .map(([i,v,l])=>`<div class="stat"><b>${v}</b><span>${i} ${esc(l)}</span></div>`).join('')+`<div class="stat half"><b style="font-size:15px" title="${esc(rarest)}">${esc(rarest)}</b><span>🏆 ${esc(t('st_rarest'))}</span></div><div class="stat half"><b style="font-size:15px">${esc(st.homeCity||'—')}</b><span>🏠 ${esc(t('st_home'))}</span></div>`;
+  const earned=new Set(BADGES.filter(bd=>bd.test(st)).map(bd=>bd.id)); $('#badgeCount').textContent=`${earned.size}/${BADGES.length}`;
+  $('#badges').innerHTML=BADGES.map(bd=>`<div class="bd${earned.has(bd.id)?'':' locked'}" title="${esc(bdDesc(bd))}"><span class="ic">${bd.icon}</span>${esc(bdName(bd))}</div>`).join('');
+  $('#cloudOn').checked=settings.cloudOn; if(document.activeElement!==$('#cloudUrl')) $('#cloudUrl').value=settings.cloudUrl; $('#autoPublish').checked=settings.autoPublish; $('#cloudCfg').hidden=!settings.cloudOn;
+  const unpub=captures.filter(c=>!c.published&&c.lat!=null).length; $('#unpubTxt').textContent=unpub?t('unpub_n',{n:unpub}):t('unpub_0'); $('#btnPublishAll').disabled=!unpub;
+  $('#soundOn').checked=settings.sound; $('#langSel').value=lang; $('#footerTxt').textContent=t('footer',{id:profile.tid});
+  if(settings.cloudOn){ renderLeaderboard(); renderCityboard(); } else { $('#leaderboard').innerHTML=''; $('#cityboard').innerHTML=''; }
+}
+function renderTrainerIfVisible(){ if($('#view-trainer').classList.contains('active')) renderTrainer(); }
+async function exportAll(){
+  const out={app:'mierdasdelmundo',version:1,exportedAt:new Date().toISOString(),profile:{name:profile.name,avatar:profile.avatar,tid:profile.tid},captures:[]};
+  for(const c of captures){ let photo=null; try{ const b=await dbGet('photos',c.id); if(b) photo=await blobToDataUrl(b); }catch(e){} out.captures.push({...c,photo}); }
+  download(new Blob([JSON.stringify(out)],{type:'application/json'}),`mierdasdelmundo-backup-${dayKey(Date.now())}.json`); toast(t('t_exported',{n:captures.length}));
+}
+async function importFile(file){
+  if(!file) return;
+  try{ const d=JSON.parse(await file.text()); if(!d||(d.app!=='mierdasdelmundo'&&d.app!=='poopgo')||!Array.isArray(d.captures)) throw new Error(t('t_not_backup'));
+    const have=new Set(captures.map(c=>c.id)); let n=0;
+    for(const c of d.captures){ if(!c||typeof c.id!=='string'||have.has(c.id)||typeof c.ts!=='number'||!RARITY[c.rarity]) continue; const {photo,...rec}=c; rec.published=0; if(rec.city===undefined) assignCity(rec);
+      if(typeof photo==='string'&&photo.startsWith('data:image/')) await dbPut('photos',dataUrlToBlob(photo),rec.id); if(typeof rec.thumb!=='string') rec.thumb=photo||''; await saveCapture(rec); captures.push(rec); have.add(rec.id); n++; }
+    captures.sort((a,b)=>b.ts-a.ts);
+    if(d.profile){ if(!profile.name&&typeof d.profile.name==='string') profile.name=d.profile.name.slice(0,24); if(AVATARS.includes(d.profile.avatar)) profile.avatar=d.profile.avatar; saveProfile(); }
+    markBadgesSeen(); renderAll(); toast(t('t_imported',{n}));
+  }catch(e){ toast(t('t_import_fail',{e:e.message})); }
+}
+async function resetAll(){
+  if(!confirm(t('confirm_reset',{n:captures.length}))) return;
+  try{ await dbClear('captures'); await dbClear('photos'); }catch(e){ toast(t('t_reset_fail',{e:e.message})); return; }
+  captures=[]; try{ localStorage.setItem(LS_SEEN,'[]'); }catch(e){} renderAll(); toast(t('t_reset_done'));
+}
+
+/* ---------------- world sync (Firebase RTDB via REST) ---------------- */
+const cloudBase=()=>settings.cloudUrl.trim().replace(/\/+$/,'')+'/'+(settings.cloudRoot||'mierdasdelmundo').replace(/^\/+|\/+$/g,'');
+async function cloudReq(path,method='GET',body){
+  if(!/^https:\/\//.test(settings.cloudUrl.trim())) throw new Error(t('e_bad_url'));
+  const [p,q]=path.split('?'); const url=cloudBase()+p+'.json'+(q?'?'+q:'');
+  const r=await fetch(url,{method,body:body===undefined?undefined:JSON.stringify(body)}).catch(()=>{ throw new Error(t('e_network')); });
+  if(!r.ok){ let msg='HTTP '+r.status; try{ const j=await r.json(); if(j&&j.error) msg+=' · '+j.error; }catch(e){} throw new Error(msg); }
+  return r.status===204?null:r.json();
+}
+async function publishCapture(c){
+  if(!settings.cloudOn) throw new Error(t('e_sync_off')); if(c.lat==null||c.lng==null) throw new Error(t('e_no_loc'));
+  const s={id:c.id,ts:c.ts,lat:+c.lat.toFixed(4),lng:+c.lng.toFixed(4),city:c.city||null,cc:c.cc||null,species:c.species,rarity:c.rarity,shiny:!!c.shiny,cp:c.cp,size:c.size,fresh:c.fresh,trainer:(profile.name||'Anonymous').slice(0,24),tid:profile.tid,avatar:profile.avatar,pub:Date.now()};
+  await cloudReq('/sightings/'+encodeURIComponent(c.id),'PUT',s);
+  if(c.thumb){ try{ await cloudReq('/thumbs/'+encodeURIComponent(c.id),'PUT',await shrinkDataUrl(c.thumb,96)); }catch(e){} }
+  c.published=Date.now(); await saveCapture(c); worldCache=null; updateLeaderboard().catch(()=>{});
+}
+async function publishAll(){
+  const list=captures.filter(c=>!c.published&&c.lat!=null); if(!list.length) return; const btn=$('#btnPublishAll'); btn.disabled=true; let n=0;
+  for(const c of list){ try{ await publishCapture(c); n++; btn.textContent=`${n}/${list.length}`; }catch(e){ toast(t('t_world_err',{e:e.message})); break; } }
+  btn.textContent=t('publish_all'); renderTrainer(); if(n) toast(t('t_published_n',{n}));
+}
+let worldCache=null;
+async function fetchWorld(){
+  if(worldCache&&Date.now()-worldCache.t<60000) return worldCache.list;
+  let all; try{ all=await cloudReq('/sightings?orderBy="ts"&limitToLast=2000'); }catch(e){ all=await cloudReq('/sightings'); }
+  const list=Object.values(all||{}).filter(s=>s&&typeof s==='object'&&typeof s.id==='string'&&typeof s.ts==='number').sort((a,b)=>b.ts-a.ts).slice(0,2000);
+  worldCache={t:Date.now(),list}; return list;
+}
+async function updateLeaderboard(){ const st=computeStats(); await cloudReq('/trainers/'+encodeURIComponent(profile.tid),'PUT',{tid:profile.tid,name:(profile.name||'Anonymous').slice(0,24),avatar:profile.avatar,xp:st.xp,level:levelFor(st.xp),captures:st.total,species:st.speciesCount,cities:st.cityCount,home:st.homeCity||null,updated:Date.now()}); }
+let lbSeq=0;
+async function renderLeaderboard(){
+  const el=$('#leaderboard'), seq=++lbSeq; el.innerHTML=`<div class="lb-title">🏆 ${esc(t('lb_title'))} <small>${esc(t('lb_loading'))}</small></div>`;
+  try{ const all=await cloudReq('/trainers'); if(seq!==lbSeq) return; const list=Object.values(all||{}).filter(x=>x&&typeof x.xp==='number').sort((a,b)=>b.xp-a.xp).slice(0,10);
+    if(!list.length){ el.innerHTML=`<div class="lb-title">🏆 ${esc(t('lb_title'))}</div><small>${esc(t('lb_empty'))}</small>`; return; }
+    el.innerHTML=`<div class="lb-title">🏆 ${esc(t('lb_title'))}</div>`+list.map((x,i)=>`<div class="lb${x.tid===profile.tid?' me':''}"><span class="rk">${i+1}</span><span class="av">${esc(AVATARS.includes(x.avatar)?x.avatar:'🧑')}</span><span class="nm">${esc(String(x.name||'Anonymous').slice(0,24))}${x.home?` <small>· ${esc(String(x.home).slice(0,30))}</small>`:''}</span><span class="xp">${esc(t('lv',{n:+x.level||1}))} · ${Math.round(x.xp)} XP · ${+x.captures||0} 💩</span></div>`).join('');
+  }catch(e){ if(seq!==lbSeq) return; el.innerHTML=`<div class="lb-title">🏆 ${esc(t('lb_title'))}</div><small>${esc(t('lb_err',{e:e.message}))}</small>`; }
+}
+let cbSeq=0;
+async function renderCityboard(){
+  const el=$('#cityboard'), seq=++cbSeq; el.innerHTML=`<div class="lb-title">🏙️ ${esc(t('cities_title'))} <small>${esc(t('lb_loading'))}</small></div>`;
+  try{ const list=await fetchWorld(); if(seq!==cbSeq) return; const counts={}; for(const s of list){ if(!s.city) continue; const k=String(s.city).slice(0,40)+(s.cc?', '+String(s.cc).slice(0,3):''); counts[k]=(counts[k]||0)+1; }
+    const top=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,10); const st=computeStats();
+    if(!top.length){ el.innerHTML=`<div class="lb-title">🏙️ ${esc(t('cities_title'))}</div><small>${esc(t('cities_empty'))}</small>`; return; }
+    el.innerHTML=`<div class="lb-title">🏙️ ${esc(t('cities_title'))}</div>`+top.map(([k,n],i)=>`<div class="lb${k===st.homeCity?' me':''}"><span class="rk">${i+1}</span><span class="nm">${esc(k)}</span><span class="xp">${n} 💩</span></div>`).join('');
+  }catch(e){ if(seq!==cbSeq) return; el.innerHTML=`<div class="lb-title">🏙️ ${esc(t('cities_title'))}</div><small>${esc(t('lb_err',{e:e.message}))}</small>`; }
+}
+
+/* ---------------- phone-only gate ---------------- */
+const isDev=/[?&]dev=1/.test(location.search);
+function isPhone(){ const ua=navigator.userAgent||''; if(/Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini|Silk/i.test(ua)) return true;
+  const coarse=matchMedia('(pointer: coarse)').matches, touch=navigator.maxTouchPoints>0; return touch&&coarse&&Math.min(screen.width,screen.height)<=1024; }
+function showGate(){
+  $('#app').hidden=true; const g=$('#gate'); g.hidden=false; const url=location.href.replace(/[?#].*$/,''); $('#gateUrl').textContent=url;
+  const s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
+  s.onload=()=>{ try{ const qr=window.qrcode(0,'M'); qr.addData(url); qr.make(); $('#qr').innerHTML=qr.createSvgTag({cellSize:6,margin:0,scalable:true}); }catch(e){ $('#qr').textContent='💩'; } };
+  s.onerror=()=>{ $('#qr').textContent='💩'; }; document.head.appendChild(s);
+}
+
+/* ---------------- language ---------------- */
+function applyI18n(){
+  document.documentElement.lang=lang;
+  $$('[data-i18n]').forEach(el=>{ el.innerHTML=t(el.dataset.i18n); });
+  $$('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
+  $$('[data-i18n-title]').forEach(el=>{ el.title=t(el.dataset.i18nTitle); el.setAttribute('aria-label',t(el.dataset.i18nTitle)); });
+  $('#langSel').innerHTML=Object.entries(LANGS).map(([k,v])=>`<option value="${k}">${v}</option>`).join(''); $('#langSel').value=lang;
+  if(cam.fallbackKey) $('#camOffMsg').textContent=t(cam.fallbackKey);
+  renderGeo(); if(enc) updateEncSub(); renderAll(); if(mapInited) renderMarkers();
+}
+function setLang(l){ if(!I18N[l]) return; lang=l; settings.lang=l; saveSettings(); applyI18n(); }
+
+/* ---------------- tabs, events, init ---------------- */
+let currentTab='catch';
+function showTab(name){
+  currentTab=name; $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name)); $$('.tabbar button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  if(name==='catch'){ camStart(); geoStart(); } else { camStop(); if(name!=='map') geoStop(); }
+  if(name==='map'){ geoStart(); showMap(); } if(name==='dex') renderDex(); if(name==='trainer') renderTrainer();
+  if(name!=='map'&&pick) pickEnd(); window.scrollTo(0,0);
+}
+function renderAll(){ const n=captures.length; const b=$('#dexBadge'); b.hidden=!n; b.textContent=n; renderMarkers(); if(currentTab==='dex') renderDex(); if(currentTab==='trainer') renderTrainer(); }
+function bindEvents(){
+  $$('.tabbar button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  $('#btnShutter').addEventListener('click',onShutter); $('#btnFileCam').addEventListener('click',()=>$('#fileCam').click()); $('#btnGallery').addEventListener('click',()=>$('#fileGal').click());
+  $('#btnFlip').addEventListener('click',()=>{ cam.facing=cam.facing==='environment'?'user':'environment'; settings.facing=cam.facing; saveSettings(); camStop(); camStart(); });
+  $('#fileCam').addEventListener('change',e=>{ onFile(e.target.files[0],false); e.target.value=''; }); $('#fileGal').addEventListener('change',e=>{ onFile(e.target.files[0],true); e.target.value=''; });
+  $('#fileImport').addEventListener('change',e=>{ importFile(e.target.files[0]); e.target.value=''; });
+  // encounter
+  $('#segSize').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||!enc) return; enc.size=b.dataset.v; $$('#segSize button').forEach(x=>x.classList.toggle('on',x===b)); });
+  $('#segFresh').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||!enc) return; enc.fresh=b.dataset.v; $$('#segFresh button').forEach(x=>x.classList.toggle('on',x===b)); });
+  $('#encCancel').addEventListener('click',()=>cancelEncounter(false)); $('#encThrow').addEventListener('click',throwBag);
+  (function(){ const w=$('#bagWrap'); let st=null;
+    w.addEventListener('pointerdown',e=>{ if(!enc||enc.throwing) return; st={x:e.clientX,y:e.clientY}; try{ w.setPointerCapture(e.pointerId); }catch(err){} w.classList.add('dragging'); e.preventDefault(); });
+    w.addEventListener('pointermove',e=>{ if(!st) return; bagDrag.dx=e.clientX-st.x; bagDrag.dy=e.clientY-st.y; w.style.transform=`translate(${bagDrag.dx}px,${bagDrag.dy}px)`; });
+    const end=e=>{ if(!st) return; const dy=e.clientY-st.y; st=null; w.classList.remove('dragging'); if(dy<-60) throwBag(); else { bagDrag.dx=0; bagDrag.dy=0; w.style.transform=''; } };
+    w.addEventListener('pointerup',end); w.addEventListener('pointercancel',end); })();
+  // result
+  $('#resDone').addEventListener('click',closeResult); $('#resShare').addEventListener('click',()=>{ const c=captures.find(x=>x.id===$('#result').dataset.id); if(c) shareCapture(c); });
+  // detail
+  $('#dClose').addEventListener('click',closeDetail); $('#detail').addEventListener('click',e=>{ if(e.target===$('#detail')) closeDetail(); });
+  $('#dShare').addEventListener('click',()=>{ const c=curDetail(); if(c) shareCapture(c); });
+  $('#dDelete').addEventListener('click',()=>{ const c=curDetail(); if(c) deleteCapture(c); });
+  $('#dPublish').addEventListener('click',async()=>{ const c=curDetail(); if(!c) return; if(c.lat==null){ toast(t('t_set_loc_first')); return; } try{ $('#dPublish').disabled=true; await publishCapture(c); toast(t('t_published')); openDetail(c.id); }catch(e){ $('#dPublish').disabled=false; toast(t('t_world_err',{e:e.message})); } });
+  $('#dLoc').addEventListener('click',()=>{ const c=curDetail(); if(!c) return; const id=c.id; closeDetail();
+    pickStart(ll=>{ const cc=captures.find(x=>x.id===id); if(!cc) return; cc.lat=+ll.lat.toFixed(6); cc.lng=+ll.lng.toFixed(6); cc.acc=null; cc.locFrom='manual'; cc.published=0; assignCity(cc); saveCapture(cc).then(()=>{ renderAll(); toast(t('t_loc_set')); openDetail(id); }); }, c.lat!=null?[c.lat,c.lng]:null); });
+  $('#dTime').addEventListener('click',()=>{ const e=$('#dTimeEdit'); e.hidden=!e.hidden; if(!e.hidden) $('#dTimeInput').focus(); });
+  $('#dTimeInput').addEventListener('change',e=>{ const c=curDetail(); if(!c||!e.target.value) return; const ts=new Date(e.target.value).getTime(); if(!isFinite(ts)) return; c.ts=ts; c.tsFrom='manual'; c.published=0; saveCapture(c).then(()=>{ captures.sort((a,b)=>b.ts-a.ts); renderAll(); toast(t('t_time')); openDetail(c.id); }); });
+  let notesT; $('#dNotes').addEventListener('input',e=>{ const c=curDetail(); if(!c) return; c.notes=e.target.value.slice(0,500); clearTimeout(notesT); notesT=setTimeout(()=>saveCapture(c),400); });
+  // mierdex
+  $$('.subtabs button').forEach(b=>b.addEventListener('click',()=>{ dexTab=b.dataset.dex; $$('.subtabs button').forEach(x=>x.classList.toggle('on',x===b)); renderDex(); }));
+  $('#dexChips').addEventListener('click',e=>{ const b=e.target.closest('.chip'); if(!b) return; dexFilter=b.dataset.f; renderDex(); });
+  $('#dexBody').addEventListener('click',e=>{ const b=e.target.closest('[data-open]'); if(b) openDetail(b.dataset.open); });
+  // map
+  $('#btnLocate').addEventListener('click',locateMe); $('#btnFit').addEventListener('click',()=>{ fitToCaptures(); if(!captures.some(c=>c.lat!=null)) toast(t('t_no_located')); }); $('#btnWorld').addEventListener('click',toggleWorld); $('#mapBannerCancel').addEventListener('click',pickEnd);
+  // trainer & settings
+  let nameT; $('#nameInput').addEventListener('input',e=>{ profile.name=e.target.value.trim().slice(0,24); clearTimeout(nameT); nameT=setTimeout(()=>{ saveProfile(); if(settings.cloudOn) updateLeaderboard().catch(()=>{}); },500); });
+  $('#avatarBtn').addEventListener('click',()=>{ const i=AVATARS.indexOf(profile.avatar); profile.avatar=AVATARS[(i+1)%AVATARS.length]; saveProfile(); $('#avatarBtn').textContent=profile.avatar; });
+  $('#cloudOn').addEventListener('change',e=>{ settings.cloudOn=e.target.checked; saveSettings(); renderTrainer(); if(settings.cloudOn) toast(t('t_world_on')); else { worldOn=false; if(worldLayer) worldLayer.clearLayers(); $('#btnWorld').classList.remove('on'); } });
+  $('#cloudUrl').addEventListener('change',e=>{ settings.cloudUrl=e.target.value.trim(); worldCache=null; saveSettings(); if(settings.cloudOn){ renderLeaderboard(); renderCityboard(); } });
+  $('#autoPublish').addEventListener('change',e=>{ settings.autoPublish=e.target.checked; saveSettings(); });
+  $('#btnPublishAll').addEventListener('click',publishAll);
+  $('#soundOn').addEventListener('change',e=>{ settings.sound=e.target.checked; saveSettings(); });
+  $('#langSel').addEventListener('change',e=>setLang(e.target.value));
+  $('#btnExport').addEventListener('click',exportAll); $('#btnImport').addEventListener('click',()=>$('#fileImport').click()); $('#btnReset').addEventListener('click',resetAll);
+  let installEvt=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; $('#installRow').hidden=false; });
+  $('#btnInstall').addEventListener('click',async()=>{ if(!installEvt) return; installEvt.prompt(); await installEvt.userChoice.catch(()=>{}); installEvt=null; $('#installRow').hidden=true; });
+  window.addEventListener('appinstalled',()=>{ $('#installRow').hidden=true; toast(t('t_installed')); });
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden) camStop(); else if(currentTab==='catch') camStart(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#result').hidden) closeResult(); else if(!$('#encounter').hidden&&enc&&!enc.throwing) cancelEncounter(); } });
+  const tick=()=>{ const d=new Date(); $('#clock').textContent=`${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`; }; tick(); setInterval(tick,1000);
+}
+window.openDetail=openDetail;
+(async function init(){
+  lang=detectLang(); applyI18n();
+  if(!isPhone()&&!isDev){ showGate(); return; }
+  try{ captures=(await dbGetAll('captures')).sort((a,b)=>b.ts-a.ts); }catch(e){ captures=[]; toast(t('t_storage',{e:e.message}),5000); }
+  let touched=false; for(const c of captures){ if(c.city===undefined){ assignCity(c); touched=true; } } if(touched) for(const c of captures) saveCapture(c).catch(()=>{});
+  if(localStorage.getItem(LS_SEEN)==null) markBadgesSeen();
+  bindEvents(); applyI18n(); renderAll(); showTab('catch');
+  if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>

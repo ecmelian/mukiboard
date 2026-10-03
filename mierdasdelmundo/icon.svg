@@ -18,7 +18,7 @@
   </g>
   <path d="M220 346 q36 30 72 0" stroke="#2B1A0E" stroke-width="11" fill="none" stroke-linecap="round"/>
   <g transform="translate(372,104) rotate(12)">
-    <rect x="-74" y="-36" width="148" height="72" rx="22" fill="#F2B134" stroke="#3E2510" stroke-width="9"/>
-    <text x="0" y="18" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="50" fill="#3E2510">GO</text>
+    <rect x="-82" y="-36" width="164" height="72" rx="22" fill="#F2B134" stroke="#3E2510" stroke-width="9"/>
+    <text x="0" y="18" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="44" fill="#3E2510">MDM</text>
   </g>
 </svg>

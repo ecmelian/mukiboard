@@ -1,5 +1,5 @@
-/* Poop GO service worker: offline app shell + cached libraries. Map tiles and cloud sync stay network-only. */
-const CACHE = 'poopgo-v1';
+/* mierdasdelmundo service worker: offline app shell + cached libraries. Map tiles and cloud sync stay network-only. */
+const CACHE = 'mierdasdelmundo-v1';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -28,7 +28,7 @@ self.addEventListener('fetch', e => {
   }
 
   // Leaflet (unpkg) and web fonts: cache first, so the map UI and fonts work offline after the first load.
-  if (/(^|\.)(unpkg\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)$/.test(url.hostname)) {
+  if (/(^|\.)(unpkg\.com|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)$/.test(url.hostname)) {
     e.respondWith(
       caches.match(req).then(m => m || fetch(req).then(res => {
         if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); }
