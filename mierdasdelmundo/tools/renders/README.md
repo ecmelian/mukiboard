@@ -1,6 +1,6 @@
 # 3D renders
 
-The characters, badges and tab icons of the app are 3D renders generated with Higgsfield (clay/Pixar look, transparent background). `urls.json` lists them by asset name. The scripts here download them, trim them to their content, resize them to the sizes the app uses (mascot 512 px, avatars 320 px, everything else 256 px) and rebuild the PWA icons from the mascot.
+The characters, badges and tab icons of the app are 3D renders generated with Higgsfield (clay/Pixar look, transparent background). `urls.json` lists them by asset name. The scripts here download them, trim them to their content, resize them to the sizes the app uses (mascot 512 px, avatars 320 px, everything else 256 px) and rebuild the PWA icons from the mascot (the icon is just the poop).
 
 ```bash
 cd mierdasdelmundo/tools/renders

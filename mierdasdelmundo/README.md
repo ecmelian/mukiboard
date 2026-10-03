@@ -7,13 +7,14 @@ Spot some shit → tap the shutter → the app works out what it is (💩 🚗 �
 ## Features
 
 - 🏷️ **Five kinds of shit.** Dog poop (32 species), cars where they shouldn't be (Sidewalk Hog, Double Parker, Disabled Spot Thief…), locks where they shouldn't be (Orphan Lock, Love Lock, Bench Hostage…), cones and other things holding public parking (The Reserver, Chair Claim, DIY Bollard…) and dumped trash (Bagged and Abandoned, Mattress Monday, Scooter in the River…), 8 species each. The kind is recognized on the phone from the photo (MediaPipe image classifier, EfficientNet-Lite0, downloaded once and cached; its ImageNet labels are mapped to cars, locks, things holding a parking spot and trash, anything else is poop), filters the Mierdex, shows on the map pins and the share cards, and has its own badges (Jack of All Shit for one of each, and 10-of-a-kind badges).
-- 🎬 **Intro.** On a white screen the name appears and the poop forms, then the poop flies into the top bar and only the icon stays. Tap to skip.
+- 🎬 **Intro.** On a white screen the name appears and the poop forms, then the poop flies to the top corner and only the icon stays: after the intro the name is never shown again, the camera and the map carry just the poop. Tap to skip.
 - 🗺️ **Street view of the shit.** The map opens at street level around you with everyone's sightings on it (world sync is on by default; switch it off in Trainer → World sync), each with its photo, the kind, where it is and when it was there.
 - 🧹 **Cleared, but you have to go there.** Every sighting's popup has an "It's gone" button that only works on the spot: a fresh fix within 60 m, accuracy better than 150 m. After 10 people confirm, the sighting shows as cleared on the map and in the capture detail. One confirmation per trainer, counted for the Clean Sweep badge.
 - 📱 **Phones only.** On a desktop browser the app shows a QR code to open it on a phone instead (append `?dev=1` to the URL to bypass the gate while developing).
 - 🌍 **Any language.** The interface, the 64 species with their entries, the 24 badges and the dates follow the phone's language: English, Spanish, Portuguese, French, German and Italian are built in, anything else falls back to English, and the language can be switched in Trainer → Settings. Adding a language is one dictionary in `index.html`.
 - 🏙️ **Built for big cities.** A built-in table of about 190 big cities assigns every capture within 60 km to its city. Captures show their city, the trainer profile counts cities and names a home city, two badges reward capturing in 3 and 10 cities, city-dwelling species (Metro Mouth, Tourist Trap, Bus Stop Bomber, Crosswalk Crumb…) are more common inside a city, and the world sync ranks cities by number of poops.
-- 📸 **Live camera viewfinder** with shutter, camera flip and gallery import. Falls back to the phone's camera app when the live camera isn't available.
+- 🔀 **No menu bar.** One toggle at the bottom of every screen: the left side is you (trainer profile, Mierdex, badges, world sync, settings), the right side is the map. Tap the lit side to come back to the camera, or swipe the camera left for the map and right for your profile.
+- 📸 **Live camera viewfinder** (the back camera, no selfie mode) with shutter and gallery import. Falls back to the phone's camera app when the live camera isn't available.
 - 🕒 **Timestamp + 📍 GPS** on every capture (local time with UTC offset, coordinates with accuracy). Imported photos get their real date and location from EXIF when present.
 - 🎯 **Encounter mechanic**: size (S/M/L/XL) and freshness (fresh/dry/fossil) tags influence what you find; flick the bag (or tap *Throw*); rarer poops break free more often.
 - 📖 **Mierdex**: 32 species in 5 rarities with dex entries, shiny variants (1 in 50), CP, XP, 50 levels, 18 badges and day streaks.
@@ -26,7 +27,7 @@ Spot some shit → tap the shutter → the app works out what it is (💩 🚗 �
 
 ## Design
 
-Helvetica only. Black and white, with green reserved for the key things: the shutter, the poop bag, the primary buttons, the active tab, the GPS fix, XP and level-ups, new catches and badges. Rarity is a gray ramp from light (common) to black (legendary). Characters, badges and tab icons are 3D renders in `assets/` with emoji fallbacks until the renders are in place.
+Helvetica only. Black and white, with green reserved for the key things: the shutter, the poop bag, the primary buttons, the lit side of the toggle, the GPS fix, XP and level-ups, new catches and badges. Rarity is a gray ramp from light (common) to black (legendary). Characters, badges and the toggle's map icon are 3D renders in `assets/` with emoji fallbacks until the renders are in place.
 
 ## Run it
 
@@ -86,7 +87,7 @@ The app is the engine of something bigger: channels, shows, sponsors, books, mer
 |---|---|
 | `index.html` | the whole app (markup, styles, translations, city table and script) |
 | `sw.js` | service worker: offline app shell; Leaflet (from unpkg), the QR library (from cdnjs), the face detector and the kind classifier (jsdelivr + their models) are cached after the first load |
-| `manifest.webmanifest`, `icon*.png`, `icon.svg`, `apple-touch-icon.png` | PWA install metadata and icons |
+| `manifest.webmanifest`, `icon*.png`, `apple-touch-icon.png` | PWA install metadata and icons: just the 3D poop (transparent for Android, on white where the OS needs an opaque icon) |
 
 ## Game data
 
