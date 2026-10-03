@@ -14,6 +14,8 @@ Rejected captures lose their photo and details at once; only a tombstone remains
 
 ## Deploy (Vercel)
 
+The official copy runs at `https://mierdasdelmundo-x-poster.vercel.app` (Vercel project `mierdasdelmundo-x-poster`, deployed from these files without a Git link). To deploy your own:
+
 No dependencies, no build. Node 18 or newer.
 
 1. Import this repository in Vercel and set the project's **Root Directory** to `x-poster` (or run `vercel` inside this folder).

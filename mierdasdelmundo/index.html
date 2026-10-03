@@ -1138,7 +1138,7 @@ async function onPhotoTap(e){
 // Captures go (faces blurred, coordinates rounded) to the poster service in ../x-poster, which holds the
 // account keys and lets the owner review each post. Set X_POSTER_URL after deploying it; the settings
 // field overrides it on a phone.
-const X_POSTER_URL='';
+const X_POSTER_URL='https://mierdasdelmundo-x-poster.vercel.app';
 const xBase=()=>(settings.xUrl||X_POSTER_URL).trim().replace(/\/+$/,'');
 const xReady=()=>!!settings.xOn&&/^https:\/\//.test(xBase());
 async function xReq(path,method='GET',body){

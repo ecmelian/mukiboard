@@ -68,7 +68,7 @@ Captures without a location are never published. Deleting a published capture al
 
 ## Official X account
 
-Off by default. Turn it on in **Trainer → Official X account** and point it at a deployed copy of [`../x-poster`](../x-poster/README.md), or set `X_POSTER_URL` in `index.html` so every phone uses the same service. With *Send every capture* on, each capture with a location is sent right after the catch; otherwise there is a *Post to X* button on the result screen and in the capture detail.
+Off by default. Turn it on in **Trainer → Official X account**. The app is pre-pointed at the deployed service (`X_POSTER_URL` in `index.html`, currently `https://mierdasdelmundo-x-poster.vercel.app`, a copy of [`../x-poster`](../x-poster/README.md)); a different URL can be typed in the settings on one phone. With *Send every capture* on, each capture with a location is sent right after the catch; otherwise there is a *Post to X* button on the result screen and in the capture detail.
 
 What leaves the phone: the face-blurred photo, coordinates rounded to 4 decimals, city, species, rarity, size, freshness, time and the trainer name. The service rounds the coordinates further, refuses anything that was not face-checked, and posts nothing until the account owner approves it on the review page. Posting always re-runs the face check if it has not happened yet, so an unchecked photo is never sent.
 
