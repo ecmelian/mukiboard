@@ -1,0 +1,41 @@
+# Downloads the 3D renders of the mierdasdelmundo app, trims and resizes them, rebuilds the icons and commits
+# the result to the branch the workflow is run on. See mierdasdelmundo/tools/renders/README.md.
+name: Fetch 3D renders
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 'Optional JSON object {assetName: imageUrl}; defaults to mierdasdelmundo/tools/renders/urls.json'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Playwright (used to trim and resize the renders)
+        working-directory: mierdasdelmundo/tools/renders
+        run: |
+          npm init -y >/dev/null
+          npm i playwright@1.56.1 >/dev/null
+          npx playwright install --with-deps chromium
+      - name: Download, trim, resize, rebuild icons
+        working-directory: mierdasdelmundo/tools/renders
+        env:
+          URLS: ${{ inputs.urls }}
+        run: node fetch.cjs ../..
+      - name: Commit the assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mierdasdelmundo/assets mierdasdelmundo/icon-192.png mierdasdelmundo/icon-512.png mierdasdelmundo/icon-maskable-512.png mierdasdelmundo/apple-touch-icon.png
+          git commit -m "Add the 3D renders (fetched and resized by the fetch-assets workflow)" || { echo "nothing to commit"; exit 0; }
+          git push
