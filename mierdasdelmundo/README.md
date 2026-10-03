@@ -2,11 +2,11 @@
 
 *Gotta scoop 'em all.* A phone-only, Pokémon-GO-style web app for capturing, timestamping and mapping the shit of the world's big cities: dog poop, cars where they shouldn't be, locks where they shouldn't be, cones holding public parking and dumped trash. The remains of shitty behavior, in any language.
 
-Spot some shit → tap the shutter → say what it is (💩 🚗 🔒 🚧 🗑️) → tag its size and freshness → flick the poop bag at it. If it doesn't break free, it's yours: timestamped, geotagged, assigned to its big city, identified as one of 64 species across 5 kinds and 5 rarities, and added to your **Mierdex** and to the map.
+Spot some shit → tap the shutter → the app works out what it is (💩 🚗 🔒 🚧 🗑️) → tag its size and freshness → flick the poop bag at it. If it doesn't break free, it's yours: timestamped, geotagged, assigned to its big city, identified as one of 64 species across 5 kinds and 5 rarities, and added to your **Mierdex** and to the map.
 
 ## Features
 
-- 🏷️ **Five kinds of shit.** Dog poop (32 species), cars where they shouldn't be (Sidewalk Hog, Double Parker, Disabled Spot Thief…), locks where they shouldn't be (Orphan Lock, Love Lock, Bench Hostage…), cones and other things holding public parking (The Reserver, Chair Claim, DIY Bollard…) and dumped trash (Bagged and Abandoned, Mattress Monday, Scooter in the River…), 8 species each. The kind is picked in the encounter, filters the Mierdex, shows on the map pins and the share cards, and has its own badges (Jack of All Shit for one of each, and 10-of-a-kind badges).
+- 🏷️ **Five kinds of shit.** Dog poop (32 species), cars where they shouldn't be (Sidewalk Hog, Double Parker, Disabled Spot Thief…), locks where they shouldn't be (Orphan Lock, Love Lock, Bench Hostage…), cones and other things holding public parking (The Reserver, Chair Claim, DIY Bollard…) and dumped trash (Bagged and Abandoned, Mattress Monday, Scooter in the River…), 8 species each. The kind is recognized on the phone from the photo (MediaPipe image classifier, EfficientNet-Lite0, downloaded once and cached; its ImageNet labels are mapped to cars, locks, things holding a parking spot and trash, anything else is poop), filters the Mierdex, shows on the map pins and the share cards, and has its own badges (Jack of All Shit for one of each, and 10-of-a-kind badges).
 - 📱 **Phones only.** On a desktop browser the app shows a QR code to open it on a phone instead (append `?dev=1` to the URL to bypass the gate while developing).
 - 🌍 **Any language.** The interface, the 64 species with their entries, the 23 badges and the dates follow the phone's language: English, Spanish, Portuguese, French, German and Italian are built in, anything else falls back to English, and the language can be switched in Trainer → Settings. Adding a language is one dictionary in `index.html`.
 - 🏙️ **Built for big cities.** A built-in table of about 190 big cities assigns every capture within 60 km to its city. Captures show their city, the trainer profile counts cities and names a home city, two badges reward capturing in 3 and 10 cities, city-dwelling species (Metro Mouth, Tourist Trap, Bus Stop Bomber, Crosswalk Crumb…) are more common inside a city, and the world sync ranks cities by number of poops.
@@ -81,7 +81,7 @@ The app is the engine of something bigger: channels, shows, sponsors, books, mer
 | File | Purpose |
 |---|---|
 | `index.html` | the whole app (markup, styles, translations, city table and script) |
-| `sw.js` | service worker: offline app shell; Leaflet (from unpkg), the QR library (from cdnjs) and the face detector (jsdelivr + its model) are cached after the first load |
+| `sw.js` | service worker: offline app shell; Leaflet (from unpkg), the QR library (from cdnjs), the face detector and the kind classifier (jsdelivr + their models) are cached after the first load |
 | `manifest.webmanifest`, `icon*.png`, `icon.svg`, `apple-touch-icon.png` | PWA install metadata and icons |
 
 ## Game data

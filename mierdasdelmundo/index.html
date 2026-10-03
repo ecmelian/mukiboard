@@ -145,8 +145,6 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   .seg{display:flex;background:rgba(0,0,0,.55);border-radius:999px;padding:4px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
   .seg button{border:none;background:none;color:#fff;padding:8px 14px;border-radius:999px;font-weight:700;font-size:13px}
   .seg button.on{background:var(--green);color:#fff}
-  #segKind button{padding:5px 11px;font-size:18px;line-height:1}
-  .seg img.kic{width:24px;height:24px;object-fit:contain;display:block}
   .enc-bottom{position:absolute;left:0;right:0;bottom:0;padding:0 20px calc(22px + var(--sab));display:flex;align-items:flex-end;justify-content:space-between;z-index:3}
   .link{border:none;background:rgba(0,0,0,.55);color:#fff;padding:10px 14px;border-radius:999px;font-weight:700;font-size:13px;margin-bottom:28px}
   .bagwrap{width:120px;height:140px;position:relative;display:flex;flex-direction:column;align-items:center;transition:transform .45s cubic-bezier(.2,.8,.2,1);touch-action:none;cursor:grab}
@@ -437,8 +435,6 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   <div class="ring" id="ring"></div>
   <div class="enc-msg" id="encMsg" hidden></div>
   <div class="enc-tags">
-    <div class="lbl" data-i18n="kind"></div>
-    <div class="seg" id="segKind"><button data-v="poop" class="on"><img class="kic" src="assets/mascot.png" alt="" onerror="fb(this,'💩')"></button><button data-v="car"><img class="kic" src="assets/kind/car.png" alt="" onerror="fb(this,'🚗')"></button><button data-v="lock"><img class="kic" src="assets/kind/lock.png" alt="" onerror="fb(this,'🔒')"></button><button data-v="cone"><img class="kic" src="assets/kind/cone.png" alt="" onerror="fb(this,'🚧')"></button><button data-v="trash"><img class="kic" src="assets/kind/trash.png" alt="" onerror="fb(this,'🗑️')"></button></div>
     <div class="lbl" data-i18n="size"></div>
     <div class="seg" id="segSize"><button data-v="S">S</button><button data-v="M" class="on">M</button><button data-v="L">L</button><button data-v="XL">XL</button></div>
     <div class="lbl" data-i18n="fresh"></div>
@@ -533,6 +529,7 @@ en:{tagline:"gotta scoop 'em all",tab_catch:'Catch',tab_map:'Map',tab_trainer:'T
  unpub:'Unpublished captures',unpub_n:'{n} with a location, ready to publish',unpub_0:'Everything with a location is published',publish_all:'Publish all',
  lb_title:'Top trainers',lb_loading:'loading…',lb_empty:'No trainers yet. Publish a capture to appear here.',lb_err:"Couldn't load: {e}",cities_title:'Top cities',cities_empty:'No sightings yet.',
  settings:'Settings',sound:'Sound effects',language:'Language',install:'Install app',install_sub:'Add mierdasdelmundo to your home screen',install_btn:'Install',backup:'Backup',backup_sub:'Export everything (photos included) as JSON',export:'Export',import:'Import',reset:'Reset',reset_sub:'Delete all captures on this device',delete_all:'Delete all',
+ enc_title_any:'Shit in sight!',
  gps_retry:'tap to retry',gps_allow:'Location is blocked for this site. Allow it in your browser settings, then tap again.',
  kind:'What is it?',kind_poop:'Dog poop',kind_car:'Car where it shouldn’t be',kind_lock:'Lock where it shouldn’t be',kind_cone:'Cone holding public parking',kind_trash:'Dumped trash',ks_poop:'Poop',ks_car:'Car',ks_lock:'Lock',ks_cone:'Cone',ks_trash:'Trash',k_kind:'Kind',st_kinds:'By kind',enc_title_poop:'A wild poop appeared!',enc_title_car:'A wild car appeared where it shouldn’t!',enc_title_lock:'A wild lock appeared where it shouldn’t!',enc_title_cone:'A wild cone appeared, holding public parking!',enc_title_trash:'Wild trash appeared, dumped where it shouldn’t!',
  blur_on:'Blur faces',blur_sub:'Faces are pixelated on the phone before a photo is saved',k_faces:'Faces',faces_na:'Faces not checked yet',faces_0:'No faces found',faces_1:'1 face blurred',faces_n:'{n} faces blurred',blur_spot:'🙈 Blur a spot',blur_tap:'Tap the photo where you want to blur',blur_done:'Done blurring',t_blurred:'Spot blurred',t_blur_fail:'Could not blur: {e}',t_faces_offline:'The face check needs a connection the first time',x_section:'Official X account',x_on:'Share captures on X',x_on_sub:'Faces are blurred first. The account owner reviews each post before it goes live.',x_auto:'Send every capture',x_auto_sub:'Captures with a location are sent automatically',x_url:'Poster service URL',x_post:'𝕏 Post to X',x_sending:'𝕏 Sending…',x_sent:'𝕏 Sent for review ✓',x_posted:'𝕏 See the post',x_rejected:'𝕏 Not posted',x_not_configured:'Set the poster service URL in Trainer → Official X account first',x_need_loc:'Set the location first',t_x_sent:'Sent to the official account for review',t_x_posted:'Posted on X',t_x_err:'X: {e}',
@@ -563,6 +560,7 @@ es:{tagline:'hazte con todas',tab_catch:'Atrapar',tab_map:'Mapa',tab_trainer:'En
  unpub:'Capturas sin publicar',unpub_n:'{n} con ubicación, listas para publicar',unpub_0:'Todo lo que tiene ubicación está publicado',publish_all:'Publicar todo',
  lb_title:'Mejores entrenadores',lb_loading:'cargando…',lb_empty:'Aún no hay entrenadores. Publica una captura para aparecer aquí.',lb_err:'No se pudo cargar: {e}',cities_title:'Ciudades con más mierdas',cities_empty:'Todavía no hay avistamientos.',
  settings:'Ajustes',sound:'Efectos de sonido',language:'Idioma',install:'Instalar la app',install_sub:'Añade mierdasdelmundo a tu pantalla de inicio',install_btn:'Instalar',backup:'Copia de seguridad',backup_sub:'Exporta todo (fotos incluidas) en JSON',export:'Exportar',import:'Importar',reset:'Reiniciar',reset_sub:'Borra todas las capturas de este dispositivo',delete_all:'Borrar todo',
+ enc_title_any:'¡Mierda a la vista!',
  gps_retry:'toca para reintentar',gps_allow:'La ubicación está bloqueada para este sitio. Permítela en los ajustes del navegador y vuelve a tocar.',
  kind:'¿Qué es?',kind_poop:'Mierda de perro',kind_car:'Coche donde no debe',kind_lock:'Candado donde no debe',kind_cone:'Cono que reserva aparcamiento público',kind_trash:'Basura tirada',ks_poop:'Mierda',ks_car:'Coche',ks_lock:'Candado',ks_cone:'Cono',ks_trash:'Basura',k_kind:'Tipo',st_kinds:'Por tipo',enc_title_poop:'¡Ha aparecido una mierda salvaje!',enc_title_car:'¡Ha aparecido un coche salvaje donde no debe!',enc_title_lock:'¡Ha aparecido un candado salvaje donde no debe!',enc_title_cone:'¡Ha aparecido un cono salvaje reservando aparcamiento!',enc_title_trash:'¡Ha aparecido basura salvaje tirada donde no debe!',
  blur_on:'Difuminar caras',blur_sub:'Las caras se pixelan en el móvil antes de guardar la foto',k_faces:'Caras',faces_na:'Caras sin comprobar',faces_0:'Ninguna cara encontrada',faces_1:'1 cara difuminada',faces_n:'{n} caras difuminadas',blur_spot:'🙈 Difuminar una zona',blur_tap:'Toca la foto donde quieras difuminar',blur_done:'Terminar',t_blurred:'Zona difuminada',t_blur_fail:'No se pudo difuminar: {e}',t_faces_offline:'La comprobación de caras necesita conexión la primera vez',x_section:'Cuenta oficial de X',x_on:'Compartir capturas en X',x_on_sub:'Primero se difuminan las caras. El dueño de la cuenta revisa cada publicación antes de que salga.',x_auto:'Enviar todas las capturas',x_auto_sub:'Las capturas con ubicación se envían automáticamente',x_url:'URL del servicio de publicación',x_post:'𝕏 Publicar en X',x_sending:'𝕏 Enviando…',x_sent:'𝕏 Enviada a revisión ✓',x_posted:'𝕏 Ver la publicación',x_rejected:'𝕏 No publicada',x_not_configured:'Configura primero la URL del servicio en Entrenador → Cuenta oficial de X',x_need_loc:'Fija primero la ubicación',t_x_sent:'Enviada a la cuenta oficial para su revisión',t_x_posted:'Publicada en X',t_x_err:'X: {e}',
@@ -593,6 +591,7 @@ pt:{tagline:'apanha-as todas',tab_catch:'Apanhar',tab_map:'Mapa',tab_trainer:'Tr
  unpub:'Capturas por publicar',unpub_n:'{n} com localização, prontas a publicar',unpub_0:'Tudo o que tem localização está publicado',publish_all:'Publicar tudo',
  lb_title:'Melhores treinadores',lb_loading:'a carregar…',lb_empty:'Ainda não há treinadores. Publica uma captura para apareceres aqui.',lb_err:'Não foi possível carregar: {e}',cities_title:'Cidades com mais merdas',cities_empty:'Ainda não há avistamentos.',
  settings:'Ajustes',sound:'Efeitos sonoros',language:'Idioma',install:'Instalar a app',install_sub:'Adiciona mierdasdelmundo ao ecrã inicial',install_btn:'Instalar',backup:'Cópia de segurança',backup_sub:'Exporta tudo (fotos incluídas) em JSON',export:'Exportar',import:'Importar',reset:'Repor',reset_sub:'Apaga todas as capturas deste dispositivo',delete_all:'Apagar tudo',
+ enc_title_any:'Merda à vista!',
  gps_retry:'toca para tentar de novo',gps_allow:'A localização está bloqueada para este site. Permite-a nas definições do navegador e toca outra vez.',
  kind:'O que é?',kind_poop:'Merda de cão',kind_car:'Carro onde não deve',kind_lock:'Cadeado onde não deve',kind_cone:'Cone a reservar estacionamento público',kind_trash:'Lixo despejado',ks_poop:'Merda',ks_car:'Carro',ks_lock:'Cadeado',ks_cone:'Cone',ks_trash:'Lixo',k_kind:'Tipo',st_kinds:'Por tipo',enc_title_poop:'Apareceu uma merda selvagem!',enc_title_car:'Apareceu um carro selvagem onde não deve!',enc_title_lock:'Apareceu um cadeado selvagem onde não deve!',enc_title_cone:'Apareceu um cone selvagem a reservar estacionamento!',enc_title_trash:'Apareceu lixo selvagem despejado onde não deve!',
  blur_on:'Desfocar caras',blur_sub:'As caras são pixelizadas no telemóvel antes de guardar a foto',k_faces:'Caras',faces_na:'Caras ainda não verificadas',faces_0:'Nenhuma cara encontrada',faces_1:'1 cara desfocada',faces_n:'{n} caras desfocadas',blur_spot:'🙈 Desfocar uma zona',blur_tap:'Toca na foto onde queres desfocar',blur_done:'Terminar',t_blurred:'Zona desfocada',t_blur_fail:'Não foi possível desfocar: {e}',t_faces_offline:'A verificação de caras precisa de ligação na primeira vez',x_section:'Conta oficial do X',x_on:'Partilhar capturas no X',x_on_sub:'As caras são desfocadas primeiro. O dono da conta revê cada publicação antes de sair.',x_auto:'Enviar todas as capturas',x_auto_sub:'As capturas com localização são enviadas automaticamente',x_url:'URL do serviço de publicação',x_post:'𝕏 Publicar no X',x_sending:'𝕏 A enviar…',x_sent:'𝕏 Enviada para revisão ✓',x_posted:'𝕏 Ver a publicação',x_rejected:'𝕏 Não publicada',x_not_configured:'Define primeiro o URL do serviço em Treinador → Conta oficial do X',x_need_loc:'Define primeiro a localização',t_x_sent:'Enviada à conta oficial para revisão',t_x_posted:'Publicada no X',t_x_err:'X: {e}',
@@ -623,6 +622,7 @@ fr:{tagline:'attrape-les toutes',tab_catch:'Attraper',tab_map:'Carte',tab_traine
  unpub:'Captures non publiées',unpub_n:'{n} avec emplacement, prêtes à publier',unpub_0:'Tout ce qui a un emplacement est publié',publish_all:'Tout publier',
  lb_title:'Meilleurs dresseurs',lb_loading:'chargement…',lb_empty:'Pas encore de dresseurs. Publie une capture pour apparaître ici.',lb_err:'Chargement impossible : {e}',cities_title:'Villes les plus crottées',cities_empty:"Pas encore d'observations.",
  settings:'Réglages',sound:'Effets sonores',language:'Langue',install:"Installer l'appli",install_sub:"Ajoute mierdasdelmundo à ton écran d'accueil",install_btn:'Installer',backup:'Sauvegarde',backup_sub:'Exporte tout (photos comprises) en JSON',export:'Exporter',import:'Importer',reset:'Réinitialiser',reset_sub:'Supprime toutes les captures de cet appareil',delete_all:'Tout supprimer',
+ enc_title_any:'Merde en vue !',
  gps_retry:'touche pour réessayer',gps_allow:'La localisation est bloquée pour ce site. Autorise-la dans les réglages du navigateur, puis touche à nouveau.',
  kind:'Qu’est-ce que c’est ?',kind_poop:'Crotte de chien',kind_car:'Voiture là où il ne faut pas',kind_lock:'Cadenas là où il ne faut pas',kind_cone:'Cône qui réserve une place publique',kind_trash:'Déchets abandonnés',ks_poop:'Crotte',ks_car:'Voiture',ks_lock:'Cadenas',ks_cone:'Cône',ks_trash:'Déchets',k_kind:'Type',st_kinds:'Par type',enc_title_poop:'Une crotte sauvage apparaît !',enc_title_car:'Une voiture sauvage apparaît là où il ne faut pas !',enc_title_lock:'Un cadenas sauvage apparaît là où il ne faut pas !',enc_title_cone:'Un cône sauvage apparaît, il réserve une place !',enc_title_trash:'Des déchets sauvages apparaissent là où il ne faut pas !',
  blur_on:'Flouter les visages',blur_sub:'Les visages sont pixelisés sur le téléphone avant d’enregistrer la photo',k_faces:'Visages',faces_na:'Visages pas encore vérifiés',faces_0:'Aucun visage trouvé',faces_1:'1 visage flouté',faces_n:'{n} visages floutés',blur_spot:'🙈 Flouter une zone',blur_tap:'Touche la photo là où tu veux flouter',blur_done:'Terminer',t_blurred:'Zone floutée',t_blur_fail:'Impossible de flouter : {e}',t_faces_offline:'La vérification des visages a besoin d’une connexion la première fois',x_section:'Compte officiel X',x_on:'Partager les captures sur X',x_on_sub:'Les visages sont floutés d’abord. Le propriétaire du compte relit chaque publication avant qu’elle ne sorte.',x_auto:'Envoyer chaque capture',x_auto_sub:'Les captures avec un emplacement sont envoyées automatiquement',x_url:'URL du service de publication',x_post:'𝕏 Publier sur X',x_sending:'𝕏 Envoi…',x_sent:'𝕏 Envoyée pour relecture ✓',x_posted:'𝕏 Voir la publication',x_rejected:'𝕏 Non publiée',x_not_configured:'Renseigne d’abord l’URL du service dans Dresseur → Compte officiel X',x_need_loc:'Place d’abord l’emplacement',t_x_sent:'Envoyée au compte officiel pour relecture',t_x_posted:'Publiée sur X',t_x_err:'X : {e}',
@@ -653,6 +653,7 @@ de:{tagline:'schnapp sie dir alle',tab_catch:'Fangen',tab_map:'Karte',tab_traine
  unpub:'Unveröffentlichte Fänge',unpub_n:'{n} mit Standort, bereit zur Veröffentlichung',unpub_0:'Alles mit Standort ist veröffentlicht',publish_all:'Alle veröffentlichen',
  lb_title:'Top-Trainer',lb_loading:'lädt…',lb_empty:'Noch keine Trainer. Veröffentliche einen Fang, um hier zu erscheinen.',lb_err:'Laden fehlgeschlagen: {e}',cities_title:'Städte mit den meisten Haufen',cities_empty:'Noch keine Sichtungen.',
  settings:'Einstellungen',sound:'Soundeffekte',language:'Sprache',install:'App installieren',install_sub:'Füge mierdasdelmundo deinem Startbildschirm hinzu',install_btn:'Installieren',backup:'Sicherung',backup_sub:'Alles (inklusive Fotos) als JSON exportieren',export:'Exportieren',import:'Importieren',reset:'Zurücksetzen',reset_sub:'Alle Fänge auf diesem Gerät löschen',delete_all:'Alles löschen',
+ enc_title_any:'Scheiße in Sicht!',
  gps_retry:'tippen zum Wiederholen',gps_allow:'Der Standort ist für diese Seite blockiert. Erlaube ihn in den Browser-Einstellungen und tippe erneut.',
  kind:'Was ist es?',kind_poop:'Hundehaufen',kind_car:'Auto, wo es nicht hingehört',kind_lock:'Schloss, wo es nicht hingehört',kind_cone:'Hütchen, das einen öffentlichen Parkplatz reserviert',kind_trash:'Abgeladener Müll',ks_poop:'Haufen',ks_car:'Auto',ks_lock:'Schloss',ks_cone:'Hütchen',ks_trash:'Müll',k_kind:'Art',st_kinds:'Nach Art',enc_title_poop:'Ein wilder Haufen erscheint!',enc_title_car:'Ein wildes Auto erscheint, wo es nicht hingehört!',enc_title_lock:'Ein wildes Schloss erscheint, wo es nicht hingehört!',enc_title_cone:'Ein wildes Hütchen erscheint und reserviert einen Parkplatz!',enc_title_trash:'Wilder Müll erscheint, abgeladen, wo er nicht hingehört!',
  blur_on:'Gesichter verpixeln',blur_sub:'Gesichter werden auf dem Handy verpixelt, bevor das Foto gespeichert wird',k_faces:'Gesichter',faces_na:'Gesichter noch nicht geprüft',faces_0:'Keine Gesichter gefunden',faces_1:'1 Gesicht verpixelt',faces_n:'{n} Gesichter verpixelt',blur_spot:'🙈 Stelle verpixeln',blur_tap:'Tippe auf die Stelle im Foto, die verpixelt werden soll',blur_done:'Fertig',t_blurred:'Stelle verpixelt',t_blur_fail:'Verpixeln fehlgeschlagen: {e}',t_faces_offline:'Die Gesichtsprüfung braucht beim ersten Mal eine Verbindung',x_section:'Offizieller X-Account',x_on:'Fänge auf X teilen',x_on_sub:'Gesichter werden zuerst verpixelt. Der Account-Inhaber prüft jeden Post, bevor er erscheint.',x_auto:'Jeden Fang senden',x_auto_sub:'Fänge mit Standort werden automatisch gesendet',x_url:'URL des Post-Dienstes',x_post:'𝕏 Auf X posten',x_sending:'𝕏 Wird gesendet…',x_sent:'𝕏 Zur Prüfung gesendet ✓',x_posted:'𝕏 Post ansehen',x_rejected:'𝕏 Nicht gepostet',x_not_configured:'Trage zuerst die URL des Post-Dienstes unter Trainer → Offizieller X-Account ein',x_need_loc:'Lege zuerst den Standort fest',t_x_sent:'An den offiziellen Account zur Prüfung gesendet',t_x_posted:'Auf X gepostet',t_x_err:'X: {e}',
@@ -683,6 +684,7 @@ it:{tagline:'acchiappale tutte',tab_catch:'Cattura',tab_map:'Mappa',tab_trainer:
  unpub:'Catture non pubblicate',unpub_n:'{n} con posizione, pronte da pubblicare',unpub_0:'Tutto ciò che ha una posizione è pubblicato',publish_all:'Pubblica tutto',
  lb_title:'Migliori allenatori',lb_loading:'caricamento…',lb_empty:'Nessun allenatore ancora. Pubblica una cattura per apparire qui.',lb_err:'Impossibile caricare: {e}',cities_title:'Città con più cacche',cities_empty:'Nessun avvistamento ancora.',
  settings:'Impostazioni',sound:'Effetti sonori',language:'Lingua',install:"Installa l'app",install_sub:'Aggiungi mierdasdelmundo alla schermata Home',install_btn:'Installa',backup:'Backup',backup_sub:'Esporta tutto (foto incluse) in JSON',export:'Esporta',import:'Importa',reset:'Reimposta',reset_sub:'Elimina tutte le catture su questo dispositivo',delete_all:'Elimina tutto',
+ enc_title_any:'Merda in vista!',
  gps_retry:'tocca per riprovare',gps_allow:'La posizione è bloccata per questo sito. Consentila nelle impostazioni del browser, poi tocca di nuovo.',
  kind:'Che cos’è?',kind_poop:'Cacca di cane',kind_car:'Auto dove non dovrebbe',kind_lock:'Lucchetto dove non dovrebbe',kind_cone:'Cono che riserva un parcheggio pubblico',kind_trash:'Rifiuti abbandonati',ks_poop:'Cacca',ks_car:'Auto',ks_lock:'Lucchetto',ks_cone:'Cono',ks_trash:'Rifiuti',k_kind:'Tipo',st_kinds:'Per tipo',enc_title_poop:'È apparsa una cacca selvatica!',enc_title_car:'È apparsa un’auto selvatica dove non dovrebbe!',enc_title_lock:'È apparso un lucchetto selvatico dove non dovrebbe!',enc_title_cone:'È apparso un cono selvatico che riserva un parcheggio!',enc_title_trash:'Sono apparsi rifiuti selvatici dove non dovrebbero!',
  blur_on:'Sfoca i volti',blur_sub:'I volti vengono pixelati sul telefono prima di salvare la foto',k_faces:'Volti',faces_na:'Volti non ancora controllati',faces_0:'Nessun volto trovato',faces_1:'1 volto sfocato',faces_n:'{n} volti sfocati',blur_spot:'🙈 Sfoca un punto',blur_tap:'Tocca la foto dove vuoi sfocare',blur_done:'Fine',t_blurred:'Punto sfocato',t_blur_fail:'Impossibile sfocare: {e}',t_faces_offline:'Il controllo dei volti richiede una connessione la prima volta',x_section:'Account ufficiale X',x_on:'Condividi le catture su X',x_on_sub:'Prima vengono sfocati i volti. Il proprietario dell’account controlla ogni post prima che esca.',x_auto:'Invia ogni cattura',x_auto_sub:'Le catture con posizione vengono inviate automaticamente',x_url:'URL del servizio di pubblicazione',x_post:'𝕏 Pubblica su X',x_sending:'𝕏 Invio…',x_sent:'𝕏 Inviata per la revisione ✓',x_posted:'𝕏 Vedi il post',x_rejected:'𝕏 Non pubblicata',x_not_configured:'Imposta prima l’URL del servizio in Allenatore → Account ufficiale X',x_need_loc:'Imposta prima la posizione',t_x_sent:'Inviata all’account ufficiale per la revisione',t_x_posted:'Pubblicata su X',t_x_err:'X: {e}',
@@ -961,7 +963,7 @@ const LS_PROFILE='mdm-profile', LS_SETTINGS='mdm-settings', LS_SEEN='mdm-seen-ba
 const loadJSON=(k,d)=>{ try{ return Object.assign({},d,JSON.parse(localStorage.getItem(k)||'null')||{}); }catch(e){ return {...d}; } };
 let profile=loadJSON(LS_PROFILE,{name:'',avatar:'av0',tid:uid('t'),created:Date.now()});
 if(!AVATARS.includes(profile.avatar)) profile.avatar='av'+(Math.abs([...String(profile.avatar)].reduce((h,ch)=>h+ch.codePointAt(0),0))%AVATARS.length);
-let settings=loadJSON(LS_SETTINGS,{cloudOn:false,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,facing:'environment',lang:'',blurFaces:true,xOn:false,xAuto:true,xUrl:'',lastKind:'poop'});
+let settings=loadJSON(LS_SETTINGS,{cloudOn:false,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,facing:'environment',lang:'',blurFaces:true,xOn:false,xAuto:true,xUrl:''});
 const saveProfile=()=>{ try{ localStorage.setItem(LS_PROFILE,JSON.stringify(profile)); }catch(e){} };
 const saveSettings=()=>{ try{ localStorage.setItem(LS_SETTINGS,JSON.stringify(settings)); }catch(e){} };
 saveProfile();
@@ -1082,14 +1084,15 @@ const freshFix=()=>geo.fix&&Date.now()-geo.fix.t<45000?geo.fix:null;
 const MP_BASE='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
 const FACE_MODEL='https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite';
 const blurOn=()=>settings.blurFaces!==false;
+let visionP=null;
+function getVision(){ if(!visionP) visionP=(async()=>{ const mod=await import(MP_BASE+'/vision_bundle.mjs'); const files=await mod.FilesetResolver.forVisionTasks(MP_BASE+'/wasm'); return {mod,files}; })().catch(e=>{ visionP=null; throw e; }); return visionP; }
 let faceDet=null, faceDetP=null;
 function getFaceDetector(){
   if(faceDet) return Promise.resolve(faceDet);
   if(!faceDetP) faceDetP=(async()=>{
     if(window.__faceDetector){ faceDet=window.__faceDetector; return faceDet; }
     try{
-      const mod=await import(MP_BASE+'/vision_bundle.mjs');
-      const files=await mod.FilesetResolver.forVisionTasks(MP_BASE+'/wasm');
+      const {mod,files}=await getVision();
       const d=await mod.FaceDetector.createFromOptions(files,{baseOptions:{modelAssetPath:FACE_MODEL},runningMode:'IMAGE',minDetectionConfidence:.4});
       faceDet={detect:src=>d.detect(src).detections.map(x=>x.boundingBox).filter(Boolean).map(b=>({x:b.originX,y:b.originY,w:b.width,h:b.height}))};
     }catch(e){
@@ -1146,6 +1149,37 @@ async function onPhotoTap(e){
   const nx=((e.clientX-r.left)-dx)/(nw*s), ny=((e.clientY-r.top)-dy)/(nh*s); if(nx<0||nx>1||ny<0||ny>1) return;
   try{ await blurSpot(c,nx,ny); refreshPhotoViews(c); toast(t('t_blurred')); }catch(err){ toast(t('t_blur_fail',{e:err.message})); }
 }
+
+/* ---------------- what kind of shit is it? ---------------- */
+// An on-device image classifier (MediaPipe Image Classifier, EfficientNet-Lite0, ImageNet labels) decides whether the
+// photo shows a car, a lock, something holding a parking spot or dumped trash. Anything else is poop. The model is
+// downloaded once and cached by the service worker. window.__kindClassifier lets the tests plug in a stub.
+const KIND_MODEL='https://storage.googleapis.com/mediapipe-models/image_classifier/efficientnet_lite0/float32/1/efficientnet_lite0.tflite';
+const KIND_LABELS={
+  car:['sports car','cab','minivan','pickup','convertible','limousine','jeep','police van','station wagon','beach wagon','racer','car wheel','car mirror','tow truck','moving van','trailer truck','minibus','ambulance','fire engine','recreational vehicle','golfcart','go-kart','motor scooter','moped','grille','trolleybus','school bus','snowplow','garbage truck','tractor','forklift'],
+  lock:['padlock','combination lock','chain','bicycle-built-for-two','mountain bike','shopping cart','tricycle','unicycle','turnstile'],
+  cone:['traffic cone','folding chair','rocking chair','barber chair','street sign','carton','crate','barrel','pot','milk can','bucket','rain barrel','pole','parking meter','picket fence','chainlink fence','mailbox'],
+  trash:['plastic bag','trash can','ashcan','garbage','studio couch','refrigerator','quilt','sleeping bag','paper towel','toilet tissue','packet','pop bottle','water bottle','beer bottle','wine bottle','water jug','whiskey jug','soap dispenser','washer','dishwasher','microwave','television','monitor','desktop computer','printer','vacuum','toaster','space heater','stove','diaper','running shoe','sandal','clog','hamper','crash helmet','umbrella','pizza','bagel','pretzel','ice lolly']
+};
+let kindClf=null, kindClfP=null;
+function getKindClassifier(){
+  if(kindClf) return Promise.resolve(kindClf);
+  if(!kindClfP) kindClfP=(async()=>{
+    if(window.__kindClassifier){ kindClf=window.__kindClassifier; return kindClf; }
+    const {mod,files}=await getVision();
+    const c=await mod.ImageClassifier.createFromOptions(files,{baseOptions:{modelAssetPath:KIND_MODEL},runningMode:'IMAGE',maxResults:5});
+    kindClf={classify:src=>{ const r=c.classify(src); const cl=r&&r.classifications&&r.classifications[0]; return (cl?cl.categories:[]).map(x=>({name:x.categoryName||x.displayName||'',score:x.score||0})); }};
+    return kindClf;
+  })().catch(e=>{ kindClfP=null; throw e; });
+  return kindClfP;
+}
+const labelRe=l=>new RegExp('(^|[^a-z])'+l.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'([^a-z]|$)');
+function kindFromLabels(cats){
+  for(const c of cats||[]){ if(!(c.score>=0.15)) continue; const n=String(c.name||'').toLowerCase();
+    for(const k of ['car','lock','cone','trash']) if(KIND_LABELS[k].some(l=>labelRe(l).test(n))) return {kind:k,label:n,score:c.score}; }
+  const top=cats&&cats[0]; return {kind:'poop',label:top?String(top.name||'').toLowerCase():'',score:top?top.score:0};
+}
+async function detectKind(src){ const c=await getKindClassifier(); return kindFromLabels(await c.classify(src)); }
 
 /* ---------------- official X account ---------------- */
 // Captures go (faces blurred, coordinates rounded) to the poster service in ../x-poster, which holds the
@@ -1219,7 +1253,8 @@ function updateEncSub(){ if(!enc) return; const when=enc.tsFrom==='now'?'':` · 
   const city=enc.loc?nearestCity(enc.loc.lat,enc.loc.lng):null;
   $('#encSub').textContent=(enc.loc?`📍 ${t(enc.locFrom==='exif'?'enc_exif':'enc_gps')} · 🏙️ ${city?city.name:t('outside')} · ${t('enc_tag')}`:`📍 ${t(enc.src==='gallery'?'enc_noloc_gallery':'enc_noloc_wait')} · ${t('enc_tag')}`)+when; }
 function startEncounter(data){
-  enc={...data,size:'M',fresh:'fresh',roll:null,attempts:0,throwing:false,kind:KINDS[settings.lastKind]?settings.lastKind:'poop'};
+  enc={...data,size:'M',fresh:'fresh',roll:null,attempts:0,throwing:false,kind:'poop',kindKnown:false,seen:''};
+  { const e=enc; e.kindP=(e.canvas?detectKind(e.canvas):Promise.reject(new Error('no frame'))).then(r=>{ if(enc!==e) return; e.kind=r.kind; e.seen=r.label; e.kindKnown=true; renderEncKind(); }).catch(()=>{ if(enc===e){ e.kindKnown=true; renderEncKind(); } }); }
   enc.facesP=(blurOn()&&enc.canvas)?detectFaces(enc.canvas).catch(()=>null):null;
   const ov=$('#encounter'); ov.classList.remove('caught'); $('#shinyGlow').hidden=true;
   const img=$('#encImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(enc.blob);
@@ -1229,19 +1264,19 @@ function startEncounter(data){
   updateEncSub();
   $('#encMsg').hidden=true; bagReset(); ov.hidden=false;
 }
-function renderEncKind(){ if(!enc) return; $$('#segKind button').forEach(b=>b.classList.toggle('on',b.dataset.v===enc.kind)); $('#encTitle').textContent=t('enc_title_'+enc.kind); }
-function setEncKind(k){ if(!enc||!KINDS[k]||enc.throwing) return; enc.kind=k; enc.roll=null; settings.lastKind=k; saveSettings(); renderEncKind(); $('#encMsg').hidden=true; }
+function renderEncKind(){ if(!enc) return; $('#encTitle').textContent=t(enc.kindKnown?'enc_title_'+enc.kind:'enc_title_any'); }
 function bagReset(){ const w=$('#bagWrap'); w.className='bagwrap'; w.style.transform=''; bagDrag.dx=0; bagDrag.dy=0; const b=$('#bag'); b.className='bag'; b.style.opacity='1'; }
 function cancelEncounter(force){ if(!force&&enc&&enc.throwing) return; const img=$('#encImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.removeAttribute('src'); $('#encounter').hidden=true; enc=null; }
 async function throwBag(){
   if(!enc||enc.throwing) return; enc.throwing=true; enc.attempts++;
-  if(!enc.roll) enc.roll=rollSpecies({kind:enc.kind,size:enc.size,fresh:enc.fresh,hour:new Date(enc.ts).getHours(),city:!!(enc.loc&&nearestCity(enc.loc.lat,enc.loc.lng))});
   $('#encMsg').hidden=true;
   const w=$('#bagWrap'), b=$('#bag'), ring=$('#ring'); const br=b.getBoundingClientRect(), rr=ring.getBoundingClientRect();
   const dx=(rr.left+rr.width/2)-(br.left+br.width/2), dy=(rr.top+rr.height/2)-(br.top+br.height/2);
   w.classList.remove('dragging'); w.classList.add('flying'); w.style.transform=`translate(${bagDrag.dx+dx}px,${bagDrag.dy+dy}px) scale(.45) rotate(360deg)`; sfx('throw');
   await wait(650);
   if(!enc) return;
+  if(!enc.kindKnown) await Promise.race([enc.kindP,wait(2500)]); if(!enc) return;
+  if(!enc.roll) enc.roll=rollSpecies({kind:enc.kind,size:enc.size,fresh:enc.fresh,hour:new Date(enc.ts).getHours(),city:!!(enc.loc&&nearestCity(enc.loc.lat,enc.loc.lng))});
   const chance=Math.min(1,RARITY[enc.roll.rarity].catch+0.15*(enc.attempts-1)); const caught=Math.random()<chance;
   const wobbles=caught?3:rndi(1,2);
   for(let i=0;i<wobbles;i++){ b.classList.remove('wobble'); void b.offsetWidth; b.classList.add('wobble'); sfx('tick'); await wait(680); if(!enc) return; }
@@ -1258,7 +1293,7 @@ async function finishCapture(){
   if(facesP){ const boxes=await Promise.race([facesP,wait(1500).then(()=>undefined)]);
     if(Array.isArray(boxes)){ faces=boxes.length; if(boxes.length){ pixelateBoxes(enc.canvas,boxes); const fr=await canvasToBlobs(enc.canvas); blob=fr.blob; thumb=fr.thumb; const im=$('#encImg'); if(im.src.startsWith('blob:')) URL.revokeObjectURL(im.src); im.src=URL.createObjectURL(blob); } } }
   const c=assignCity({id:uid('c'),ts:enc.ts,tz:Intl.DateTimeFormat().resolvedOptions().timeZone,lat:enc.loc?enc.loc.lat:null,lng:enc.loc?enc.loc.lng:null,acc:enc.loc&&enc.loc.acc!=null?Math.round(enc.loc.acc):null,
-    kind:enc.kind,species:r.species,rarity:r.rarity,shiny:!!r.shiny,cp,size:enc.size,fresh:enc.fresh,xp,attempts:enc.attempts,src:enc.src,tsFrom:enc.tsFrom||'now',locFrom:enc.locFrom||'',notes:'',thumb,w:enc.w,h:enc.h,faces,created:Date.now(),published:0});
+    kind:enc.kind,seen:enc.seen||'',species:r.species,rarity:r.rarity,shiny:!!r.shiny,cp,size:enc.size,fresh:enc.fresh,xp,attempts:enc.attempts,src:enc.src,tsFrom:enc.tsFrom||'now',locFrom:enc.locFrom||'',notes:'',thumb,w:enc.w,h:enc.h,faces,created:Date.now(),published:0});
   try{ await dbPut('photos',blob,c.id); await saveCapture(c); }catch(e){ toast(t('t_save_fail',{e:e.message})); enc.throwing=false; return; }
   captures.unshift(c); captures.sort((a,b)=>b.ts-a.ts);
   const after=computeStats(); const lvlBefore=levelFor(before.xp), lvlAfter=levelFor(after.xp);
@@ -1381,7 +1416,7 @@ async function openDetail(id){
   const kv=[[t('k_captured'),`${esc(fmtDT(c.ts))}<br><small>${fmtISO(c.ts)}${c.tsFrom==='exif'?' · '+esc(t('from_exif')):c.tsFrom==='file'?' · '+esc(t('from_file')):''}</small>`],
     [t('k_city'),c.lat!=null?esc(cityLabel(c)):'<i>'+esc(t('not_set'))+'</i>'],
     [t('k_location'),c.lat!=null?`${fmtCoord(c.lat,c.lng)}${c.acc?` <small>(±${c.acc} m)</small>`:''}${c.locFrom==='exif'?' <small>· '+esc(t('from_exif'))+'</small>':c.locFrom==='manual'?' <small>· '+esc(t('manual'))+'</small>':''}`:'<i>'+esc(t('not_set'))+'</i>'],
-    [t('k_kind'),esc(`${KINDS[kindOf(c)].icon} ${kindName(kindOf(c))}`)],[t('k_tags'),`${esc(sizeLabel(c.size))} · ${esc(freshLabel(c.fresh))}`],[t('k_throws'),c.attempts||1],['XP',`+${c.xp}`],[t('k_source'),esc(t(c.src==='gallery'?'src_gallery':'src_camera'))],[t('k_faces'),esc(facesText(c))],
+    [t('k_kind'),esc(`${KINDS[kindOf(c)].icon} ${kindName(kindOf(c))}`)+(c.seen&&kindOf(c)!=='poop'?` <small>· ${esc(c.seen)}</small>`:'')],[t('k_tags'),`${esc(sizeLabel(c.size))} · ${esc(freshLabel(c.fresh))}`],[t('k_throws'),c.attempts||1],['XP',`+${c.xp}`],[t('k_source'),esc(t(c.src==='gallery'?'src_gallery':'src_camera'))],[t('k_faces'),esc(facesText(c))],
     [t('k_world'),c.published?esc(t('published_ago',{ago:timeAgo(c.published)})):esc(t('not_published'))]];
   $('#dKv').innerHTML=kv.map(([k,v])=>`<b>${esc(k)}</b><span>${v}</span>`).join('');
   $('#dNotes').value=c.notes||''; $('#dPublish').hidden=!settings.cloudOn; $('#dPublish').textContent=t(c.published?'published':'publish'); $('#dPublish').disabled=!!c.published;
@@ -1513,7 +1548,7 @@ function setLang(l){ if(!I18N[l]) return; lang=l; settings.lang=l; saveSettings(
 let currentTab='catch';
 function showTab(name){
   currentTab=name; $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name)); $$('.tabbar button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
-  if(name==='catch'){ camStart(); geoStart(); if(blurOn()) getFaceDetector().catch(()=>{}); } else { camStop(); if(name!=='map') geoStop(); }
+  if(name==='catch'){ camStart(); geoStart(); if(blurOn()) getFaceDetector().catch(()=>{}); getKindClassifier().catch(()=>{}); } else { camStop(); if(name!=='map') geoStop(); }
   if(name==='map'){ geoStart(); showMap(); } if(name==='dex') renderDex(); if(name==='trainer') renderTrainer();
   if(name!=='map'&&pick) pickEnd(); window.scrollTo(0,0);
 }
@@ -1525,7 +1560,6 @@ function bindEvents(){
   $('#fileCam').addEventListener('change',e=>{ onFile(e.target.files[0],false); e.target.value=''; }); $('#fileGal').addEventListener('change',e=>{ onFile(e.target.files[0],true); e.target.value=''; });
   $('#fileImport').addEventListener('change',e=>{ importFile(e.target.files[0]); e.target.value=''; });
   // encounter
-  $('#segKind').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||!enc) return; setEncKind(b.dataset.v); });
   $('#segSize').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||!enc) return; enc.size=b.dataset.v; $$('#segSize button').forEach(x=>x.classList.toggle('on',x===b)); });
   $('#segFresh').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||!enc) return; enc.fresh=b.dataset.v; $$('#segFresh button').forEach(x=>x.classList.toggle('on',x===b)); });
   $('#encCancel').addEventListener('click',()=>cancelEncounter(false)); $('#encThrow').addEventListener('click',throwBag);
