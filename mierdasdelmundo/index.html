@@ -26,7 +26,7 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
     --green:#16A34A; --green-dark:#0F7A37; --green-soft:#E6F6EC;
     --c-common:#C8C8C8; --c-uncommon:#9A9A9A; --c-rare:#6A6A6A; --c-epic:#3A3A3A; --c-legendary:#000000;
     --radius:16px; --shadow:none;
-    --tab-h:64px; --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+    --tab-h:76px; --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
@@ -39,9 +39,8 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   img.ic-img{width:1.15em;height:1.15em;object-fit:contain;vertical-align:-.2em;display:inline-block}
   .mascot-sm{width:28px;height:28px;object-fit:contain;vertical-align:-7px;display:inline-block}
   .gate-mascot{width:150px;height:150px;object-fit:contain;display:block;margin:0 auto 4px}
-  .tabbar button .ico img{width:28px;height:28px;object-fit:contain;display:block}
-  .tabbar button .ico img.tab-av{border-radius:50%;background:var(--surface);border:2px solid transparent}
-  .tabbar button.active .ico img.tab-av{border-color:var(--green)}
+  .navtoggle button .ico img{width:30px;height:30px;object-fit:contain;display:block}
+  .navtoggle button .ico img.tab-av{border-radius:50%;background:#fff;border:2px solid #fff;object-fit:cover;object-position:center top}
   .big img{width:96px;height:96px;object-fit:contain;display:block;margin:0 auto}
   .pin img{width:26px;height:26px;object-fit:contain;display:block}
   .pin.world img{width:18px;height:18px}
@@ -72,12 +71,13 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   @media (prefers-reduced-motion:reduce){.intro-name,.intro-poop{animation:none}}
   .view{display:none;min-height:100vh;min-height:100dvh;padding-bottom:calc(var(--tab-h) + var(--sab))}
   .view.active{display:block}
-  .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;height:calc(var(--tab-h) + var(--sab));padding-bottom:var(--sab);background:#fff;border-top:1px solid var(--ink);display:flex;z-index:40}
-  .tabbar button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:700;color:var(--ink-soft);position:relative;min-width:0;padding:0 2px}
-  .tabbar button span.lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-  .tabbar button .ico{font-size:24px;line-height:1}
-  .tabbar button.active{color:var(--green)}
-  .tabbar button .badge{position:absolute;top:8px;left:calc(50% + 8px);background:var(--ink);color:#fff;border-radius:999px;font-size:10px;padding:1px 6px;min-width:18px;text-align:center}
+  /* the only navigation: one toggle at the bottom, left is you, right is the map; the lit side taps back to the camera */
+  .navtoggle{position:fixed;bottom:calc(12px + var(--sab));left:50%;transform:translateX(-50%);z-index:40;display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,.35)}
+  .navtoggle button{width:74px;height:46px;border:none;border-radius:999px;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s;-webkit-tap-highlight-color:transparent}
+  .navtoggle button .ico{font-size:26px;line-height:1;display:flex}
+  .navtoggle button.on{background:var(--green)}
+  .badge{display:inline-block;background:var(--ink);color:#fff;border-radius:999px;font-size:11px;padding:2px 7px;min-width:20px;text-align:center;vertical-align:middle;line-height:1.3}
+  h3.sec .badge{font-size:11px;color:#fff;letter-spacing:0;text-transform:none}
   .page-head{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;padding:calc(12px + var(--sat)) 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
   .page-head h1{font-size:24px}
   .page-body{padding:14px}
@@ -119,7 +119,7 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
 
   /* ---------- catch (camera) ---------- */
   #view-catch{padding-bottom:0;min-height:0}
-  .cam{position:relative;height:calc(100vh - var(--tab-h) - var(--sab));height:calc(100dvh - var(--tab-h) - var(--sab));background:#111;overflow:hidden}
+  .cam{position:relative;height:100vh;height:100dvh;background:#111;overflow:hidden}
   #cam{width:100%;height:100%;object-fit:cover;display:block;background:#111}
   .cam-off{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;text-align:center;padding:24px}
   .cam-off .big{margin-bottom:10px}
@@ -129,8 +129,8 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   .logo span{color:var(--green)}
   .cam-clock{position:absolute;top:calc(50px + var(--sat));right:14px;color:#fff;font-size:12px;font-weight:600;opacity:.9;text-shadow:1px 1px 0 rgba(0,0,0,.6);font-variant-numeric:tabular-nums}
   .cam-city{position:absolute;top:calc(50px + var(--sat));left:14px;color:#fff;font-size:12px;font-weight:700;opacity:.95;text-shadow:1px 1px 0 rgba(0,0,0,.6)}
-  .cam-hint{position:absolute;bottom:128px;left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:600;text-shadow:1px 1px 2px rgba(0,0,0,.7);pointer-events:none;padding:0 20px}
-  .cam-bottom{position:absolute;bottom:0;left:0;right:0;padding:40px 28px 24px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.55))}
+  .cam-hint{position:absolute;bottom:calc(var(--tab-h) + var(--sab) + 104px);left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:600;text-shadow:1px 1px 2px rgba(0,0,0,.7);pointer-events:none;padding:0 20px}
+  .cam-bottom{position:absolute;bottom:0;left:0;right:0;padding:40px 28px calc(var(--tab-h) + var(--sab));display:flex;align-items:center;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.55))}
   .round{width:52px;height:52px;border-radius:50%;border:none;background:rgba(255,255,255,.22);color:#fff;font-size:22px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
   .shutter{width:84px;height:84px;border-radius:50%;border:5px solid var(--green);background:transparent;padding:5px}
   .shutter span{display:block;width:100%;height:100%;border-radius:50%;background:#fff;transition:transform .1s}
@@ -214,7 +214,8 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
 
   /* ---------- map ---------- */
   #view-map{position:relative;padding-bottom:0;min-height:0;z-index:0;isolation:isolate}
-  #map{height:calc(100vh - var(--tab-h) - var(--sab));height:calc(100dvh - var(--tab-h) - var(--sab));background:var(--surface);z-index:0;overflow:hidden}
+  #view-map{padding-bottom:0;min-height:0}
+  #map{height:100vh;height:100dvh;background:var(--surface);z-index:0;overflow:hidden}
   .map-logo{position:absolute;top:calc(12px + var(--sat));left:12px;z-index:400;display:flex;flex-direction:column;gap:6px;align-items:flex-start;pointer-events:none}
   .map-logo .brand{background:#fff;border:1px solid var(--ink);border-radius:999px;padding:6px 12px;font-weight:800;letter-spacing:-.03em;font-size:17px;color:var(--ink)}
   .map-logo .brand span{color:var(--green)}
@@ -240,11 +241,15 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   .pin.cleared{opacity:.6;position:relative}
   .pin.cleared::after{content:'✓';position:absolute;right:-5px;bottom:-5px;width:15px;height:15px;border-radius:50%;background:var(--green);color:#fff;font-size:10px;font-weight:700;line-height:15px;text-align:center}
   .leaflet-container{font-family:inherit}
+  .leaflet-bottom{bottom:calc(var(--tab-h) + var(--sab) - 8px)}
 
   /* ---------- mierdex ---------- */
-  .subtabs{display:flex;background:rgba(255,255,255,.15);border-radius:12px;padding:3px}
-  .subtabs button{border:none;background:none;color:#fff;padding:6px 12px;border-radius:10px;font-weight:700;font-size:13px}
-  .subtabs button.on{background:#fff;color:var(--ink)}
+  .dexhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}
+  .dexhead h3.sec{margin:0 4px}
+  .dex{margin:0 -14px}
+  .subtabs{display:flex;background:var(--surface);border-radius:12px;padding:3px}
+  .subtabs button{border:none;background:none;color:var(--ink-soft);padding:6px 12px;border-radius:10px;font-weight:700;font-size:13px}
+  .subtabs button.on{background:var(--ink);color:#fff}
   .chips{display:flex;gap:6px;overflow-x:auto;padding:12px 14px 0;scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
   .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--ink-soft);white-space:nowrap}
@@ -352,7 +357,7 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
     <div class="cam-bottom">
       <button class="round" id="btnGallery" data-i18n-title="gallery">🖼️</button>
       <button class="shutter" id="btnShutter" aria-label="Capture"><span></span></button>
-      <button class="round" id="btnFlip" data-i18n-title="flip">🔄</button>
+      <span class="round" style="visibility:hidden" aria-hidden="true"></span>
     </div>
     <div class="flash" id="flash"></div>
   </div>
@@ -369,16 +374,6 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   </div>
   <div class="map-banner" id="mapBanner" hidden><span data-i18n="pick_hint"></span><button class="btn sm" id="mapBannerCancel" data-i18n="cancel"></button></div>
   <div class="map-offline" id="mapOffline" hidden><div><div class="big"><img class="" src="assets/map.png" alt="" onerror="fb(this,'🗺️')"></div><p data-i18n="map_offline"></p></div></div>
-</section>
-
-<!-- ================= MIERDEX ================= -->
-<section id="view-dex" class="view">
-  <div class="page-head">
-    <h1>Mierdex</h1>
-    <div class="subtabs"><button data-dex="captures" class="on" data-i18n="dex_captures"></button><button data-dex="species" data-i18n="dex_species"></button></div>
-  </div>
-  <div class="chips" id="dexChips"></div>
-  <div id="dexBody"></div>
 </section>
 
 <!-- ================= TRAINER ================= -->
@@ -398,6 +393,9 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
       <div class="avgrid" id="avGrid" hidden></div>
       <div class="stats" id="stats"></div>
     </div>
+
+    <div class="dexhead"><h3 class="sec"><img class="mascot-sm" src="assets/book.png" alt="" onerror="fb(this,'📖')"> <span style="font-family:inherit;font-size:inherit;color:inherit">Mierdex</span> <span class="badge" id="dexBadge" hidden>0</span></h3><div class="subtabs"><button data-dex="captures" class="on" data-i18n="dex_captures"></button><button data-dex="species" data-i18n="dex_species"></button></div></div>
+    <div class="dex"><div class="chips" id="dexChips"></div><div id="dexBody"></div></div>
 
     <h3 class="sec"><span style="font-family:inherit;font-size:inherit;color:inherit" data-i18n="badges"></span> <span id="badgeCount"></span></h3>
     <div class="card"><div class="badges" id="badges"></div></div>
@@ -437,11 +435,9 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
 </section>
 
 </main>
-<nav class="tabbar">
-  <button data-tab="catch" class="active"><span class="ico"><img class="" src="assets/cam.png" alt="" onerror="fb(this,'📸')"></span><span class="lbl" data-i18n="tab_catch"></span></button>
-  <button data-tab="map"><span class="ico"><img class="" src="assets/map.png" alt="" onerror="fb(this,'🗺️')"></span><span class="lbl" data-i18n="tab_map"></span></button>
-  <button data-tab="dex"><span class="ico"><img class="" src="assets/book.png" alt="" onerror="fb(this,'📖')"></span><span class="lbl">Mierdex</span><span class="badge" id="dexBadge" hidden>0</span></button>
-  <button data-tab="trainer"><span class="ico" id="tabAvatar">🧑‍🦱</span><span class="lbl" data-i18n="tab_trainer"></span></button>
+<nav class="navtoggle" id="navToggle">
+  <button data-go="trainer" data-i18n-title="tab_trainer"><span class="ico" id="tabAvatar">🧑‍🦱</span></button>
+  <button data-go="map" data-i18n-title="tab_map"><span class="ico"><img src="assets/map.png" alt="" onerror="fb(this,'🗺️')"></span></button>
 </nav>
 </div>
 
@@ -534,9 +530,9 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
 /* ---------------- languages ---------------- */
 const LANGS={en:'English',es:'Español',pt:'Português',fr:'Français',de:'Deutsch',it:'Italiano'};
 const I18N={
-en:{tagline:"gotta scoop 'em all",tab_catch:'Catch',tab_map:'Map',tab_trainer:'Trainer',
+en:{tagline:"gotta scoop 'em all",tab_map:'Map',tab_trainer:'Trainer',
  cam_na:'Camera not available.',cam_https:'The live camera needs HTTPS. You can still take photos with your camera app.',cam_noapi:'This browser has no camera API.',cam_denied:'Camera permission denied. You can still take photos with your camera app.',cam_none:'No camera found. You can still take photos with your camera app.',
- take_photo:'Take a photo',cam_hint:'Spot some shit? Poop, a car, a lock, a cone or trash where it shouldn’t be. Tap the shutter.',cam_starting:'Camera is still starting…',gallery:'Import a photo from your gallery',flip:'Flip camera',
+ take_photo:'Take a photo',cam_hint:'Spot some shit? Poop, a car, a lock, a cone or trash where it shouldn’t be. Tap the shutter.',cam_starting:'Camera is still starting…',gallery:'Import a photo from your gallery',
  gps_acc:'GPS ±{n} m',gps_finding:'Finding GPS…',gps_denied:'GPS denied',gps_none:'No GPS fix',gps_off:'GPS off',
  captured_n:'{n} captured',locate:'My location',fit:'Fit all captures',world_btn:'Poops of the world',pick_hint:'Tap the map to set the location',cancel:'Cancel',
  map_offline:'The map needs an internet connection the first time it loads. Reload once you are back online.',view:'View',
@@ -566,9 +562,9 @@ en:{tagline:"gotta scoop 'em all",tab_catch:'Catch',tab_map:'Map',tab_trainer:'T
  share_text:'I caught a {shiny}{name} ({rarity}, {cpl} {cp}) in {city} on {date} with mierdasdelmundo 💩 #mierdasdelmundo',outside:'Outside the big cities',
  gate_title:'mierdasdelmundo is a phone app',gate_body:'Open this link on your phone, then add it to your home screen.',gate_scan:"Scan it with your phone's camera",
  r_common:'Common',r_uncommon:'Uncommon',r_rare:'Rare',r_epic:'Epic',r_legendary:'Legendary',sz_S:'Small',sz_M:'Medium',sz_L:'Large',sz_XL:'XL',fr_fresh:'Fresh',fr_dry:'Dry',fr_fossil:'Fossil'},
-es:{tagline:'hazte con todas',tab_catch:'Atrapar',tab_map:'Mapa',tab_trainer:'Entrenador',
+es:{tagline:'hazte con todas',tab_map:'Mapa',tab_trainer:'Entrenador',
  cam_na:'Cámara no disponible.',cam_https:'La cámara en vivo necesita HTTPS. Puedes seguir haciendo fotos con la app de cámara.',cam_noapi:'Este navegador no tiene acceso a la cámara.',cam_denied:'Permiso de cámara denegado. Puedes seguir haciendo fotos con la app de cámara.',cam_none:'No se encontró ninguna cámara. Puedes seguir haciendo fotos con la app de cámara.',
- take_photo:'Hacer una foto',cam_hint:'¿Ves una mierda? Una caca, un coche, un candado, un cono o basura donde no deben estar. Pulsa el disparador.',cam_starting:'La cámara aún se está iniciando…',gallery:'Importar una foto de la galería',flip:'Cambiar de cámara',
+ take_photo:'Hacer una foto',cam_hint:'¿Ves una mierda? Una caca, un coche, un candado, un cono o basura donde no deben estar. Pulsa el disparador.',cam_starting:'La cámara aún se está iniciando…',gallery:'Importar una foto de la galería',
  gps_acc:'GPS ±{n} m',gps_finding:'Buscando GPS…',gps_denied:'GPS denegado',gps_none:'Sin señal GPS',gps_off:'GPS apagado',
  captured_n:'{n} atrapadas',locate:'Mi ubicación',fit:'Ver todas las capturas',world_btn:'Mierdas del mundo',pick_hint:'Toca el mapa para fijar la ubicación',cancel:'Cancelar',
  map_offline:'El mapa necesita conexión la primera vez que se carga. Recarga cuando vuelvas a tener internet.',view:'Ver',
@@ -598,9 +594,9 @@ es:{tagline:'hazte con todas',tab_catch:'Atrapar',tab_map:'Mapa',tab_trainer:'En
  share_text:'He atrapado una {name}{shiny} ({rarity}, {cpl} {cp}) en {city} el {date} con mierdasdelmundo 💩 #mierdasdelmundo',outside:'Fuera de las grandes ciudades',
  gate_title:'mierdasdelmundo es una app para el móvil',gate_body:'Abre este enlace en tu móvil y añádelo a la pantalla de inicio.',gate_scan:'Escanéalo con la cámara del móvil',
  r_common:'Común',r_uncommon:'Poco común',r_rare:'Rara',r_epic:'Épica',r_legendary:'Legendaria',sz_S:'Pequeña',sz_M:'Mediana',sz_L:'Grande',sz_XL:'XL',fr_fresh:'Fresca',fr_dry:'Seca',fr_fossil:'Fósil'},
-pt:{tagline:'apanha-as todas',tab_catch:'Apanhar',tab_map:'Mapa',tab_trainer:'Treinador',
+pt:{tagline:'apanha-as todas',tab_map:'Mapa',tab_trainer:'Treinador',
  cam_na:'Câmara não disponível.',cam_https:'A câmara em direto precisa de HTTPS. Podes continuar a tirar fotos com a app da câmara.',cam_noapi:'Este navegador não tem acesso à câmara.',cam_denied:'Permissão de câmara negada. Podes continuar a tirar fotos com a app da câmara.',cam_none:'Nenhuma câmara encontrada. Podes continuar a tirar fotos com a app da câmara.',
- take_photo:'Tirar uma foto',cam_hint:'Vês uma merda? Um cocó, um carro, um cadeado, um cone ou lixo onde não deviam estar. Toca no botão.',cam_starting:'A câmara ainda está a iniciar…',gallery:'Importar uma foto da galeria',flip:'Mudar de câmara',
+ take_photo:'Tirar uma foto',cam_hint:'Vês uma merda? Um cocó, um carro, um cadeado, um cone ou lixo onde não deviam estar. Toca no botão.',cam_starting:'A câmara ainda está a iniciar…',gallery:'Importar uma foto da galeria',
  gps_acc:'GPS ±{n} m',gps_finding:'A procurar GPS…',gps_denied:'GPS negado',gps_none:'Sem sinal GPS',gps_off:'GPS desligado',
  captured_n:'{n} apanhadas',locate:'A minha localização',fit:'Ver todas as capturas',world_btn:'Merdas do mundo',pick_hint:'Toca no mapa para definir a localização',cancel:'Cancelar',
  map_offline:'O mapa precisa de internet na primeira vez que carrega. Recarrega quando voltares a ter ligação.',view:'Ver',
@@ -630,9 +626,9 @@ pt:{tagline:'apanha-as todas',tab_catch:'Apanhar',tab_map:'Mapa',tab_trainer:'Tr
  share_text:'Apanhei uma {name}{shiny} ({rarity}, {cpl} {cp}) em {city} a {date} com mierdasdelmundo 💩 #mierdasdelmundo',outside:'Fora das grandes cidades',
  gate_title:'mierdasdelmundo é uma app para o telemóvel',gate_body:'Abre esta ligação no telemóvel e adiciona-a ao ecrã inicial.',gate_scan:'Lê o código com a câmara do telemóvel',
  r_common:'Comum',r_uncommon:'Incomum',r_rare:'Rara',r_epic:'Épica',r_legendary:'Lendária',sz_S:'Pequena',sz_M:'Média',sz_L:'Grande',sz_XL:'XL',fr_fresh:'Fresca',fr_dry:'Seca',fr_fossil:'Fóssil'},
-fr:{tagline:'attrape-les toutes',tab_catch:'Attraper',tab_map:'Carte',tab_trainer:'Dresseur',
+fr:{tagline:'attrape-les toutes',tab_map:'Carte',tab_trainer:'Dresseur',
  cam_na:'Caméra indisponible.',cam_https:"La caméra en direct nécessite HTTPS. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_noapi:"Ce navigateur n'a pas accès à la caméra.",cam_denied:"Accès à la caméra refusé. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_none:"Aucune caméra trouvée. Tu peux quand même prendre des photos avec l'appli appareil photo.",
- take_photo:'Prendre une photo',cam_hint:'Une merde en vue ? Une crotte, une voiture, un cadenas, un cône ou des déchets là où il ne faut pas. Appuie sur le déclencheur.',cam_starting:'La caméra démarre encore…',gallery:'Importer une photo de la galerie',flip:'Changer de caméra',
+ take_photo:'Prendre une photo',cam_hint:'Une merde en vue ? Une crotte, une voiture, un cadenas, un cône ou des déchets là où il ne faut pas. Appuie sur le déclencheur.',cam_starting:'La caméra démarre encore…',gallery:'Importer une photo de la galerie',
  gps_acc:'GPS ±{n} m',gps_finding:'Recherche GPS…',gps_denied:'GPS refusé',gps_none:'Pas de signal GPS',gps_off:'GPS désactivé',
  captured_n:'{n} attrapées',locate:'Ma position',fit:'Voir toutes les captures',world_btn:'Crottes du monde',pick_hint:"Touche la carte pour définir l'emplacement",cancel:'Annuler',
  map_offline:"La carte a besoin d'une connexion lors du premier chargement. Recharge la page une fois en ligne.",view:'Voir',
@@ -662,9 +658,9 @@ fr:{tagline:'attrape-les toutes',tab_catch:'Attraper',tab_map:'Carte',tab_traine
  share_text:"J'ai attrapé une {name}{shiny} ({rarity}, {cpl} {cp}) à {city} le {date} avec mierdasdelmundo 💩 #mierdasdelmundo",outside:'Hors des grandes villes',
  gate_title:'mierdasdelmundo est une appli pour téléphone',gate_body:"Ouvre ce lien sur ton téléphone, puis ajoute-le à l'écran d'accueil.",gate_scan:"Scanne-le avec l'appareil photo du téléphone",
  r_common:'Commune',r_uncommon:'Peu commune',r_rare:'Rare',r_epic:'Épique',r_legendary:'Légendaire',sz_S:'Petite',sz_M:'Moyenne',sz_L:'Grande',sz_XL:'XL',fr_fresh:'Fraîche',fr_dry:'Sèche',fr_fossil:'Fossile'},
-de:{tagline:'schnapp sie dir alle',tab_catch:'Fangen',tab_map:'Karte',tab_trainer:'Trainer',
+de:{tagline:'schnapp sie dir alle',tab_map:'Karte',tab_trainer:'Trainer',
  cam_na:'Kamera nicht verfügbar.',cam_https:'Die Live-Kamera braucht HTTPS. Fotos gehen trotzdem über die Kamera-App.',cam_noapi:'Dieser Browser hat keinen Kamerazugriff.',cam_denied:'Kamerazugriff verweigert. Fotos gehen trotzdem über die Kamera-App.',cam_none:'Keine Kamera gefunden. Fotos gehen trotzdem über die Kamera-App.',
- take_photo:'Foto aufnehmen',cam_hint:'Scheiße entdeckt? Ein Haufen, ein Auto, ein Schloss, ein Hütchen oder Müll, wo sie nicht hingehören. Tipp auf den Auslöser.',cam_starting:'Die Kamera startet noch…',gallery:'Foto aus der Galerie importieren',flip:'Kamera wechseln',
+ take_photo:'Foto aufnehmen',cam_hint:'Scheiße entdeckt? Ein Haufen, ein Auto, ein Schloss, ein Hütchen oder Müll, wo sie nicht hingehören. Tipp auf den Auslöser.',cam_starting:'Die Kamera startet noch…',gallery:'Foto aus der Galerie importieren',
  gps_acc:'GPS ±{n} m',gps_finding:'GPS wird gesucht…',gps_denied:'GPS verweigert',gps_none:'Kein GPS-Signal',gps_off:'GPS aus',
  captured_n:'{n} gefangen',locate:'Mein Standort',fit:'Alle Fänge anzeigen',world_btn:'Haufen der Welt',pick_hint:'Tipp auf die Karte, um den Ort festzulegen',cancel:'Abbrechen',
  map_offline:'Die Karte braucht beim ersten Laden eine Internetverbindung. Lade die Seite neu, sobald du online bist.',view:'Ansehen',
@@ -694,9 +690,9 @@ de:{tagline:'schnapp sie dir alle',tab_catch:'Fangen',tab_map:'Karte',tab_traine
  share_text:'Ich habe einen {shiny}{name} ({rarity}, {cpl} {cp}) in {city} am {date} mit mierdasdelmundo gefangen 💩 #mierdasdelmundo',outside:'Außerhalb der Großstädte',
  gate_title:'mierdasdelmundo ist eine App fürs Handy',gate_body:'Öffne diesen Link auf deinem Handy und füge ihn dem Startbildschirm hinzu.',gate_scan:'Mit der Handykamera scannen',
  r_common:'Gewöhnlich',r_uncommon:'Ungewöhnlich',r_rare:'Selten',r_epic:'Episch',r_legendary:'Legendär',sz_S:'Klein',sz_M:'Mittel',sz_L:'Groß',sz_XL:'XL',fr_fresh:'Frisch',fr_dry:'Trocken',fr_fossil:'Fossil'},
-it:{tagline:'acchiappale tutte',tab_catch:'Cattura',tab_map:'Mappa',tab_trainer:'Allenatore',
+it:{tagline:'acchiappale tutte',tab_map:'Mappa',tab_trainer:'Allenatore',
  cam_na:'Fotocamera non disponibile.',cam_https:"La fotocamera dal vivo richiede HTTPS. Puoi comunque scattare foto con l'app fotocamera.",cam_noapi:'Questo browser non ha accesso alla fotocamera.',cam_denied:"Permesso fotocamera negato. Puoi comunque scattare foto con l'app fotocamera.",cam_none:"Nessuna fotocamera trovata. Puoi comunque scattare foto con l'app fotocamera.",
- take_photo:'Scatta una foto',cam_hint:'Vedi una merda? Una cacca, un’auto, un lucchetto, un cono o rifiuti dove non dovrebbero stare. Tocca il pulsante di scatto.',cam_starting:'La fotocamera si sta ancora avviando…',gallery:'Importa una foto dalla galleria',flip:'Cambia fotocamera',
+ take_photo:'Scatta una foto',cam_hint:'Vedi una merda? Una cacca, un’auto, un lucchetto, un cono o rifiuti dove non dovrebbero stare. Tocca il pulsante di scatto.',cam_starting:'La fotocamera si sta ancora avviando…',gallery:'Importa una foto dalla galleria',
  gps_acc:'GPS ±{n} m',gps_finding:'Ricerca GPS…',gps_denied:'GPS negato',gps_none:'Nessun segnale GPS',gps_off:'GPS spento',
  captured_n:'{n} catturate',locate:'La mia posizione',fit:'Mostra tutte le catture',world_btn:'Cacche del mondo',pick_hint:'Tocca la mappa per impostare la posizione',cancel:'Annulla',
  map_offline:'La mappa richiede una connessione al primo caricamento. Ricarica quando sei di nuovo online.',view:'Vedi',
@@ -988,7 +984,7 @@ const LS_PROFILE='mdm-profile', LS_SETTINGS='mdm-settings', LS_SEEN='mdm-seen-ba
 const loadJSON=(k,d)=>{ try{ return Object.assign({},d,JSON.parse(localStorage.getItem(k)||'null')||{}); }catch(e){ return {...d}; } };
 let profile=loadJSON(LS_PROFILE,{name:'',avatar:'av0',tid:uid('t'),created:Date.now()});
 if(!AVATARS.includes(profile.avatar)) profile.avatar='av'+(Math.abs([...String(profile.avatar)].reduce((h,ch)=>h+ch.codePointAt(0),0))%AVATARS.length);
-let settings=loadJSON(LS_SETTINGS,{cloudOn:true,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,facing:'environment',lang:'',blurFaces:true,xOn:false,xAuto:true,xUrl:''});
+let settings=loadJSON(LS_SETTINGS,{cloudOn:true,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,lang:'',blurFaces:true,xOn:false,xAuto:true,xUrl:''});
 const saveProfile=()=>{ try{ localStorage.setItem(LS_PROFILE,JSON.stringify(profile)); }catch(e){} };
 const saveSettings=()=>{ try{ localStorage.setItem(LS_SETTINGS,JSON.stringify(settings)); }catch(e){} };
 saveProfile();
@@ -1062,12 +1058,12 @@ function parseTiff(dv,tiff,out){
 }
 
 /* ---------------- camera ---------------- */
-const cam={stream:null,facing:settings.facing||'environment',ok:false,starting:false,wanted:false,fallbackKey:null};
+const cam={stream:null,ok:false,starting:false,wanted:false,fallbackKey:null};
 async function camStart(){
   cam.wanted=true; if(cam.starting||cam.stream) return; cam.starting=true; const v=$('#cam');
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.isSecureContext){ camFallback(window.isSecureContext?'cam_noapi':'cam_https'); cam.starting=false; return; }
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:cam.facing},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}},audio:false});
     if(!cam.wanted){ stream.getTracks().forEach(tr=>tr.stop()); cam.starting=false; return; }
     cam.stream=stream; v.srcObject=stream; await v.play().catch(()=>{}); cam.ok=true; $('#camOff').hidden=true;
   }catch(e){ camFallback(e&&e.name==='NotAllowedError'?'cam_denied':'cam_none'); }
@@ -1615,17 +1611,25 @@ function setLang(l){ if(!I18N[l]) return; lang=l; settings.lang=l; saveSettings(
 
 /* ---------------- tabs, events, init ---------------- */
 let currentTab='catch';
+// three screens: the camera in the middle, the map to its right, you (profile, Mierdex, settings) to its left
 function showTab(name){
-  currentTab=name; $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name)); $$('.tabbar button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  if(name==='dex') name='trainer';
+  currentTab=name; $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name)); $$('.navtoggle button').forEach(b=>b.classList.toggle('on',b.dataset.go===name));
   if(name==='catch'){ camStart(); geoStart(); if(blurOn()) getFaceDetector().catch(()=>{}); getKindClassifier().catch(()=>{}); } else { camStop(); if(name!=='map') geoStop(); }
-  if(name==='map'){ geoStart(); showMap(); } if(name==='dex') renderDex(); if(name==='trainer') renderTrainer();
+  if(name==='map'){ geoStart(); showMap(); } if(name==='trainer'){ renderTrainer(); renderDex(); }
   if(name!=='map'&&pick) pickEnd(); window.scrollTo(0,0);
 }
-function renderAll(){ const n=captures.length; const b=$('#dexBadge'); b.hidden=!n; b.textContent=n; renderMarkers(); if(currentTab==='dex') renderDex(); if(currentTab==='trainer') renderTrainer(); }
+function renderAll(){ const n=captures.length; const b=$('#dexBadge'); b.hidden=!n; b.textContent=n; renderMarkers(); if(currentTab==='trainer'){ renderTrainer(); renderDex(); } }
 function bindEvents(){
-  $$('.tabbar button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  // the toggle: tap a side to go there, tap the lit side to come back to the camera
+  $$('.navtoggle button').forEach(b=>b.addEventListener('click',()=>showTab(currentTab===b.dataset.go?'catch':b.dataset.go)));
+  // swipe the camera: left brings the map in from the right, right brings you in from the left
+  (function(){ const c=$('#view-catch .cam'); let s=null;
+    c.addEventListener('touchstart',e=>{ s=e.touches.length===1?{x:e.touches[0].clientX,y:e.touches[0].clientY,t:Date.now()}:null; },{passive:true});
+    c.addEventListener('touchend',e=>{ if(!s) return; const p=e.changedTouches[0], dx=p.clientX-s.x, dy=p.clientY-s.y, dt=Date.now()-s.t; s=null;
+      if(dt>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2||currentTab!=='catch') return; showTab(dx<0?'map':'trainer'); },{passive:true});
+    c.addEventListener('touchcancel',()=>{ s=null; },{passive:true}); })();
   $('#btnShutter').addEventListener('click',onShutter); $('#geoPill').addEventListener('click',()=>{ if(geo.status!=='ok') geoRetry(); }); $('#btnFileCam').addEventListener('click',()=>$('#fileCam').click()); $('#btnGallery').addEventListener('click',()=>$('#fileGal').click());
-  $('#btnFlip').addEventListener('click',()=>{ cam.facing=cam.facing==='environment'?'user':'environment'; settings.facing=cam.facing; saveSettings(); camStop(); camStart(); });
   $('#fileCam').addEventListener('change',e=>{ onFile(e.target.files[0],false); e.target.value=''; }); $('#fileGal').addEventListener('change',e=>{ onFile(e.target.files[0],true); e.target.value=''; });
   $('#fileImport').addEventListener('change',e=>{ importFile(e.target.files[0]); e.target.value=''; });
   // encounter
