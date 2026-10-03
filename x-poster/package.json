@@ -1,0 +1,8 @@
+{
+  "name": "mierdasdelmundo-x-poster",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Review queue and poster for the official mierdasdelmundo X account",
+  "engines": { "node": ">=18" },
+  "scripts": { "test": "node test/run.js" }
+}

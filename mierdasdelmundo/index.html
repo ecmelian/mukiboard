@@ -189,6 +189,8 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   @keyframes slideup{from{transform:translateY(80px);opacity:0}}
   .d-photo{aspect-ratio:4/3;background:#222;position:relative}
   .d-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .d-photo.blurmode{outline:3px solid var(--green);outline-offset:-3px;cursor:crosshair}
+  .blur-hint{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.72);color:#fff;font-size:12px;font-weight:700;padding:7px 10px;text-align:center}
   .d-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:18px}
   .d-body{padding:14px 16px}
   .d-body h2{font-size:26px;color:var(--ink);line-height:1.1}
@@ -391,10 +393,20 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
       </div>
     </div>
 
+    <h3 class="sec" data-i18n="x_section"></h3>
+    <div class="card">
+      <div class="set-row"><div><b data-i18n="x_on"></b><small data-i18n="x_on_sub"></small></div><label class="switch"><input type="checkbox" id="xOn"><i></i></label></div>
+      <div id="xCfg">
+        <div class="set-row" style="display:block"><small data-i18n="x_url"></small><input class="input" id="xUrl" placeholder="https://your-poster.vercel.app" autocomplete="off" spellcheck="false"></div>
+        <div class="set-row"><div><b data-i18n="x_auto"></b><small data-i18n="x_auto_sub"></small></div><label class="switch"><input type="checkbox" id="xAuto"><i></i></label></div>
+      </div>
+    </div>
+
     <h3 class="sec" data-i18n="settings"></h3>
     <div class="card">
       <div class="set-row"><div><b data-i18n="language"></b></div><select class="input" id="langSel"></select></div>
       <div class="set-row"><div><b data-i18n="sound"></b></div><label class="switch"><input type="checkbox" id="soundOn"><i></i></label></div>
+      <div class="set-row"><div><b data-i18n="blur_on"></b><small data-i18n="blur_sub"></small></div><label class="switch"><input type="checkbox" id="blurOn"><i></i></label></div>
       <div class="set-row" id="installRow" hidden><div><b data-i18n="install"></b><small data-i18n="install_sub"></small></div><button class="btn sm primary" id="btnInstall" data-i18n="install_btn"></button></div>
       <div class="set-row"><div><b data-i18n="backup"></b><small data-i18n="backup_sub"></small></div><div class="row"><button class="btn sm" id="btnExport" data-i18n="export"></button><button class="btn sm" id="btnImport" data-i18n="import"></button></div></div>
       <div class="set-row"><div><b data-i18n="reset"></b><small data-i18n="reset_sub"></small></div><button class="btn sm danger" id="btnReset" data-i18n="delete_all"></button></div>
@@ -452,9 +464,10 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
     <h2 id="resName"></h2>
     <div class="pill-row"><span class="rpill" id="resRarity"></span><span class="rpill cp" id="resCp"></span></div>
     <p class="dex-text" id="resDex"></p>
-    <div class="meta"><div>🕒 <span id="resTime"></span></div><div>🏙️ <span id="resCity"></span></div><div>📍 <span id="resLoc"></span></div></div>
+    <div class="meta"><div>🕒 <span id="resTime"></span></div><div>🏙️ <span id="resCity"></span></div><div>📍 <span id="resLoc"></span></div><div>🙈 <span id="resFaces"></span></div></div>
     <div class="xp-gain" id="resXp"></div>
     <div id="resUnlocks"></div>
+    <button class="btn" id="resX" hidden style="width:100%;margin-top:12px"></button>
     <div class="row"><button class="btn" id="resShare" data-i18n="share_card"></button><button class="btn primary" id="resDone" data-i18n="done"></button></div>
   </div>
 </div>
@@ -462,7 +475,7 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
 <!-- ================= DETAIL ================= -->
 <div id="detail" class="overlay sheet" hidden>
   <div class="card">
-    <div class="d-photo"><img id="dImg" alt=""><button class="d-close" id="dClose" aria-label="Close">✕</button></div>
+    <div class="d-photo"><img id="dImg" alt=""><div class="blur-hint" id="dBlurHint" hidden data-i18n="blur_tap"></div><button class="d-close" id="dClose" aria-label="Close">✕</button></div>
     <div class="d-body">
       <h2 id="dName"></h2>
       <div class="pill-row left"><span class="rpill" id="dRarity"></span><span class="rpill cp" id="dCp"></span></div>
@@ -474,6 +487,8 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
         <button class="btn" id="dLoc" data-i18n="set_loc"></button>
         <button class="btn" id="dTime" data-i18n="edit_time"></button>
         <button class="btn" id="dPublish" hidden></button>
+        <button class="btn" id="dBlur" data-i18n="blur_spot"></button>
+        <button class="btn" id="dX" hidden></button>
         <button class="btn danger" id="dDelete" data-i18n="delete"></button>
       </div>
       <div id="dTimeEdit" hidden style="margin-top:10px"><input type="datetime-local" class="input" id="dTimeInput"></div>
@@ -511,6 +526,7 @@ en:{tagline:"gotta scoop 'em all",tab_catch:'Catch',tab_map:'Map',tab_trainer:'T
  unpub:'Unpublished captures',unpub_n:'{n} with a location, ready to publish',unpub_0:'Everything with a location is published',publish_all:'Publish all',
  lb_title:'Top trainers',lb_loading:'loading…',lb_empty:'No trainers yet. Publish a capture to appear here.',lb_err:"Couldn't load: {e}",cities_title:'Top cities',cities_empty:'No sightings yet.',
  settings:'Settings',sound:'Sound effects',language:'Language',install:'Install app',install_sub:'Add mierdasdelmundo to your home screen',install_btn:'Install',backup:'Backup',backup_sub:'Export everything (photos included) as JSON',export:'Export',import:'Import',reset:'Reset',reset_sub:'Delete all captures on this device',delete_all:'Delete all',
+ blur_on:'Blur faces',blur_sub:'Faces are pixelated on the phone before a photo is saved',k_faces:'Faces',faces_na:'Faces not checked yet',faces_0:'No faces found',faces_1:'1 face blurred',faces_n:'{n} faces blurred',blur_spot:'🙈 Blur a spot',blur_tap:'Tap the photo where you want to blur',blur_done:'Done blurring',t_blurred:'Spot blurred',t_blur_fail:'Could not blur: {e}',t_faces_offline:'The face check needs a connection the first time',x_section:'Official X account',x_on:'Share captures on X',x_on_sub:'Faces are blurred first. The account owner reviews each post before it goes live.',x_auto:'Send every capture',x_auto_sub:'Captures with a location are sent automatically',x_url:'Poster service URL',x_post:'𝕏 Post to X',x_sending:'𝕏 Sending…',x_sent:'𝕏 Sent for review ✓',x_posted:'𝕏 See the post',x_rejected:'𝕏 Not posted',x_not_configured:'Set the poster service URL in Trainer → Official X account first',x_need_loc:'Set the location first',t_x_sent:'Sent to the official account for review',t_x_posted:'Posted on X',t_x_err:'X: {e}',
  footer:'Trainer ID {id} · mierdasdelmundo v1.0 · Everything stays on this device unless World sync is on.',
  enc_title:'A wild poop appeared!',enc_gps:'GPS fix',enc_exif:'Location from photo',enc_tag:'tag it, then flick the bag',enc_noloc_gallery:'No location in this photo. Set it on the map later',enc_noloc_wait:'Waiting for GPS. You can set the spot on the map later',photo_date:'photo date',file_date:'file date',
  size:'Size',fresh:'Freshness',run:'Run away',throw:'Throw',flick:'flick up to throw ⬆',broke_title:'The {name} broke free!',broke_sub:"Flick again. It can't run far.",broke_msg:'Oh no! It broke free!',
@@ -538,6 +554,7 @@ es:{tagline:'hazte con todas',tab_catch:'Atrapar',tab_map:'Mapa',tab_trainer:'En
  unpub:'Capturas sin publicar',unpub_n:'{n} con ubicación, listas para publicar',unpub_0:'Todo lo que tiene ubicación está publicado',publish_all:'Publicar todo',
  lb_title:'Mejores entrenadores',lb_loading:'cargando…',lb_empty:'Aún no hay entrenadores. Publica una captura para aparecer aquí.',lb_err:'No se pudo cargar: {e}',cities_title:'Ciudades con más mierdas',cities_empty:'Todavía no hay avistamientos.',
  settings:'Ajustes',sound:'Efectos de sonido',language:'Idioma',install:'Instalar la app',install_sub:'Añade mierdasdelmundo a tu pantalla de inicio',install_btn:'Instalar',backup:'Copia de seguridad',backup_sub:'Exporta todo (fotos incluidas) en JSON',export:'Exportar',import:'Importar',reset:'Reiniciar',reset_sub:'Borra todas las capturas de este dispositivo',delete_all:'Borrar todo',
+ blur_on:'Difuminar caras',blur_sub:'Las caras se pixelan en el móvil antes de guardar la foto',k_faces:'Caras',faces_na:'Caras sin comprobar',faces_0:'Ninguna cara encontrada',faces_1:'1 cara difuminada',faces_n:'{n} caras difuminadas',blur_spot:'🙈 Difuminar una zona',blur_tap:'Toca la foto donde quieras difuminar',blur_done:'Terminar',t_blurred:'Zona difuminada',t_blur_fail:'No se pudo difuminar: {e}',t_faces_offline:'La comprobación de caras necesita conexión la primera vez',x_section:'Cuenta oficial de X',x_on:'Compartir capturas en X',x_on_sub:'Primero se difuminan las caras. El dueño de la cuenta revisa cada publicación antes de que salga.',x_auto:'Enviar todas las capturas',x_auto_sub:'Las capturas con ubicación se envían automáticamente',x_url:'URL del servicio de publicación',x_post:'𝕏 Publicar en X',x_sending:'𝕏 Enviando…',x_sent:'𝕏 Enviada a revisión ✓',x_posted:'𝕏 Ver la publicación',x_rejected:'𝕏 No publicada',x_not_configured:'Configura primero la URL del servicio en Entrenador → Cuenta oficial de X',x_need_loc:'Fija primero la ubicación',t_x_sent:'Enviada a la cuenta oficial para su revisión',t_x_posted:'Publicada en X',t_x_err:'X: {e}',
  footer:'ID de entrenador {id} · mierdasdelmundo v1.0 · Todo se queda en este dispositivo salvo que actives la sincronización mundial.',
  enc_title:'¡Ha aparecido una mierda salvaje!',enc_gps:'Posición GPS',enc_exif:'Ubicación de la foto',enc_tag:'etiquétala y lanza la bolsa',enc_noloc_gallery:'La foto no tiene ubicación. Fíjala en el mapa después',enc_noloc_wait:'Esperando el GPS. Puedes fijar el sitio en el mapa después',photo_date:'fecha de la foto',file_date:'fecha del archivo',
  size:'Tamaño',fresh:'Frescura',run:'Huir',throw:'Lanzar',flick:'desliza hacia arriba para lanzar ⬆',broke_title:'¡{name} se ha escapado!',broke_sub:'Lanza otra vez. No puede ir muy lejos.',broke_msg:'¡Oh, no! ¡Se ha escapado!',
@@ -565,6 +582,7 @@ pt:{tagline:'apanha-as todas',tab_catch:'Apanhar',tab_map:'Mapa',tab_trainer:'Tr
  unpub:'Capturas por publicar',unpub_n:'{n} com localização, prontas a publicar',unpub_0:'Tudo o que tem localização está publicado',publish_all:'Publicar tudo',
  lb_title:'Melhores treinadores',lb_loading:'a carregar…',lb_empty:'Ainda não há treinadores. Publica uma captura para apareceres aqui.',lb_err:'Não foi possível carregar: {e}',cities_title:'Cidades com mais merdas',cities_empty:'Ainda não há avistamentos.',
  settings:'Ajustes',sound:'Efeitos sonoros',language:'Idioma',install:'Instalar a app',install_sub:'Adiciona mierdasdelmundo ao ecrã inicial',install_btn:'Instalar',backup:'Cópia de segurança',backup_sub:'Exporta tudo (fotos incluídas) em JSON',export:'Exportar',import:'Importar',reset:'Repor',reset_sub:'Apaga todas as capturas deste dispositivo',delete_all:'Apagar tudo',
+ blur_on:'Desfocar caras',blur_sub:'As caras são pixelizadas no telemóvel antes de guardar a foto',k_faces:'Caras',faces_na:'Caras ainda não verificadas',faces_0:'Nenhuma cara encontrada',faces_1:'1 cara desfocada',faces_n:'{n} caras desfocadas',blur_spot:'🙈 Desfocar uma zona',blur_tap:'Toca na foto onde queres desfocar',blur_done:'Terminar',t_blurred:'Zona desfocada',t_blur_fail:'Não foi possível desfocar: {e}',t_faces_offline:'A verificação de caras precisa de ligação na primeira vez',x_section:'Conta oficial do X',x_on:'Partilhar capturas no X',x_on_sub:'As caras são desfocadas primeiro. O dono da conta revê cada publicação antes de sair.',x_auto:'Enviar todas as capturas',x_auto_sub:'As capturas com localização são enviadas automaticamente',x_url:'URL do serviço de publicação',x_post:'𝕏 Publicar no X',x_sending:'𝕏 A enviar…',x_sent:'𝕏 Enviada para revisão ✓',x_posted:'𝕏 Ver a publicação',x_rejected:'𝕏 Não publicada',x_not_configured:'Define primeiro o URL do serviço em Treinador → Conta oficial do X',x_need_loc:'Define primeiro a localização',t_x_sent:'Enviada à conta oficial para revisão',t_x_posted:'Publicada no X',t_x_err:'X: {e}',
  footer:'ID de treinador {id} · mierdasdelmundo v1.0 · Tudo fica neste dispositivo a menos que ligues a sincronização mundial.',
  enc_title:'Apareceu uma merda selvagem!',enc_gps:'Posição GPS',enc_exif:'Localização da foto',enc_tag:'etiqueta-a e lança o saco',enc_noloc_gallery:'A foto não tem localização. Define-a no mapa depois',enc_noloc_wait:'À espera do GPS. Podes definir o local no mapa depois',photo_date:'data da foto',file_date:'data do ficheiro',
  size:'Tamanho',fresh:'Frescura',run:'Fugir',throw:'Lançar',flick:'desliza para cima para lançar ⬆',broke_title:'{name} escapou!',broke_sub:'Lança outra vez. Não vai longe.',broke_msg:'Oh não! Escapou!',
@@ -592,6 +610,7 @@ fr:{tagline:'attrape-les toutes',tab_catch:'Attraper',tab_map:'Carte',tab_traine
  unpub:'Captures non publiées',unpub_n:'{n} avec emplacement, prêtes à publier',unpub_0:'Tout ce qui a un emplacement est publié',publish_all:'Tout publier',
  lb_title:'Meilleurs dresseurs',lb_loading:'chargement…',lb_empty:'Pas encore de dresseurs. Publie une capture pour apparaître ici.',lb_err:'Chargement impossible : {e}',cities_title:'Villes les plus crottées',cities_empty:"Pas encore d'observations.",
  settings:'Réglages',sound:'Effets sonores',language:'Langue',install:"Installer l'appli",install_sub:"Ajoute mierdasdelmundo à ton écran d'accueil",install_btn:'Installer',backup:'Sauvegarde',backup_sub:'Exporte tout (photos comprises) en JSON',export:'Exporter',import:'Importer',reset:'Réinitialiser',reset_sub:'Supprime toutes les captures de cet appareil',delete_all:'Tout supprimer',
+ blur_on:'Flouter les visages',blur_sub:'Les visages sont pixelisés sur le téléphone avant d’enregistrer la photo',k_faces:'Visages',faces_na:'Visages pas encore vérifiés',faces_0:'Aucun visage trouvé',faces_1:'1 visage flouté',faces_n:'{n} visages floutés',blur_spot:'🙈 Flouter une zone',blur_tap:'Touche la photo là où tu veux flouter',blur_done:'Terminer',t_blurred:'Zone floutée',t_blur_fail:'Impossible de flouter : {e}',t_faces_offline:'La vérification des visages a besoin d’une connexion la première fois',x_section:'Compte officiel X',x_on:'Partager les captures sur X',x_on_sub:'Les visages sont floutés d’abord. Le propriétaire du compte relit chaque publication avant qu’elle ne sorte.',x_auto:'Envoyer chaque capture',x_auto_sub:'Les captures avec un emplacement sont envoyées automatiquement',x_url:'URL du service de publication',x_post:'𝕏 Publier sur X',x_sending:'𝕏 Envoi…',x_sent:'𝕏 Envoyée pour relecture ✓',x_posted:'𝕏 Voir la publication',x_rejected:'𝕏 Non publiée',x_not_configured:'Renseigne d’abord l’URL du service dans Dresseur → Compte officiel X',x_need_loc:'Place d’abord l’emplacement',t_x_sent:'Envoyée au compte officiel pour relecture',t_x_posted:'Publiée sur X',t_x_err:'X : {e}',
  footer:'ID dresseur {id} · mierdasdelmundo v1.0 · Tout reste sur cet appareil sauf si la synchro mondiale est activée.',
  enc_title:'Une crotte sauvage apparaît !',enc_gps:'Position GPS',enc_exif:'Emplacement de la photo',enc_tag:'étiquette-la, puis lance le sac',enc_noloc_gallery:"Pas d'emplacement dans cette photo. Place-la sur la carte plus tard",enc_noloc_wait:'En attente du GPS. Tu pourras placer le point sur la carte plus tard',photo_date:'date de la photo',file_date:'date du fichier',
  size:'Taille',fresh:'Fraîcheur',run:'Fuir',throw:'Lancer',flick:'glisse vers le haut pour lancer ⬆',broke_title:"{name} s'est échappée !",broke_sub:"Relance. Elle n'ira pas loin.",broke_msg:"Oh non ! Elle s'est échappée !",
@@ -619,6 +638,7 @@ de:{tagline:'schnapp sie dir alle',tab_catch:'Fangen',tab_map:'Karte',tab_traine
  unpub:'Unveröffentlichte Fänge',unpub_n:'{n} mit Standort, bereit zur Veröffentlichung',unpub_0:'Alles mit Standort ist veröffentlicht',publish_all:'Alle veröffentlichen',
  lb_title:'Top-Trainer',lb_loading:'lädt…',lb_empty:'Noch keine Trainer. Veröffentliche einen Fang, um hier zu erscheinen.',lb_err:'Laden fehlgeschlagen: {e}',cities_title:'Städte mit den meisten Haufen',cities_empty:'Noch keine Sichtungen.',
  settings:'Einstellungen',sound:'Soundeffekte',language:'Sprache',install:'App installieren',install_sub:'Füge mierdasdelmundo deinem Startbildschirm hinzu',install_btn:'Installieren',backup:'Sicherung',backup_sub:'Alles (inklusive Fotos) als JSON exportieren',export:'Exportieren',import:'Importieren',reset:'Zurücksetzen',reset_sub:'Alle Fänge auf diesem Gerät löschen',delete_all:'Alles löschen',
+ blur_on:'Gesichter verpixeln',blur_sub:'Gesichter werden auf dem Handy verpixelt, bevor das Foto gespeichert wird',k_faces:'Gesichter',faces_na:'Gesichter noch nicht geprüft',faces_0:'Keine Gesichter gefunden',faces_1:'1 Gesicht verpixelt',faces_n:'{n} Gesichter verpixelt',blur_spot:'🙈 Stelle verpixeln',blur_tap:'Tippe auf die Stelle im Foto, die verpixelt werden soll',blur_done:'Fertig',t_blurred:'Stelle verpixelt',t_blur_fail:'Verpixeln fehlgeschlagen: {e}',t_faces_offline:'Die Gesichtsprüfung braucht beim ersten Mal eine Verbindung',x_section:'Offizieller X-Account',x_on:'Fänge auf X teilen',x_on_sub:'Gesichter werden zuerst verpixelt. Der Account-Inhaber prüft jeden Post, bevor er erscheint.',x_auto:'Jeden Fang senden',x_auto_sub:'Fänge mit Standort werden automatisch gesendet',x_url:'URL des Post-Dienstes',x_post:'𝕏 Auf X posten',x_sending:'𝕏 Wird gesendet…',x_sent:'𝕏 Zur Prüfung gesendet ✓',x_posted:'𝕏 Post ansehen',x_rejected:'𝕏 Nicht gepostet',x_not_configured:'Trage zuerst die URL des Post-Dienstes unter Trainer → Offizieller X-Account ein',x_need_loc:'Lege zuerst den Standort fest',t_x_sent:'An den offiziellen Account zur Prüfung gesendet',t_x_posted:'Auf X gepostet',t_x_err:'X: {e}',
  footer:'Trainer-ID {id} · mierdasdelmundo v1.0 · Alles bleibt auf diesem Gerät, solange Welt-Sync aus ist.',
  enc_title:'Ein wilder Haufen erscheint!',enc_gps:'GPS-Position',enc_exif:'Standort aus dem Foto',enc_tag:'markieren, dann die Tüte werfen',enc_noloc_gallery:'Kein Standort im Foto. Später auf der Karte setzen',enc_noloc_wait:'Warte auf GPS. Den Ort kannst du später auf der Karte setzen',photo_date:'Fotodatum',file_date:'Dateidatum',
  size:'Größe',fresh:'Frische',run:'Weglaufen',throw:'Werfen',flick:'nach oben wischen zum Werfen ⬆',broke_title:'{name} hat sich befreit!',broke_sub:'Nochmal werfen. Weit kommt er nicht.',broke_msg:'Oh nein! Er ist entkommen!',
@@ -646,6 +666,7 @@ it:{tagline:'acchiappale tutte',tab_catch:'Cattura',tab_map:'Mappa',tab_trainer:
  unpub:'Catture non pubblicate',unpub_n:'{n} con posizione, pronte da pubblicare',unpub_0:'Tutto ciò che ha una posizione è pubblicato',publish_all:'Pubblica tutto',
  lb_title:'Migliori allenatori',lb_loading:'caricamento…',lb_empty:'Nessun allenatore ancora. Pubblica una cattura per apparire qui.',lb_err:'Impossibile caricare: {e}',cities_title:'Città con più cacche',cities_empty:'Nessun avvistamento ancora.',
  settings:'Impostazioni',sound:'Effetti sonori',language:'Lingua',install:"Installa l'app",install_sub:'Aggiungi mierdasdelmundo alla schermata Home',install_btn:'Installa',backup:'Backup',backup_sub:'Esporta tutto (foto incluse) in JSON',export:'Esporta',import:'Importa',reset:'Reimposta',reset_sub:'Elimina tutte le catture su questo dispositivo',delete_all:'Elimina tutto',
+ blur_on:'Sfoca i volti',blur_sub:'I volti vengono pixelati sul telefono prima di salvare la foto',k_faces:'Volti',faces_na:'Volti non ancora controllati',faces_0:'Nessun volto trovato',faces_1:'1 volto sfocato',faces_n:'{n} volti sfocati',blur_spot:'🙈 Sfoca un punto',blur_tap:'Tocca la foto dove vuoi sfocare',blur_done:'Fine',t_blurred:'Punto sfocato',t_blur_fail:'Impossibile sfocare: {e}',t_faces_offline:'Il controllo dei volti richiede una connessione la prima volta',x_section:'Account ufficiale X',x_on:'Condividi le catture su X',x_on_sub:'Prima vengono sfocati i volti. Il proprietario dell’account controlla ogni post prima che esca.',x_auto:'Invia ogni cattura',x_auto_sub:'Le catture con posizione vengono inviate automaticamente',x_url:'URL del servizio di pubblicazione',x_post:'𝕏 Pubblica su X',x_sending:'𝕏 Invio…',x_sent:'𝕏 Inviata per la revisione ✓',x_posted:'𝕏 Vedi il post',x_rejected:'𝕏 Non pubblicata',x_not_configured:'Imposta prima l’URL del servizio in Allenatore → Account ufficiale X',x_need_loc:'Imposta prima la posizione',t_x_sent:'Inviata all’account ufficiale per la revisione',t_x_posted:'Pubblicata su X',t_x_err:'X: {e}',
  footer:'ID allenatore {id} · mierdasdelmundo v1.0 · Tutto resta su questo dispositivo a meno che la sincronizzazione mondiale non sia attiva.',
  enc_title:'È apparsa una cacca selvatica!',enc_gps:'Posizione GPS',enc_exif:'Posizione dalla foto',enc_tag:'etichettala, poi lancia il sacchetto',enc_noloc_gallery:'Nessuna posizione nella foto. Impostala sulla mappa dopo',enc_noloc_wait:'In attesa del GPS. Puoi impostare il punto sulla mappa dopo',photo_date:'data della foto',file_date:'data del file',
  size:'Dimensione',fresh:'Freschezza',run:'Scappa',throw:'Lancia',flick:'scorri in alto per lanciare ⬆',broke_title:'{name} è scappata!',broke_sub:'Lancia di nuovo. Non andrà lontano.',broke_msg:'Oh no! È scappata!',
@@ -869,7 +890,7 @@ const LS_PROFILE='mdm-profile', LS_SETTINGS='mdm-settings', LS_SEEN='mdm-seen-ba
 const loadJSON=(k,d)=>{ try{ return Object.assign({},d,JSON.parse(localStorage.getItem(k)||'null')||{}); }catch(e){ return {...d}; } };
 let profile=loadJSON(LS_PROFILE,{name:'',avatar:'av0',tid:uid('t'),created:Date.now()});
 if(!AVATARS.includes(profile.avatar)) profile.avatar='av'+(Math.abs([...String(profile.avatar)].reduce((h,ch)=>h+ch.codePointAt(0),0))%AVATARS.length);
-let settings=loadJSON(LS_SETTINGS,{cloudOn:false,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,facing:'environment',lang:''});
+let settings=loadJSON(LS_SETTINGS,{cloudOn:false,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,facing:'environment',lang:'',blurFaces:true,xOn:false,xAuto:true,xUrl:''});
 const saveProfile=()=>{ try{ localStorage.setItem(LS_PROFILE,JSON.stringify(profile)); }catch(e){} };
 const saveSettings=()=>{ try{ localStorage.setItem(LS_SETTINGS,JSON.stringify(settings)); }catch(e){} };
 saveProfile();
@@ -909,13 +930,13 @@ function loadImage(src){ return new Promise((res,rej)=>{ const i=new Image(); i.
 async function blobToImage(blob){ const u=URL.createObjectURL(blob); try{ return await loadImage(u); } finally{ setTimeout(()=>URL.revokeObjectURL(u),2000); } }
 function blobToDataUrl(b){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(r.error); r.readAsDataURL(b); }); }
 function dataUrlToBlob(du){ const i=du.indexOf(','); const mime=(/data:([^;]+)/.exec(du.slice(0,i))||[])[1]||'image/jpeg'; const bin=atob(du.slice(i+1)); const arr=new Uint8Array(bin.length); for(let j=0;j<bin.length;j++) arr[j]=bin.charCodeAt(j); return new Blob([arr],{type:mime}); }
-// Draw a video frame or image to JPEG (max 1280px) + a 240px thumbnail data URL.
-function frameToBlobs(src,w,h){
-  const MAX=1280, s=Math.min(1,MAX/Math.max(w,h)); const cw=Math.max(1,Math.round(w*s)), ch=Math.max(1,Math.round(h*s));
-  const c=document.createElement('canvas'); c.width=cw; c.height=ch; c.getContext('2d').drawImage(src,0,0,cw,ch);
-  const ts=Math.min(1,240/Math.max(cw,ch)); const tc=document.createElement('canvas'); tc.width=Math.max(1,Math.round(cw*ts)); tc.height=Math.max(1,Math.round(ch*ts)); tc.getContext('2d').drawImage(c,0,0,tc.width,tc.height);
-  return new Promise((res,rej)=>c.toBlob(b=>b?res({blob:b,thumb:tc.toDataURL('image/jpeg',.7),w:cw,h:ch}):rej(new Error('Could not encode photo')),'image/jpeg',.85));
+// Draw a video frame or image to a canvas (max 1280px), then to JPEG + a 240px thumbnail data URL. The canvas is kept for the face check.
+function drawFrame(src,w,h){ const MAX=1280, s=Math.min(1,MAX/Math.max(w,h)); const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w*s)); c.height=Math.max(1,Math.round(h*s)); c.getContext('2d').drawImage(src,0,0,c.width,c.height); return c; }
+function canvasToBlobs(c){
+  const ts=Math.min(1,240/Math.max(c.width,c.height)); const tc=document.createElement('canvas'); tc.width=Math.max(1,Math.round(c.width*ts)); tc.height=Math.max(1,Math.round(c.height*ts)); tc.getContext('2d').drawImage(c,0,0,tc.width,tc.height);
+  return new Promise((res,rej)=>c.toBlob(b=>b?res({blob:b,thumb:tc.toDataURL('image/jpeg',.7),w:c.width,h:c.height}):rej(new Error('Could not encode photo')),'image/jpeg',.85));
 }
+async function frameToBlobs(src,w,h){ const c=drawFrame(src,w,h); const fr=await canvasToBlobs(c); fr.canvas=c; return fr; }
 async function shrinkDataUrl(du,max,q=.6){ const img=await loadImage(du); const s=Math.min(1,max/Math.max(img.width,img.height)); const c=document.createElement('canvas');
   c.width=Math.max(1,Math.round(img.width*s)); c.height=Math.max(1,Math.round(img.height*s)); c.getContext('2d').drawImage(img,0,0,c.width,c.height); return c.toDataURL('image/jpeg',q); }
 // Minimal EXIF reader: DateTimeOriginal + GPS. Returns {ts?, lat?, lng?}. Throws on malformed data (caller catches).
@@ -977,6 +998,124 @@ function geoNow(){ if(geo.fix&&Date.now()-geo.fix.t<45000) return Promise.resolv
 const freshFix=()=>geo.fix&&Date.now()-geo.fix.t<45000?geo.fix:null;
 
 /* ---------------- encounter & capture ---------------- */
+/* ---------------- privacy: faces are blurred on the phone ---------------- */
+// Face detection runs on the device (MediaPipe Face Detector, loaded on demand and cached by the service
+// worker; the browser's own FaceDetector as a fallback). Faces become a coarse mosaic before the photo is
+// saved; nothing is uploaded for the check. window.__faceDetector lets the tests plug in a stub.
+const MP_BASE='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
+const FACE_MODEL='https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite';
+const blurOn=()=>settings.blurFaces!==false;
+let faceDet=null, faceDetP=null;
+function getFaceDetector(){
+  if(faceDet) return Promise.resolve(faceDet);
+  if(!faceDetP) faceDetP=(async()=>{
+    if(window.__faceDetector){ faceDet=window.__faceDetector; return faceDet; }
+    try{
+      const mod=await import(MP_BASE+'/vision_bundle.mjs');
+      const files=await mod.FilesetResolver.forVisionTasks(MP_BASE+'/wasm');
+      const d=await mod.FaceDetector.createFromOptions(files,{baseOptions:{modelAssetPath:FACE_MODEL},runningMode:'IMAGE',minDetectionConfidence:.4});
+      faceDet={detect:src=>d.detect(src).detections.map(x=>x.boundingBox).filter(Boolean).map(b=>({x:b.originX,y:b.originY,w:b.width,h:b.height}))};
+    }catch(e){
+      if(!('FaceDetector' in window)) throw e;
+      const nd=new window.FaceDetector({fastMode:false});
+      faceDet={detect:async src=>(await nd.detect(src)).map(f=>({x:f.boundingBox.x,y:f.boundingBox.y,w:f.boundingBox.width,h:f.boundingBox.height}))};
+    }
+    return faceDet;
+  })().catch(e=>{ faceDetP=null; throw e; });
+  return faceDetP;
+}
+async function detectFaces(src){ const d=await getFaceDetector(); const boxes=await d.detect(src); return (boxes||[]).filter(b=>b&&b.w>0&&b.h>0); }
+// Replace each box by an elliptical mosaic of about 7 cells across: beyond recognition, no smoothing.
+function pixelateBoxes(cv,boxes,ex=1.5,ey=1.7){
+  const x=cv.getContext('2d'), W=cv.width, H=cv.height;
+  for(const b of boxes){
+    const cx=b.x+b.w/2, cy=b.y+b.h/2, rw=Math.max(8,b.w/2*ex), rh=Math.max(8,b.h/2*ey);
+    const x0=Math.max(0,Math.floor(cx-rw)), y0=Math.max(0,Math.floor(cy-rh)), x1=Math.min(W,Math.ceil(cx+rw)), y1=Math.min(H,Math.ceil(cy+rh)); const w=x1-x0, h=y1-y0; if(w<2||h<2) continue;
+    const cell=Math.max(6,Math.round(Math.max(w,h)/7)); const sw=Math.max(1,Math.round(w/cell)), sh=Math.max(1,Math.round(h/cell));
+    const tmp=document.createElement('canvas'); tmp.width=sw; tmp.height=sh; tmp.getContext('2d').drawImage(cv,x0,y0,w,h,0,0,sw,sh);
+    x.save(); x.beginPath(); x.ellipse(cx,cy,rw,rh,0,0,Math.PI*2); x.clip(); x.imageSmoothingEnabled=false; x.drawImage(tmp,0,0,sw,sh,x0,y0,w,h); x.restore();
+  }
+}
+const facesText=c=>c.faces==null?t('faces_na'):c.faces===0?t('faces_0'):c.faces===1?t('faces_1'):t('faces_n',{n:c.faces});
+// Draw on a saved photo and store it again (face mosaic or a manual spot). draw() returns false to keep the photo as it is.
+async function rewritePhoto(c,draw){
+  const blob=await dbGet('photos',c.id); if(!blob) throw new Error('photo missing');
+  const img=await blobToImage(blob); const cv=drawFrame(img,img.naturalWidth,img.naturalHeight); const n=await draw(cv);
+  if(n!==false){ const fr=await canvasToBlobs(cv); await dbPut('photos',fr.blob,c.id); c.thumb=fr.thumb; }
+  await saveCapture(c); return n;
+}
+const faceJobs=new Map();
+// Make sure a capture's faces were checked and blurred (before posting, or to finish a check that was still running).
+function ensureFaces(c){
+  if(Number.isInteger(c.faces)) return Promise.resolve(c.faces);
+  if(faceJobs.has(c.id)) return faceJobs.get(c.id);
+  const job=rewritePhoto(c,async cv=>{ const boxes=await detectFaces(cv); if(boxes.length) pixelateBoxes(cv,boxes); c.faces=boxes.length; return boxes.length?c.faces:false; }).finally(()=>faceJobs.delete(c.id));
+  faceJobs.set(c.id,job); return job;
+}
+// Manual blur around a tapped point (nx, ny in 0..1 of the photo).
+function blurSpot(c,nx,ny){
+  return rewritePhoto(c,cv=>{ const r=Math.max(cv.width,cv.height)*.09; pixelateBoxes(cv,[{x:nx*cv.width-r,y:ny*cv.height-r,w:2*r,h:2*r}],1,1); c.blurred=(c.blurred||0)+1; return c.blurred; });
+}
+function refreshPhotoViews(c){
+  if(detailId===c.id) dbGet('photos',c.id).then(b=>{ if(b&&detailId===c.id){ const img=$('#dImg'); if(img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(b); } }).catch(()=>{});
+  if(!$('#result').hidden&&$('#result').dataset.id===c.id){ $('#resFaces').textContent=facesText(c); dbGet('photos',c.id).then(b=>{ if(b) $('#resImg').src=URL.createObjectURL(b); }).catch(()=>{}); }
+  renderAll();
+}
+let blurMode=false;
+function setBlurMode(on){ blurMode=on; $('.d-photo').classList.toggle('blurmode',on); $('#dBlurHint').hidden=!on; $('#dBlur').textContent=t(on?'blur_done':'blur_spot'); $('#dBlur').classList.toggle('primary',on); }
+async function onPhotoTap(e){
+  const c=curDetail(); if(!blurMode||!c) return; const img=$('#dImg'); const r=img.getBoundingClientRect(); const nw=img.naturalWidth||1, nh=img.naturalHeight||1;
+  const s=Math.max(r.width/nw,r.height/nh); const dx=(r.width-nw*s)/2, dy=(r.height-nh*s)/2;
+  const nx=((e.clientX-r.left)-dx)/(nw*s), ny=((e.clientY-r.top)-dy)/(nh*s); if(nx<0||nx>1||ny<0||ny>1) return;
+  try{ await blurSpot(c,nx,ny); refreshPhotoViews(c); toast(t('t_blurred')); }catch(err){ toast(t('t_blur_fail',{e:err.message})); }
+}
+
+/* ---------------- official X account ---------------- */
+// Captures go (faces blurred, coordinates rounded) to the poster service in ../x-poster, which holds the
+// account keys and lets the owner review each post. Set X_POSTER_URL after deploying it; the settings
+// field overrides it on a phone.
+const X_POSTER_URL='';
+const xBase=()=>(settings.xUrl||X_POSTER_URL).trim().replace(/\/+$/,'');
+const xReady=()=>!!settings.xOn&&/^https:\/\//.test(xBase());
+async function xReq(path,method='GET',body){
+  const r=await fetch(xBase()+path,{method,headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});
+  const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||('HTTP '+r.status)); return d;
+}
+const xJobs=new Map();
+function postToX(c){
+  if(xJobs.has(c.id)) return xJobs.get(c.id);
+  const job=(async()=>{
+    if(!xReady()) throw new Error(t('x_not_configured')); if(c.lat==null) throw new Error(t('x_need_loc'));
+    if(c.xStatus==='pending'||c.xStatus==='posted') return {status:c.xStatus,url:c.xUrl};
+    try{ await ensureFaces(c); }catch(e){ throw new Error(t('t_faces_offline')); }
+    const blob=await dbGet('photos',c.id); if(!blob) throw new Error('photo missing');
+    const img=await blobToImage(blob); const cv=drawFrame(img,img.naturalWidth,img.naturalHeight);
+    const body={id:c.id,ts:c.ts,lat:+c.lat.toFixed(4),lng:+c.lng.toFixed(4),city:c.city||null,cc:c.cc||null,species:speciesOf(c.species).name,speciesId:c.species,rarity:c.rarity,shiny:!!c.shiny,cp:c.cp,size:c.size,fresh:c.fresh,
+      trainer:(profile.name||'Anonymous').slice(0,24),tid:profile.tid,faces:c.faces,blurred:true,image:cv.toDataURL('image/jpeg',.8)};
+    const d=await xReq('/api/submit','POST',body);
+    c.xStatus=d.status==='posted'?'posted':'pending'; c.xUrl=d.url||''; c.xAt=Date.now(); await saveCapture(c); refreshPhotoViews(c); return d;
+  })().finally(()=>{ xJobs.delete(c.id); refreshXViews(c); });
+  xJobs.set(c.id,job); return job;
+}
+const xChecked=new Map();
+async function refreshXStatus(c){
+  if(c.xStatus!=='pending'||!xReady()) return; if(Date.now()-(xChecked.get(c.id)||0)<60000) return; xChecked.set(c.id,Date.now());
+  try{ const d=await xReq('/api/status?id='+encodeURIComponent(c.id)); if(d.status&&d.status!==c.xStatus){ c.xStatus=d.status; c.xUrl=d.url||c.xUrl||''; await saveCapture(c); refreshXViews(c); } }catch(e){}
+}
+function xButton(btn,c){
+  const on=xReady(); btn.hidden=!on; if(!on) return;
+  const sending=xJobs.has(c.id); btn.disabled=sending||c.xStatus==='pending'||c.xStatus==='rejected';
+  btn.textContent=sending?t('x_sending'):c.xStatus==='posted'?t('x_posted'):c.xStatus==='pending'?t('x_sent'):c.xStatus==='rejected'?t('x_rejected'):t('x_post');
+  btn.classList.toggle('primary',c.xStatus==='posted');
+}
+function refreshXViews(c){ if($('#result').dataset.id===c.id) xButton($('#resX'),c); if(detailId===c.id) xButton($('#dX'),c); }
+async function onPostToX(btn,c){
+  if(c.xStatus==='posted'&&c.xUrl){ window.open(c.xUrl,'_blank','noopener'); return; }
+  btn.disabled=true; btn.textContent=t('x_sending');
+  try{ const d=await postToX(c); toast(t(d.status==='posted'?'t_x_posted':'t_x_sent')); }catch(e){ toast(t('t_x_err',{e:e.message})); }
+  xButton(btn,c);
+}
+
 let enc=null; const bagDrag={dx:0,dy:0};
 async function onShutter(){
   if(!cam.ok){ $('#fileCam').click(); return; }
@@ -1003,6 +1142,7 @@ function updateEncSub(){ if(!enc) return; const when=enc.tsFrom==='now'?'':` · 
   $('#encSub').textContent=(enc.loc?`📍 ${t(enc.locFrom==='exif'?'enc_exif':'enc_gps')} · 🏙️ ${city?city.name:t('outside')} · ${t('enc_tag')}`:`📍 ${t(enc.src==='gallery'?'enc_noloc_gallery':'enc_noloc_wait')} · ${t('enc_tag')}`)+when; }
 function startEncounter(data){
   enc={...data,size:'M',fresh:'fresh',roll:null,attempts:0,throwing:false};
+  enc.facesP=(blurOn()&&enc.canvas)?detectFaces(enc.canvas).catch(()=>null):null;
   const ov=$('#encounter'); ov.classList.remove('caught'); $('#shinyGlow').hidden=true;
   const img=$('#encImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(enc.blob);
   $$('#segSize button').forEach(b=>b.classList.toggle('on',b.dataset.v==='M'));
@@ -1034,15 +1174,20 @@ async function finishCapture(){
   const before=computeStats(); const isNew=!before.species[r.species];
   const cp=Math.round(rnd(R.cp[0],R.cp[1])*SIZES[enc.size]*(r.shiny?1.25:1));
   const xp=R.xp+(isNew?50:0)+(r.shiny?100:0);
+  let faces=null, blob=enc.blob, thumb=enc.thumb; const facesP=enc.facesP;
+  if(facesP){ const boxes=await Promise.race([facesP,wait(1500).then(()=>undefined)]);
+    if(Array.isArray(boxes)){ faces=boxes.length; if(boxes.length){ pixelateBoxes(enc.canvas,boxes); const fr=await canvasToBlobs(enc.canvas); blob=fr.blob; thumb=fr.thumb; const im=$('#encImg'); if(im.src.startsWith('blob:')) URL.revokeObjectURL(im.src); im.src=URL.createObjectURL(blob); } } }
   const c=assignCity({id:uid('c'),ts:enc.ts,tz:Intl.DateTimeFormat().resolvedOptions().timeZone,lat:enc.loc?enc.loc.lat:null,lng:enc.loc?enc.loc.lng:null,acc:enc.loc&&enc.loc.acc!=null?Math.round(enc.loc.acc):null,
-    species:r.species,rarity:r.rarity,shiny:!!r.shiny,cp,size:enc.size,fresh:enc.fresh,xp,attempts:enc.attempts,src:enc.src,tsFrom:enc.tsFrom||'now',locFrom:enc.locFrom||'',notes:'',thumb:enc.thumb,w:enc.w,h:enc.h,created:Date.now(),published:0});
-  try{ await dbPut('photos',enc.blob,c.id); await saveCapture(c); }catch(e){ toast(t('t_save_fail',{e:e.message})); enc.throwing=false; return; }
+    species:r.species,rarity:r.rarity,shiny:!!r.shiny,cp,size:enc.size,fresh:enc.fresh,xp,attempts:enc.attempts,src:enc.src,tsFrom:enc.tsFrom||'now',locFrom:enc.locFrom||'',notes:'',thumb,w:enc.w,h:enc.h,faces,created:Date.now(),published:0});
+  try{ await dbPut('photos',blob,c.id); await saveCapture(c); }catch(e){ toast(t('t_save_fail',{e:e.message})); enc.throwing=false; return; }
   captures.unshift(c); captures.sort((a,b)=>b.ts-a.ts);
   const after=computeStats(); const lvlBefore=levelFor(before.xp), lvlAfter=levelFor(after.xp);
   const seen=new Set(loadSeen()); const unlocked=BADGES.filter(b=>b.test(after)&&!seen.has(b.id)); unlocked.forEach(b=>seen.add(b.id)); try{ localStorage.setItem(LS_SEEN,JSON.stringify([...seen])); }catch(e){}
   showResult(c,{isNew,unlocked,levelUp:lvlAfter>lvlBefore?lvlAfter:0});
   renderAll();
   if(settings.cloudOn&&settings.autoPublish&&c.lat!=null) publishCapture(c).then(()=>renderTrainerIfVisible()).catch(e=>toast(t('t_world_err',{e:e.message})));
+  if(faces==null&&facesP) facesP.then(b=>{ if(Array.isArray(b)) ensureFaces(c).then(()=>refreshPhotoViews(c)).catch(()=>{}); });
+  if(xReady()&&settings.xAuto!==false&&c.lat!=null) postToX(c).then(d=>toast(t(d.status==='posted'?'t_x_posted':'t_x_sent'))).catch(e=>toast(t('t_x_err',{e:e.message})));
 }
 
 /* ---------------- result & share card ---------------- */
@@ -1054,7 +1199,7 @@ function showResult(c,info){
   $('#resTime').innerHTML=`${esc(fmtDT(c.ts))} <small>· ${esc(fmtISO(c.ts))}</small>`;
   $('#resCity').textContent=c.lat!=null?cityLabel(c):'—';
   $('#resLoc').textContent=c.lat!=null?`${fmtCoord(c.lat,c.lng)}${c.acc?` (±${c.acc} m)`:''}`:t('no_loc');
-  $('#resXp').textContent=t('xp_gain',{n:c.xp});
+  $('#resXp').textContent=t('xp_gain',{n:c.xp}); $('#resFaces').textContent=facesText(c); xButton($('#resX'),c);
   let html=''; if(info.levelUp) html+=`<div class="levelup">${esc(t('levelup',{n:info.levelUp}))}</div>`;
   for(const b of info.unlocked) html+=`<div class="unlock"><span class="ic">${badgeHtml(b)}</span><div><b>${esc(t('badge_unlocked',{name:bdName(b)}))}</b>${esc(bdDesc(b))}</div></div>`;
   $('#resUnlocks').innerHTML=html; $('#result').dataset.id=c.id; $('#result').hidden=false; confetti(c.shiny?120:60);
@@ -1156,14 +1301,15 @@ async function openDetail(id){
   const kv=[[t('k_captured'),`${esc(fmtDT(c.ts))}<br><small>${fmtISO(c.ts)}${c.tsFrom==='exif'?' · '+esc(t('from_exif')):c.tsFrom==='file'?' · '+esc(t('from_file')):''}</small>`],
     [t('k_city'),c.lat!=null?esc(cityLabel(c)):'<i>'+esc(t('not_set'))+'</i>'],
     [t('k_location'),c.lat!=null?`${fmtCoord(c.lat,c.lng)}${c.acc?` <small>(±${c.acc} m)</small>`:''}${c.locFrom==='exif'?' <small>· '+esc(t('from_exif'))+'</small>':c.locFrom==='manual'?' <small>· '+esc(t('manual'))+'</small>':''}`:'<i>'+esc(t('not_set'))+'</i>'],
-    [t('k_tags'),`${esc(sizeLabel(c.size))} · ${esc(freshLabel(c.fresh))}`],[t('k_throws'),c.attempts||1],['XP',`+${c.xp}`],[t('k_source'),esc(t(c.src==='gallery'?'src_gallery':'src_camera'))],
+    [t('k_tags'),`${esc(sizeLabel(c.size))} · ${esc(freshLabel(c.fresh))}`],[t('k_throws'),c.attempts||1],['XP',`+${c.xp}`],[t('k_source'),esc(t(c.src==='gallery'?'src_gallery':'src_camera'))],[t('k_faces'),esc(facesText(c))],
     [t('k_world'),c.published?esc(t('published_ago',{ago:timeAgo(c.published)})):esc(t('not_published'))]];
   $('#dKv').innerHTML=kv.map(([k,v])=>`<b>${esc(k)}</b><span>${v}</span>`).join('');
   $('#dNotes').value=c.notes||''; $('#dPublish').hidden=!settings.cloudOn; $('#dPublish').textContent=t(c.published?'published':'publish'); $('#dPublish').disabled=!!c.published;
   $('#dTimeEdit').hidden=true; const d=new Date(c.ts); $('#dTimeInput').value=`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  xButton($('#dX'),c); setBlurMode(false); refreshXStatus(c);
   $('#detail').hidden=false;
 }
-function closeDetail(){ const img=$('#dImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); $('#detail').hidden=true; detailId=null; }
+function closeDetail(){ setBlurMode(false); const img=$('#dImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); $('#detail').hidden=true; detailId=null; }
 const curDetail=()=>captures.find(c=>c.id===detailId);
 async function deleteCapture(c){
   if(!confirm(t('confirm_delete',{name:spName(c.species)}))) return;
@@ -1185,6 +1331,7 @@ function renderTrainer(){
   $('#badges').innerHTML=BADGES.map(bd=>`<div class="bd${earned.has(bd.id)?'':' locked'}" title="${esc(bdDesc(bd))}"><span class="ic">${badgeHtml(bd)}</span>${esc(bdName(bd))}</div>`).join('');
   $('#cloudOn').checked=settings.cloudOn; if(document.activeElement!==$('#cloudUrl')) $('#cloudUrl').value=settings.cloudUrl; $('#autoPublish').checked=settings.autoPublish; $('#cloudCfg').hidden=!settings.cloudOn;
   const unpub=captures.filter(c=>!c.published&&c.lat!=null).length; $('#unpubTxt').textContent=unpub?t('unpub_n',{n:unpub}):t('unpub_0'); $('#btnPublishAll').disabled=!unpub;
+  $('#blurOn').checked=blurOn(); $('#xOn').checked=!!settings.xOn; if(document.activeElement!==$('#xUrl')) $('#xUrl').value=settings.xUrl||X_POSTER_URL; $('#xAuto').checked=settings.xAuto!==false; $('#xCfg').hidden=!settings.xOn;
   $('#soundOn').checked=settings.sound; $('#langSel').value=lang; $('#footerTxt').textContent=t('footer',{id:profile.tid});
   if(settings.cloudOn){ renderLeaderboard(); renderCityboard(); } else { $('#leaderboard').innerHTML=''; $('#cityboard').innerHTML=''; }
 }
@@ -1286,7 +1433,7 @@ function setLang(l){ if(!I18N[l]) return; lang=l; settings.lang=l; saveSettings(
 let currentTab='catch';
 function showTab(name){
   currentTab=name; $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name)); $$('.tabbar button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
-  if(name==='catch'){ camStart(); geoStart(); } else { camStop(); if(name!=='map') geoStop(); }
+  if(name==='catch'){ camStart(); geoStart(); if(blurOn()) getFaceDetector().catch(()=>{}); } else { camStop(); if(name!=='map') geoStop(); }
   if(name==='map'){ geoStart(); showMap(); } if(name==='dex') renderDex(); if(name==='trainer') renderTrainer();
   if(name!=='map'&&pick) pickEnd(); window.scrollTo(0,0);
 }
@@ -1333,6 +1480,15 @@ function bindEvents(){
   $('#autoPublish').addEventListener('change',e=>{ settings.autoPublish=e.target.checked; saveSettings(); });
   $('#btnPublishAll').addEventListener('click',publishAll);
   $('#soundOn').addEventListener('change',e=>{ settings.sound=e.target.checked; saveSettings(); });
+  // privacy & official X account
+  $('#blurOn').addEventListener('change',e=>{ settings.blurFaces=e.target.checked; saveSettings(); if(settings.blurFaces) getFaceDetector().catch(()=>{}); });
+  $('#xOn').addEventListener('change',e=>{ settings.xOn=e.target.checked; saveSettings(); renderTrainer(); });
+  $('#xUrl').addEventListener('change',e=>{ settings.xUrl=e.target.value.trim(); saveSettings(); });
+  $('#xAuto').addEventListener('change',e=>{ settings.xAuto=e.target.checked; saveSettings(); });
+  $('#resX').addEventListener('click',()=>{ const c=captures.find(x=>x.id===$('#result').dataset.id); if(c) onPostToX($('#resX'),c); });
+  $('#dX').addEventListener('click',()=>{ const c=curDetail(); if(c) onPostToX($('#dX'),c); });
+  $('#dBlur').addEventListener('click',()=>setBlurMode(!blurMode));
+  $('#dImg').addEventListener('click',onPhotoTap);
   $('#langSel').addEventListener('change',e=>setLang(e.target.value));
   $('#btnExport').addEventListener('click',exportAll); $('#btnImport').addEventListener('click',()=>$('#fileImport').click()); $('#btnReset').addEventListener('click',resetAll);
   let installEvt=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; $('#installRow').hidden=false; });

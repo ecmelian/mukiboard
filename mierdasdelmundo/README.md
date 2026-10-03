@@ -16,6 +16,8 @@ Spot a poop → tap the shutter → tag its size and freshness → flick the poo
 - 🗺️ **Map** of your captures (Leaflet + OpenStreetMap). Set or fix a capture's location by tapping the map; edit its time; add notes.
 - 🌐 **World sync** (optional): publish captures to a shared Firebase Realtime Database to see everyone's sightings on the map, a trainer leaderboard and the city ranking.
 - 🖼️ **Share cards**: the photo stamped with species, rarity, CP, city, time and coordinates, sent through the system share sheet.
+- 🙈 **Faces blurred on the phone.** Before a photo is saved, faces are found on the device (MediaPipe, downloaded once and cached; nothing is uploaded for the check) and replaced by a coarse mosaic. A *Blur a spot* tool in the capture detail covers anything the detector missed. Switch in Trainer → Settings.
+- 𝕏 **Official X account** (optional): captures with a location are sent, faces blurred, to a small reviewed queue; the account owner approves each post before it goes live. See `../x-poster`.
 - 💾 **Local-first**: photos and captures live in IndexedDB on the device. JSON export/import for backups. Installable PWA that works offline after the first load (map tiles need a connection).
 
 ## Design
@@ -63,6 +65,12 @@ Example rules for a public playground database (add the index so the world map c
 
 Captures without a location are never published. Deleting a published capture also removes it from the database.
 
+## Official X account
+
+Off by default. Turn it on in **Trainer → Official X account** and point it at a deployed copy of [`../x-poster`](../x-poster/README.md), or set `X_POSTER_URL` in `index.html` so every phone uses the same service. With *Send every capture* on, each capture with a location is sent right after the catch; otherwise there is a *Post to X* button on the result screen and in the capture detail.
+
+What leaves the phone: the face-blurred photo, coordinates rounded to 4 decimals, city, species, rarity, size, freshness, time and the trainer name. The service rounds the coordinates further, refuses anything that was not face-checked, and posts nothing until the account owner approves it on the review page. Posting always re-runs the face check if it has not happened yet, so an unchecked photo is never sent.
+
 ## The movement
 
 The app is the engine of something bigger: channels, shows, sponsors, books, merch and a privately funded cleaning service for the cities. The plan is in [BUSINESS_PLAN.md](BUSINESS_PLAN.md).
@@ -72,7 +80,7 @@ The app is the engine of something bigger: channels, shows, sponsors, books, mer
 | File | Purpose |
 |---|---|
 | `index.html` | the whole app (markup, styles, translations, city table and script) |
-| `sw.js` | service worker: offline app shell; Leaflet (from unpkg) and the QR library (from cdnjs) are cached after the first load |
+| `sw.js` | service worker: offline app shell; Leaflet (from unpkg), the QR library (from cdnjs) and the face detector (jsdelivr + its model) are cached after the first load |
 | `manifest.webmanifest`, `icon*.png`, `icon.svg`, `apple-touch-icon.png` | PWA install metadata and icons |
 
 ## Game data

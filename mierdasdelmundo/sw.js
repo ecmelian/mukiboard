@@ -1,5 +1,5 @@
 /* mierdasdelmundo service worker: offline app shell + cached libraries. Map tiles and cloud sync stay network-only. */
-const CACHE = 'mierdasdelmundo-v2';
+const CACHE = 'mierdasdelmundo-v3';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png',
   './assets/mascot.png', './assets/bag.png', './assets/cam.png', './assets/map.png', './assets/book.png', './assets/av/0.png', './assets/av/1.png', './assets/av/2.png', './assets/av/3.png', './assets/av/4.png', './assets/av/5.png', './assets/av/6.png', './assets/av/7.png', './assets/av/8.png', './assets/badge/first.png', './assets/badge/ten.png', './assets/badge/fifty.png', './assets/badge/hundred.png', './assets/badge/night.png', './assets/badge/dawn.png', './assets/badge/streak3.png', './assets/badge/streak7.png', './assets/badge/shiny.png', './assets/badge/legend.png', './assets/badge/explorer.png', './assets/badge/globe.png', './assets/badge/collector.png', './assets/badge/bigone.png', './assets/badge/archaeo.png', './assets/badge/cities3.png', './assets/badge/cities10.png', './assets/badge/master.png'];
 
@@ -28,13 +28,13 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Leaflet (unpkg) and the QR library (cdnjs): cache first, so they work offline after the first load.
-  if (/(^|\.)(unpkg\.com|cdnjs\.cloudflare\.com)$/.test(url.hostname)) {
+  // Leaflet (unpkg), the QR library (cdnjs) and the face detector (jsdelivr + its model on googleapis): cache first, so they work offline after the first load.
+  if (/(^|\.)(unpkg\.com|cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net|storage\.googleapis\.com)$/.test(url.hostname)) {
     e.respondWith(
       caches.match(req).then(m => m || fetch(req).then(res => {
         if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); }
         return res;
-      }))
+      }).catch(() => new Response('', { status: 504, statusText: 'offline' })))
     );
   }
   // Everything else (OSM tiles, Firebase): default network behaviour.
