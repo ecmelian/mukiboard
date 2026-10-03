@@ -9,6 +9,10 @@ on:
         description: 'Optional JSON object {assetName: imageUrl}; defaults to mierdasdelmundo/tools/renders/urls.json'
         required: false
         default: ''
+  push:
+    paths:
+      - '.github/workflows/fetch-assets.yml'
+      - 'mierdasdelmundo/tools/renders/urls.json'
 
 permissions:
   contents: write
