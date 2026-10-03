@@ -6,7 +6,7 @@ Draft 0.1 · October 2026 · written for the founder, to be turned into a sponso
 
 ## 1. The idea in one breath
 
-mierdasdelmundo turns the shit on the sidewalks of big cities into a game (the app), the game into content (the channels), the content into money (sponsors, members, books, merch) and the money into clean streets (the cleaning fund). Every line feeds the next one. The app is the engine: every capture is a photo, a time, a place and a species that can be ranked, published, printed, sponsored and cleaned.
+mierdasdelmundo turns the shit on the sidewalks of big cities into records on a shared map (the app), the records into content (the channels), the content into money (sponsors, members, books, merch) and the money into clean streets (the cleaning fund). Every line feeds the next one. The app is the engine: every record is a photo, a time, a place and a kind that can be ranked, published, printed, sponsored and cleaned.
 
 - **Mission:** make cities take shit seriously.
 - **Vision:** the biggest open map of street shit in the world, and the crews that clean it.
@@ -23,14 +23,14 @@ mierdasdelmundo turns the shit on the sidewalks of big cities into a game (the a
 
 ## 3. The engine: the app and its data
 
-What exists today: a phone-only web app, no store needed, in six languages, aware of 190 big cities. You photograph the remains of shitty behavior, the app recognizes what it is (dog poop, a car where it shouldn't be, a lock where it shouldn't be, a cone holding public parking, dumped trash), catch a species (64 across the five kinds, five rarities, shinies), earn XP and badges, and the capture goes on a map with its time and place. Optional world sync shares sightings, a world map, a leaderboard and a city ranking.
+What exists today: a phone-only web app, no store needed, in six languages, aware of 190 big cities. You photograph the remains of shitty behavior, the app recognizes what it is (dog poop, a car where it shouldn't be, a lock where it shouldn't be, a cone holding public parking, dumped trash), blurs any faces on the phone, and the record goes on the shared map with its time and place, for everyone, with no name attached. Anyone standing on the spot can confirm it's gone; ten confirmations mark it cleared.
 
-What every capture produces: a photo, a timestamp, a location (rounded to about 11 m when shared), a city, a species and rarity, a trainer. In aggregate: hotspots, time-of-day patterns, a city ranking, streaks.
+What every capture produces: a photo, a timestamp, a location (rounded to about 11 m when shared), a city, a kind, an anonymous phone id, and later its confirmations. In aggregate: hotspots, time-of-day patterns, how long each shit stays, which cities clean up.
 
 Next in the app, in this order:
 
 1. Faces blurred on the phone before a photo is saved, plus a manual blur tool, plus automatic posting of captures to the official X account through a small reviewed queue.
-2. A consent and licensing screen so captures can be used in videos, books and posts, with credit to the trainer.
+2. A consent and licensing screen so captures can be used in videos, books and posts, with credit to the person who recorded it, if they want it.
 3. "Adopt this shit" from the capture detail (see 4.4).
 4. Monthly city challenges and seasonal leaderboards.
 5. A "Shitty Index" per city, updated weekly from the data.
@@ -52,7 +52,7 @@ Channels: YouTube (long episodes and Shorts), Instagram (Reels and carousels of 
 | Shitty Behavior | Comportamientos de mierda | Street crews film shitty behavior (not picking up, dumping, littering, spitting), faces always blurred | Weekly | "X gives a shit" sponsorship |
 | Cleanup Day | Día de limpieza | A crew cleans a hotspot, before and after, and who paid for it | Per cleanup | The cleanup's sponsor |
 
-Formats that travel across all channels: the capture of the day, the species dex (one card per species), city rankings, "guess the city from the shit", before/after cleanups.
+Formats that travel across all channels: the capture of the day, the five kinds of shit (one card per kind), city rankings, "guess the city from the shit", before/after cleanups.
 
 ### 4.2 "X gives a shit": the sponsorship format
 
@@ -77,15 +77,15 @@ A brand sponsors an episode, a series, a cleanup or a whole city.
 
 ### 4.5 Books and print
 
-- **Mierdas del mundo, Vol. 1:** a coffee table book of the best shits. The best photos, the rarest species, the shittiest cities, the data, the science and the people who clean. Annual. Hardcover, square, around 200 pages. Print-on-demand first so there is no stock, offset once a volume sells.
+- **Mierdas del mundo, Vol. 1:** a coffee table book of the best shits. The best photos, the worst offenders, the shittiest cities, the data, the science and the people who clean. Annual. Hardcover, square, around 200 pages. Print-on-demand first so there is no stock, offset once a volume sells.
 - **City editions:** Mierdas de Madrid, Mierdas de Barcelona, Mierdas de Ciudad de México.
-- **Also:** a calendar (twelve shits), postcards, posters of the species dex.
+- **Also:** a calendar (twelve shits), postcards, posters of the five kinds.
 - **Needs:** licensing from contributors (the consent screen in the app), a curator, a designer. Contributors get credit and a discount.
 
 ### 4.6 Merch
 
-- **Stickers of the movement:** packs with the 3D poop, the species, the badges and the "Give a shit" line.
-- **Badges:** enamel pins of the 18 app badges. You can only buy the pin of a badge you have unlocked; the app shows a code for it.
+- **Stickers of the movement:** packs with the 3D poop, the five kinds and the "Give a shit" line.
+- **Pins:** enamel pins of the five kinds and of the "It's gone" broom, for the people who clean up.
 - **Bags and dispensers:** branded poop-bag dispensers that clip to a leash.
 - **Apparel:** T-shirts and caps, black and white with green only where it matters. Print-on-demand.
 - A fixed share of every merch sale goes to the cleaning fund and the share is printed on the product.
@@ -118,12 +118,12 @@ A brand sponsors an episode, a series, a cleanup or a whole city.
 ## 7. More ideas (what else)
 
 - **Golden Poop Awards / Premios Mierda de Oro:** the shittiest city, the cleanest city, the best capture of the year. One press event a year. Rankings get coverage.
-- **City challenges:** "Clean Barcelona in March" with a brand prize and a special badge.
+- **City challenges:** "Clean Barcelona in March" with a brand prize and a pin.
 - **The Shitty Index:** one number per city, updated weekly, that the press can quote.
 - **Newsletter, "La mierda del día":** the best capture, one data point, one video. Daily or weekly.
 - **Podcast:** scientists, cleaners, vets, city officials, the people who pick up after everyone.
 - **School kit** for Where Your Shit Goes: biology and civics in one box.
-- **Trainers of the month:** local ambassadors per city, a pin, merch, a shout-out.
+- **Recorders of the month:** local ambassadors per city, a pin, merch, a shout-out.
 - **Corporate cleanup days:** team building that ends with a before/after video.
 - **The heroes:** collaborations with municipal cleaning services and cleaners' unions. They are the stars of Cleanup Day.
 - **Washable chalk stencils** to flag a hotspot ("mierdasdelmundo" and an arrow). No stickers on public property.
@@ -166,7 +166,7 @@ Monetization thresholds to plan around: YouTube's partner program requires 1,000
 
 ## 11. Numbers to watch
 
-Captures per month, active trainers, cities with more than 100 captures, views per show, members, euros into the fund, shits removed, sponsors signed, books sold.
+Records per month, active phones, cities with more than 100 captures, views per show, members, euros into the fund, shits removed, sponsors signed, books sold.
 
 ## 12. This month
 

@@ -1,7 +1,7 @@
 {
   "name": "mierdasdelmundo",
   "short_name": "mierdasdelmundo",
-  "description": "Capture, timestamp and map the shit of the world's big cities: dog poop, cars, locks, cones and trash where they shouldn't be.",
+  "description": "Record the shit of the world's big cities, put it on the map and see if somebody does something about it.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

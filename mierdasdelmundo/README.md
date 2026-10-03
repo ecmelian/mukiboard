@@ -1,33 +1,23 @@
 # 💩 mierdasdelmundo
 
-*Gotta scoop 'em all.* A phone-only, Pokémon-GO-style web app for capturing, timestamping and mapping the shit of the world's big cities: dog poop, cars where they shouldn't be, locks where they shouldn't be, cones holding public parking and dumped trash. The remains of shitty behavior, in any language.
+A phone-only web app that does one thing: you **record a shitty thing** on the street, it goes **on the map for everyone**, and you get to **see if somebody does something about it**.
 
-Spot some shit → tap the shutter → the app works out what it is (💩 🚗 🔒 🚧 🗑️) → tag its size and freshness → flick the poop bag at it. If it doesn't break free, it's yours: timestamped, geotagged, assigned to its big city, identified as one of 64 species across 5 kinds and 5 rarities, and added to your **Mierdex** and to the map.
+Dog poop, cars where they shouldn't be, locks where they shouldn't be, cones holding public parking, dumped trash. The remains of shitty behavior, in any language.
 
-## Features
+## How it works
 
-- 🏷️ **Five kinds of shit.** Dog poop (32 species), cars where they shouldn't be (Sidewalk Hog, Double Parker, Disabled Spot Thief…), locks where they shouldn't be (Orphan Lock, Love Lock, Bench Hostage…), cones and other things holding public parking (The Reserver, Chair Claim, DIY Bollard…) and dumped trash (Bagged and Abandoned, Mattress Monday, Scooter in the River…), 8 species each. The kind is recognized on the phone from the photo (MediaPipe image classifier, EfficientNet-Lite0, downloaded once and cached; its ImageNet labels are mapped to cars, locks, things holding a parking spot and trash, anything else is poop), filters the Mierdex, shows on the map pins and the share cards, and has its own badges (Jack of All Shit for one of each, and 10-of-a-kind badges).
-- 🎬 **Intro.** On a white screen the name appears and the poop forms, then the poop flies to the top corner and only the icon stays: after the intro the name is never shown again, the camera and the map carry just the poop. Tap to skip.
-- 🗺️ **Street view of the shit.** The map opens at street level around you with everyone's sightings on it (world sync is on by default; switch it off in Trainer → World sync), each with its photo, the kind, where it is and when it was there. Nothing else is on the map: no buttons, no counters, just the pins (yours and everyone's) and your position, and it re-centers on you every time you open it.
-- 🧹 **Cleared, but you have to go there.** Every sighting's popup has an "It's gone" button that only works on the spot: a fresh fix within 60 m, accuracy better than 150 m. After 10 people confirm, the sighting shows as cleared on the map and in the capture detail. One confirmation per trainer, counted for the Clean Sweep badge.
+One toggle at the bottom of every screen: **you** on the left, the **camera** in the middle, the **map** on the right. The camera can also be swiped: left for the map, right for you.
+
+- 📸 **Camera.** Only a shutter. Tap it and the phone saves the photo, works out what kind of shit it is (an on-device image classifier; anything it cannot name is poop), blurs any faces (also on the device, nothing is uploaded for the check), takes the time and the GPS position, and posts the record to the shared map. A card shows the photo, the kind, where, when, and whether it is on the map. No GPS fix yet? The card offers *Set the spot* on the map.
+- 🗺️ **Map.** Nothing on it but the shits: your pins, everyone else's pins, and your position, at street level around you. Tap a pin for its photo, the kind, where it is and when it was there, and the **"It's gone"** button. That button only works on the spot: a fresh fix within 60 m, accuracy better than 150 m. After 10 people confirm, the pin shows as cleared.
+- 👤 **You.** Your records, newest first, each with its fate: *On the map*, *n/10 say it's gone*, *Cleared*, *No location*. Tap one for the details, to set its spot or to delete it. Below: posting on/off, language, install, delete everything.
+- 🎬 **Intro.** The name appears and the poop forms, then the poop flies into the corner and only the icon stays. Tap to skip.
 - 📱 **Phones only.** On a desktop browser the app shows a QR code to open it on a phone instead (append `?dev=1` to the URL to bypass the gate while developing).
-- 🌍 **Any language.** The interface, the 64 species with their entries, the 24 badges and the dates follow the phone's language: English, Spanish, Portuguese, French, German and Italian are built in, anything else falls back to English, and the language can be switched in Trainer → Settings. Adding a language is one dictionary in `index.html`.
-- 🏙️ **Built for big cities.** A built-in table of about 190 big cities assigns every capture within 60 km to its city. Captures show their city, the trainer profile counts cities and names a home city, two badges reward capturing in 3 and 10 cities, city-dwelling species (Metro Mouth, Tourist Trap, Bus Stop Bomber, Crosswalk Crumb…) are more common inside a city, and the world sync ranks cities by number of poops.
-- 🔀 **No menu bar.** One toggle at the bottom of every screen: left is you (trainer profile, Mierdex, badges, world sync, settings), the camera is in the middle, right is the map. The camera can also be swiped: left for the map, right for your profile.
-- 📸 **Live camera viewfinder** (the back camera, no selfie mode, no uploads) with just the shutter. Falls back to the phone's camera app when the live camera isn't available.
-- 🕒 **Timestamp + 📍 GPS** on every capture (local time with UTC offset, coordinates with accuracy). Photos from the camera-app fallback get their date and location from EXIF when present.
-- 🎯 **Encounter mechanic**: size (S/M/L/XL) and freshness (fresh/dry/fossil) tags influence what you find; flick the bag (or tap *Throw*); rarer poops break free more often.
-- 📖 **Mierdex**: 32 species in 5 rarities with dex entries, shiny variants (1 in 50), CP, XP, 50 levels, 18 badges and day streaks.
-- 🗺️ **Map** of your captures (Leaflet + OpenStreetMap). Set or fix a capture's location by tapping the map; edit its time; add notes.
-- 🌐 **World sync** (optional): publish captures to a shared Firebase Realtime Database to see everyone's sightings on the map, a trainer leaderboard and the city ranking.
-- 🖼️ **Share cards**: the photo stamped with species, rarity, CP, city, time and coordinates, sent through the system share sheet.
-- 🙈 **Faces blurred on the phone.** Before a photo is saved, faces are found on the device (MediaPipe, downloaded once and cached; nothing is uploaded for the check) and replaced by a coarse mosaic. A *Blur a spot* tool in the capture detail covers anything the detector missed, license plates included. Switch in Trainer → Settings.
-- 𝕏 **Official X account** (optional): captures with a location are sent, faces blurred, to a small reviewed queue; the account owner approves each post before it goes live. See `../x-poster`.
-- 💾 **Local-first**: photos and captures live in IndexedDB on the device. JSON export/import for backups. Installable PWA that works offline after the first load (map tiles need a connection).
+- 🌍 **Six languages**, following the phone: English, Spanish, Portuguese, French, German, Italian. Anything else falls back to English. Adding a language is one dictionary in `index.html`.
+- 🏙️ **Big cities.** A built-in table of about 190 big cities assigns every record within 60 km to its city.
+- 💾 **Local-first.** Photos and records live in IndexedDB on the phone. Installable PWA that works offline after the first load (the map tiles and the shared map need a connection). Records made offline are posted when the connection is back.
 
-## Design
-
-Helvetica only. Black and white, with green reserved for the key things: the shutter, the poop bag, the primary buttons, the lit side of the toggle, the GPS fix, XP and level-ups, new catches and badges. Rarity is a gray ramp from light (common) to black (legendary). Characters, badges and the toggle's map icon are 3D renders in `assets/` with emoji fallbacks until the renders are in place.
+No accounts, no names, no points, no levels, no badges. A record carries only this phone's random id, so that each person counts once when confirming a shit is gone.
 
 ## Run it
 
@@ -40,22 +30,23 @@ python3 -m http.server 8080
 # or http://<your-lan-ip>:8080/mierdasdelmundo/ on a phone (camera app fallback only, no HTTPS)
 ```
 
-For the real thing serve it over HTTPS, for example GitHub Pages: `https://<user>.github.io/mukiboard/mierdasdelmundo/`. Open it on the phone and add it to the home screen (browser menu or the *Install* button in Trainer → Settings).
+For the real thing serve it over HTTPS, for example GitHub Pages: `https://<user>.github.io/mukiboard/mierdasdelmundo/`. Open it on the phone and add it to the home screen (browser menu, or the *Install* button under *You → Settings* where the browser offers it).
 
-## World sync
+## The shared map
 
-On by default (switch it off in **Trainer → Poops of the world**); only rounded coordinates, a small thumbnail and game data leave the device, never full photos. Like MukiBoard, it talks to a Firebase Realtime Database over plain REST, so there is no SDK and no build step. Point it at any RTDB URL (the MukiBoard database is prefilled).
+Posting is on by default (switch it off under *You → Settings*). Like MukiBoard, the app talks to a Firebase Realtime Database over plain REST, so there is no SDK and no build step. The database URL is `settings.cloudUrl` in `index.html` (the MukiBoard database is prefilled).
+
+What leaves the phone for each record: the time, the coordinates rounded to 4 decimals (about 11 m), the city and country, the kind, this phone's id, and a small copy of the photo (320 px, faces blurred first; while the face check has not run yet only a 96 px copy goes up, replaced later).
 
 Data layout under `/mierdasdelmundo`:
 
 | Path | Content |
 |---|---|
-| `sightings/{captureId}` | time, coordinates rounded to 4 decimals (≈11 m), city and country, species, rarity, shiny, CP, size, freshness, trainer name and id |
-| `thumbs/{captureId}` | a 96 px JPEG thumbnail as a data URL (no full photos are ever uploaded) |
-| `trainers/{trainerId}` | name, avatar, XP, level, capture count, cities, home city for the leaderboard |
-| `clears/{captureId}/{trainerId}` | timestamp of an "it's gone" confirmation made on the spot; 10 of them mark the sighting as cleared |
+| `sightings/{recordId}` | time, rounded coordinates, city and country, kind, phone id, time of posting |
+| `thumbs/{recordId}` | the small copy of the photo as a JPEG data URL |
+| `clears/{recordId}/{phoneId}` | timestamp of an "it's gone" confirmation made on the spot; 10 of them mark the record as cleared |
 
-Example rules for a public playground database (add the index so the world map can request only the latest sightings):
+Example rules for a public playground database (add the index so the map can request only the latest records):
 
 ```json
 {
@@ -69,34 +60,18 @@ Example rules for a public playground database (add the index so the world map c
 }
 ```
 
-Captures without a location are never published. Deleting a published capture also removes it from the database.
-
-## Official X account
-
-Off by default. Turn it on in **Trainer → Official X account**. The app is pre-pointed at the deployed service (`X_POSTER_URL` in `index.html`, currently `https://mierdasdelmundo-x-poster.vercel.app`, a copy of [`../x-poster`](../x-poster/README.md)); a different URL can be typed in the settings on one phone. With *Send every capture* on, each capture with a location is sent right after the catch; otherwise there is a *Post to X* button on the result screen and in the capture detail.
-
-What leaves the phone: the face-blurred photo, coordinates rounded to 4 decimals, city, species, rarity, size, freshness, time and the trainer name. The service rounds the coordinates further, refuses anything that was not face-checked, and posts nothing until the account owner approves it on the review page. Posting always re-runs the face check if it has not happened yet, so an unchecked photo is never sent.
-
-## The movement
-
-The app is the engine of something bigger: channels, shows, sponsors, books, merch and a privately funded cleaning service for the cities. The plan is in [BUSINESS_PLAN.md](BUSINESS_PLAN.md).
+Records without a location are never posted. Deleting a posted record also removes it from the database.
 
 ## Files
 
-| File | Purpose |
+| File | What it is |
 |---|---|
-| `index.html` | the whole app (markup, styles, translations, city table and script) |
-| `sw.js` | service worker: offline app shell; Leaflet (from unpkg), the QR library (from cdnjs), the face detector and the kind classifier (jsdelivr + their models) are cached after the first load |
-| `manifest.webmanifest`, `icon*.png`, `apple-touch-icon.png` | PWA install metadata and icons: just the 3D poop (transparent for Android, on white where the OS needs an opaque icon) |
+| `index.html` | the whole app: markup, styles, six languages, logic |
+| `sw.js` | service worker: offline shell plus the cached map library and models |
+| `manifest.webmanifest`, `icon-*.png`, `apple-touch-icon.png` | installable app, poop icon |
+| `assets/` | 3D renders: the poop, the camera and map icons, the kind icons |
+| `tools/renders/` | how the renders are fetched, trimmed and turned into icons |
 
-## Game data
+Helvetica only. Black and white, with green reserved for the key things: the shutter, the lit side of the toggle, the GPS fix, a record that is on the map, a cleared one.
 
-| Rarity | Weight | XP | CP range | Catch rate per throw |
-|---|---|---|---|---|
-| Common | 50 | 25 | 10–100 | 100 % |
-| Uncommon | 28 | 50 | 80–250 | 90 % |
-| Rare | 14 | 100 | 200–500 | 75 % |
-| Epic | 6 | 200 | 450–900 | 60 % |
-| Legendary | 2 | 500 | 850–1500 | 50 % |
-
-Every failed throw adds 15 % to the catch rate. First capture of a species gives +50 XP, a shiny +100 XP. Level = ⌊√(XP / 100)⌋ + 1, capped at 50. XL and fossil tags tilt the odds toward big and ancient species, being inside a big city tilts them toward the urban species, and some species only show up at certain hours (the *Midnight Menace* never appears in daylight).
+The earlier Pokémon-GO-style game (species, rarity, XP, badges, the Mierdex) and the X posting service are in the git history, before the stripped-down version.
