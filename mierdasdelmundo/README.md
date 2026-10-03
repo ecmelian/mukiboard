@@ -86,7 +86,7 @@ The app is the engine of something bigger: channels, shows, sponsors, books, mer
 |---|---|
 | `index.html` | the whole app (markup, styles, translations, city table and script) |
 | `sw.js` | service worker: offline app shell; Leaflet (from unpkg), the QR library (from cdnjs), the face detector and the kind classifier (jsdelivr + their models) are cached after the first load |
-| `manifest.webmanifest`, `icon*.png`, `icon.svg`, `apple-touch-icon.png` | PWA install metadata and icons |
+| `manifest.webmanifest`, `icon*.png`, `apple-touch-icon.png` | PWA install metadata and icons: just the 3D poop (transparent for Android, on white where the OS needs an opaque icon) |
 
 ## Game data
 
