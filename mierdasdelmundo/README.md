@@ -15,6 +15,10 @@ Spot a poop → tap the shutter → tag its size and freshness → flick the poo
 - 🖼️ **Share cards**: the photo stamped with species, rarity, CP, time and coordinates, sent through the system share sheet (or downloaded).
 - 💾 **Local-first**: photos and captures live in IndexedDB on the device. JSON export/import for backups. Installable PWA that works offline after the first load (map tiles need a connection).
 
+## Design
+
+Helvetica only. Black and white, with green reserved for the key things: the shutter, the poop bag, the primary buttons, the active tab, the GPS fix, XP and level-ups, new catches and badges. Rarity is a gray ramp from light (common) to black (legendary).
+
 ## Run it
 
 The live camera and GPS need a secure context: **HTTPS or `localhost`**.
