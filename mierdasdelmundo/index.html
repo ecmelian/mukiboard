@@ -59,7 +59,7 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   .navtoggle button{width:68px;height:46px;border:none;border-radius:999px;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s;-webkit-tap-highlight-color:transparent}
   .navtoggle button .ico{font-size:26px;line-height:1;display:flex}
   .navtoggle button .ico img{width:30px;height:30px;object-fit:contain;display:block}
-  .navtoggle button .ico svg{width:26px;height:26px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .navtoggle button .ico img.tab-av{border-radius:50%;background:#fff;border:2px solid #fff;object-fit:cover;object-position:center top}
   .navtoggle button.on{background:var(--green)}
   .page-head{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;padding:calc(12px + var(--sat)) 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
   .page-head h1{font-size:24px}
@@ -171,7 +171,21 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   .leaflet-container{font-family:inherit}
   .leaflet-bottom{bottom:calc(var(--tab-h) + var(--sab) - 8px)}
 
-  /* ---------- you: your records and their fate ---------- */
+  /* ---------- you: your character, your records and their fate ---------- */
+  .me{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .me .av{width:64px;height:64px;border-radius:50%;background:var(--surface);border:3px solid var(--green);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:34px;line-height:1}
+  .me .av img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .me b{display:block;font-size:16px}
+  .me small{display:block;color:var(--ink-soft);font-size:12px;margin-top:2px}
+  .avgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+  .avgrid button{aspect-ratio:1;border-radius:50%;border:2px solid var(--line);background:var(--surface);padding:0;overflow:hidden;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
+  .avgrid button img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .avgrid button.on{border-color:var(--green);box-shadow:0 0 0 2px var(--green-soft)}
+  #setup .post-card{text-align:left}
+  #setup h2{font-size:24px;line-height:1.1}
+  #setup .avgrid{margin-top:12px}
+  #setup .input{margin-top:12px;font-size:16px;padding:12px;border-radius:12px}
+  .pop .pop-av{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:center top;background:#fff;border:1px solid var(--line);vertical-align:middle;margin-right:4px;display:inline-block}
   .you-sub{font-size:13px;color:var(--ink-soft);margin:2px 4px 12px;font-weight:600}
   .rec{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px;width:100%;text-align:left}
   .rec img.ph{width:72px;height:72px;border-radius:10px;object-fit:cover;background:#eee;flex-shrink:0}
@@ -248,6 +262,9 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
 <section id="view-you" class="view">
   <div class="page-head"><h1 data-i18n="you_title"></h1><span class="pill" id="youCount"></span></div>
   <div class="page-body">
+    <div class="card" style="margin-bottom:14px">
+      <div class="me"><div class="av" id="meAv"></div><div><b id="meName"></b><small data-i18n="me_locked"></small></div></div>
+    </div>
     <p class="you-sub" id="youSub"></p>
     <div id="recList"></div>
     <h3 class="sec" data-i18n="settings"></h3>
@@ -263,7 +280,7 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
 
 </main>
 <nav class="navtoggle" id="navToggle">
-  <button data-go="you" data-i18n-title="tab_you"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span></button>
+  <button data-go="you" data-i18n-title="tab_you"><span class="ico" id="tabAvatar">🧑</span></button>
   <button data-go="catch" data-i18n-title="tab_catch"><span class="ico"><img src="assets/cam.png" alt="" onerror="fb(this,'📷')"></span></button>
   <button data-go="map" data-i18n-title="tab_map"><span class="ico"><img src="assets/map.png" alt="" onerror="fb(this,'🗺️')"></span></button>
 </nav>
@@ -277,6 +294,19 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
     <div class="post-meta" id="postMeta"></div>
     <div class="post-status" id="postStatus"></div>
     <div class="row"><button class="btn" id="postLoc" hidden data-i18n="set_loc"></button><button class="btn primary" id="postDone" data-i18n="done"></button></div>
+  </div>
+</div>
+
+<!-- ================= WHO ARE YOU (once) ================= -->
+<div id="setup" class="overlay" hidden>
+  <div class="post-card">
+    <h2 data-i18n="setup_title"></h2>
+    <p class="post-meta" data-i18n="setup_sub"></p>
+    <div class="me" style="justify-content:center;margin:14px 0 0"><div class="av" id="setupAv"></div></div>
+    <div class="avgrid" id="setupGrid"></div>
+    <input class="input" id="setupName" data-i18n-ph="name_ph" maxlength="24" autocomplete="off" autocapitalize="words" spellcheck="false">
+    <div class="post-status" id="setupMsg" hidden></div>
+    <button class="btn primary" id="setupOk" data-i18n="setup_btn" style="width:100%;margin-top:12px" disabled></button>
   </div>
 </div>
 
@@ -312,7 +342,7 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
 /* ---------------- languages ---------------- */
 const LANGS={en:'English',es:'Español',pt:'Português',fr:'Français',de:'Deutsch',it:'Italiano'};
 const I18N={
-en:{tab_you:'You',tab_catch:'Camera',tab_map:'Map',
+en:{setup_title:'Who are you?',setup_sub:'Pick your face and your name. You can only do this once.',name_ph:'Your name',setup_btn:'That’s me',name_taken:'That name is taken. Pick another one.',me_locked:'Picked once, for good.',by:'by {name}',tab_you:'You',tab_catch:'Camera',tab_map:'Map',
  cam_https:'The live camera needs HTTPS. You can still take photos with your camera app.',cam_noapi:'This browser has no camera API.',cam_denied:'Camera permission denied. You can still take photos with your camera app.',cam_none:'No camera found. You can still take photos with your camera app.',
  take_photo:'Take a photo',cam_hint:'Spot some shit? Tap the shutter. It goes on the map for everyone.',cam_starting:'Camera is still starting…',
  gps_acc:'GPS ±{n} m',gps_finding:'Finding GPS…',gps_denied:'GPS denied',gps_none:'No GPS fix',gps_off:'GPS off',gps_retry:'tap to retry',gps_allow:'Location is blocked for this site. Allow it in your browser settings, then tap again.',
@@ -324,13 +354,13 @@ en:{tab_you:'You',tab_catch:'Camera',tab_map:'Map',
  st_on_map:'On the map',st_not_posted:'Not posted',st_no_loc:'No location',st_cleared:'Cleared',
  gone_q:'Still there?',gone_btn:'It’s gone',gone_n:'{n}/10 say it’s gone',gone_far:'Go there to confirm · {d} m away',gone_nofix:'Waiting for your location…',gone_acc:'Location not precise enough (±{n} m)',gone_already:'You confirmed it’s gone',t_gone_ok:'Thanks! {n}/10 say it’s gone',t_gone_err:'Could not send: {e}',cleared_on:'Cleared {date} · 10 people confirmed',k_cleared:'Cleared',
  k_when:'When',k_where:'Where',k_map:'On the map',posted_ago:'Posted {ago}',not_posted:'Not posted',not_set:'Not set',outside:'Outside the big cities',
- settings:'Settings',language:'Language',sync:'Post on the shared map',sync_sub:'Your records go on the map for everyone. No name, only this phone’s id.',install:'Install app',install_sub:'Add mierdasdelmundo to your home screen',install_btn:'Install',reset:'Delete everything',reset_sub:'Removes all records and photos from this phone',delete_all:'Delete all',
- footer:'Phone id {id} · mierdasdelmundo · Posts carry no name.',
+ settings:'Settings',language:'Language',sync:'Post on the shared map',sync_sub:'Your records go on the map for everyone, with your face and your name.',install:'Install app',install_sub:'Add mierdasdelmundo to your home screen',install_btn:'Install',reset:'Delete everything',reset_sub:'Removes all records and photos from this phone',delete_all:'Delete all',
+ footer:'Phone id {id} · mierdasdelmundo',
  confirm_delete:'Delete this record? This cannot be undone.',confirm_reset:'Delete all {n} records from this phone? This cannot be undone.',
  t_deleted:'Deleted',t_loc_set:'Spot set 📍',t_published:'Posted to the map 🌍',t_world_err:'Map: {e}',t_world_on:'Posting on. Records with a location go on the map',t_map_offline:'The map is not available offline',t_pick_image:'Please pick an image',t_capture_fail:'Capture failed: {e}',t_photo_fail:'Could not read that photo: {e}',t_save_fail:'Could not save: {e}',t_delete_fail:'Delete failed: {e}',t_reset_fail:'Delete failed: {e}',t_reset_done:'Everything deleted',t_installed:'mierdasdelmundo installed 💩',t_storage:'Storage unavailable: {e}',
  e_sync_off:'posting is off',e_no_loc:'no location',e_bad_url:'invalid database URL',e_network:'network error',
  gate_title:'mierdasdelmundo is a phone app',gate_body:'Open this link on your phone, then add it to your home screen.',gate_scan:"Scan it with your phone's camera"},
-es:{tab_you:'Tú',tab_catch:'Cámara',tab_map:'Mapa',
+es:{setup_title:'¿Quién eres?',setup_sub:'Elige tu cara y tu nombre. Solo puedes hacerlo una vez.',name_ph:'Tu nombre',setup_btn:'Soy yo',name_taken:'Ese nombre ya está cogido. Elige otro.',me_locked:'Elegido una vez, para siempre.',by:'por {name}',tab_you:'Tú',tab_catch:'Cámara',tab_map:'Mapa',
  cam_https:'La cámara en vivo necesita HTTPS. Puedes seguir haciendo fotos con la app de cámara.',cam_noapi:'Este navegador no tiene acceso a la cámara.',cam_denied:'Permiso de cámara denegado. Puedes seguir haciendo fotos con la app de cámara.',cam_none:'No se encontró ninguna cámara. Puedes seguir haciendo fotos con la app de cámara.',
  take_photo:'Hacer una foto',cam_hint:'¿Ves una mierda? Pulsa el disparador. Va al mapa para todo el mundo.',cam_starting:'La cámara aún se está iniciando…',
  gps_acc:'GPS ±{n} m',gps_finding:'Buscando GPS…',gps_denied:'GPS denegado',gps_none:'Sin señal GPS',gps_off:'GPS apagado',gps_retry:'toca para reintentar',gps_allow:'La ubicación está bloqueada para este sitio. Permítela en los ajustes del navegador y vuelve a tocar.',
@@ -342,13 +372,13 @@ es:{tab_you:'Tú',tab_catch:'Cámara',tab_map:'Mapa',
  st_on_map:'En el mapa',st_not_posted:'Sin publicar',st_no_loc:'Sin ubicación',st_cleared:'Limpiada',
  gone_q:'¿Sigue ahí?',gone_btn:'Ya no está',gone_n:'{n}/10 dicen que ya no está',gone_far:'Ve allí para confirmar · a {d} m',gone_nofix:'Esperando tu ubicación…',gone_acc:'Ubicación poco precisa (±{n} m)',gone_already:'Confirmaste que ya no está',t_gone_ok:'¡Gracias! {n}/10 dicen que ya no está',t_gone_err:'No se pudo enviar: {e}',cleared_on:'Limpiada el {date} · 10 personas lo confirmaron',k_cleared:'Limpiada',
  k_when:'Cuándo',k_where:'Dónde',k_map:'En el mapa',posted_ago:'Publicada {ago}',not_posted:'Sin publicar',not_set:'Sin fijar',outside:'Fuera de las grandes ciudades',
- settings:'Ajustes',language:'Idioma',sync:'Publicar en el mapa compartido',sync_sub:'Tus registros van al mapa para todo el mundo. Sin nombre, solo el id de este móvil.',install:'Instalar la app',install_sub:'Añade mierdasdelmundo a tu pantalla de inicio',install_btn:'Instalar',reset:'Borrar todo',reset_sub:'Elimina todos los registros y fotos de este móvil',delete_all:'Borrar todo',
- footer:'Id del móvil {id} · mierdasdelmundo · Las publicaciones no llevan nombre.',
+ settings:'Ajustes',language:'Idioma',sync:'Publicar en el mapa compartido',sync_sub:'Tus registros van al mapa para todo el mundo, con tu cara y tu nombre.',install:'Instalar la app',install_sub:'Añade mierdasdelmundo a tu pantalla de inicio',install_btn:'Instalar',reset:'Borrar todo',reset_sub:'Elimina todos los registros y fotos de este móvil',delete_all:'Borrar todo',
+ footer:'Id del móvil {id} · mierdasdelmundo',
  confirm_delete:'¿Borrar este registro? No se puede deshacer.',confirm_reset:'¿Borrar los {n} registros de este móvil? No se puede deshacer.',
  t_deleted:'Borrada',t_loc_set:'Sitio fijado 📍',t_published:'Publicada en el mapa 🌍',t_world_err:'Mapa: {e}',t_world_on:'Publicación activada. Los registros con ubicación van al mapa',t_map_offline:'El mapa no está disponible sin conexión',t_pick_image:'Elige una imagen',t_capture_fail:'Error al capturar: {e}',t_photo_fail:'No se pudo leer la foto: {e}',t_save_fail:'No se pudo guardar: {e}',t_delete_fail:'Error al borrar: {e}',t_reset_fail:'Error al borrar: {e}',t_reset_done:'Todo borrado',t_installed:'mierdasdelmundo instalada 💩',t_storage:'Almacenamiento no disponible: {e}',
  e_sync_off:'la publicación está desactivada',e_no_loc:'sin ubicación',e_bad_url:'URL de base de datos no válida',e_network:'error de red',
  gate_title:'mierdasdelmundo es una app para el móvil',gate_body:'Abre este enlace en tu móvil y añádelo a la pantalla de inicio.',gate_scan:'Escanéalo con la cámara del móvil'},
-pt:{tab_you:'Tu',tab_catch:'Câmara',tab_map:'Mapa',
+pt:{setup_title:'Quem és?',setup_sub:'Escolhe a tua cara e o teu nome. Só podes fazê-lo uma vez.',name_ph:'O teu nome',setup_btn:'Sou eu',name_taken:'Esse nome já está ocupado. Escolhe outro.',me_locked:'Escolhido uma vez, para sempre.',by:'por {name}',tab_you:'Tu',tab_catch:'Câmara',tab_map:'Mapa',
  cam_https:'A câmara em direto precisa de HTTPS. Podes continuar a tirar fotos com a app da câmara.',cam_noapi:'Este navegador não tem acesso à câmara.',cam_denied:'Permissão de câmara negada. Podes continuar a tirar fotos com a app da câmara.',cam_none:'Nenhuma câmara encontrada. Podes continuar a tirar fotos com a app da câmara.',
  take_photo:'Tirar uma foto',cam_hint:'Vês uma merda? Toca no botão. Vai para o mapa, para toda a gente.',cam_starting:'A câmara ainda está a iniciar…',
  gps_acc:'GPS ±{n} m',gps_finding:'A procurar GPS…',gps_denied:'GPS negado',gps_none:'Sem sinal GPS',gps_off:'GPS desligado',gps_retry:'toca para tentar de novo',gps_allow:'A localização está bloqueada para este site. Permite-a nas definições do navegador e toca outra vez.',
@@ -360,13 +390,13 @@ pt:{tab_you:'Tu',tab_catch:'Câmara',tab_map:'Mapa',
  st_on_map:'No mapa',st_not_posted:'Não publicada',st_no_loc:'Sem localização',st_cleared:'Limpa',
  gone_q:'Ainda está lá?',gone_btn:'Já não está',gone_n:'{n}/10 dizem que já não está',gone_far:'Vai lá para confirmar · a {d} m',gone_nofix:'À espera da tua localização…',gone_acc:'Localização pouco precisa (±{n} m)',gone_already:'Confirmaste que já não está',t_gone_ok:'Obrigado! {n}/10 dizem que já não está',t_gone_err:'Não foi possível enviar: {e}',cleared_on:'Limpa a {date} · 10 pessoas confirmaram',k_cleared:'Limpa',
  k_when:'Quando',k_where:'Onde',k_map:'No mapa',posted_ago:'Publicada {ago}',not_posted:'Não publicada',not_set:'Por definir',outside:'Fora das grandes cidades',
- settings:'Ajustes',language:'Idioma',sync:'Publicar no mapa partilhado',sync_sub:'Os teus registos vão para o mapa, para toda a gente. Sem nome, só o id deste telemóvel.',install:'Instalar a app',install_sub:'Adiciona mierdasdelmundo ao ecrã inicial',install_btn:'Instalar',reset:'Apagar tudo',reset_sub:'Remove todos os registos e fotos deste telemóvel',delete_all:'Apagar tudo',
- footer:'Id do telemóvel {id} · mierdasdelmundo · As publicações não levam nome.',
+ settings:'Ajustes',language:'Idioma',sync:'Publicar no mapa partilhado',sync_sub:'Os teus registos vão para o mapa, para toda a gente, com a tua cara e o teu nome.',install:'Instalar a app',install_sub:'Adiciona mierdasdelmundo ao ecrã inicial',install_btn:'Instalar',reset:'Apagar tudo',reset_sub:'Remove todos os registos e fotos deste telemóvel',delete_all:'Apagar tudo',
+ footer:'Id do telemóvel {id} · mierdasdelmundo',
  confirm_delete:'Apagar este registo? Não é possível desfazer.',confirm_reset:'Apagar os {n} registos deste telemóvel? Não é possível desfazer.',
  t_deleted:'Apagada',t_loc_set:'Local definido 📍',t_published:'Publicada no mapa 🌍',t_world_err:'Mapa: {e}',t_world_on:'Publicação ligada. Os registos com localização vão para o mapa',t_map_offline:'O mapa não está disponível offline',t_pick_image:'Escolhe uma imagem',t_capture_fail:'Erro ao capturar: {e}',t_photo_fail:'Não foi possível ler a foto: {e}',t_save_fail:'Não foi possível guardar: {e}',t_delete_fail:'Erro ao apagar: {e}',t_reset_fail:'Erro ao apagar: {e}',t_reset_done:'Tudo apagado',t_installed:'mierdasdelmundo instalada 💩',t_storage:'Armazenamento indisponível: {e}',
  e_sync_off:'a publicação está desligada',e_no_loc:'sem localização',e_bad_url:'URL de base de dados inválido',e_network:'erro de rede',
  gate_title:'mierdasdelmundo é uma app para o telemóvel',gate_body:'Abre esta ligação no telemóvel e adiciona-a ao ecrã inicial.',gate_scan:'Lê o código com a câmara do telemóvel'},
-fr:{tab_you:'Toi',tab_catch:'Caméra',tab_map:'Carte',
+fr:{setup_title:'Qui es-tu ?',setup_sub:'Choisis ton visage et ton nom. Tu ne peux le faire qu’une seule fois.',name_ph:'Ton nom',setup_btn:'C’est moi',name_taken:'Ce nom est déjà pris. Choisis-en un autre.',me_locked:'Choisi une fois, pour toujours.',by:'par {name}',tab_you:'Toi',tab_catch:'Caméra',tab_map:'Carte',
  cam_https:"La caméra en direct nécessite HTTPS. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_noapi:"Ce navigateur n'a pas accès à la caméra.",cam_denied:"Accès à la caméra refusé. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_none:"Aucune caméra trouvée. Tu peux quand même prendre des photos avec l'appli appareil photo.",
  take_photo:'Prendre une photo',cam_hint:'Une merde en vue ? Appuie sur le déclencheur. Elle va sur la carte, pour tout le monde.',cam_starting:'La caméra démarre encore…',
  gps_acc:'GPS ±{n} m',gps_finding:'Recherche GPS…',gps_denied:'GPS refusé',gps_none:'Pas de signal GPS',gps_off:'GPS désactivé',gps_retry:'touche pour réessayer',gps_allow:'La localisation est bloquée pour ce site. Autorise-la dans les réglages du navigateur, puis touche à nouveau.',
@@ -378,13 +408,13 @@ fr:{tab_you:'Toi',tab_catch:'Caméra',tab_map:'Carte',
  st_on_map:'Sur la carte',st_not_posted:'Non publiée',st_no_loc:'Pas de position',st_cleared:'Nettoyée',
  gone_q:'Toujours là ?',gone_btn:'Ce n’est plus là',gone_n:'{n}/10 disent que ce n’est plus là',gone_far:'Va sur place pour confirmer · à {d} m',gone_nofix:'En attente de ta position…',gone_acc:'Position pas assez précise (±{n} m)',gone_already:'Tu as confirmé que ce n’est plus là',t_gone_ok:'Merci ! {n}/10 disent que ce n’est plus là',t_gone_err:'Envoi impossible : {e}',cleared_on:'Nettoyée le {date} · 10 personnes ont confirmé',k_cleared:'Nettoyée',
  k_when:'Quand',k_where:'Où',k_map:'Sur la carte',posted_ago:'Publiée {ago}',not_posted:'Non publiée',not_set:'Non défini',outside:'Hors des grandes villes',
- settings:'Réglages',language:'Langue',sync:'Publier sur la carte partagée',sync_sub:'Tes enregistrements vont sur la carte, pour tout le monde. Sans nom, seulement l’id de ce téléphone.',install:"Installer l'appli",install_sub:"Ajoute mierdasdelmundo à ton écran d'accueil",install_btn:'Installer',reset:'Tout supprimer',reset_sub:'Supprime tous les enregistrements et photos de ce téléphone',delete_all:'Tout supprimer',
- footer:'Id du téléphone {id} · mierdasdelmundo · Les publications ne portent aucun nom.',
+ settings:'Réglages',language:'Langue',sync:'Publier sur la carte partagée',sync_sub:'Tes enregistrements vont sur la carte, pour tout le monde, avec ton visage et ton nom.',install:"Installer l'appli",install_sub:"Ajoute mierdasdelmundo à ton écran d'accueil",install_btn:'Installer',reset:'Tout supprimer',reset_sub:'Supprime tous les enregistrements et photos de ce téléphone',delete_all:'Tout supprimer',
+ footer:'Id du téléphone {id} · mierdasdelmundo',
  confirm_delete:'Supprimer cet enregistrement ? C’est irréversible.',confirm_reset:'Supprimer les {n} enregistrements de ce téléphone ? C’est irréversible.',
  t_deleted:'Supprimée',t_loc_set:'Endroit placé 📍',t_published:'Publiée sur la carte 🌍',t_world_err:'Carte : {e}',t_world_on:'Publication activée. Les enregistrements avec position vont sur la carte',t_map_offline:"La carte n'est pas disponible hors ligne",t_pick_image:'Choisis une image',t_capture_fail:'Échec de la capture : {e}',t_photo_fail:'Impossible de lire cette photo : {e}',t_save_fail:"Impossible d'enregistrer : {e}",t_delete_fail:'Échec de la suppression : {e}',t_reset_fail:'Suppression impossible : {e}',t_reset_done:'Tout est supprimé',t_installed:'mierdasdelmundo installée 💩',t_storage:'Stockage indisponible : {e}',
  e_sync_off:'la publication est désactivée',e_no_loc:'pas de position',e_bad_url:'URL de base de données invalide',e_network:'erreur réseau',
  gate_title:'mierdasdelmundo est une appli pour téléphone',gate_body:"Ouvre ce lien sur ton téléphone, puis ajoute-le à l'écran d'accueil.",gate_scan:"Scanne-le avec l'appareil photo du téléphone"},
-de:{tab_you:'Du',tab_catch:'Kamera',tab_map:'Karte',
+de:{setup_title:'Wer bist du?',setup_sub:'Wähle dein Gesicht und deinen Namen. Das geht nur ein einziges Mal.',name_ph:'Dein Name',setup_btn:'Das bin ich',name_taken:'Der Name ist schon vergeben. Wähle einen anderen.',me_locked:'Einmal gewählt, für immer.',by:'von {name}',tab_you:'Du',tab_catch:'Kamera',tab_map:'Karte',
  cam_https:'Die Live-Kamera braucht HTTPS. Fotos gehen trotzdem über die Kamera-App.',cam_noapi:'Dieser Browser hat keinen Kamerazugriff.',cam_denied:'Kamerazugriff verweigert. Fotos gehen trotzdem über die Kamera-App.',cam_none:'Keine Kamera gefunden. Fotos gehen trotzdem über die Kamera-App.',
  take_photo:'Foto aufnehmen',cam_hint:'Scheiße entdeckt? Tipp auf den Auslöser. Sie landet auf der Karte, für alle.',cam_starting:'Die Kamera startet noch…',
  gps_acc:'GPS ±{n} m',gps_finding:'GPS wird gesucht…',gps_denied:'GPS verweigert',gps_none:'Kein GPS-Signal',gps_off:'GPS aus',gps_retry:'tippen zum Wiederholen',gps_allow:'Der Standort ist für diese Seite blockiert. Erlaube ihn in den Browser-Einstellungen und tippe erneut.',
@@ -396,13 +426,13 @@ de:{tab_you:'Du',tab_catch:'Kamera',tab_map:'Karte',
  st_on_map:'Auf der Karte',st_not_posted:'Nicht gepostet',st_no_loc:'Kein Standort',st_cleared:'Weggemacht',
  gone_q:'Noch da?',gone_btn:'Ist weg',gone_n:'{n}/10 sagen, es ist weg',gone_far:'Geh hin, um es zu bestätigen · {d} m entfernt',gone_nofix:'Warte auf deinen Standort…',gone_acc:'Standort nicht genau genug (±{n} m)',gone_already:'Du hast bestätigt, dass es weg ist',t_gone_ok:'Danke! {n}/10 sagen, es ist weg',t_gone_err:'Senden fehlgeschlagen: {e}',cleared_on:'Weggemacht am {date} · 10 Personen haben es bestätigt',k_cleared:'Weggemacht',
  k_when:'Wann',k_where:'Wo',k_map:'Auf der Karte',posted_ago:'Gepostet {ago}',not_posted:'Nicht gepostet',not_set:'Nicht gesetzt',outside:'Außerhalb der Großstädte',
- settings:'Einstellungen',language:'Sprache',sync:'Auf die gemeinsame Karte posten',sync_sub:'Deine Einträge landen auf der Karte, für alle. Ohne Namen, nur mit der ID dieses Handys.',install:'App installieren',install_sub:'Füge mierdasdelmundo deinem Startbildschirm hinzu',install_btn:'Installieren',reset:'Alles löschen',reset_sub:'Entfernt alle Einträge und Fotos von diesem Handy',delete_all:'Alles löschen',
- footer:'Handy-ID {id} · mierdasdelmundo · Posts tragen keinen Namen.',
+ settings:'Einstellungen',language:'Sprache',sync:'Auf die gemeinsame Karte posten',sync_sub:'Deine Einträge landen auf der Karte, für alle, mit deinem Gesicht und deinem Namen.',install:'App installieren',install_sub:'Füge mierdasdelmundo deinem Startbildschirm hinzu',install_btn:'Installieren',reset:'Alles löschen',reset_sub:'Entfernt alle Einträge und Fotos von diesem Handy',delete_all:'Alles löschen',
+ footer:'Handy-ID {id} · mierdasdelmundo',
  confirm_delete:'Diesen Eintrag löschen? Das lässt sich nicht rückgängig machen.',confirm_reset:'Alle {n} Einträge von diesem Handy löschen? Das lässt sich nicht rückgängig machen.',
  t_deleted:'Gelöscht',t_loc_set:'Ort gesetzt 📍',t_published:'Auf die Karte gepostet 🌍',t_world_err:'Karte: {e}',t_world_on:'Posten an. Einträge mit Standort landen auf der Karte',t_map_offline:'Die Karte ist offline nicht verfügbar',t_pick_image:'Bitte ein Bild auswählen',t_capture_fail:'Aufnahme fehlgeschlagen: {e}',t_photo_fail:'Foto konnte nicht gelesen werden: {e}',t_save_fail:'Speichern fehlgeschlagen: {e}',t_delete_fail:'Löschen fehlgeschlagen: {e}',t_reset_fail:'Löschen fehlgeschlagen: {e}',t_reset_done:'Alles gelöscht',t_installed:'mierdasdelmundo installiert 💩',t_storage:'Speicher nicht verfügbar: {e}',
  e_sync_off:'das Posten ist aus',e_no_loc:'kein Standort',e_bad_url:'ungültige Datenbank-URL',e_network:'Netzwerkfehler',
  gate_title:'mierdasdelmundo ist eine App fürs Handy',gate_body:'Öffne diesen Link auf deinem Handy und füge ihn dem Startbildschirm hinzu.',gate_scan:'Mit der Handykamera scannen'},
-it:{tab_you:'Tu',tab_catch:'Fotocamera',tab_map:'Mappa',
+it:{setup_title:'Chi sei?',setup_sub:'Scegli la tua faccia e il tuo nome. Puoi farlo una sola volta.',name_ph:'Il tuo nome',setup_btn:'Sono io',name_taken:'Quel nome è già preso. Scegline un altro.',me_locked:'Scelto una volta, per sempre.',by:'di {name}',tab_you:'Tu',tab_catch:'Fotocamera',tab_map:'Mappa',
  cam_https:"La fotocamera dal vivo richiede HTTPS. Puoi comunque scattare foto con l'app fotocamera.",cam_noapi:'Questo browser non ha accesso alla fotocamera.',cam_denied:"Permesso fotocamera negato. Puoi comunque scattare foto con l'app fotocamera.",cam_none:"Nessuna fotocamera trovata. Puoi comunque scattare foto con l'app fotocamera.",
  take_photo:'Scatta una foto',cam_hint:'Vedi una merda? Tocca il pulsante di scatto. Va sulla mappa, per tutti.',cam_starting:'La fotocamera si sta ancora avviando…',
  gps_acc:'GPS ±{n} m',gps_finding:'Ricerca GPS…',gps_denied:'GPS negato',gps_none:'Nessun segnale GPS',gps_off:'GPS spento',gps_retry:'tocca per riprovare',gps_allow:'La posizione è bloccata per questo sito. Consentila nelle impostazioni del browser, poi tocca di nuovo.',
@@ -414,8 +444,8 @@ it:{tab_you:'Tu',tab_catch:'Fotocamera',tab_map:'Mappa',
  st_on_map:'Sulla mappa',st_not_posted:'Non pubblicata',st_no_loc:'Nessuna posizione',st_cleared:'Ripulita',
  gone_q:'È ancora lì?',gone_btn:'Non c’è più',gone_n:'{n}/10 dicono che non c’è più',gone_far:'Vai sul posto per confermare · a {d} m',gone_nofix:'In attesa della tua posizione…',gone_acc:'Posizione poco precisa (±{n} m)',gone_already:'Hai confermato che non c’è più',t_gone_ok:'Grazie! {n}/10 dicono che non c’è più',t_gone_err:'Invio non riuscito: {e}',cleared_on:'Ripulita il {date} · 10 persone hanno confermato',k_cleared:'Ripulita',
  k_when:'Quando',k_where:'Dove',k_map:'Sulla mappa',posted_ago:'Pubblicata {ago}',not_posted:'Non pubblicata',not_set:'Non impostata',outside:'Fuori dalle grandi città',
- settings:'Impostazioni',language:'Lingua',sync:'Pubblica sulla mappa condivisa',sync_sub:'Le tue registrazioni vanno sulla mappa, per tutti. Senza nome, solo l’id di questo telefono.',install:"Installa l'app",install_sub:'Aggiungi mierdasdelmundo alla schermata Home',install_btn:'Installa',reset:'Elimina tutto',reset_sub:'Rimuove tutte le registrazioni e le foto da questo telefono',delete_all:'Elimina tutto',
- footer:'Id del telefono {id} · mierdasdelmundo · I post non portano nomi.',
+ settings:'Impostazioni',language:'Lingua',sync:'Pubblica sulla mappa condivisa',sync_sub:'Le tue registrazioni vanno sulla mappa, per tutti, con la tua faccia e il tuo nome.',install:"Installa l'app",install_sub:'Aggiungi mierdasdelmundo alla schermata Home',install_btn:'Installa',reset:'Elimina tutto',reset_sub:'Rimuove tutte le registrazioni e le foto da questo telefono',delete_all:'Elimina tutto',
+ footer:'Id del telefono {id} · mierdasdelmundo',
  confirm_delete:'Eliminare questa registrazione? Non si può annullare.',confirm_reset:'Eliminare tutte le {n} registrazioni da questo telefono? Non si può annullare.',
  t_deleted:'Eliminata',t_loc_set:'Punto impostato 📍',t_published:'Pubblicata sulla mappa 🌍',t_world_err:'Mappa: {e}',t_world_on:'Pubblicazione attiva. Le registrazioni con posizione vanno sulla mappa',t_map_offline:'La mappa non è disponibile offline',t_pick_image:"Scegli un'immagine",t_capture_fail:'Cattura fallita: {e}',t_photo_fail:'Impossibile leggere la foto: {e}',t_save_fail:'Impossibile salvare: {e}',t_delete_fail:'Eliminazione fallita: {e}',t_reset_fail:'Eliminazione fallita: {e}',t_reset_done:'Tutto eliminato',t_installed:'mierdasdelmundo installata 💩',t_storage:'Archiviazione non disponibile: {e}',
  e_sync_off:'la pubblicazione è disattivata',e_no_loc:'nessuna posizione',e_bad_url:'URL del database non valido',e_network:'errore di rete',
@@ -447,6 +477,10 @@ let toastT; function toast(msg,ms=2400){ const el=$('#toast'); el.textContent=ms
 const KINDS={poop:{icon:'💩'},car:{icon:'🚗'},lock:{icon:'🔒'},cone:{icon:'🚧'},trash:{icon:'🗑️'}}; const KIND_ORDER=Object.keys(KINDS);
 const kindOf=c=>KINDS[c.kind]?c.kind:'poop';
 const kindName=k=>t('kind_'+(KINDS[k]?k:'poop'));
+// The characters: no name, just a face to pick. Each has an emoji stand-in until its 3D render is in place.
+const AVATARS=['av0','av1','av2','av3','av4','av5','av6','av7','av8','av9','av10','av11','av12','av13','av14','av15'];
+const AV_FB={av0:'👩‍🦰',av1:'🧔🏿',av2:'🧑‍🦰',av3:'👩🏿',av4:'👴',av5:'👩‍🎤',av6:'🧕',av7:'👨‍💼',av8:'🧑‍🎤',av9:'👱‍♀️',av10:'👦',av11:'🤓',av12:'👧',av13:'👨🏽',av14:'👩🏽',av15:'👵🏽'};
+const avatarHtml=(id,cls='')=>{ const a=AVATARS.includes(id)?id:'av0'; return `<img class="${cls}" src="assets/av/${a.slice(2)}.png" alt="" onerror="fb(this,'${AV_FB[a]}')">`; };
 const MASCOT='assets/mascot.png';
 const mascotHtml=(cls='')=>`<img class="${cls}" src="${MASCOT}" alt="" onerror="fb(this,'💩')">`;
 const kindHtml=(k,cls='')=>k==='poop'||!KINDS[k]?mascotHtml(cls):`<img class="${cls}" src="assets/kind/${k}.png" alt="" onerror="fb(this,'${KINDS[k].icon}')">`;
@@ -498,7 +532,9 @@ let records=[];             // newest first
 const LS_PROFILE='mdm-profile', LS_SETTINGS='mdm-settings';
 const loadJSON=(k,d)=>{ try{ return Object.assign({},d,JSON.parse(localStorage.getItem(k)||'null')||{}); }catch(e){ return {...d}; } };
 // No account, no name: only an id for this phone, so the "it's gone" confirmations count one per person.
-let profile=loadJSON(LS_PROFILE,{tid:uid('t'),gone:[],created:Date.now()});
+let profile=loadJSON(LS_PROFILE,{tid:uid('t'),avatar:AVATARS[Math.floor(Math.random()*AVATARS.length)],name:'',locked:false,gone:[],created:Date.now()});
+if(!AVATARS.includes(profile.avatar)) profile.avatar='av0';
+profile.name=String(profile.name||'').trim().slice(0,24); if(profile.name) profile.locked=true; // a name from before counts as chosen
 let settings=loadJSON(LS_SETTINGS,{cloudOn:true,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',lang:''});
 const saveProfile=()=>{ try{ localStorage.setItem(LS_PROFILE,JSON.stringify(profile)); }catch(e){} };
 const saveSettings=()=>{ try{ localStorage.setItem(LS_SETTINGS,JSON.stringify(settings)); }catch(e){} };
@@ -747,9 +783,9 @@ function renderMarkers(){ if(!mapInited) return; myLayer.clearLayers();
   for(const c of records){ if(c.lat==null||c.lng==null) continue; L.marker([c.lat,c.lng],{icon:pinIcon(false,kindOf(c),!!c.published&&isCleared(c.id)),title:kindName(kindOf(c))}).bindPopup(()=>popupHtml(c)).addTo(myLayer); }
 }
 const whenHtml=ts=>`🕒 ${esc(timeAgo(ts))} · ${esc(fmtDT(ts))}`;
-function popupHtml(c){ return `<div class="pop"><img src="${c.thumb}" alt=""><b>${kindHtml(kindOf(c),'ic-img')} ${esc(kindName(kindOf(c)))}</b><br><small>🏙️ ${esc(cityLabel(c))}</small><br><small>${whenHtml(c.ts)}</small><button class="btn sm" onclick="openDetail('${c.id}')">${esc(t('view'))}</button>${c.published?goneHtml(c):''}</div>`; }
+function popupHtml(c){ return `<div class="pop"><img src="${c.thumb}" alt=""><b>${avatarHtml(profile.avatar,'pop-av')}${kindHtml(kindOf(c),'ic-img')} ${esc(kindName(kindOf(c)))}</b><br><small>${esc(t('by',{name:profile.name}))} · 🏙️ ${esc(cityLabel(c))}</small><br><small>${whenHtml(c.ts)}</small><button class="btn sm" onclick="openDetail('${c.id}')">${esc(t('view'))}</button>${c.published?goneHtml(c):''}</div>`; }
 function worldPopupHtml(s){ const city=s.city?`${esc(String(s.city))}${s.cc?', '+esc(String(s.cc)):''}`:esc(t('outside')); const k=KINDS[s.kind]?s.kind:'poop';
-  return `<div class="pop"><img data-thumb="${esc(s.id)}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><b>${kindHtml(k,'ic-img')} ${esc(kindName(k))}</b><br><small>🏙️ ${city}</small><br><small>${whenHtml(s.ts)}</small>${goneHtml(s)}</div>`; }
+  return `<div class="pop"><img data-thumb="${esc(s.id)}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><b>${AVATARS.includes(s.avatar)?avatarHtml(s.avatar,'pop-av'):''}${kindHtml(k,'ic-img')} ${esc(kindName(k))}</b><br><small>${typeof s.trainer==='string'&&s.trainer.trim()?esc(t('by',{name:s.trainer.trim().slice(0,24)}))+' · ':''}🏙️ ${city}</small><br><small>${whenHtml(s.ts)}</small>${goneHtml(s)}</div>`; }
 function fitToRecords(){ if(!mapInited) return; const pts=records.filter(c=>c.lat!=null&&c.lng!=null).map(c=>[c.lat,c.lng]);
   if(pts.length) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:16,animate:false}); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],15,{animate:false}); }
 function updateMeMarker(){ if(!mapInited||!geo.fix) return; const ll=[geo.fix.lat,geo.fix.lng]; if(!mapCentered){ mapCentered=true; map.setView(ll,17,{animate:false}); } if(!meMarker){ meMarker=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin me"></div>',iconSize:[18,18],iconAnchor:[9,9]}),interactive:false,zIndexOffset:500}).addTo(map); } else meMarker.setLatLng(ll); }
@@ -798,12 +834,24 @@ function statusOf(c){
   if(c.lat==null) return {cls:'',text:'📍 '+t('st_no_loc')};
   return {cls:'',text:t('st_not_posted')};
 }
+function renderAvatar(){ $('#meAv').innerHTML=avatarHtml(profile.avatar); $('#meName').textContent=profile.name; $('#tabAvatar').innerHTML=avatarHtml(profile.avatar,'tab-av'); }
+// Who are you: a face and a name, picked once. The name is claimed on the shared map so two friends cannot share it.
+let setupAv=null;
+function showSetup(){ setupAv=profile.avatar; $('#setupGrid').innerHTML=AVATARS.map(a=>`<button data-av="${a}" class="${a===setupAv?'on':''}" type="button" aria-label="${a}">${avatarHtml(a)}</button>`).join(''); $('#setupAv').innerHTML=avatarHtml(setupAv);
+  $('#setupName').value=''; $('#setupMsg').hidden=true; $('#setupOk').disabled=true; $('#setup').hidden=false; }
+const nameKey=n=>n.trim().toLowerCase().replace(/[.#$\[\]\/\s]+/g,'_').slice(0,32);
+async function finishSetup(){
+  const name=$('#setupName').value.trim().replace(/\s+/g,' ').slice(0,24); if(name.length<2) return; const btn=$('#setupOk'); btn.disabled=true; $('#setupMsg').hidden=true;
+  if(settings.cloudOn&&navigator.onLine!==false){ try{ const owner=await cloudReq('/names/'+encodeURIComponent(nameKey(name))); if(typeof owner==='string'&&owner!==profile.tid){ $('#setupMsg').textContent=t('name_taken'); $('#setupMsg').hidden=false; btn.disabled=false; return; }
+      await cloudReq('/names/'+encodeURIComponent(nameKey(name)),'PUT',profile.tid); }catch(e){} }
+  profile.name=name; profile.avatar=setupAv; profile.locked=true; saveProfile(); $('#setup').hidden=true; renderAvatar(); renderAll(); if(mapInited) renderMarkers();
+}
 function renderYou(){
   const n=records.length, p=records.filter(c=>c.published).length, cl=records.filter(c=>c.published&&isCleared(c.id)).length;
   $('#youCount').textContent=n; $('#youSub').textContent=t('you_sub',{n,p,c:cl});
   $('#recList').innerHTML=n?records.map(c=>{ const s=statusOf(c); return `<button class="rec" data-open="${c.id}"><img class="ph" src="${c.thumb}" alt="" loading="lazy"><div class="rec-body"><div class="nm">${kindHtml(kindOf(c))}<span>${esc(kindName(kindOf(c)))}</span></div><div class="tm">🏙️ ${esc(c.lat!=null?cityLabel(c):t('not_set'))} · 🕒 ${esc(timeAgo(c.ts))}</div><span class="st ${s.cls}">${s.text}</span></div></button>`; }).join('')
     :`<div class="empty"><div class="big">${mascotHtml()}</div>${t('you_empty')}</div>`;
-  $('#cloudOn').checked=settings.cloudOn; $('#langSel').value=lang; $('#footerTxt').textContent=t('footer',{id:profile.tid});
+  renderAvatar(); $('#cloudOn').checked=settings.cloudOn; $('#langSel').value=lang; $('#footerTxt').textContent=t('footer',{id:profile.tid});
   if(settings.cloudOn&&p&&(!clearsCache||Date.now()-clearsCache.t>60000)) fetchClears().then(()=>renderAll()).catch(()=>{});
 }
 async function openDetail(id){
@@ -843,10 +891,10 @@ async function cloudReq(path,method='GET',body){
   if(!r.ok){ let msg='HTTP '+r.status; try{ const j=await r.json(); if(j&&j.error) msg+=' · '+j.error; }catch(e){} throw new Error(msg); }
   return r.status===204?null:r.json();
 }
-// What leaves the phone: time, rounded coordinates, city, kind, this phone's id, and a small copy of the photo.
+// What leaves the phone: time, rounded coordinates, city, kind, this phone's id, your name and face, and a small copy of the photo.
 async function publishRecord(c){
   if(!settings.cloudOn) throw new Error(t('e_sync_off')); if(c.lat==null||c.lng==null) throw new Error(t('e_no_loc'));
-  const s={id:c.id,ts:c.ts,lat:+c.lat.toFixed(4),lng:+c.lng.toFixed(4),city:c.city||null,cc:c.cc||null,kind:kindOf(c),tid:profile.tid,pub:Date.now()};
+  const s={id:c.id,ts:c.ts,lat:+c.lat.toFixed(4),lng:+c.lng.toFixed(4),city:c.city||null,cc:c.cc||null,kind:kindOf(c),tid:profile.tid,avatar:profile.avatar,trainer:profile.name.slice(0,24),pub:Date.now()};
   await cloudReq('/sightings/'+encodeURIComponent(c.id),'PUT',s);
   await uploadThumb(c).catch(()=>{});
   c.published=Date.now(); await saveRecord(c); worldCache=null;
@@ -886,6 +934,7 @@ function showGate(){
 function applyI18n(){
   document.documentElement.lang=lang;
   $$('[data-i18n]').forEach(el=>{ el.innerHTML=t(el.dataset.i18n); });
+  $$('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh); });
   $$('[data-i18n-title]').forEach(el=>{ el.title=t(el.dataset.i18nTitle); el.setAttribute('aria-label',t(el.dataset.i18nTitle)); });
   $('#langSel').innerHTML=Object.entries(LANGS).map(([k,v])=>`<option value="${k}">${v}</option>`).join(''); $('#langSel').value=lang;
   if(cam.fallbackKey) $('#camOffMsg').textContent=t(cam.fallbackKey);
@@ -922,6 +971,11 @@ function bindEvents(){
   $('#dPublish').addEventListener('click',async()=>{ const c=curDetail(); if(!c) return; try{ $('#dPublish').disabled=true; await publishRecord(c); toast(t('t_published')); renderAll(); openDetail(c.id); }catch(e){ toast(t('t_world_err',{e:e.message})); } finally{ $('#dPublish').disabled=false; } });
   // you
   $('#recList').addEventListener('click',e=>{ const b=e.target.closest('[data-open]'); if(b) openDetail(b.dataset.open); });
+  // who are you, once
+  $('#setupGrid').addEventListener('click',e=>{ const b=e.target.closest('[data-av]'); if(!b) return; setupAv=b.dataset.av; $$('#setupGrid button').forEach(x=>x.classList.toggle('on',x===b)); $('#setupAv').innerHTML=avatarHtml(setupAv); });
+  $('#setupName').addEventListener('input',e=>{ $('#setupOk').disabled=e.target.value.trim().length<2; $('#setupMsg').hidden=true; });
+  $('#setupName').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!$('#setupOk').disabled) finishSetup(); });
+  $('#setupOk').addEventListener('click',finishSetup);
   $('#mapBannerCancel').addEventListener('click',pickEnd);
   $('#cloudOn').addEventListener('change',e=>{ settings.cloudOn=e.target.checked; saveSettings(); worldOn=settings.cloudOn; worldCache=null; if(settings.cloudOn){ toast(t('t_world_on')); publishPending(); } else if(worldLayer) worldLayer.clearLayers(); renderAll(); });
   $('#langSel').addEventListener('change',e=>setLang(e.target.value));
@@ -932,6 +986,7 @@ function bindEvents(){
   window.addEventListener('online',()=>publishPending());
   document.addEventListener('visibilitychange',()=>{ if(document.hidden) camStop(); else if(currentTab==='catch') camStart(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#post').hidden) closePost(); } });
+  $('#setup').addEventListener('touchstart',e=>e.stopPropagation(),{passive:true});
   const tick=()=>{ const d=new Date(); $('#clock').textContent=`${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`; }; tick(); setInterval(tick,1000);
 }
 window.openDetail=openDetail;
@@ -939,7 +994,7 @@ window.openDetail=openDetail;
   lang=detectLang(); applyI18n();
   if(!isPhone()&&!isDev){ showGate(); return; }
   try{ records=(await dbGetAll('captures')).sort((a,b)=>b.ts-a.ts); }catch(e){ records=[]; toast(t('t_storage',{e:e.message}),5000); }
-  bindEvents(); applyI18n(); renderAll(); showTab('catch'); playIntro();
+  bindEvents(); applyI18n(); renderAvatar(); renderAll(); showTab('catch'); playIntro().then(()=>{ if(!profile.locked) showSetup(); });
   publishPending();
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
