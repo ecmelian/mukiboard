@@ -7,8 +7,11 @@ Spot some shit → tap the shutter → the app works out what it is (💩 🚗 �
 ## Features
 
 - 🏷️ **Five kinds of shit.** Dog poop (32 species), cars where they shouldn't be (Sidewalk Hog, Double Parker, Disabled Spot Thief…), locks where they shouldn't be (Orphan Lock, Love Lock, Bench Hostage…), cones and other things holding public parking (The Reserver, Chair Claim, DIY Bollard…) and dumped trash (Bagged and Abandoned, Mattress Monday, Scooter in the River…), 8 species each. The kind is recognized on the phone from the photo (MediaPipe image classifier, EfficientNet-Lite0, downloaded once and cached; its ImageNet labels are mapped to cars, locks, things holding a parking spot and trash, anything else is poop), filters the Mierdex, shows on the map pins and the share cards, and has its own badges (Jack of All Shit for one of each, and 10-of-a-kind badges).
+- 🎬 **Intro.** On a white screen the name appears and the poop forms, then the poop flies into the top bar and only the icon stays. Tap to skip.
+- 🗺️ **Street view of the shit.** The map opens at street level around you with everyone's sightings on it (world sync is on by default; switch it off in Trainer → World sync), each with its photo, the kind, where it is and when it was there.
+- 🧹 **Cleared, but you have to go there.** Every sighting's popup has an "It's gone" button that only works on the spot: a fresh fix within 60 m, accuracy better than 150 m. After 10 people confirm, the sighting shows as cleared on the map and in the capture detail. One confirmation per trainer, counted for the Clean Sweep badge.
 - 📱 **Phones only.** On a desktop browser the app shows a QR code to open it on a phone instead (append `?dev=1` to the URL to bypass the gate while developing).
-- 🌍 **Any language.** The interface, the 64 species with their entries, the 23 badges and the dates follow the phone's language: English, Spanish, Portuguese, French, German and Italian are built in, anything else falls back to English, and the language can be switched in Trainer → Settings. Adding a language is one dictionary in `index.html`.
+- 🌍 **Any language.** The interface, the 64 species with their entries, the 24 badges and the dates follow the phone's language: English, Spanish, Portuguese, French, German and Italian are built in, anything else falls back to English, and the language can be switched in Trainer → Settings. Adding a language is one dictionary in `index.html`.
 - 🏙️ **Built for big cities.** A built-in table of about 190 big cities assigns every capture within 60 km to its city. Captures show their city, the trainer profile counts cities and names a home city, two badges reward capturing in 3 and 10 cities, city-dwelling species (Metro Mouth, Tourist Trap, Bus Stop Bomber, Crosswalk Crumb…) are more common inside a city, and the world sync ranks cities by number of poops.
 - 📸 **Live camera viewfinder** with shutter, camera flip and gallery import. Falls back to the phone's camera app when the live camera isn't available.
 - 🕒 **Timestamp + 📍 GPS** on every capture (local time with UTC offset, coordinates with accuracy). Imported photos get their real date and location from EXIF when present.
@@ -40,7 +43,7 @@ For the real thing serve it over HTTPS, for example GitHub Pages: `https://<user
 
 ## World sync
 
-Off by default; nothing leaves the device until you turn it on in **Trainer → Poops of the world**. Like MukiBoard, it talks to a Firebase Realtime Database over plain REST, so there is no SDK and no build step. Point it at any RTDB URL (the MukiBoard database is prefilled).
+On by default (switch it off in **Trainer → Poops of the world**); only rounded coordinates, a small thumbnail and game data leave the device, never full photos. Like MukiBoard, it talks to a Firebase Realtime Database over plain REST, so there is no SDK and no build step. Point it at any RTDB URL (the MukiBoard database is prefilled).
 
 Data layout under `/mierdasdelmundo`:
 
@@ -49,6 +52,7 @@ Data layout under `/mierdasdelmundo`:
 | `sightings/{captureId}` | time, coordinates rounded to 4 decimals (≈11 m), city and country, species, rarity, shiny, CP, size, freshness, trainer name and id |
 | `thumbs/{captureId}` | a 96 px JPEG thumbnail as a data URL (no full photos are ever uploaded) |
 | `trainers/{trainerId}` | name, avatar, XP, level, capture count, cities, home city for the leaderboard |
+| `clears/{captureId}/{trainerId}` | timestamp of an "it's gone" confirmation made on the spot; 10 of them mark the sighting as cleared |
 
 Example rules for a public playground database (add the index so the world map can request only the latest sightings):
 

@@ -59,6 +59,17 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
 
   /* ---------- shell ---------- */
   #app{max-width:560px;margin:0 auto;min-height:100vh;min-height:100dvh;position:relative;background:var(--bg)}
+  #intro{position:fixed;inset:0;z-index:600;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:background .5s}
+  #intro[hidden]{display:none}
+  .intro-name{font-weight:800;letter-spacing:-.03em;font-size:34px;color:#000;animation:introName .9s cubic-bezier(.2,.8,.2,1) both}
+  .intro-name span{color:var(--green)}
+  .intro-poop{width:min(50vw,220px);height:min(50vw,220px);object-fit:contain;transform-origin:50% 100%;animation:poopForm 1.3s cubic-bezier(.34,1.4,.4,1) .35s both}
+  @keyframes introName{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+  @keyframes poopForm{0%{opacity:0;transform:scaleY(.08) scaleX(.5) translateY(14px)}55%{opacity:1;transform:scaleY(1.12) scaleX(.94)}75%{transform:scaleY(.96) scaleX(1.04)}100%{opacity:1;transform:none}}
+  #intro.out{background:rgba(255,255,255,0)}
+  #intro.out .intro-name{opacity:0;transition:opacity .3s}
+  #intro.out .intro-poop{animation:none;transform-origin:0 0;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+  @media (prefers-reduced-motion:reduce){.intro-name,.intro-poop{animation:none}}
   .view{display:none;min-height:100vh;min-height:100dvh;padding-bottom:calc(var(--tab-h) + var(--sab))}
   .view.active{display:block}
   .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;height:calc(var(--tab-h) + var(--sab));padding-bottom:var(--sab);background:#fff;border-top:1px solid var(--ink);display:flex;z-index:40}
@@ -222,6 +233,12 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   .pop img{width:100%;border-radius:8px;display:block;margin-bottom:6px;aspect-ratio:4/3;object-fit:cover;background:#eee}
   .pop .rpill{font-size:10px;padding:2px 8px}
   .pop .btn{margin-top:6px;width:100%}
+  .pop .gone{margin-top:8px;border-top:1px solid var(--line);padding-top:6px}
+  .pop .gone small{display:block;color:var(--ink-soft);margin-bottom:2px}
+  .pop .gone.cleared{color:var(--green-dark);font-weight:700;font-size:13px}
+  .pop .btn[disabled]{opacity:.55;white-space:normal;font-size:12px}
+  .pin.cleared{opacity:.6;position:relative}
+  .pin.cleared::after{content:'✓';position:absolute;right:-5px;bottom:-5px;width:15px;height:15px;border-radius:50%;background:var(--green);color:#fff;font-size:10px;font-weight:700;line-height:15px;text-align:center}
   .leaflet-container{font-family:inherit}
 
   /* ---------- mierdex ---------- */
@@ -263,7 +280,7 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   .xptxt{font-size:11px;color:var(--ink-soft);margin-top:4px;font-weight:600}
   .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:14px}
   .stat{background:var(--surface);border-radius:12px;padding:10px 6px;text-align:center;grid-column:span 2;min-width:0}
-  .stat.kinds{grid-column:span 6}
+  .stat.kinds{grid-column:span 4}
   .stat.kinds b{font-size:15px;letter-spacing:.5px}
   .stat.half{grid-column:span 3}
   .stat b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -310,6 +327,7 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
     <small data-i18n="gate_scan"></small>
   </div>
 </div>
+<div id="intro" hidden><div class="intro-name">mierdas<span>del</span>mundo</div><img class="intro-poop" id="introPoop" src="assets/mascot.png" alt="" onerror="fb(this,'💩')"></div>
 <div id="app">
 <main>
 
@@ -529,6 +547,7 @@ en:{tagline:"gotta scoop 'em all",tab_catch:'Catch',tab_map:'Map',tab_trainer:'T
  unpub:'Unpublished captures',unpub_n:'{n} with a location, ready to publish',unpub_0:'Everything with a location is published',publish_all:'Publish all',
  lb_title:'Top trainers',lb_loading:'loading…',lb_empty:'No trainers yet. Publish a capture to appear here.',lb_err:"Couldn't load: {e}",cities_title:'Top cities',cities_empty:'No sightings yet.',
  settings:'Settings',sound:'Sound effects',language:'Language',install:'Install app',install_sub:'Add mierdasdelmundo to your home screen',install_btn:'Install',backup:'Backup',backup_sub:'Export everything (photos included) as JSON',export:'Export',import:'Import',reset:'Reset',reset_sub:'Delete all captures on this device',delete_all:'Delete all',
+ gone_q:'Still there?',gone_btn:'It’s gone',gone_n:'{n}/10 say it’s gone',gone_far:'Go there to confirm · {d} m away',gone_nofix:'Waiting for your location…',gone_acc:'Location not precise enough (±{n} m)',gone_already:'You confirmed it’s gone',t_gone_ok:'Thanks! {n}/10 say it’s gone',t_gone_err:'Could not send: {e}',cleared_on:'Cleared {date} · 10 people confirmed',k_cleared:'Cleared',st_cleans:'Confirmed gone',
  enc_title_any:'Shit in sight!',
  gps_retry:'tap to retry',gps_allow:'Location is blocked for this site. Allow it in your browser settings, then tap again.',
  kind:'What is it?',kind_poop:'Dog poop',kind_car:'Car where it shouldn’t be',kind_lock:'Lock where it shouldn’t be',kind_cone:'Cone holding public parking',kind_trash:'Dumped trash',ks_poop:'Poop',ks_car:'Car',ks_lock:'Lock',ks_cone:'Cone',ks_trash:'Trash',k_kind:'Kind',st_kinds:'By kind',enc_title_poop:'A wild poop appeared!',enc_title_car:'A wild car appeared where it shouldn’t!',enc_title_lock:'A wild lock appeared where it shouldn’t!',enc_title_cone:'A wild cone appeared, holding public parking!',enc_title_trash:'Wild trash appeared, dumped where it shouldn’t!',
@@ -560,6 +579,7 @@ es:{tagline:'hazte con todas',tab_catch:'Atrapar',tab_map:'Mapa',tab_trainer:'En
  unpub:'Capturas sin publicar',unpub_n:'{n} con ubicación, listas para publicar',unpub_0:'Todo lo que tiene ubicación está publicado',publish_all:'Publicar todo',
  lb_title:'Mejores entrenadores',lb_loading:'cargando…',lb_empty:'Aún no hay entrenadores. Publica una captura para aparecer aquí.',lb_err:'No se pudo cargar: {e}',cities_title:'Ciudades con más mierdas',cities_empty:'Todavía no hay avistamientos.',
  settings:'Ajustes',sound:'Efectos de sonido',language:'Idioma',install:'Instalar la app',install_sub:'Añade mierdasdelmundo a tu pantalla de inicio',install_btn:'Instalar',backup:'Copia de seguridad',backup_sub:'Exporta todo (fotos incluidas) en JSON',export:'Exportar',import:'Importar',reset:'Reiniciar',reset_sub:'Borra todas las capturas de este dispositivo',delete_all:'Borrar todo',
+ gone_q:'¿Sigue ahí?',gone_btn:'Ya no está',gone_n:'{n}/10 dicen que ya no está',gone_far:'Ve allí para confirmar · a {d} m',gone_nofix:'Esperando tu ubicación…',gone_acc:'Ubicación poco precisa (±{n} m)',gone_already:'Confirmaste que ya no está',t_gone_ok:'¡Gracias! {n}/10 dicen que ya no está',t_gone_err:'No se pudo enviar: {e}',cleared_on:'Limpiado el {date} · 10 personas lo confirmaron',k_cleared:'Limpiado',st_cleans:'Confirmadas limpias',
  enc_title_any:'¡Mierda a la vista!',
  gps_retry:'toca para reintentar',gps_allow:'La ubicación está bloqueada para este sitio. Permítela en los ajustes del navegador y vuelve a tocar.',
  kind:'¿Qué es?',kind_poop:'Mierda de perro',kind_car:'Coche donde no debe',kind_lock:'Candado donde no debe',kind_cone:'Cono que reserva aparcamiento público',kind_trash:'Basura tirada',ks_poop:'Mierda',ks_car:'Coche',ks_lock:'Candado',ks_cone:'Cono',ks_trash:'Basura',k_kind:'Tipo',st_kinds:'Por tipo',enc_title_poop:'¡Ha aparecido una mierda salvaje!',enc_title_car:'¡Ha aparecido un coche salvaje donde no debe!',enc_title_lock:'¡Ha aparecido un candado salvaje donde no debe!',enc_title_cone:'¡Ha aparecido un cono salvaje reservando aparcamiento!',enc_title_trash:'¡Ha aparecido basura salvaje tirada donde no debe!',
@@ -591,6 +611,7 @@ pt:{tagline:'apanha-as todas',tab_catch:'Apanhar',tab_map:'Mapa',tab_trainer:'Tr
  unpub:'Capturas por publicar',unpub_n:'{n} com localização, prontas a publicar',unpub_0:'Tudo o que tem localização está publicado',publish_all:'Publicar tudo',
  lb_title:'Melhores treinadores',lb_loading:'a carregar…',lb_empty:'Ainda não há treinadores. Publica uma captura para apareceres aqui.',lb_err:'Não foi possível carregar: {e}',cities_title:'Cidades com mais merdas',cities_empty:'Ainda não há avistamentos.',
  settings:'Ajustes',sound:'Efeitos sonoros',language:'Idioma',install:'Instalar a app',install_sub:'Adiciona mierdasdelmundo ao ecrã inicial',install_btn:'Instalar',backup:'Cópia de segurança',backup_sub:'Exporta tudo (fotos incluídas) em JSON',export:'Exportar',import:'Importar',reset:'Repor',reset_sub:'Apaga todas as capturas deste dispositivo',delete_all:'Apagar tudo',
+ gone_q:'Ainda está lá?',gone_btn:'Já não está',gone_n:'{n}/10 dizem que já não está',gone_far:'Vai lá para confirmar · a {d} m',gone_nofix:'À espera da tua localização…',gone_acc:'Localização pouco precisa (±{n} m)',gone_already:'Confirmaste que já não está',t_gone_ok:'Obrigado! {n}/10 dizem que já não está',t_gone_err:'Não foi possível enviar: {e}',cleared_on:'Limpo a {date} · 10 pessoas confirmaram',k_cleared:'Limpo',st_cleans:'Confirmadas limpas',
  enc_title_any:'Merda à vista!',
  gps_retry:'toca para tentar de novo',gps_allow:'A localização está bloqueada para este site. Permite-a nas definições do navegador e toca outra vez.',
  kind:'O que é?',kind_poop:'Merda de cão',kind_car:'Carro onde não deve',kind_lock:'Cadeado onde não deve',kind_cone:'Cone a reservar estacionamento público',kind_trash:'Lixo despejado',ks_poop:'Merda',ks_car:'Carro',ks_lock:'Cadeado',ks_cone:'Cone',ks_trash:'Lixo',k_kind:'Tipo',st_kinds:'Por tipo',enc_title_poop:'Apareceu uma merda selvagem!',enc_title_car:'Apareceu um carro selvagem onde não deve!',enc_title_lock:'Apareceu um cadeado selvagem onde não deve!',enc_title_cone:'Apareceu um cone selvagem a reservar estacionamento!',enc_title_trash:'Apareceu lixo selvagem despejado onde não deve!',
@@ -622,6 +643,7 @@ fr:{tagline:'attrape-les toutes',tab_catch:'Attraper',tab_map:'Carte',tab_traine
  unpub:'Captures non publiées',unpub_n:'{n} avec emplacement, prêtes à publier',unpub_0:'Tout ce qui a un emplacement est publié',publish_all:'Tout publier',
  lb_title:'Meilleurs dresseurs',lb_loading:'chargement…',lb_empty:'Pas encore de dresseurs. Publie une capture pour apparaître ici.',lb_err:'Chargement impossible : {e}',cities_title:'Villes les plus crottées',cities_empty:"Pas encore d'observations.",
  settings:'Réglages',sound:'Effets sonores',language:'Langue',install:"Installer l'appli",install_sub:"Ajoute mierdasdelmundo à ton écran d'accueil",install_btn:'Installer',backup:'Sauvegarde',backup_sub:'Exporte tout (photos comprises) en JSON',export:'Exporter',import:'Importer',reset:'Réinitialiser',reset_sub:'Supprime toutes les captures de cet appareil',delete_all:'Tout supprimer',
+ gone_q:'Toujours là ?',gone_btn:'Ce n’est plus là',gone_n:'{n}/10 disent que ce n’est plus là',gone_far:'Va sur place pour confirmer · à {d} m',gone_nofix:'En attente de ta position…',gone_acc:'Position pas assez précise (±{n} m)',gone_already:'Tu as confirmé que ce n’est plus là',t_gone_ok:'Merci ! {n}/10 disent que ce n’est plus là',t_gone_err:'Envoi impossible : {e}',cleared_on:'Nettoyé le {date} · 10 personnes ont confirmé',k_cleared:'Nettoyé',st_cleans:'Confirmées nettoyées',
  enc_title_any:'Merde en vue !',
  gps_retry:'touche pour réessayer',gps_allow:'La localisation est bloquée pour ce site. Autorise-la dans les réglages du navigateur, puis touche à nouveau.',
  kind:'Qu’est-ce que c’est ?',kind_poop:'Crotte de chien',kind_car:'Voiture là où il ne faut pas',kind_lock:'Cadenas là où il ne faut pas',kind_cone:'Cône qui réserve une place publique',kind_trash:'Déchets abandonnés',ks_poop:'Crotte',ks_car:'Voiture',ks_lock:'Cadenas',ks_cone:'Cône',ks_trash:'Déchets',k_kind:'Type',st_kinds:'Par type',enc_title_poop:'Une crotte sauvage apparaît !',enc_title_car:'Une voiture sauvage apparaît là où il ne faut pas !',enc_title_lock:'Un cadenas sauvage apparaît là où il ne faut pas !',enc_title_cone:'Un cône sauvage apparaît, il réserve une place !',enc_title_trash:'Des déchets sauvages apparaissent là où il ne faut pas !',
@@ -653,6 +675,7 @@ de:{tagline:'schnapp sie dir alle',tab_catch:'Fangen',tab_map:'Karte',tab_traine
  unpub:'Unveröffentlichte Fänge',unpub_n:'{n} mit Standort, bereit zur Veröffentlichung',unpub_0:'Alles mit Standort ist veröffentlicht',publish_all:'Alle veröffentlichen',
  lb_title:'Top-Trainer',lb_loading:'lädt…',lb_empty:'Noch keine Trainer. Veröffentliche einen Fang, um hier zu erscheinen.',lb_err:'Laden fehlgeschlagen: {e}',cities_title:'Städte mit den meisten Haufen',cities_empty:'Noch keine Sichtungen.',
  settings:'Einstellungen',sound:'Soundeffekte',language:'Sprache',install:'App installieren',install_sub:'Füge mierdasdelmundo deinem Startbildschirm hinzu',install_btn:'Installieren',backup:'Sicherung',backup_sub:'Alles (inklusive Fotos) als JSON exportieren',export:'Exportieren',import:'Importieren',reset:'Zurücksetzen',reset_sub:'Alle Fänge auf diesem Gerät löschen',delete_all:'Alles löschen',
+ gone_q:'Noch da?',gone_btn:'Ist weg',gone_n:'{n}/10 sagen, es ist weg',gone_far:'Geh hin, um es zu bestätigen · {d} m entfernt',gone_nofix:'Warte auf deinen Standort…',gone_acc:'Standort nicht genau genug (±{n} m)',gone_already:'Du hast bestätigt, dass es weg ist',t_gone_ok:'Danke! {n}/10 sagen, es ist weg',t_gone_err:'Senden fehlgeschlagen: {e}',cleared_on:'Gesäubert am {date} · 10 Personen haben es bestätigt',k_cleared:'Gesäubert',st_cleans:'Als weg bestätigt',
  enc_title_any:'Scheiße in Sicht!',
  gps_retry:'tippen zum Wiederholen',gps_allow:'Der Standort ist für diese Seite blockiert. Erlaube ihn in den Browser-Einstellungen und tippe erneut.',
  kind:'Was ist es?',kind_poop:'Hundehaufen',kind_car:'Auto, wo es nicht hingehört',kind_lock:'Schloss, wo es nicht hingehört',kind_cone:'Hütchen, das einen öffentlichen Parkplatz reserviert',kind_trash:'Abgeladener Müll',ks_poop:'Haufen',ks_car:'Auto',ks_lock:'Schloss',ks_cone:'Hütchen',ks_trash:'Müll',k_kind:'Art',st_kinds:'Nach Art',enc_title_poop:'Ein wilder Haufen erscheint!',enc_title_car:'Ein wildes Auto erscheint, wo es nicht hingehört!',enc_title_lock:'Ein wildes Schloss erscheint, wo es nicht hingehört!',enc_title_cone:'Ein wildes Hütchen erscheint und reserviert einen Parkplatz!',enc_title_trash:'Wilder Müll erscheint, abgeladen, wo er nicht hingehört!',
@@ -684,6 +707,7 @@ it:{tagline:'acchiappale tutte',tab_catch:'Cattura',tab_map:'Mappa',tab_trainer:
  unpub:'Catture non pubblicate',unpub_n:'{n} con posizione, pronte da pubblicare',unpub_0:'Tutto ciò che ha una posizione è pubblicato',publish_all:'Pubblica tutto',
  lb_title:'Migliori allenatori',lb_loading:'caricamento…',lb_empty:'Nessun allenatore ancora. Pubblica una cattura per apparire qui.',lb_err:'Impossibile caricare: {e}',cities_title:'Città con più cacche',cities_empty:'Nessun avvistamento ancora.',
  settings:'Impostazioni',sound:'Effetti sonori',language:'Lingua',install:"Installa l'app",install_sub:'Aggiungi mierdasdelmundo alla schermata Home',install_btn:'Installa',backup:'Backup',backup_sub:'Esporta tutto (foto incluse) in JSON',export:'Esporta',import:'Importa',reset:'Reimposta',reset_sub:'Elimina tutte le catture su questo dispositivo',delete_all:'Elimina tutto',
+ gone_q:'È ancora lì?',gone_btn:'Non c’è più',gone_n:'{n}/10 dicono che non c’è più',gone_far:'Vai sul posto per confermare · a {d} m',gone_nofix:'In attesa della tua posizione…',gone_acc:'Posizione poco precisa (±{n} m)',gone_already:'Hai confermato che non c’è più',t_gone_ok:'Grazie! {n}/10 dicono che non c’è più',t_gone_err:'Invio non riuscito: {e}',cleared_on:'Ripulito il {date} · 10 persone hanno confermato',k_cleared:'Ripulito',st_cleans:'Confermate ripulite',
  enc_title_any:'Merda in vista!',
  gps_retry:'tocca per riprovare',gps_allow:'La posizione è bloccata per questo sito. Consentila nelle impostazioni del browser, poi tocca di nuovo.',
  kind:'Che cos’è?',kind_poop:'Cacca di cane',kind_car:'Auto dove non dovrebbe',kind_lock:'Lucchetto dove non dovrebbe',kind_cone:'Cono che riserva un parcheggio pubblico',kind_trash:'Rifiuti abbandonati',ks_poop:'Cacca',ks_car:'Auto',ks_lock:'Lucchetto',ks_cone:'Cono',ks_trash:'Rifiuti',k_kind:'Tipo',st_kinds:'Per tipo',enc_title_poop:'È apparsa una cacca selvatica!',enc_title_car:'È apparsa un’auto selvatica dove non dovrebbe!',enc_title_lock:'È apparso un lucchetto selvatico dove non dovrebbe!',enc_title_cone:'È apparso un cono selvatico che riserva un parcheggio!',enc_title_trash:'Sono apparsi rifiuti selvatici dove non dovrebbero!',
@@ -881,14 +905,15 @@ const BADGES=[
   {id:'locks10',icon:'🔑',name:'Locksmith',desc:'Capture 10 locks where they shouldn\'t be',test:s=>(s.kinds.lock||0)>=10},
   {id:'cones10',icon:'🚧',name:'Cone Collector',desc:'Capture 10 cones holding public parking',test:s=>(s.kinds.cone||0)>=10},
   {id:'trash10',icon:'🦝',name:'Trash Panda',desc:'Capture 10 piles of dumped trash',test:s=>(s.kinds.trash||0)>=10},
+  {id:'cleaner10',icon:'🧹',name:'Clean Sweep',desc:'Confirm 10 spots as gone, on the spot',test:s=>s.cleans>=10},
   {id:'master',icon:'👑',name:'Poop Master',desc:'Complete the Mierdex',test:s=>s.speciesCount>=SPECIES.length},
 ];
 const BD_I18N={
-es:{kinds5:['Mierda Total','Atrapa todos los tipos de mierda'],cars10:['Guardia de Aparcamiento','Atrapa 10 coches donde no deben'],locks10:['Cerrajero','Atrapa 10 candados donde no deben'],cones10:['Coleccionista de Conos','Atrapa 10 conos que reservan aparcamiento'],trash10:['Mapache','Atrapa 10 montones de basura tirada'],first:['Primera Recogida','Atrapa tu primera mierda'],ten:['Dos Cifras','Atrapa 10 mierdas'],fifty:['Barrendera','Atrapa 50 mierdas'],hundred:['Centurión','Atrapa 100 mierdas'],night:['Búho Nocturno','Atrapa una entre medianoche y las 5'],dawn:['Madrugador','Atrapa una entre las 5 y las 8'],streak3:['En Racha','Racha de 3 días'],streak7:['Guerrero Semanal','Racha de 7 días'],shiny:['Cazabrillantes','Atrapa una mierda brillante'],legend:['Leyenda','Atrapa una mierda legendaria'],explorer:['Explorador','Capturas a más de 1 km de distancia'],globe:['Trotamundos','Capturas a más de 100 km de distancia'],collector:['Coleccionista','Atrapa 10 especies distintas'],bigone:['La Grande','Atrapa una mierda XL'],archaeo:['Arqueólogo','Atrapa una mierda fósil'],cities3:['Saltaciudades','Atrapa en 3 grandes ciudades'],cities10:['Metropolitano','Atrapa en 10 grandes ciudades'],master:['Maestro de la Mierda','Completa la Mierdex']},
-pt:{kinds5:['Merda Completa','Apanha todos os tipos de merda'],cars10:['Fiscal de Estacionamento','Apanha 10 carros onde não devem'],locks10:['Serralheiro','Apanha 10 cadeados onde não devem'],cones10:['Colecionador de Cones','Apanha 10 cones a reservar estacionamento'],trash10:['Guaxinim','Apanha 10 montes de lixo despejado'],first:['Primeira Apanha','Apanha a tua primeira merda'],ten:['Dois Dígitos','Apanha 10 merdas'],fifty:['Varredor de Rua','Apanha 50 merdas'],hundred:['Centurião','Apanha 100 merdas'],night:['Coruja Noturna','Apanha uma entre a meia-noite e as 5'],dawn:['Madrugador','Apanha uma entre as 5 e as 8'],streak3:['Em Maré','Sequência de 3 dias'],streak7:['Guerreiro Semanal','Sequência de 7 dias'],shiny:['Caçador de Brilhantes','Apanha uma merda brilhante'],legend:['Lenda','Apanha uma merda lendária'],explorer:['Explorador','Capturas a mais de 1 km de distância'],globe:['Globetrotter','Capturas a mais de 100 km de distância'],collector:['Colecionador','Apanha 10 espécies diferentes'],bigone:['A Grande','Apanha uma merda XL'],archaeo:['Arqueólogo','Apanha uma merda fóssil'],cities3:['Salta-Cidades','Apanha em 3 grandes cidades'],cities10:['Metropolitano','Apanha em 10 grandes cidades'],master:['Mestre da Merda','Completa a Mierdex']},
-fr:{kinds5:['Touche-à-tout de la Merde','Attrape chaque type de merde'],cars10:['Pervenche','Attrape 10 voitures là où il ne faut pas'],locks10:['Serrurier','Attrape 10 cadenas là où il ne faut pas'],cones10:['Collectionneur de Cônes','Attrape 10 cônes qui réservent une place'],trash10:['Raton Laveur','Attrape 10 tas de déchets abandonnés'],first:['Première Pelletée','Attrape ta première crotte'],ten:['Deux Chiffres','Attrape 10 crottes'],fifty:['Balayeur','Attrape 50 crottes'],hundred:['Centurion','Attrape 100 crottes'],night:['Oiseau de Nuit','Attrape une crotte entre minuit et 5 h'],dawn:['Lève-tôt','Attrape une crotte entre 5 h et 8 h'],streak3:['Sur une Lancée','Série de 3 jours'],streak7:['Guerrier de la Semaine','Série de 7 jours'],shiny:['Chasseur de Brillantes','Attrape une crotte brillante'],legend:['Légende','Attrape une crotte légendaire'],explorer:['Explorateur',"Des captures à plus de 1 km l'une de l'autre"],globe:['Globe-trotteur',"Des captures à plus de 100 km l'une de l'autre"],collector:['Collectionneur','Attrape 10 espèces différentes'],bigone:['La Grosse','Attrape une crotte XL'],archaeo:['Archéologue','Attrape une crotte fossile'],cities3:['Saute-Villes','Attrape dans 3 grandes villes'],cities10:['Métropolitain','Attrape dans 10 grandes villes'],master:['Maître des Crottes','Complète le Mierdex']},
-de:{kinds5:['Allround-Scheiße','Fang jede Art von Scheiße'],cars10:['Politesse','Fang 10 Autos, wo sie nicht hingehören'],locks10:['Schlosser','Fang 10 Schlösser, wo sie nicht hingehören'],cones10:['Hütchensammler','Fang 10 Hütchen, die Parkplätze reservieren'],trash10:['Waschbär','Fang 10 Haufen abgeladenen Müll'],first:['Erste Schaufel','Fang deinen ersten Haufen'],ten:['Zweistellig','Fang 10 Haufen'],fifty:['Straßenfeger','Fang 50 Haufen'],hundred:['Zenturio','Fang 100 Haufen'],night:['Nachteule','Fang einen zwischen Mitternacht und 5 Uhr'],dawn:['Frühaufsteher','Fang einen zwischen 5 und 8 Uhr'],streak3:['Auf Zack','3-Tage-Serie'],streak7:['Wochenkrieger','7-Tage-Serie'],shiny:['Glitzerjäger','Fang einen glänzenden Haufen'],legend:['Legende','Fang einen legendären Haufen'],explorer:['Entdecker','Fänge mehr als 1 km voneinander entfernt'],globe:['Weltenbummler','Fänge mehr als 100 km voneinander entfernt'],collector:['Sammler','Fang 10 verschiedene Arten'],bigone:['Der Große','Fang einen XL-Haufen'],archaeo:['Archäologe','Fang einen versteinerten Haufen'],cities3:['Städtehüpfer','Fänge in 3 Großstädten'],cities10:['Metropolit','Fänge in 10 Großstädten'],master:['Haufenmeister','Vervollständige den Mierdex']},
-it:{kinds5:['Merda a Tutto Tondo','Cattura ogni tipo di merda'],cars10:['Ausiliario del Traffico','Cattura 10 auto dove non dovrebbero'],locks10:['Fabbro','Cattura 10 lucchetti dove non dovrebbero'],cones10:['Collezionista di Coni','Cattura 10 coni che riservano parcheggi'],trash10:['Procione','Cattura 10 mucchi di rifiuti abbandonati'],first:['Prima Raccolta','Cattura la tua prima cacca'],ten:['Due Cifre','Cattura 10 cacche'],fifty:['Spazzino','Cattura 50 cacche'],hundred:['Centurione','Cattura 100 cacche'],night:['Nottambulo','Catturane una tra mezzanotte e le 5'],dawn:['Mattiniero','Catturane una tra le 5 e le 8'],streak3:['In Serie','Serie di 3 giorni'],streak7:['Guerriero Settimanale','Serie di 7 giorni'],shiny:['Cacciatore di Brillanti','Cattura una cacca brillante'],legend:['Leggenda','Cattura una cacca leggendaria'],explorer:['Esploratore','Catture a più di 1 km di distanza'],globe:['Giramondo','Catture a più di 100 km di distanza'],collector:['Collezionista','Cattura 10 specie diverse'],bigone:['La Grossa','Cattura una cacca XL'],archaeo:['Archeologo','Cattura una cacca fossile'],cities3:['Salta-Città','Cattura in 3 grandi città'],cities10:['Metropolitano','Cattura in 10 grandi città'],master:['Maestro della Cacca','Completa il Mierdex']},
+es:{cleaner10:['Limpieza Total','Confirma 10 sitios como limpios, estando allí'],kinds5:['Mierda Total','Atrapa todos los tipos de mierda'],cars10:['Guardia de Aparcamiento','Atrapa 10 coches donde no deben'],locks10:['Cerrajero','Atrapa 10 candados donde no deben'],cones10:['Coleccionista de Conos','Atrapa 10 conos que reservan aparcamiento'],trash10:['Mapache','Atrapa 10 montones de basura tirada'],first:['Primera Recogida','Atrapa tu primera mierda'],ten:['Dos Cifras','Atrapa 10 mierdas'],fifty:['Barrendera','Atrapa 50 mierdas'],hundred:['Centurión','Atrapa 100 mierdas'],night:['Búho Nocturno','Atrapa una entre medianoche y las 5'],dawn:['Madrugador','Atrapa una entre las 5 y las 8'],streak3:['En Racha','Racha de 3 días'],streak7:['Guerrero Semanal','Racha de 7 días'],shiny:['Cazabrillantes','Atrapa una mierda brillante'],legend:['Leyenda','Atrapa una mierda legendaria'],explorer:['Explorador','Capturas a más de 1 km de distancia'],globe:['Trotamundos','Capturas a más de 100 km de distancia'],collector:['Coleccionista','Atrapa 10 especies distintas'],bigone:['La Grande','Atrapa una mierda XL'],archaeo:['Arqueólogo','Atrapa una mierda fósil'],cities3:['Saltaciudades','Atrapa en 3 grandes ciudades'],cities10:['Metropolitano','Atrapa en 10 grandes ciudades'],master:['Maestro de la Mierda','Completa la Mierdex']},
+pt:{cleaner10:['Limpeza Total','Confirma 10 locais como limpos, estando lá'],kinds5:['Merda Completa','Apanha todos os tipos de merda'],cars10:['Fiscal de Estacionamento','Apanha 10 carros onde não devem'],locks10:['Serralheiro','Apanha 10 cadeados onde não devem'],cones10:['Colecionador de Cones','Apanha 10 cones a reservar estacionamento'],trash10:['Guaxinim','Apanha 10 montes de lixo despejado'],first:['Primeira Apanha','Apanha a tua primeira merda'],ten:['Dois Dígitos','Apanha 10 merdas'],fifty:['Varredor de Rua','Apanha 50 merdas'],hundred:['Centurião','Apanha 100 merdas'],night:['Coruja Noturna','Apanha uma entre a meia-noite e as 5'],dawn:['Madrugador','Apanha uma entre as 5 e as 8'],streak3:['Em Maré','Sequência de 3 dias'],streak7:['Guerreiro Semanal','Sequência de 7 dias'],shiny:['Caçador de Brilhantes','Apanha uma merda brilhante'],legend:['Lenda','Apanha uma merda lendária'],explorer:['Explorador','Capturas a mais de 1 km de distância'],globe:['Globetrotter','Capturas a mais de 100 km de distância'],collector:['Colecionador','Apanha 10 espécies diferentes'],bigone:['A Grande','Apanha uma merda XL'],archaeo:['Arqueólogo','Apanha uma merda fóssil'],cities3:['Salta-Cidades','Apanha em 3 grandes cidades'],cities10:['Metropolitano','Apanha em 10 grandes cidades'],master:['Mestre da Merda','Completa a Mierdex']},
+fr:{cleaner10:['Grand Nettoyage','Confirme 10 endroits nettoyés, sur place'],kinds5:['Touche-à-tout de la Merde','Attrape chaque type de merde'],cars10:['Pervenche','Attrape 10 voitures là où il ne faut pas'],locks10:['Serrurier','Attrape 10 cadenas là où il ne faut pas'],cones10:['Collectionneur de Cônes','Attrape 10 cônes qui réservent une place'],trash10:['Raton Laveur','Attrape 10 tas de déchets abandonnés'],first:['Première Pelletée','Attrape ta première crotte'],ten:['Deux Chiffres','Attrape 10 crottes'],fifty:['Balayeur','Attrape 50 crottes'],hundred:['Centurion','Attrape 100 crottes'],night:['Oiseau de Nuit','Attrape une crotte entre minuit et 5 h'],dawn:['Lève-tôt','Attrape une crotte entre 5 h et 8 h'],streak3:['Sur une Lancée','Série de 3 jours'],streak7:['Guerrier de la Semaine','Série de 7 jours'],shiny:['Chasseur de Brillantes','Attrape une crotte brillante'],legend:['Légende','Attrape une crotte légendaire'],explorer:['Explorateur',"Des captures à plus de 1 km l'une de l'autre"],globe:['Globe-trotteur',"Des captures à plus de 100 km l'une de l'autre"],collector:['Collectionneur','Attrape 10 espèces différentes'],bigone:['La Grosse','Attrape une crotte XL'],archaeo:['Archéologue','Attrape une crotte fossile'],cities3:['Saute-Villes','Attrape dans 3 grandes villes'],cities10:['Métropolitain','Attrape dans 10 grandes villes'],master:['Maître des Crottes','Complète le Mierdex']},
+de:{cleaner10:['Reinemachen','Bestätige 10 Stellen als gesäubert, vor Ort'],kinds5:['Allround-Scheiße','Fang jede Art von Scheiße'],cars10:['Politesse','Fang 10 Autos, wo sie nicht hingehören'],locks10:['Schlosser','Fang 10 Schlösser, wo sie nicht hingehören'],cones10:['Hütchensammler','Fang 10 Hütchen, die Parkplätze reservieren'],trash10:['Waschbär','Fang 10 Haufen abgeladenen Müll'],first:['Erste Schaufel','Fang deinen ersten Haufen'],ten:['Zweistellig','Fang 10 Haufen'],fifty:['Straßenfeger','Fang 50 Haufen'],hundred:['Zenturio','Fang 100 Haufen'],night:['Nachteule','Fang einen zwischen Mitternacht und 5 Uhr'],dawn:['Frühaufsteher','Fang einen zwischen 5 und 8 Uhr'],streak3:['Auf Zack','3-Tage-Serie'],streak7:['Wochenkrieger','7-Tage-Serie'],shiny:['Glitzerjäger','Fang einen glänzenden Haufen'],legend:['Legende','Fang einen legendären Haufen'],explorer:['Entdecker','Fänge mehr als 1 km voneinander entfernt'],globe:['Weltenbummler','Fänge mehr als 100 km voneinander entfernt'],collector:['Sammler','Fang 10 verschiedene Arten'],bigone:['Der Große','Fang einen XL-Haufen'],archaeo:['Archäologe','Fang einen versteinerten Haufen'],cities3:['Städtehüpfer','Fänge in 3 Großstädten'],cities10:['Metropolit','Fänge in 10 Großstädten'],master:['Haufenmeister','Vervollständige den Mierdex']},
+it:{cleaner10:['Pulizia Totale','Conferma 10 punti come ripuliti, sul posto'],kinds5:['Merda a Tutto Tondo','Cattura ogni tipo di merda'],cars10:['Ausiliario del Traffico','Cattura 10 auto dove non dovrebbero'],locks10:['Fabbro','Cattura 10 lucchetti dove non dovrebbero'],cones10:['Collezionista di Coni','Cattura 10 coni che riservano parcheggi'],trash10:['Procione','Cattura 10 mucchi di rifiuti abbandonati'],first:['Prima Raccolta','Cattura la tua prima cacca'],ten:['Due Cifre','Cattura 10 cacche'],fifty:['Spazzino','Cattura 50 cacche'],hundred:['Centurione','Cattura 100 cacche'],night:['Nottambulo','Catturane una tra mezzanotte e le 5'],dawn:['Mattiniero','Catturane una tra le 5 e le 8'],streak3:['In Serie','Serie di 3 giorni'],streak7:['Guerriero Settimanale','Serie di 7 giorni'],shiny:['Cacciatore di Brillanti','Cattura una cacca brillante'],legend:['Leggenda','Cattura una cacca leggendaria'],explorer:['Esploratore','Catture a più di 1 km di distanza'],globe:['Giramondo','Catture a più di 100 km di distanza'],collector:['Collezionista','Cattura 10 specie diverse'],bigone:['La Grossa','Cattura una cacca XL'],archaeo:['Archeologo','Cattura una cacca fossile'],cities3:['Salta-Città','Cattura in 3 grandi città'],cities10:['Metropolitano','Cattura in 10 grandi città'],master:['Maestro della Cacca','Completa il Mierdex']},
 };
 const bdName=b=>{ const tr=BD_I18N[lang]&&BD_I18N[lang][b.id]; return tr?tr[0]:b.name; };
 const bdDesc=b=>{ const tr=BD_I18N[lang]&&BD_I18N[lang][b.id]; return tr?tr[1]:b.desc; };
@@ -963,7 +988,7 @@ const LS_PROFILE='mdm-profile', LS_SETTINGS='mdm-settings', LS_SEEN='mdm-seen-ba
 const loadJSON=(k,d)=>{ try{ return Object.assign({},d,JSON.parse(localStorage.getItem(k)||'null')||{}); }catch(e){ return {...d}; } };
 let profile=loadJSON(LS_PROFILE,{name:'',avatar:'av0',tid:uid('t'),created:Date.now()});
 if(!AVATARS.includes(profile.avatar)) profile.avatar='av'+(Math.abs([...String(profile.avatar)].reduce((h,ch)=>h+ch.codePointAt(0),0))%AVATARS.length);
-let settings=loadJSON(LS_SETTINGS,{cloudOn:false,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,facing:'environment',lang:'',blurFaces:true,xOn:false,xAuto:true,xUrl:''});
+let settings=loadJSON(LS_SETTINGS,{cloudOn:true,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',autoPublish:true,sound:true,facing:'environment',lang:'',blurFaces:true,xOn:false,xAuto:true,xUrl:''});
 const saveProfile=()=>{ try{ localStorage.setItem(LS_PROFILE,JSON.stringify(profile)); }catch(e){} };
 const saveSettings=()=>{ try{ localStorage.setItem(LS_SETTINGS,JSON.stringify(settings)); }catch(e){} };
 saveProfile();
@@ -976,7 +1001,7 @@ function detectLang(){ if(settings.lang&&I18N[settings.lang]) return settings.la
 /* ---------------- stats & progression ---------------- */
 const RANK={common:0,uncommon:1,rare:2,epic:3,legendary:4};
 function computeStats(list=captures){
-  const st={total:list.length,xp:0,night:false,dawn:false,shiny:0,legendary:0,xl:0,fossil:0,species:{},speciesCount:0,curStreak:0,bestStreak:0,span:0,today:0,week:0,rarest:null,located:0,cities:{},cityCount:0,homeCity:null,kinds:{},kindCount:0};
+  const st={total:list.length,xp:0,night:false,dawn:false,shiny:0,legendary:0,xl:0,fossil:0,species:{},speciesCount:0,curStreak:0,bestStreak:0,span:0,today:0,week:0,rarest:null,located:0,cities:{},cityCount:0,homeCity:null,kinds:{},kindCount:0,cleans:(profile.gone||[]).length};
   const days=new Set(); let minLat=90,maxLat=-90,minLng=180,maxLng=-180,hasLoc=false;
   const todayK=dayKey(Date.now()), weekAgo=Date.now()-7*864e5;
   for(const c of list){
@@ -1357,9 +1382,9 @@ async function shareCapture(c){
 }
 
 /* ---------------- map ---------------- */
-let map=null, myLayer=null, worldLayer=null, meMarker=null, worldOn=false, pick=null, mapInited=false;
-function pinIcon(rarity,shiny,world,kind){ const col=(RARITY[rarity]||RARITY.common).color;
-  return L.divIcon({className:'',html:`<div class="pin${world?' world':''}${shiny?' shiny':''}" style="border-color:${col}">${kindHtml(KINDS[kind]?kind:'poop')}</div>`,iconSize:world?[26,26]:[36,36],iconAnchor:world?[13,13]:[18,18],popupAnchor:[0,world?-14:-18]}); }
+let map=null, myLayer=null, worldLayer=null, meMarker=null, worldOn=false, pick=null, mapInited=false, mapCentered=false;
+function pinIcon(rarity,shiny,world,kind,cleared){ const col=(RARITY[rarity]||RARITY.common).color;
+  return L.divIcon({className:'',html:`<div class="pin${world?' world':''}${shiny?' shiny':''}${cleared?' cleared':''}" style="border-color:${col}">${kindHtml(KINDS[kind]?kind:'poop')}</div>`,iconSize:world?[26,26]:[36,36],iconAnchor:world?[13,13]:[18,18],popupAnchor:[0,world?-14:-18]}); }
 function initMap(){
   if(mapInited||!window.L) return; mapInited=true;
   map=L.map('map',{zoomControl:false}).setView([20,0],2);
@@ -1367,27 +1392,63 @@ function initMap(){
   myLayer=L.layerGroup().addTo(map); worldLayer=L.layerGroup().addTo(map);
   map.on('click',e=>{ if(pick){ const cb=pick.cb; pickEnd(); cb(e.latlng); } });
   map.on('popupopen',e=>{ const el=e.popup.getElement(); const im=el&&el.querySelector('img[data-thumb]'); if(im){ const id=im.dataset.thumb; im.removeAttribute('data-thumb'); cloudReq('/thumbs/'+encodeURIComponent(id),'GET').then(d=>{ if(typeof d==='string'&&d.startsWith('data:image/')) im.src=d; else im.remove(); }).catch(()=>im.remove()); } });
-  renderMarkers(); updateMeMarker(); fitToCaptures();
+  renderMarkers(); updateMeMarker(); focusMap();
+  if(settings.cloudOn){ worldOn=true; $('#btnWorld').classList.add('on'); loadWorld().catch(()=>{ worldOn=false; $('#btnWorld').classList.remove('on'); }); }
 }
-function showMap(){ if(!window.L){ $('#mapOffline').hidden=false; return; } $('#mapOffline').hidden=true; initMap(); setTimeout(()=>map.invalidateSize(),60); }
+// Street level around you; otherwise your captures; otherwise the world.
+function focusMap(){ if(geo.fix){ mapCentered=true; map.setView([geo.fix.lat,geo.fix.lng],17,{animate:false}); } else fitToCaptures(); }
+function showMap(){ if(!window.L){ $('#mapOffline').hidden=false; return; } $('#mapOffline').hidden=true; initMap(); setTimeout(()=>map.invalidateSize(),60); if(worldOn&&(!worldCache||Date.now()-worldCache.t>60000)) loadWorld().catch(()=>{}); }
 function renderMarkers(){ if(!mapInited) return; myLayer.clearLayers(); let n=0;
-  for(const c of captures){ if(c.lat==null||c.lng==null) continue; n++; L.marker([c.lat,c.lng],{icon:pinIcon(c.rarity,c.shiny,false,kindOf(c)),title:spName(c.species)}).bindPopup(()=>popupHtml(c)).addTo(myLayer); }
+  for(const c of captures){ if(c.lat==null||c.lng==null) continue; n++; L.marker([c.lat,c.lng],{icon:pinIcon(c.rarity,c.shiny,false,kindOf(c),!!c.published&&isCleared(c.id)),title:spName(c.species)}).bindPopup(()=>popupHtml(c)).addTo(myLayer); }
   $('#mapCount').textContent=t('captured_n',{n}); }
-function popupHtml(c){ return `<div class="pop"><img src="${c.thumb}" alt=""><b>${c.shiny?'✨ ':''}${esc(spName(c.species))}</b> <span class="rpill r-${c.rarity}">${esc(rarityLabel(c.rarity))}</span><br><small>🏙️ ${esc(cityLabel(c))}</small><br><small>🕒 ${esc(fmtDT(c.ts))} · ${esc(t('cp'))} ${c.cp}</small><button class="btn sm" onclick="openDetail('${c.id}')">${esc(t('view'))}</button></div>`; }
+function popupHtml(c){ return `<div class="pop"><img src="${c.thumb}" alt=""><b>${c.shiny?'✨ ':''}${esc(spName(c.species))}</b> <span class="rpill r-${c.rarity}">${esc(rarityLabel(c.rarity))}</span><br><small>🏙️ ${esc(cityLabel(c))}</small><br><small>🕒 ${esc(fmtDT(c.ts))} · ${esc(timeAgo(c.ts))} · ${esc(t('cp'))} ${c.cp}</small><button class="btn sm" onclick="openDetail('${c.id}')">${esc(t('view'))}</button>${c.published?goneHtml(c):''}</div>`; }
 function worldPopupHtml(s){ const R=RARITY[s.rarity]||RARITY.common; const city=s.city?`${esc(String(s.city))}${s.cc?', '+esc(String(s.cc)):''}`:esc(t('outside'));
-  return `<div class="pop"><img data-thumb="${esc(s.id)}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><b>${s.shiny?'✨ ':''}${esc(spName(s.species))}</b> <span class="rpill" style="background:${R.color}">${esc(rarityLabel(RARITY[s.rarity]?s.rarity:'common'))}</span><br><small>🏙️ ${city}</small><br><small>${esc(String(s.trainer||'Anonymous').slice(0,24))} · ${esc(timeAgo(s.ts))}</small><br><small>🕒 ${esc(fmtDT(s.ts))} · ${esc(t('cp'))} ${+s.cp||0}</small></div>`; }
+  return `<div class="pop"><img data-thumb="${esc(s.id)}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><b>${KINDS[s.kind]?KINDS[s.kind].icon+' ':''}${s.shiny?'✨ ':''}${esc(spName(s.species))}</b> <span class="rpill" style="background:${R.color}">${esc(rarityLabel(RARITY[s.rarity]?s.rarity:'common'))}</span><br><small>🏙️ ${city}</small><br><small>${esc(String(s.trainer||'Anonymous').slice(0,24))} · ${esc(timeAgo(s.ts))}</small><br><small>🕒 ${esc(fmtDT(s.ts))} · ${esc(t('cp'))} ${+s.cp||0}</small>${goneHtml(s)}</div>`; }
 function fitToCaptures(){ if(!mapInited) return; const pts=captures.filter(c=>c.lat!=null&&c.lng!=null).map(c=>[c.lat,c.lng]);
   if(pts.length) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:16,animate:false}); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],15,{animate:false}); }
-function updateMeMarker(){ if(!mapInited||!geo.fix) return; const ll=[geo.fix.lat,geo.fix.lng]; if(!meMarker){ meMarker=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin me"></div>',iconSize:[18,18],iconAnchor:[9,9]}),interactive:false,zIndexOffset:500}).addTo(map); } else meMarker.setLatLng(ll); }
-async function locateMe(){ if(!mapInited) return; geoStart(); const f=await geoNow(); if(!f){ toast(t('t_no_gps')); return; } updateMeMarker(); map.setView([f.lat,f.lng],Math.max(map.getZoom(),16)); }
+function updateMeMarker(){ if(!mapInited||!geo.fix) return; const ll=[geo.fix.lat,geo.fix.lng]; if(!mapCentered){ mapCentered=true; map.setView(ll,17,{animate:false}); } if(!meMarker){ meMarker=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin me"></div>',iconSize:[18,18],iconAnchor:[9,9]}),interactive:false,zIndexOffset:500}).addTo(map); } else meMarker.setLatLng(ll); }
+async function locateMe(){ if(!mapInited) return; geoStart(); const f=await geoNow(); if(!f){ toast(t('t_no_gps')); return; } updateMeMarker(); map.setView([f.lat,f.lng],Math.max(map.getZoom(),17)); }
+// Everyone's sightings on the map, with their "it's gone" confirmations.
+async function loadWorld(){
+  if(!mapInited||!worldOn) return 0; const list=await fetchWorld(); await fetchClears().catch(()=>{}); if(!worldOn) return 0;
+  worldLayer.clearLayers(); const mine=new Set(captures.map(c=>c.id)); let n=0; const pts=[];
+  for(const s of list){ if(mine.has(s.id)||typeof s.lat!=='number'||typeof s.lng!=='number') continue; n++; pts.push([s.lat,s.lng]); L.marker([s.lat,s.lng],{icon:pinIcon(s.rarity,!!s.shiny,true,s.kind,isCleared(s.id))}).bindPopup(()=>worldPopupHtml(s)).addTo(worldLayer); }
+  if(n&&!geo.fix&&!captures.some(c=>c.lat!=null)) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:14,animate:false});
+  return n;
+}
 async function toggleWorld(){
   if(!mapInited) return; if(!settings.cloudOn){ toast(t('t_world_first')); return; }
   worldOn=!worldOn; $('#btnWorld').classList.toggle('on',worldOn); if(!worldOn){ worldLayer.clearLayers(); return; }
-  try{ toast(t('t_world_loading')); const list=await fetchWorld(); if(!worldOn) return; worldLayer.clearLayers(); const mine=new Set(captures.map(c=>c.id)); let n=0; const pts=[];
-    for(const s of list){ if(mine.has(s.id)||typeof s.lat!=='number'||typeof s.lng!=='number') continue; n++; pts.push([s.lat,s.lng]); L.marker([s.lat,s.lng],{icon:pinIcon(s.rarity,!!s.shiny,true,s.kind)}).bindPopup(()=>worldPopupHtml(s)).addTo(worldLayer); }
-    toast(n?t('t_world_n',{n}):t('t_world_0')); if(n&&!captures.some(c=>c.lat!=null)) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:14});
-  }catch(e){ worldOn=false; $('#btnWorld').classList.remove('on'); toast(t('t_world_prefix',{e:e.message})); }
+  try{ toast(t('t_world_loading')); const n=await loadWorld(); toast(n?t('t_world_n',{n}):t('t_world_0')); }
+  catch(e){ worldOn=false; $('#btnWorld').classList.remove('on'); toast(t('t_world_prefix',{e:e.message})); }
 }
+// "It's gone" confirmations live at clears/{sightingId}/{trainerId}. Ten of them mark the spot as cleared.
+// You have to be there: a fresh, precise fix within GONE_RADIUS metres of the sighting.
+const GONE_N=10, GONE_RADIUS=60, GONE_ACC=150;
+let clearsCache=null;
+async function fetchClears(){ if(clearsCache&&Date.now()-clearsCache.t<60000) return clearsCache.map; const all=await cloudReq('/clears'); const m={};
+  for(const [id,v] of Object.entries(all||{})){ if(!v||typeof v!=='object') continue; const ts=Object.values(v).filter(x=>typeof x==='number'); m[id]={n:ts.length,last:ts.length?Math.max(...ts):0,mine:!!v[profile.tid]}; }
+  clearsCache={t:Date.now(),map:m}; return m; }
+const goneInfo=id=>(clearsCache&&clearsCache.map[id])||{n:0,last:0,mine:(profile.gone||[]).includes(id)};
+const isCleared=id=>goneInfo(id).n>=GONE_N;
+function goneHtml(s){ const g=goneInfo(s.id); if(g.n>=GONE_N) return `<div class="gone cleared">✅ ${esc(t('cleared_on',{date:fmtDate(g.last)}))}</div>`;
+  const fix=freshFix(); let btn;
+  if(g.mine) btn=`<button class="btn sm" disabled>✓ ${esc(t('gone_already'))}</button>`;
+  else if(!fix) btn=`<button class="btn sm" disabled>${esc(t('gone_nofix'))}</button>`;
+  else { const d=haversine({lat:fix.lat,lng:fix.lng},{lat:s.lat,lng:s.lng});
+    if(fix.acc!=null&&fix.acc>GONE_ACC) btn=`<button class="btn sm" disabled>${esc(t('gone_acc',{n:Math.round(fix.acc)}))}</button>`;
+    else if(d>GONE_RADIUS) btn=`<button class="btn sm" disabled>${esc(t('gone_far',{d:Math.round(d)}))}</button>`;
+    else btn=`<button class="btn sm primary" onclick="markGone('${esc(s.id)}')">🧹 ${esc(t('gone_btn'))}</button>`; }
+  return `<div class="gone"><small>🧹 ${esc(t('gone_q'))} ${esc(t('gone_n',{n:g.n}))}</small>${btn}</div>`; }
+async function markGone(id){ const s=(worldCache&&worldCache.list.find(x=>x.id===id))||captures.find(c=>c.id===id); if(!s||typeof s.lat!=='number') return;
+  const fix=freshFix(); if(!fix){ toast(t('gone_nofix')); return; }
+  if(fix.acc!=null&&fix.acc>GONE_ACC){ toast(t('gone_acc',{n:Math.round(fix.acc)})); return; }
+  const d=haversine({lat:fix.lat,lng:fix.lng},{lat:s.lat,lng:s.lng}); if(d>GONE_RADIUS){ toast(t('gone_far',{d:Math.round(d)})); return; }
+  try{ await cloudReq('/clears/'+encodeURIComponent(id)+'/'+encodeURIComponent(profile.tid),'PUT',Date.now()); }catch(e){ toast(t('t_gone_err',{e:e.message})); return; }
+  profile.gone=[...new Set([...(profile.gone||[]),id])]; saveProfile(); if(!clearsCache) clearsCache={t:Date.now(),map:{}};
+  const g=clearsCache.map[id]||{n:0,last:0,mine:false}; if(!g.mine){ g.n++; g.mine=true; g.last=Date.now(); } clearsCache.map[id]=g;
+  toast(t('t_gone_ok',{n:g.n})); if(map) map.closePopup(); renderMarkers(); if(worldOn) loadWorld().catch(()=>{}); renderTrainerIfVisible(); }
+window.markGone=markGone;
 function pickStart(cb,center){ if(!window.L){ toast(t('t_map_offline')); return; } pick={cb}; $('#mapBanner').hidden=false; showTab('map'); if(center) map.setView(center,17,{animate:false}); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],16,{animate:false}); }
 function pickEnd(){ pick=null; $('#mapBanner').hidden=true; }
 
@@ -1418,6 +1479,8 @@ async function openDetail(id){
     [t('k_location'),c.lat!=null?`${fmtCoord(c.lat,c.lng)}${c.acc?` <small>(±${c.acc} m)</small>`:''}${c.locFrom==='exif'?' <small>· '+esc(t('from_exif'))+'</small>':c.locFrom==='manual'?' <small>· '+esc(t('manual'))+'</small>':''}`:'<i>'+esc(t('not_set'))+'</i>'],
     [t('k_kind'),esc(`${KINDS[kindOf(c)].icon} ${kindName(kindOf(c))}`)+(c.seen&&kindOf(c)!=='poop'?` <small>· ${esc(c.seen)}</small>`:'')],[t('k_tags'),`${esc(sizeLabel(c.size))} · ${esc(freshLabel(c.fresh))}`],[t('k_throws'),c.attempts||1],['XP',`+${c.xp}`],[t('k_source'),esc(t(c.src==='gallery'?'src_gallery':'src_camera'))],[t('k_faces'),esc(facesText(c))],
     [t('k_world'),c.published?esc(t('published_ago',{ago:timeAgo(c.published)})):esc(t('not_published'))]];
+  if(c.published){ const g=goneInfo(c.id); kv.push([t('k_cleared'),g.n>=GONE_N?'✅ '+esc(t('cleared_on',{date:fmtDate(g.last)})):esc(t('gone_n',{n:g.n}))]);
+    if(settings.cloudOn&&(!clearsCache||Date.now()-clearsCache.t>60000)) fetchClears().then(()=>{ if(detailId===id) openDetail(id); }).catch(()=>{}); }
   $('#dKv').innerHTML=kv.map(([k,v])=>`<b>${esc(k)}</b><span>${v}</span>`).join('');
   $('#dNotes').value=c.notes||''; $('#dPublish').hidden=!settings.cloudOn; $('#dPublish').textContent=t(c.published?'published':'publish'); $('#dPublish').disabled=!!c.published;
   $('#dTimeEdit').hidden=true; const d=new Date(c.ts); $('#dTimeInput').value=`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
@@ -1441,7 +1504,7 @@ function renderTrainer(){
   $('#xpFill').style.width=pct+'%'; $('#xpTxt').textContent=lvl>=50?t('xp_only',{xp:st.xp}):t('xp_next',{xp:st.xp,need:b-st.xp,n:lvl+1});
   const rarest=st.rarest?`${st.rarest.shiny?'✨ ':''}${spName(st.rarest.species)} (${t('cp')} ${st.rarest.cp})`:'—';
   $('#stats').innerHTML=[['💩',st.total,t('st_captures')],['📅',st.today,t('st_today')],['🔥',st.curStreak,t('st_streak')],['📖',`${st.speciesCount}/${SPECIES.length}`,t('st_species')],['🏙️',st.cityCount,t('st_cities')],['✨',st.shiny,t('st_shiny')]]
-    .map(([i,v,l])=>`<div class="stat"><b>${v}</b><span>${i} ${esc(l)}</span></div>`).join('')+`<div class="stat half"><b style="font-size:15px" title="${esc(rarest)}">${esc(rarest)}</b><span>🏆 ${esc(t('st_rarest'))}</span></div><div class="stat half"><b style="font-size:15px">${esc(st.homeCity||'—')}</b><span>🏠 ${esc(t('st_home'))}</span></div>`+'<div class="stat kinds"><b>'+KIND_ORDER.map(k=>KINDS[k].icon+' '+(st.kinds[k]||0)).join('  ·  ')+'</b><span>'+esc(t('st_kinds'))+'</span></div>';
+    .map(([i,v,l])=>`<div class="stat"><b>${v}</b><span>${i} ${esc(l)}</span></div>`).join('')+`<div class="stat half"><b style="font-size:15px" title="${esc(rarest)}">${esc(rarest)}</b><span>🏆 ${esc(t('st_rarest'))}</span></div><div class="stat half"><b style="font-size:15px">${esc(st.homeCity||'—')}</b><span>🏠 ${esc(t('st_home'))}</span></div>`+'<div class="stat kinds"><b>'+KIND_ORDER.map(k=>KINDS[k].icon+' '+(st.kinds[k]||0)).join('  ·  ')+'</b><span>'+esc(t('st_kinds'))+'</span></div>'+`<div class="stat"><b>${st.cleans}</b><span>🧹 ${esc(t('st_cleans'))}</span></div>`;
   const earned=new Set(BADGES.filter(bd=>bd.test(st)).map(bd=>bd.id)); $('#badgeCount').textContent=`${earned.size}/${BADGES.length}`;
   $('#badges').innerHTML=BADGES.map(bd=>`<div class="bd${earned.has(bd.id)?'':' locked'}" title="${esc(bdDesc(bd))}"><span class="ic">${badgeHtml(bd)}</span>${esc(bdName(bd))}</div>`).join('');
   $('#cloudOn').checked=settings.cloudOn; if(document.activeElement!==$('#cloudUrl')) $('#cloudUrl').value=settings.cloudUrl; $('#autoPublish').checked=settings.autoPublish; $('#cloudCfg').hidden=!settings.cloudOn;
@@ -1525,6 +1588,12 @@ async function renderCityboard(){
 const isDev=/[?&]dev=1/.test(location.search);
 function isPhone(){ const ua=navigator.userAgent||''; if(/Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini|Silk/i.test(ua)) return true;
   const coarse=matchMedia('(pointer: coarse)').matches, touch=navigator.maxTouchPoints>0; return touch&&coarse&&Math.min(screen.width,screen.height)<=1024; }
+// The intro: the name appears, the poop forms, then the poop flies into the top bar and only the icon stays.
+function playIntro(){ return new Promise(res=>{ const el=$('#intro'); if(!el) return res(); const poop=$('#introPoop'); let done=false, timers=[];
+  const finish=()=>{ if(done) return; done=true; timers.forEach(clearTimeout); el.hidden=true; el.classList.remove('out'); poop.style.transform=''; res(); };
+  const out=()=>{ if(el.classList.contains('out')) return; const target=$('#view-catch .logo img'); const a=poop.getBoundingClientRect(); const b=target?target.getBoundingClientRect():null;
+    el.classList.add('out'); if(b&&b.width){ poop.style.transform=`translate(${b.left-a.left}px,${b.top-a.top}px) scale(${b.width/a.width})`; } timers.push(setTimeout(finish,620)); };
+  el.hidden=false; const quick=matchMedia('(prefers-reduced-motion: reduce)').matches||window.__quickIntro; el.addEventListener('click',out,{once:true}); timers.push(setTimeout(out,quick?400:2100)); }); }
 function showGate(){
   $('#app').hidden=true; const g=$('#gate'); g.hidden=false; const url=location.href.replace(/[?#].*$/,''); $('#gateUrl').textContent=url;
   const s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
@@ -1620,7 +1689,7 @@ window.openDetail=openDetail;
   try{ captures=(await dbGetAll('captures')).sort((a,b)=>b.ts-a.ts); }catch(e){ captures=[]; toast(t('t_storage',{e:e.message}),5000); }
   let touched=false; for(const c of captures){ if(c.city===undefined){ assignCity(c); touched=true; } } if(touched) for(const c of captures) saveCapture(c).catch(()=>{});
   if(localStorage.getItem(LS_SEEN)==null) markBadgesSeen();
-  bindEvents(); applyI18n(); renderAvatar(); renderAll(); showTab('catch');
+  bindEvents(); applyI18n(); renderAvatar(); renderAll(); showTab('catch'); playIntro();
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
 </script>

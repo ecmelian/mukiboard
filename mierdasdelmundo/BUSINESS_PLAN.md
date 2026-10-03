@@ -35,6 +35,8 @@ Next in the app, in this order:
 4. Monthly city challenges and seasonal leaderboards.
 5. A "Shitty Index" per city, updated weekly from the data.
 
+Already in: every sighting is public on a street-level map with its photo, where it is and when it was there, and anyone standing on the spot can confirm it's gone. Ten confirmations mark it cleared. That is the app's own cleaning loop, and the data the cleaning fund works from.
+
 ## 4. Business lines
 
 ### 4.1 The media network
