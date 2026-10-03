@@ -125,8 +125,8 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   .cam-off .big{margin-bottom:10px}
   .cam-off p{opacity:.85;margin:0 auto 16px;max-width:300px;font-size:14px}
   .cam-top{position:absolute;top:0;left:0;right:0;padding:calc(12px + var(--sat)) 14px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
-  .logo{font-weight:800;letter-spacing:-.03em;font-size:21px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6);line-height:1;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
-  .logo span{color:var(--green)}
+  .logo{line-height:0;color:#fff;font-size:34px}
+  .logo img{width:44px;height:44px;object-fit:contain;display:block;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
   .cam-clock{position:absolute;top:calc(50px + var(--sat));right:14px;color:#fff;font-size:12px;font-weight:600;opacity:.9;text-shadow:1px 1px 0 rgba(0,0,0,.6);font-variant-numeric:tabular-nums}
   .cam-city{position:absolute;top:calc(50px + var(--sat));left:14px;color:#fff;font-size:12px;font-weight:700;opacity:.95;text-shadow:1px 1px 0 rgba(0,0,0,.6)}
   .cam-hint{position:absolute;bottom:calc(var(--tab-h) + var(--sab) + 104px);left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:600;text-shadow:1px 1px 2px rgba(0,0,0,.7);pointer-events:none;padding:0 20px}
@@ -217,8 +217,8 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
   #view-map{padding-bottom:0;min-height:0}
   #map{height:100vh;height:100dvh;background:var(--surface);z-index:0;overflow:hidden}
   .map-logo{position:absolute;top:calc(12px + var(--sat));left:12px;z-index:400;display:flex;flex-direction:column;gap:6px;align-items:flex-start;pointer-events:none}
-  .map-logo .brand{background:#fff;border:1px solid var(--ink);border-radius:999px;padding:6px 12px;font-weight:800;letter-spacing:-.03em;font-size:17px;color:var(--ink)}
-  .map-logo .brand span{color:var(--green)}
+  .map-logo .brand{background:#fff;border:1px solid var(--ink);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:24px;line-height:1}
+  .map-logo .brand img{width:32px;height:32px;object-fit:contain;display:block}
   .map-logo .count{background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;color:var(--ink-soft)}
   .map-ctl{position:absolute;right:12px;top:calc(60px + var(--sat));z-index:400;display:flex;flex-direction:column;gap:8px}
   .map-ctl button{width:44px;height:44px;border-radius:12px;border:1px solid var(--ink);background:#fff;font-size:20px}
@@ -348,7 +348,7 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
       </div>
     </div>
     <div class="cam-top">
-      <div class="logo"><img class="mascot-sm" src="assets/mascot.png" alt="" onerror="fb(this,'💩')"> mierdas<span>del</span>mundo</div>
+      <div class="logo"><img src="assets/mascot.png" alt="mierdasdelmundo" onerror="fb(this,'💩')"></div>
       <div class="pill" id="geoPill" role="button"></div>
     </div>
     <div class="cam-city" id="camCity"></div>
@@ -366,7 +366,7 @@ window.bagFallback=function(el){ var tpl=document.getElementById('bagSvg'); if(t
 <!-- ================= MAP ================= -->
 <section id="view-map" class="view">
   <div id="map"></div>
-  <div class="map-logo"><div class="brand"><img class="mascot-sm" src="assets/mascot.png" alt="" onerror="fb(this,'💩')"> mierdas<span>del</span>mundo</div><div class="count" id="mapCount"></div></div>
+  <div class="map-logo"><div class="brand"><img src="assets/mascot.png" alt="mierdasdelmundo" onerror="fb(this,'💩')"></div><div class="count" id="mapCount"></div></div>
   <div class="map-ctl">
     <button id="btnLocate" data-i18n-title="locate">🎯</button>
     <button id="btnFit" data-i18n-title="fit">🗂️</button>
