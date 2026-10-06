@@ -1,5 +1,5 @@
 /* mierdasdelmundo service worker: offline app shell + cached libraries. Map tiles and cloud sync stay network-only. */
-const CACHE = 'mierdasdelmundo-v13';
+const CACHE = 'mierdasdelmundo-v14';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png',
   './assets/mascot.png', './assets/cam.png', './assets/map.png', './assets/bag.png', './assets/arm.png', './assets/kind/car.png', './assets/kind/lock.png', './assets/kind/cone.png', './assets/kind/trash.png',
   './assets/av/0.png', './assets/av/1.png', './assets/av/2.png', './assets/av/3.png', './assets/av/4.png', './assets/av/5.png', './assets/av/6.png', './assets/av/7.png', './assets/av/8.png', './assets/av/9.png', './assets/av/10.png', './assets/av/11.png', './assets/av/12.png', './assets/av/13.png', './assets/av/14.png', './assets/av/15.png'];
