@@ -75,7 +75,11 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   .row{display:flex;gap:10px}
   .row .btn{flex:1}
   .pill{background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);white-space:nowrap}
-  #geoPill{pointer-events:auto;cursor:pointer}
+  .geo-dot{width:30px;height:30px;display:flex;align-items:center;justify-content:center;pointer-events:auto;cursor:pointer}
+  .geo-dot::after{content:'';width:12px;height:12px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 1.5px rgba(0,0,0,.35),0 0 5px 2px rgba(239,68,68,.85),0 0 14px 5px rgba(239,68,68,.4);transition:background .3s,box-shadow .3s}
+  .geo-dot.ok::after{background:#22c55e;box-shadow:0 0 0 1.5px rgba(0,0,0,.35),0 0 5px 2px rgba(34,197,94,.85),0 0 14px 5px rgba(34,197,94,.4)}
+  .geo-dot.wait::after{animation:geoPulse 1s ease-in-out infinite}
+  @keyframes geoPulse{0%,100%{opacity:1}50%{opacity:.3}}
   .pill.ok{background:rgba(22,163,74,.92)} .pill.err{background:rgba(0,0,0,.75)}
   .input{width:100%;border:1px solid var(--ink);border-radius:10px;padding:9px 10px;background:#fff;font-size:13px}
   select.input{width:auto;min-width:140px}
@@ -107,8 +111,6 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   .cam-top{position:absolute;top:0;left:0;right:0;padding:calc(12px + var(--sat)) 14px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
   .logo{line-height:0;color:#fff;font-size:34px}
   .logo img{width:44px;height:44px;object-fit:contain;display:block;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
-  .cam-clock{position:absolute;top:calc(64px + var(--sat));right:14px;color:#fff;font-size:12px;font-weight:600;opacity:.9;text-shadow:1px 1px 0 rgba(0,0,0,.6);font-variant-numeric:tabular-nums}
-  .cam-city{position:absolute;top:calc(64px + var(--sat));left:14px;color:#fff;font-size:12px;font-weight:700;opacity:.95;text-shadow:1px 1px 0 rgba(0,0,0,.6)}
   .cam-hint{position:absolute;bottom:calc(var(--tab-h) + var(--sab) + 104px);left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:600;text-shadow:1px 1px 2px rgba(0,0,0,.7);pointer-events:none;padding:0 20px}
   .cam-bottom{position:absolute;bottom:0;left:0;right:0;padding:40px 28px calc(var(--tab-h) + var(--sab));display:flex;align-items:center;justify-content:center;background:linear-gradient(transparent,rgba(0,0,0,.55))}
   .shutter{width:84px;height:84px;border-radius:50%;border:5px solid var(--green);background:transparent;padding:5px}
@@ -278,10 +280,8 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
     </div>
     <div class="cam-top">
       <div class="logo"><img src="assets/mascot.png" alt="mierdasdelmundo" onerror="fb(this,'💩')"></div>
-      <div class="pill" id="geoPill" role="button"></div>
+      <div class="geo-dot" id="geoPill" role="button" aria-label="GPS"></div>
     </div>
-    <div class="cam-city" id="camCity"></div>
-    <div class="cam-clock" id="clock"></div>
     <div class="aim-ring" id="camAim" hidden></div>
     <div class="cam-hint" id="camHint" data-i18n="cam_hint"></div>
     <div class="cam-bottom">
@@ -389,7 +389,7 @@ const I18N={
 en:{throw_title:'Got it?',bag_it:'🛍️ Bag it',leave_it:'Leave it',bagged:'Bagged! On the map 🗺️',shits_by:'{n} shits bagged by {name}',blur_btn:'🙈 Blur',blur_tap:'Tap the photo where you want to blur',t_blurred:'Spot blurred',t_blur_fail:'Could not blur: {e}',me_tap:'Tap the face or the name to change them',av_upload:'📷 Use a photo of you',t_saved:'Saved',sound:'Sounds',setup_title:'Who are you?',setup_sub:'Pick your face and your name. You can change them later.',name_ph:'Your name',setup_btn:'That’s me',name_taken:'That name is taken. Pick another one.',by:'by {name}',tab_you:'You',tab_catch:'Camera',tab_map:'Map',
  cam_https:'The live camera needs HTTPS. You can still take photos with your camera app.',cam_noapi:'This browser has no camera API.',cam_denied:'Camera permission denied. You can still take photos with your camera app.',cam_none:'No camera found. You can still take photos with your camera app.',
  take_photo:'Take a photo',cam_hint:'Point at the shit and press it.',cam_starting:'Camera is still starting…',
- gps_acc:'GPS ±{n} m',gps_finding:'Finding GPS…',gps_denied:'GPS denied',gps_none:'No GPS fix',gps_off:'GPS off',gps_retry:'tap to retry',gps_allow:'Location is blocked for this site. Allow it in your browser settings, then tap again.',
+ gps_allow:'Location is blocked for this site. Allow it in your browser settings, then tap again.',
  pick_hint:'Tap the map to set the spot',cancel:'Cancel',map_offline:'The map needs an internet connection the first time it loads. Reload once you are back online.',view:'View',
  kind_poop:'Dog poop',kind_car:'Car where it shouldn’t be',kind_lock:'Lock where it shouldn’t be',kind_cone:'Cone holding public parking',kind_trash:'Dumped trash',
  post_noloc:'No location, so it is not on the map yet. Set the spot on the map.',post_sync_off:'Saved on this phone. Posting to the map is off.',post_err:'Saved on this phone. Could not post: {e}. It will be retried.',
@@ -407,7 +407,7 @@ en:{throw_title:'Got it?',bag_it:'🛍️ Bag it',leave_it:'Leave it',bagged:'Ba
 es:{throw_title:'¿La tienes?',bag_it:'🛍️ Embolsarla',leave_it:'Dejarla',bagged:'¡Embolsada! En el mapa 🗺️',shits_by:'{n} mierdas embolsadas por {name}',blur_btn:'🙈 Difuminar',blur_tap:'Toca la foto donde quieras difuminar',t_blurred:'Zona difuminada',t_blur_fail:'No se pudo difuminar: {e}',me_tap:'Toca la cara o el nombre para cambiarlos',av_upload:'📷 Usar una foto tuya',t_saved:'Guardado',sound:'Sonidos',setup_title:'¿Quién eres?',setup_sub:'Elige tu cara y tu nombre. Podrás cambiarlos después.',name_ph:'Tu nombre',setup_btn:'Soy yo',name_taken:'Ese nombre ya está cogido. Elige otro.',by:'por {name}',tab_you:'Tú',tab_catch:'Cámara',tab_map:'Mapa',
  cam_https:'La cámara en vivo necesita HTTPS. Puedes seguir haciendo fotos con la app de cámara.',cam_noapi:'Este navegador no tiene acceso a la cámara.',cam_denied:'Permiso de cámara denegado. Puedes seguir haciendo fotos con la app de cámara.',cam_none:'No se encontró ninguna cámara. Puedes seguir haciendo fotos con la app de cámara.',
  take_photo:'Hacer una foto',cam_hint:'Apunta a la mierda y púlsala.',cam_starting:'La cámara aún se está iniciando…',
- gps_acc:'GPS ±{n} m',gps_finding:'Buscando GPS…',gps_denied:'GPS denegado',gps_none:'Sin señal GPS',gps_off:'GPS apagado',gps_retry:'toca para reintentar',gps_allow:'La ubicación está bloqueada para este sitio. Permítela en los ajustes del navegador y vuelve a tocar.',
+ gps_allow:'La ubicación está bloqueada para este sitio. Permítela en los ajustes del navegador y vuelve a tocar.',
  pick_hint:'Toca el mapa para fijar el sitio',cancel:'Cancelar',map_offline:'El mapa necesita conexión la primera vez que se carga. Recarga cuando vuelvas a tener internet.',view:'Ver',
  kind_poop:'Mierda de perro',kind_car:'Coche donde no debe',kind_lock:'Candado donde no debe',kind_cone:'Cono que reserva aparcamiento público',kind_trash:'Basura tirada',
  post_noloc:'Sin ubicación, así que aún no está en el mapa. Fija el sitio en el mapa.',post_sync_off:'Guardada en este móvil. La publicación en el mapa está desactivada.',post_err:'Guardada en este móvil. No se pudo publicar: {e}. Se volverá a intentar.',
@@ -425,7 +425,7 @@ es:{throw_title:'¿La tienes?',bag_it:'🛍️ Embolsarla',leave_it:'Dejarla',ba
 pt:{throw_title:'Apanhaste?',bag_it:'🛍️ Ensacar',leave_it:'Deixar',bagged:'Ensacada! No mapa 🗺️',shits_by:'{n} merdas ensacadas por {name}',blur_btn:'🙈 Desfocar',blur_tap:'Toca na foto onde queres desfocar',t_blurred:'Zona desfocada',t_blur_fail:'Não foi possível desfocar: {e}',me_tap:'Toca na cara ou no nome para os mudar',av_upload:'📷 Usar uma foto tua',t_saved:'Guardado',sound:'Sons',setup_title:'Quem és?',setup_sub:'Escolhe a tua cara e o teu nome. Podes mudá-los depois.',name_ph:'O teu nome',setup_btn:'Sou eu',name_taken:'Esse nome já está ocupado. Escolhe outro.',by:'por {name}',tab_you:'Tu',tab_catch:'Câmara',tab_map:'Mapa',
  cam_https:'A câmara em direto precisa de HTTPS. Podes continuar a tirar fotos com a app da câmara.',cam_noapi:'Este navegador não tem acesso à câmara.',cam_denied:'Permissão de câmara negada. Podes continuar a tirar fotos com a app da câmara.',cam_none:'Nenhuma câmara encontrada. Podes continuar a tirar fotos com a app da câmara.',
  take_photo:'Tirar uma foto',cam_hint:'Aponta à merda e toca-lhe.',cam_starting:'A câmara ainda está a iniciar…',
- gps_acc:'GPS ±{n} m',gps_finding:'A procurar GPS…',gps_denied:'GPS negado',gps_none:'Sem sinal GPS',gps_off:'GPS desligado',gps_retry:'toca para tentar de novo',gps_allow:'A localização está bloqueada para este site. Permite-a nas definições do navegador e toca outra vez.',
+ gps_allow:'A localização está bloqueada para este site. Permite-a nas definições do navegador e toca outra vez.',
  pick_hint:'Toca no mapa para definir o local',cancel:'Cancelar',map_offline:'O mapa precisa de internet na primeira vez que carrega. Recarrega quando voltares a ter ligação.',view:'Ver',
  kind_poop:'Merda de cão',kind_car:'Carro onde não deve',kind_lock:'Cadeado onde não deve',kind_cone:'Cone a reservar estacionamento público',kind_trash:'Lixo despejado',
  post_noloc:'Sem localização, por isso ainda não está no mapa. Define o local no mapa.',post_sync_off:'Guardada neste telemóvel. A publicação no mapa está desligada.',post_err:'Guardada neste telemóvel. Não foi possível publicar: {e}. Vai tentar de novo.',
@@ -443,7 +443,7 @@ pt:{throw_title:'Apanhaste?',bag_it:'🛍️ Ensacar',leave_it:'Deixar',bagged:'
 fr:{throw_title:'Tu l’as ?',bag_it:'🛍️ Ensacher',leave_it:'Laisser',bagged:'Ensachée ! Sur la carte 🗺️',shits_by:'{n} merdes ensachées par {name}',blur_btn:'🙈 Flouter',blur_tap:'Touche la photo là où tu veux flouter',t_blurred:'Zone floutée',t_blur_fail:'Impossible de flouter : {e}',me_tap:'Touche le visage ou le nom pour les changer',av_upload:'📷 Utiliser une photo de toi',t_saved:'Enregistré',sound:'Sons',setup_title:'Qui es-tu ?',setup_sub:'Choisis ton visage et ton nom. Tu pourras les changer plus tard.',name_ph:'Ton nom',setup_btn:'C’est moi',name_taken:'Ce nom est déjà pris. Choisis-en un autre.',by:'par {name}',tab_you:'Toi',tab_catch:'Caméra',tab_map:'Carte',
  cam_https:"La caméra en direct nécessite HTTPS. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_noapi:"Ce navigateur n'a pas accès à la caméra.",cam_denied:"Accès à la caméra refusé. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_none:"Aucune caméra trouvée. Tu peux quand même prendre des photos avec l'appli appareil photo.",
  take_photo:'Prendre une photo',cam_hint:'Vise la merde et appuie dessus.',cam_starting:'La caméra démarre encore…',
- gps_acc:'GPS ±{n} m',gps_finding:'Recherche GPS…',gps_denied:'GPS refusé',gps_none:'Pas de signal GPS',gps_off:'GPS désactivé',gps_retry:'touche pour réessayer',gps_allow:'La localisation est bloquée pour ce site. Autorise-la dans les réglages du navigateur, puis touche à nouveau.',
+ gps_allow:'La localisation est bloquée pour ce site. Autorise-la dans les réglages du navigateur, puis touche à nouveau.',
  pick_hint:"Touche la carte pour placer l'endroit",cancel:'Annuler',map_offline:"La carte a besoin d'une connexion lors du premier chargement. Recharge la page une fois en ligne.",view:'Voir',
  kind_poop:'Crotte de chien',kind_car:'Voiture là où il ne faut pas',kind_lock:'Cadenas là où il ne faut pas',kind_cone:'Cône qui réserve une place publique',kind_trash:'Déchets abandonnés',
  post_noloc:'Pas de position, donc pas encore sur la carte. Place l’endroit sur la carte.',post_sync_off:'Enregistrée sur ce téléphone. La publication sur la carte est désactivée.',post_err:'Enregistrée sur ce téléphone. Publication impossible : {e}. Nouvel essai plus tard.',
@@ -461,7 +461,7 @@ fr:{throw_title:'Tu l’as ?',bag_it:'🛍️ Ensacher',leave_it:'Laisser',bagge
 de:{throw_title:'Erwischt?',bag_it:'🛍️ Eintüten',leave_it:'Liegen lassen',bagged:'Eingetütet! Auf der Karte 🗺️',shits_by:'{n} Haufen eingetütet von {name}',blur_btn:'🙈 Verpixeln',blur_tap:'Tipp auf die Stelle im Foto, die verpixelt werden soll',t_blurred:'Stelle verpixelt',t_blur_fail:'Verpixeln fehlgeschlagen: {e}',me_tap:'Tipp auf Gesicht oder Namen, um sie zu ändern',av_upload:'📷 Ein Foto von dir nehmen',t_saved:'Gespeichert',sound:'Töne',setup_title:'Wer bist du?',setup_sub:'Wähle dein Gesicht und deinen Namen. Du kannst sie später ändern.',name_ph:'Dein Name',setup_btn:'Das bin ich',name_taken:'Der Name ist schon vergeben. Wähle einen anderen.',by:'von {name}',tab_you:'Du',tab_catch:'Kamera',tab_map:'Karte',
  cam_https:'Die Live-Kamera braucht HTTPS. Fotos gehen trotzdem über die Kamera-App.',cam_noapi:'Dieser Browser hat keinen Kamerazugriff.',cam_denied:'Kamerazugriff verweigert. Fotos gehen trotzdem über die Kamera-App.',cam_none:'Keine Kamera gefunden. Fotos gehen trotzdem über die Kamera-App.',
  take_photo:'Foto aufnehmen',cam_hint:'Ziel auf die Scheiße und tipp sie an.',cam_starting:'Die Kamera startet noch…',
- gps_acc:'GPS ±{n} m',gps_finding:'GPS wird gesucht…',gps_denied:'GPS verweigert',gps_none:'Kein GPS-Signal',gps_off:'GPS aus',gps_retry:'tippen zum Wiederholen',gps_allow:'Der Standort ist für diese Seite blockiert. Erlaube ihn in den Browser-Einstellungen und tippe erneut.',
+ gps_allow:'Der Standort ist für diese Seite blockiert. Erlaube ihn in den Browser-Einstellungen und tippe erneut.',
  pick_hint:'Tipp auf die Karte, um den Ort festzulegen',cancel:'Abbrechen',map_offline:'Die Karte braucht beim ersten Laden eine Internetverbindung. Lade die Seite neu, sobald du online bist.',view:'Ansehen',
  kind_poop:'Hundehaufen',kind_car:'Auto, wo es nicht hingehört',kind_lock:'Schloss, wo es nicht hingehört',kind_cone:'Hütchen, das einen öffentlichen Parkplatz reserviert',kind_trash:'Abgeladener Müll',
  post_noloc:'Kein Standort, deshalb noch nicht auf der Karte. Setze den Ort auf der Karte.',post_sync_off:'Auf diesem Handy gespeichert. Das Posten auf die Karte ist aus.',post_err:'Auf diesem Handy gespeichert. Posten fehlgeschlagen: {e}. Wird später erneut versucht.',
@@ -479,7 +479,7 @@ de:{throw_title:'Erwischt?',bag_it:'🛍️ Eintüten',leave_it:'Liegen lassen',
 it:{throw_title:'Presa?',bag_it:'🛍️ Insaccarla',leave_it:'Lasciarla',bagged:'Insaccata! Sulla mappa 🗺️',shits_by:'{n} merde insaccate da {name}',blur_btn:'🙈 Sfoca',blur_tap:'Tocca la foto dove vuoi sfocare',t_blurred:'Punto sfocato',t_blur_fail:'Impossibile sfocare: {e}',me_tap:'Tocca la faccia o il nome per cambiarli',av_upload:'📷 Usa una tua foto',t_saved:'Salvato',sound:'Suoni',setup_title:'Chi sei?',setup_sub:'Scegli la tua faccia e il tuo nome. Potrai cambiarli dopo.',name_ph:'Il tuo nome',setup_btn:'Sono io',name_taken:'Quel nome è già preso. Scegline un altro.',by:'di {name}',tab_you:'Tu',tab_catch:'Fotocamera',tab_map:'Mappa',
  cam_https:"La fotocamera dal vivo richiede HTTPS. Puoi comunque scattare foto con l'app fotocamera.",cam_noapi:'Questo browser non ha accesso alla fotocamera.',cam_denied:"Permesso fotocamera negato. Puoi comunque scattare foto con l'app fotocamera.",cam_none:"Nessuna fotocamera trovata. Puoi comunque scattare foto con l'app fotocamera.",
  take_photo:'Scatta una foto',cam_hint:'Punta la merda e toccala.',cam_starting:'La fotocamera si sta ancora avviando…',
- gps_acc:'GPS ±{n} m',gps_finding:'Ricerca GPS…',gps_denied:'GPS negato',gps_none:'Nessun segnale GPS',gps_off:'GPS spento',gps_retry:'tocca per riprovare',gps_allow:'La posizione è bloccata per questo sito. Consentila nelle impostazioni del browser, poi tocca di nuovo.',
+ gps_allow:'La posizione è bloccata per questo sito. Consentila nelle impostazioni del browser, poi tocca di nuovo.',
  pick_hint:'Tocca la mappa per impostare il punto',cancel:'Annulla',map_offline:'La mappa richiede una connessione al primo caricamento. Ricarica quando sei di nuovo online.',view:'Vedi',
  kind_poop:'Cacca di cane',kind_car:'Auto dove non dovrebbe',kind_lock:'Lucchetto dove non dovrebbe',kind_cone:'Cono che riserva un parcheggio pubblico',kind_trash:'Rifiuti abbandonati',
  post_noloc:'Nessuna posizione, quindi non è ancora sulla mappa. Imposta il punto sulla mappa.',post_sync_off:'Salvata su questo telefono. La pubblicazione sulla mappa è disattivata.',post_err:'Salvata su questo telefono. Pubblicazione non riuscita: {e}. Verrà ritentata.',
@@ -642,12 +642,7 @@ function flash(){ const f=$('#flash'); f.classList.add('on'); requestAnimationFr
 
 /* ---------------- geolocation ---------------- */
 const geo={fix:null,watchId:null,status:'off',err:null,lowAcc:false,retryT:null};
-function renderGeo(){ const p=$('#geoPill'); p.className='pill';
-  if(geo.status==='ok'&&geo.fix){ p.classList.add('ok'); p.textContent='📍 '+t('gps_acc',{n:Math.round(geo.fix.acc||0)}); }
-  else if(geo.status==='acquiring'){ p.textContent='📡 '+t('gps_finding'); }
-  else if(geo.status==='error'){ p.classList.add('err'); p.textContent='📍 '+t(geo.err&&geo.err.code===1?'gps_denied':'gps_none')+' · '+t('gps_retry'); }
-  else p.textContent='📍 '+t('gps_off');
-  const cc=geo.fix?nearestCity(geo.fix.lat,geo.fix.lng):null; $('#camCity').textContent=geo.fix?`🏙️ ${cc?cc.name+', '+cc.cc:t('outside')}`:''; }
+function renderGeo(){ $('#geoPill').className='geo-dot'+(geo.status==='ok'&&geo.fix?' ok':geo.status==='acquiring'?' wait':''); }
 function geoStart(){ if(!navigator.geolocation){ geo.status='error'; renderGeo(); return; } if(geo.watchId!=null) return; clearTimeout(geo.retryT); geo.status=geo.fix?'ok':'acquiring'; renderGeo();
   // first the real GPS; if it gives nothing, network location (Wi-Fi / cell); then keep retrying while the camera is open
   const opts=geo.lowAcc?{enableHighAccuracy:false,maximumAge:30000,timeout:30000}:{enableHighAccuracy:true,maximumAge:5000,timeout:20000};
@@ -1066,7 +1061,7 @@ function bindEvents(){
   $$('.navtoggle button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.go)));
   // the viewfinder: a tap is the shit (press it, the bag flies there); a horizontal swipe changes screen
   (function(){ const c=$('#view-catch .cam'); let s=null;
-    c.addEventListener('pointerdown',e=>{ if(!e.isPrimary||e.target.closest('button,.pill,.cam-off')){ s=null; return; } s={x:e.clientX,y:e.clientY,t:Date.now()}; });
+    c.addEventListener('pointerdown',e=>{ if(!e.isPrimary||e.target.closest('button,.geo-dot,.cam-off')){ s=null; return; } s={x:e.clientX,y:e.clientY,t:Date.now()}; });
     c.addEventListener('pointerup',e=>{ if(!s||!e.isPrimary) return; const dx=e.clientX-s.x, dy=e.clientY-s.y, dt=Date.now()-s.t; s=null;
       if(Math.abs(dx)<12&&Math.abs(dy)<12&&dt<600){ const r=c.getBoundingClientRect(); aimAt(Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),Math.min(1,Math.max(0,(e.clientY-r.top)/r.height))); return; }
       if(dt>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2||currentTab!=='catch') return; showTab(dx<0?'map':'you'); });
@@ -1104,7 +1099,6 @@ function bindEvents(){
   document.addEventListener('visibilitychange',()=>{ if(document.hidden) camStop(); else if(currentTab==='catch') camStart(); });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!$('#card').hidden) closeCard(); else if(!$('#throw').hidden) leaveIt(); else if(!$('#post').hidden) closePost(); } });
   $('#setup').addEventListener('touchstart',e=>e.stopPropagation(),{passive:true});
-  const tick=()=>{ const d=new Date(); $('#clock').textContent=`${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`; }; tick(); setInterval(tick,1000);
 }
 window.openDetail=openDetail;
 (async function init(){
