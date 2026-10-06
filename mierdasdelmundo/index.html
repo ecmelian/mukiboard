@@ -99,7 +99,7 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
 
   /* ---------- camera ---------- */
   #view-catch{padding-bottom:0;min-height:0}
-  .cam{position:relative;height:100vh;height:100dvh;background:#111;overflow:hidden}
+  .cam{position:relative;height:100vh;height:100dvh;background:#111;overflow:hidden;touch-action:none}
   #cam{width:100%;height:100%;object-fit:cover;display:block;background:#111}
   .cam-off{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;text-align:center;padding:24px}
   .cam-off .big{margin-bottom:10px}
@@ -121,7 +121,7 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   .overlay{position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column}
   .overlay.sheet{background:rgba(0,0,0,.6);align-items:center;justify-content:flex-end;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 
-  /* the card you see right after the shutter: the photo, what it is, where, and whether it is on the map */
+  /* a small card for the rare case something needs you after bagging (no location, posting off, could not post) */
   #post{background:rgba(0,0,0,.9);align-items:center;justify-content:center;padding:16px;overflow:auto}
   .post-card{width:100%;max-width:420px;text-align:center;animation:cardin .4s cubic-bezier(.2,.8,.2,1);margin:auto;background:#fff;border-radius:var(--radius);padding:16px}
   @keyframes cardin{from{transform:scale(.7) translateY(40px);opacity:0}}
@@ -134,20 +134,52 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   .post-status.ok{background:var(--green-soft);color:var(--green-dark)}
   .post-card .row{margin-top:14px}
 
-  /* detail sheet */
-  #detail .card{width:100%;max-width:560px;max-height:92vh;max-height:92dvh;overflow:auto;border-radius:22px 22px 0 0;padding:0 0 calc(16px + var(--sab));animation:slideup .3s cubic-bezier(.2,.8,.2,1)}
-  @keyframes slideup{from{transform:translateY(80px);opacity:0}}
-  .d-photo{aspect-ratio:4/3;background:#222;position:relative}
-  .d-photo img{width:100%;height:100%;object-fit:cover;display:block}
-  .d-close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:18px}
-  .d-body{padding:14px 16px}
-  .d-body h2{font-size:24px;color:var(--ink);line-height:1.1;display:flex;align-items:center;gap:8px}
-  .d-body h2 img{width:32px;height:32px;object-fit:contain}
-  .kv{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;font-size:13px;margin:12px 0;word-break:break-word}
-  .kv b{color:var(--ink-soft);font-weight:600;white-space:nowrap}
-  .kv small{color:var(--ink-soft)}
-  .d-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
-  .d-actions .btn{padding:11px 8px;font-size:14px;white-space:normal}
+  /* the throw: the photo full screen, your arm flings the bag at the shit, then you bag it or leave it */
+  #throw{background:#000}
+  #throwImg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .aim-ring{position:absolute;width:120px;height:120px;margin:-60px 0 0 -60px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(0,0,0,.35),inset 0 0 0 3px rgba(0,0,0,.25);animation:aimIn .35s cubic-bezier(.2,.8,.2,1) both;pointer-events:none;z-index:4}
+  @keyframes aimIn{from{transform:scale(1.8);opacity:0}to{transform:scale(1);opacity:1}}
+  .arm{position:absolute;right:-8%;bottom:-6%;width:64%;max-width:320px;transform-origin:92% 100%;transform:rotate(30deg) translateY(35%);transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:3;pointer-events:none}
+  .arm img{width:100%;display:block;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
+  .arm.noart{height:52%}
+  .arm.noart::before{content:'';display:block;width:36%;height:100%;margin-left:42%;background:#2b3433;border-radius:60px 60px 0 0}
+  .arm.noart::after{content:'';position:absolute;left:30%;top:-18%;width:60%;aspect-ratio:1;border-radius:50%;background:var(--green)}
+  .arm.wind{transform:rotate(42deg) translateY(14%)}
+  .arm.throw{transform:rotate(-24deg) translateY(0);transition-duration:.22s}
+  .arm.off{transform:rotate(30deg) translateY(120%);transition-duration:.5s}
+  .bagfly{position:absolute;left:0;top:0;width:150px;height:150px;margin:-75px 0 0 -75px;z-index:5;pointer-events:none;will-change:transform;filter:drop-shadow(0 10px 12px rgba(0,0,0,.45))}
+  .bagfly img{width:100%;height:100%;object-fit:contain;display:block}
+  .bagfly.flying{transition:transform .55s cubic-bezier(.3,.6,.4,1)}
+  .bagfly.squash{transition:transform .09s ease-out}
+  .bagfly.settle{transition:transform .16s cubic-bezier(.2,.8,.2,1)}
+  .bagfly.down{transition:transform .7s cubic-bezier(.5,0,.85,.45),opacity .7s}
+  .throw-top{position:absolute;top:calc(14px + var(--sat));left:0;right:0;text-align:center;color:#fff;font-weight:800;font-size:24px;letter-spacing:-.02em;text-shadow:0 1px 3px rgba(0,0,0,.7);z-index:6;padding:0 20px;animation:cardin .3s both}
+  .throw-actions{position:absolute;left:16px;right:16px;bottom:calc(22px + var(--sab));display:flex;gap:10px;z-index:6;animation:cardin .3s both}
+  .throw-actions .btn{flex:1;padding:16px 10px;font-size:17px;border-radius:16px}
+  .throw-actions .btn:not(.primary){background:rgba(255,255,255,.92)}
+
+  /* the card: the photo full screen, when and where, who bagged it */
+  #card{background:#000}
+  #cardImg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+  #cardImg.blurmode{outline:3px solid var(--green);outline-offset:-3px;cursor:crosshair}
+  .d-close{position:absolute;top:calc(12px + var(--sat));left:12px;width:42px;height:42px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:18px;z-index:3}
+  .card-user{position:absolute;top:calc(12px + var(--sat));right:12px;width:52px;height:52px;border-radius:50%;border:3px solid #fff;background:var(--surface);padding:0;overflow:hidden;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:28px;line-height:1}
+  .card-user img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .card-user.mine{border-color:var(--green)}
+  .card-who{position:absolute;top:calc(72px + var(--sat));right:12px;background:#fff;color:var(--ink);border-radius:12px;padding:8px 12px;font-size:13px;font-weight:700;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.4);max-width:72%;animation:cardin .25s both}
+  .card-bottom{position:absolute;left:0;right:0;bottom:0;padding:40px 16px calc(18px + var(--sab));background:linear-gradient(transparent,rgba(0,0,0,.78));color:#fff;z-index:2}
+  .card-meta{font-size:16px;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.6);line-height:1.5}
+  .card-meta small{display:block;font-size:13px;font-weight:600;opacity:.85}
+  .card-bottom .gone{margin-top:10px;font-size:13px}
+  .card-bottom .gone small{display:block;opacity:.85;margin-bottom:4px}
+  .card-bottom .gone.cleared{font-weight:700;color:#8EE6A8}
+  .card-bottom .gone .btn{margin-top:2px;width:100%;background:rgba(255,255,255,.92)}
+  .card-bottom .gone .btn.primary{background:var(--green)}
+  .card-bottom .btn[disabled]{opacity:.6;white-space:normal;font-size:12px}
+  .card-actions{display:flex;gap:8px;margin-top:10px}
+  .card-actions .btn{flex:1;padding:10px 8px;font-size:14px;background:rgba(255,255,255,.92);border-color:transparent}
+  .card-actions .btn.primary{background:var(--green);color:#fff}
+  .blur-hint{position:absolute;left:16px;right:16px;top:calc(74px + var(--sat));background:rgba(0,0,0,.72);color:#fff;font-size:13px;font-weight:700;padding:8px 12px;border-radius:12px;text-align:center;z-index:3}
 
   /* ---------- map: nothing on it but the pins ---------- */
   #view-map{position:relative;padding-bottom:0;min-height:0;z-index:0;isolation:isolate}
@@ -155,6 +187,10 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   .pin{width:36px;height:36px;border-radius:50%;background:#fff;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.35);line-height:1}
   .pin.world{width:26px;height:26px;font-size:14px;border-width:2px;border-color:#9A9A9A;opacity:.92;background:var(--surface)}
   .pin.me{width:18px;height:18px;border:3px solid #fff;background:var(--green);box-shadow:0 0 0 6px rgba(22,163,74,.3)}
+  /* every shit on the map is a bag: yours with a green ring, everyone else's smaller with a grey one */
+  .pin.bag{width:42px;height:42px;border:3px solid var(--green);background:#fff;padding:3px}
+  .pin.bag img{width:100%;height:100%;object-fit:contain}
+  .pin.bag.other{border-color:#9A9A9A;background:var(--surface);width:30px;height:30px;padding:2px;opacity:.95}
   .pin.cleared{opacity:.6;position:relative}
   .pin.cleared::after{content:'✓';position:absolute;right:-5px;bottom:-5px;width:15px;height:15px;border-radius:50%;background:var(--green);color:#fff;font-size:10px;font-weight:700;line-height:15px;text-align:center}
   .map-banner{position:absolute;top:calc(12px + var(--sat));left:12px;right:12px;z-index:401;background:#fff;border:1px solid var(--ink);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -173,7 +209,10 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
 
   /* ---------- you: your character, your records and their fate ---------- */
   .me{display:flex;align-items:center;gap:14px;margin-bottom:12px}
-  .me .av{width:64px;height:64px;border-radius:50%;background:var(--surface);border:3px solid var(--green);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:34px;line-height:1}
+  .me .av{width:64px;height:64px;border-radius:50%;background:var(--surface);border:3px solid var(--green);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:34px;line-height:1;padding:0;cursor:pointer}
+  .name-input{border:none;border-bottom:2px solid var(--line);font-size:20px;font-weight:800;width:100%;background:none;padding:4px 0;color:var(--ink);outline:none;font-family:inherit}
+  .name-input:focus{border-bottom-color:var(--green)}
+  #meEdit{margin-top:12px}
   .me .av img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
   .me b{display:block;font-size:16px}
   .me small{display:block;color:var(--ink-soft);font-size:12px;margin-top:2px}
@@ -243,6 +282,7 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
     </div>
     <div class="cam-city" id="camCity"></div>
     <div class="cam-clock" id="clock"></div>
+    <div class="aim-ring" id="camAim" hidden></div>
     <div class="cam-hint" id="camHint" data-i18n="cam_hint"></div>
     <div class="cam-bottom">
       <button class="shutter" id="btnShutter" aria-label="Capture"><span></span></button>
@@ -263,7 +303,8 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   <div class="page-head"><h1 data-i18n="you_title"></h1><span class="pill" id="youCount"></span></div>
   <div class="page-body">
     <div class="card" style="margin-bottom:14px">
-      <div class="me"><div class="av" id="meAv"></div><div><b id="meName"></b><small data-i18n="me_locked"></small></div></div>
+      <div class="me"><button class="av" id="meAv" type="button" aria-label="avatar"></button><div style="flex:1;min-width:0"><input id="meName" class="name-input" maxlength="24" autocomplete="off" autocapitalize="words" spellcheck="false"><small data-i18n="me_tap"></small></div></div>
+      <div id="meEdit" hidden><div class="avgrid" id="avGrid"></div><button class="btn sm" id="btnAvUpload" type="button" style="margin-top:10px;width:100%" data-i18n="av_upload"></button></div>
     </div>
     <p class="you-sub" id="youSub"></p>
     <div id="recList"></div>
@@ -271,6 +312,7 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
     <div class="card">
       <div class="set-row"><div><b data-i18n="sync"></b><small data-i18n="sync_sub"></small></div><label class="switch"><input type="checkbox" id="cloudOn"><i></i></label></div>
       <div class="set-row"><div><b data-i18n="language"></b></div><select class="input" id="langSel"></select></div>
+      <div class="set-row"><div><b data-i18n="sound"></b></div><label class="switch"><input type="checkbox" id="soundOn"><i></i></label></div>
       <div class="set-row" id="installRow" hidden><div><b data-i18n="install"></b><small data-i18n="install_sub"></small></div><button class="btn sm primary" id="btnInstall" data-i18n="install_btn"></button></div>
       <div class="set-row"><div><b data-i18n="reset"></b><small data-i18n="reset_sub"></small></div><button class="btn sm danger" id="btnReset" data-i18n="delete_all"></button></div>
       <div class="set-row"><small id="footerTxt"></small></div>
@@ -286,12 +328,19 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
 </nav>
 </div>
 
-<!-- ================= RIGHT AFTER THE SHUTTER ================= -->
+<!-- ================= THE THROW ================= -->
+<div id="throw" class="overlay" hidden>
+  <img id="throwImg" alt="">
+  <div class="aim-ring" id="throwRing" hidden></div>
+  <div class="arm" id="arm"><img src="assets/arm.png" alt="" onerror="this.parentNode.classList.add('noart');this.remove()"></div>
+  <div class="bagfly" id="bagFly" hidden><img src="assets/bag.png" alt="" onerror="fb(this,'🛍️')"></div>
+  <div class="throw-top" id="throwTitle" hidden></div>
+  <div class="throw-actions" id="throwActions" hidden><button class="btn" id="throwLeave" data-i18n="leave_it"></button><button class="btn primary" id="throwBag" data-i18n="bag_it"></button></div>
+</div>
+
+<!-- ================= WHEN BAGGING NEEDS YOU ================= -->
 <div id="post" class="overlay" hidden>
   <div class="post-card">
-    <div class="post-photo"><img id="postImg" alt=""></div>
-    <div class="post-kind" id="postKind"></div>
-    <div class="post-meta" id="postMeta"></div>
     <div class="post-status" id="postStatus"></div>
     <div class="row"><button class="btn" id="postLoc" hidden data-i18n="set_loc"></button><button class="btn primary" id="postDone" data-i18n="done"></button></div>
   </div>
@@ -310,24 +359,19 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
   </div>
 </div>
 
-<!-- ================= ONE RECORD ================= -->
-<div id="detail" class="overlay sheet" hidden>
-  <div class="card">
-    <div class="d-photo"><img id="dImg" alt=""><button class="d-close" id="dClose" aria-label="Close">✕</button></div>
-    <div class="d-body">
-      <h2 id="dName"></h2>
-      <div class="kv" id="dKv"></div>
-      <div class="d-actions">
-        <button class="btn" id="dLoc" data-i18n="set_loc"></button>
-        <button class="btn" id="dPublish" hidden data-i18n="publish"></button>
-        <button class="btn danger" id="dDelete" data-i18n="delete"></button>
-      </div>
-    </div>
-  </div>
+<!-- ================= ONE BAGGED SHIT ================= -->
+<div id="card" class="overlay" hidden>
+  <img id="cardImg" alt="">
+  <button class="d-close" id="cardClose" aria-label="Close">✕</button>
+  <button class="card-user" id="cardUser" type="button"></button>
+  <div class="card-who" id="cardWho" hidden></div>
+  <div class="blur-hint" id="cardBlurHint" hidden data-i18n="blur_tap"></div>
+  <div class="card-bottom"><div class="card-meta" id="cardMeta"></div><div id="cardGone"></div><div class="card-actions" id="cardActions"></div></div>
 </div>
 
 <div id="toast"></div>
 <input type="file" id="fileCam" accept="image/*" capture="environment" hidden>
+<input type="file" id="fileAv" accept="image/*" hidden>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
 'use strict';
@@ -342,13 +386,13 @@ window.fb=function(el,emoji){ var sp=document.createElement('span'); sp.classNam
 /* ---------------- languages ---------------- */
 const LANGS={en:'English',es:'Español',pt:'Português',fr:'Français',de:'Deutsch',it:'Italiano'};
 const I18N={
-en:{setup_title:'Who are you?',setup_sub:'Pick your face and your name. You can only do this once.',name_ph:'Your name',setup_btn:'That’s me',name_taken:'That name is taken. Pick another one.',me_locked:'Picked once, for good.',by:'by {name}',tab_you:'You',tab_catch:'Camera',tab_map:'Map',
+en:{throw_title:'Got it?',bag_it:'🛍️ Bag it',leave_it:'Leave it',bagged:'Bagged! On the map 🗺️',shits_by:'{n} shits bagged by {name}',blur_btn:'🙈 Blur',blur_tap:'Tap the photo where you want to blur',t_blurred:'Spot blurred',t_blur_fail:'Could not blur: {e}',me_tap:'Tap the face or the name to change them',av_upload:'📷 Use a photo of you',t_saved:'Saved',sound:'Sounds',setup_title:'Who are you?',setup_sub:'Pick your face and your name. You can change them later.',name_ph:'Your name',setup_btn:'That’s me',name_taken:'That name is taken. Pick another one.',by:'by {name}',tab_you:'You',tab_catch:'Camera',tab_map:'Map',
  cam_https:'The live camera needs HTTPS. You can still take photos with your camera app.',cam_noapi:'This browser has no camera API.',cam_denied:'Camera permission denied. You can still take photos with your camera app.',cam_none:'No camera found. You can still take photos with your camera app.',
- take_photo:'Take a photo',cam_hint:'Spot some shit? Tap the shutter. It goes on the map for everyone.',cam_starting:'Camera is still starting…',
+ take_photo:'Take a photo',cam_hint:'Point at the shit and press it.',cam_starting:'Camera is still starting…',
  gps_acc:'GPS ±{n} m',gps_finding:'Finding GPS…',gps_denied:'GPS denied',gps_none:'No GPS fix',gps_off:'GPS off',gps_retry:'tap to retry',gps_allow:'Location is blocked for this site. Allow it in your browser settings, then tap again.',
  pick_hint:'Tap the map to set the spot',cancel:'Cancel',map_offline:'The map needs an internet connection the first time it loads. Reload once you are back online.',view:'View',
  kind_poop:'Dog poop',kind_car:'Car where it shouldn’t be',kind_lock:'Lock where it shouldn’t be',kind_cone:'Cone holding public parking',kind_trash:'Dumped trash',
- post_looking:'Looking at it…',post_locating:'Finding where you are…',post_working:'Posting to the map…',post_posted:'On the map for everyone',post_noloc:'No location, so it is not on the map yet. Set the spot on the map.',post_sync_off:'Saved on this phone. Posting to the map is off.',post_err:'Saved on this phone. Could not post: {e}. It will be retried.',
+ post_noloc:'No location, so it is not on the map yet. Set the spot on the map.',post_sync_off:'Saved on this phone. Posting to the map is off.',post_err:'Saved on this phone. Could not post: {e}. It will be retried.',
  done:'Done',set_loc:'📍 Set the spot',publish:'🌍 Post',delete:'🗑 Delete',
  you_title:'Your shits',you_sub:'{n} recorded · {p} on the map · {c} cleared',you_empty:'Nothing recorded yet.<br>Spot some shit and tap the shutter.',
  st_on_map:'On the map',st_not_posted:'Not posted',st_no_loc:'No location',st_cleared:'Cleared',
@@ -360,13 +404,13 @@ en:{setup_title:'Who are you?',setup_sub:'Pick your face and your name. You can 
  t_deleted:'Deleted',t_loc_set:'Spot set 📍',t_published:'Posted to the map 🌍',t_world_err:'Map: {e}',t_world_on:'Posting on. Records with a location go on the map',t_map_offline:'The map is not available offline',t_pick_image:'Please pick an image',t_capture_fail:'Capture failed: {e}',t_photo_fail:'Could not read that photo: {e}',t_save_fail:'Could not save: {e}',t_delete_fail:'Delete failed: {e}',t_reset_fail:'Delete failed: {e}',t_reset_done:'Everything deleted',t_installed:'mierdasdelmundo installed 💩',t_storage:'Storage unavailable: {e}',
  e_sync_off:'posting is off',e_no_loc:'no location',e_bad_url:'invalid database URL',e_network:'network error',
  gate_title:'mierdasdelmundo is a phone app',gate_body:'Open this link on your phone, then add it to your home screen.',gate_scan:"Scan it with your phone's camera"},
-es:{setup_title:'¿Quién eres?',setup_sub:'Elige tu cara y tu nombre. Solo puedes hacerlo una vez.',name_ph:'Tu nombre',setup_btn:'Soy yo',name_taken:'Ese nombre ya está cogido. Elige otro.',me_locked:'Elegido una vez, para siempre.',by:'por {name}',tab_you:'Tú',tab_catch:'Cámara',tab_map:'Mapa',
+es:{throw_title:'¿La tienes?',bag_it:'🛍️ Embolsarla',leave_it:'Dejarla',bagged:'¡Embolsada! En el mapa 🗺️',shits_by:'{n} mierdas embolsadas por {name}',blur_btn:'🙈 Difuminar',blur_tap:'Toca la foto donde quieras difuminar',t_blurred:'Zona difuminada',t_blur_fail:'No se pudo difuminar: {e}',me_tap:'Toca la cara o el nombre para cambiarlos',av_upload:'📷 Usar una foto tuya',t_saved:'Guardado',sound:'Sonidos',setup_title:'¿Quién eres?',setup_sub:'Elige tu cara y tu nombre. Podrás cambiarlos después.',name_ph:'Tu nombre',setup_btn:'Soy yo',name_taken:'Ese nombre ya está cogido. Elige otro.',by:'por {name}',tab_you:'Tú',tab_catch:'Cámara',tab_map:'Mapa',
  cam_https:'La cámara en vivo necesita HTTPS. Puedes seguir haciendo fotos con la app de cámara.',cam_noapi:'Este navegador no tiene acceso a la cámara.',cam_denied:'Permiso de cámara denegado. Puedes seguir haciendo fotos con la app de cámara.',cam_none:'No se encontró ninguna cámara. Puedes seguir haciendo fotos con la app de cámara.',
- take_photo:'Hacer una foto',cam_hint:'¿Ves una mierda? Pulsa el disparador. Va al mapa para todo el mundo.',cam_starting:'La cámara aún se está iniciando…',
+ take_photo:'Hacer una foto',cam_hint:'Apunta a la mierda y púlsala.',cam_starting:'La cámara aún se está iniciando…',
  gps_acc:'GPS ±{n} m',gps_finding:'Buscando GPS…',gps_denied:'GPS denegado',gps_none:'Sin señal GPS',gps_off:'GPS apagado',gps_retry:'toca para reintentar',gps_allow:'La ubicación está bloqueada para este sitio. Permítela en los ajustes del navegador y vuelve a tocar.',
  pick_hint:'Toca el mapa para fijar el sitio',cancel:'Cancelar',map_offline:'El mapa necesita conexión la primera vez que se carga. Recarga cuando vuelvas a tener internet.',view:'Ver',
  kind_poop:'Mierda de perro',kind_car:'Coche donde no debe',kind_lock:'Candado donde no debe',kind_cone:'Cono que reserva aparcamiento público',kind_trash:'Basura tirada',
- post_looking:'Mirando qué es…',post_locating:'Buscando dónde estás…',post_working:'Publicando en el mapa…',post_posted:'En el mapa para todo el mundo',post_noloc:'Sin ubicación, así que aún no está en el mapa. Fija el sitio en el mapa.',post_sync_off:'Guardada en este móvil. La publicación en el mapa está desactivada.',post_err:'Guardada en este móvil. No se pudo publicar: {e}. Se volverá a intentar.',
+ post_noloc:'Sin ubicación, así que aún no está en el mapa. Fija el sitio en el mapa.',post_sync_off:'Guardada en este móvil. La publicación en el mapa está desactivada.',post_err:'Guardada en este móvil. No se pudo publicar: {e}. Se volverá a intentar.',
  done:'Listo',set_loc:'📍 Fijar el sitio',publish:'🌍 Publicar',delete:'🗑 Borrar',
  you_title:'Tus mierdas',you_sub:'{n} registradas · {p} en el mapa · {c} limpiadas',you_empty:'Aún no has registrado nada.<br>Ve una mierda y pulsa el disparador.',
  st_on_map:'En el mapa',st_not_posted:'Sin publicar',st_no_loc:'Sin ubicación',st_cleared:'Limpiada',
@@ -378,13 +422,13 @@ es:{setup_title:'¿Quién eres?',setup_sub:'Elige tu cara y tu nombre. Solo pued
  t_deleted:'Borrada',t_loc_set:'Sitio fijado 📍',t_published:'Publicada en el mapa 🌍',t_world_err:'Mapa: {e}',t_world_on:'Publicación activada. Los registros con ubicación van al mapa',t_map_offline:'El mapa no está disponible sin conexión',t_pick_image:'Elige una imagen',t_capture_fail:'Error al capturar: {e}',t_photo_fail:'No se pudo leer la foto: {e}',t_save_fail:'No se pudo guardar: {e}',t_delete_fail:'Error al borrar: {e}',t_reset_fail:'Error al borrar: {e}',t_reset_done:'Todo borrado',t_installed:'mierdasdelmundo instalada 💩',t_storage:'Almacenamiento no disponible: {e}',
  e_sync_off:'la publicación está desactivada',e_no_loc:'sin ubicación',e_bad_url:'URL de base de datos no válida',e_network:'error de red',
  gate_title:'mierdasdelmundo es una app para el móvil',gate_body:'Abre este enlace en tu móvil y añádelo a la pantalla de inicio.',gate_scan:'Escanéalo con la cámara del móvil'},
-pt:{setup_title:'Quem és?',setup_sub:'Escolhe a tua cara e o teu nome. Só podes fazê-lo uma vez.',name_ph:'O teu nome',setup_btn:'Sou eu',name_taken:'Esse nome já está ocupado. Escolhe outro.',me_locked:'Escolhido uma vez, para sempre.',by:'por {name}',tab_you:'Tu',tab_catch:'Câmara',tab_map:'Mapa',
+pt:{throw_title:'Apanhaste?',bag_it:'🛍️ Ensacar',leave_it:'Deixar',bagged:'Ensacada! No mapa 🗺️',shits_by:'{n} merdas ensacadas por {name}',blur_btn:'🙈 Desfocar',blur_tap:'Toca na foto onde queres desfocar',t_blurred:'Zona desfocada',t_blur_fail:'Não foi possível desfocar: {e}',me_tap:'Toca na cara ou no nome para os mudar',av_upload:'📷 Usar uma foto tua',t_saved:'Guardado',sound:'Sons',setup_title:'Quem és?',setup_sub:'Escolhe a tua cara e o teu nome. Podes mudá-los depois.',name_ph:'O teu nome',setup_btn:'Sou eu',name_taken:'Esse nome já está ocupado. Escolhe outro.',by:'por {name}',tab_you:'Tu',tab_catch:'Câmara',tab_map:'Mapa',
  cam_https:'A câmara em direto precisa de HTTPS. Podes continuar a tirar fotos com a app da câmara.',cam_noapi:'Este navegador não tem acesso à câmara.',cam_denied:'Permissão de câmara negada. Podes continuar a tirar fotos com a app da câmara.',cam_none:'Nenhuma câmara encontrada. Podes continuar a tirar fotos com a app da câmara.',
- take_photo:'Tirar uma foto',cam_hint:'Vês uma merda? Toca no botão. Vai para o mapa, para toda a gente.',cam_starting:'A câmara ainda está a iniciar…',
+ take_photo:'Tirar uma foto',cam_hint:'Aponta à merda e toca-lhe.',cam_starting:'A câmara ainda está a iniciar…',
  gps_acc:'GPS ±{n} m',gps_finding:'A procurar GPS…',gps_denied:'GPS negado',gps_none:'Sem sinal GPS',gps_off:'GPS desligado',gps_retry:'toca para tentar de novo',gps_allow:'A localização está bloqueada para este site. Permite-a nas definições do navegador e toca outra vez.',
  pick_hint:'Toca no mapa para definir o local',cancel:'Cancelar',map_offline:'O mapa precisa de internet na primeira vez que carrega. Recarrega quando voltares a ter ligação.',view:'Ver',
  kind_poop:'Merda de cão',kind_car:'Carro onde não deve',kind_lock:'Cadeado onde não deve',kind_cone:'Cone a reservar estacionamento público',kind_trash:'Lixo despejado',
- post_looking:'A ver o que é…',post_locating:'A procurar onde estás…',post_working:'A publicar no mapa…',post_posted:'No mapa, para toda a gente',post_noloc:'Sem localização, por isso ainda não está no mapa. Define o local no mapa.',post_sync_off:'Guardada neste telemóvel. A publicação no mapa está desligada.',post_err:'Guardada neste telemóvel. Não foi possível publicar: {e}. Vai tentar de novo.',
+ post_noloc:'Sem localização, por isso ainda não está no mapa. Define o local no mapa.',post_sync_off:'Guardada neste telemóvel. A publicação no mapa está desligada.',post_err:'Guardada neste telemóvel. Não foi possível publicar: {e}. Vai tentar de novo.',
  done:'Feito',set_loc:'📍 Definir o local',publish:'🌍 Publicar',delete:'🗑 Apagar',
  you_title:'As tuas merdas',you_sub:'{n} registadas · {p} no mapa · {c} limpas',you_empty:'Ainda não registaste nada.<br>Vê uma merda e toca no botão.',
  st_on_map:'No mapa',st_not_posted:'Não publicada',st_no_loc:'Sem localização',st_cleared:'Limpa',
@@ -396,13 +440,13 @@ pt:{setup_title:'Quem és?',setup_sub:'Escolhe a tua cara e o teu nome. Só pode
  t_deleted:'Apagada',t_loc_set:'Local definido 📍',t_published:'Publicada no mapa 🌍',t_world_err:'Mapa: {e}',t_world_on:'Publicação ligada. Os registos com localização vão para o mapa',t_map_offline:'O mapa não está disponível offline',t_pick_image:'Escolhe uma imagem',t_capture_fail:'Erro ao capturar: {e}',t_photo_fail:'Não foi possível ler a foto: {e}',t_save_fail:'Não foi possível guardar: {e}',t_delete_fail:'Erro ao apagar: {e}',t_reset_fail:'Erro ao apagar: {e}',t_reset_done:'Tudo apagado',t_installed:'mierdasdelmundo instalada 💩',t_storage:'Armazenamento indisponível: {e}',
  e_sync_off:'a publicação está desligada',e_no_loc:'sem localização',e_bad_url:'URL de base de dados inválido',e_network:'erro de rede',
  gate_title:'mierdasdelmundo é uma app para o telemóvel',gate_body:'Abre esta ligação no telemóvel e adiciona-a ao ecrã inicial.',gate_scan:'Lê o código com a câmara do telemóvel'},
-fr:{setup_title:'Qui es-tu ?',setup_sub:'Choisis ton visage et ton nom. Tu ne peux le faire qu’une seule fois.',name_ph:'Ton nom',setup_btn:'C’est moi',name_taken:'Ce nom est déjà pris. Choisis-en un autre.',me_locked:'Choisi une fois, pour toujours.',by:'par {name}',tab_you:'Toi',tab_catch:'Caméra',tab_map:'Carte',
+fr:{throw_title:'Tu l’as ?',bag_it:'🛍️ Ensacher',leave_it:'Laisser',bagged:'Ensachée ! Sur la carte 🗺️',shits_by:'{n} merdes ensachées par {name}',blur_btn:'🙈 Flouter',blur_tap:'Touche la photo là où tu veux flouter',t_blurred:'Zone floutée',t_blur_fail:'Impossible de flouter : {e}',me_tap:'Touche le visage ou le nom pour les changer',av_upload:'📷 Utiliser une photo de toi',t_saved:'Enregistré',sound:'Sons',setup_title:'Qui es-tu ?',setup_sub:'Choisis ton visage et ton nom. Tu pourras les changer plus tard.',name_ph:'Ton nom',setup_btn:'C’est moi',name_taken:'Ce nom est déjà pris. Choisis-en un autre.',by:'par {name}',tab_you:'Toi',tab_catch:'Caméra',tab_map:'Carte',
  cam_https:"La caméra en direct nécessite HTTPS. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_noapi:"Ce navigateur n'a pas accès à la caméra.",cam_denied:"Accès à la caméra refusé. Tu peux quand même prendre des photos avec l'appli appareil photo.",cam_none:"Aucune caméra trouvée. Tu peux quand même prendre des photos avec l'appli appareil photo.",
- take_photo:'Prendre une photo',cam_hint:'Une merde en vue ? Appuie sur le déclencheur. Elle va sur la carte, pour tout le monde.',cam_starting:'La caméra démarre encore…',
+ take_photo:'Prendre une photo',cam_hint:'Vise la merde et appuie dessus.',cam_starting:'La caméra démarre encore…',
  gps_acc:'GPS ±{n} m',gps_finding:'Recherche GPS…',gps_denied:'GPS refusé',gps_none:'Pas de signal GPS',gps_off:'GPS désactivé',gps_retry:'touche pour réessayer',gps_allow:'La localisation est bloquée pour ce site. Autorise-la dans les réglages du navigateur, puis touche à nouveau.',
  pick_hint:"Touche la carte pour placer l'endroit",cancel:'Annuler',map_offline:"La carte a besoin d'une connexion lors du premier chargement. Recharge la page une fois en ligne.",view:'Voir',
  kind_poop:'Crotte de chien',kind_car:'Voiture là où il ne faut pas',kind_lock:'Cadenas là où il ne faut pas',kind_cone:'Cône qui réserve une place publique',kind_trash:'Déchets abandonnés',
- post_looking:'On regarde ce que c’est…',post_locating:'Recherche de ta position…',post_working:'Publication sur la carte…',post_posted:'Sur la carte, pour tout le monde',post_noloc:'Pas de position, donc pas encore sur la carte. Place l’endroit sur la carte.',post_sync_off:'Enregistrée sur ce téléphone. La publication sur la carte est désactivée.',post_err:'Enregistrée sur ce téléphone. Publication impossible : {e}. Nouvel essai plus tard.',
+ post_noloc:'Pas de position, donc pas encore sur la carte. Place l’endroit sur la carte.',post_sync_off:'Enregistrée sur ce téléphone. La publication sur la carte est désactivée.',post_err:'Enregistrée sur ce téléphone. Publication impossible : {e}. Nouvel essai plus tard.',
  done:'Terminé',set_loc:"📍 Placer l'endroit",publish:'🌍 Publier',delete:'🗑 Supprimer',
  you_title:'Tes merdes',you_sub:'{n} enregistrées · {p} sur la carte · {c} nettoyées',you_empty:'Rien d’enregistré pour l’instant.<br>Repère une merde et appuie sur le déclencheur.',
  st_on_map:'Sur la carte',st_not_posted:'Non publiée',st_no_loc:'Pas de position',st_cleared:'Nettoyée',
@@ -414,13 +458,13 @@ fr:{setup_title:'Qui es-tu ?',setup_sub:'Choisis ton visage et ton nom. Tu ne pe
  t_deleted:'Supprimée',t_loc_set:'Endroit placé 📍',t_published:'Publiée sur la carte 🌍',t_world_err:'Carte : {e}',t_world_on:'Publication activée. Les enregistrements avec position vont sur la carte',t_map_offline:"La carte n'est pas disponible hors ligne",t_pick_image:'Choisis une image',t_capture_fail:'Échec de la capture : {e}',t_photo_fail:'Impossible de lire cette photo : {e}',t_save_fail:"Impossible d'enregistrer : {e}",t_delete_fail:'Échec de la suppression : {e}',t_reset_fail:'Suppression impossible : {e}',t_reset_done:'Tout est supprimé',t_installed:'mierdasdelmundo installée 💩',t_storage:'Stockage indisponible : {e}',
  e_sync_off:'la publication est désactivée',e_no_loc:'pas de position',e_bad_url:'URL de base de données invalide',e_network:'erreur réseau',
  gate_title:'mierdasdelmundo est une appli pour téléphone',gate_body:"Ouvre ce lien sur ton téléphone, puis ajoute-le à l'écran d'accueil.",gate_scan:"Scanne-le avec l'appareil photo du téléphone"},
-de:{setup_title:'Wer bist du?',setup_sub:'Wähle dein Gesicht und deinen Namen. Das geht nur ein einziges Mal.',name_ph:'Dein Name',setup_btn:'Das bin ich',name_taken:'Der Name ist schon vergeben. Wähle einen anderen.',me_locked:'Einmal gewählt, für immer.',by:'von {name}',tab_you:'Du',tab_catch:'Kamera',tab_map:'Karte',
+de:{throw_title:'Erwischt?',bag_it:'🛍️ Eintüten',leave_it:'Liegen lassen',bagged:'Eingetütet! Auf der Karte 🗺️',shits_by:'{n} Haufen eingetütet von {name}',blur_btn:'🙈 Verpixeln',blur_tap:'Tipp auf die Stelle im Foto, die verpixelt werden soll',t_blurred:'Stelle verpixelt',t_blur_fail:'Verpixeln fehlgeschlagen: {e}',me_tap:'Tipp auf Gesicht oder Namen, um sie zu ändern',av_upload:'📷 Ein Foto von dir nehmen',t_saved:'Gespeichert',sound:'Töne',setup_title:'Wer bist du?',setup_sub:'Wähle dein Gesicht und deinen Namen. Du kannst sie später ändern.',name_ph:'Dein Name',setup_btn:'Das bin ich',name_taken:'Der Name ist schon vergeben. Wähle einen anderen.',by:'von {name}',tab_you:'Du',tab_catch:'Kamera',tab_map:'Karte',
  cam_https:'Die Live-Kamera braucht HTTPS. Fotos gehen trotzdem über die Kamera-App.',cam_noapi:'Dieser Browser hat keinen Kamerazugriff.',cam_denied:'Kamerazugriff verweigert. Fotos gehen trotzdem über die Kamera-App.',cam_none:'Keine Kamera gefunden. Fotos gehen trotzdem über die Kamera-App.',
- take_photo:'Foto aufnehmen',cam_hint:'Scheiße entdeckt? Tipp auf den Auslöser. Sie landet auf der Karte, für alle.',cam_starting:'Die Kamera startet noch…',
+ take_photo:'Foto aufnehmen',cam_hint:'Ziel auf die Scheiße und tipp sie an.',cam_starting:'Die Kamera startet noch…',
  gps_acc:'GPS ±{n} m',gps_finding:'GPS wird gesucht…',gps_denied:'GPS verweigert',gps_none:'Kein GPS-Signal',gps_off:'GPS aus',gps_retry:'tippen zum Wiederholen',gps_allow:'Der Standort ist für diese Seite blockiert. Erlaube ihn in den Browser-Einstellungen und tippe erneut.',
  pick_hint:'Tipp auf die Karte, um den Ort festzulegen',cancel:'Abbrechen',map_offline:'Die Karte braucht beim ersten Laden eine Internetverbindung. Lade die Seite neu, sobald du online bist.',view:'Ansehen',
  kind_poop:'Hundehaufen',kind_car:'Auto, wo es nicht hingehört',kind_lock:'Schloss, wo es nicht hingehört',kind_cone:'Hütchen, das einen öffentlichen Parkplatz reserviert',kind_trash:'Abgeladener Müll',
- post_looking:'Schauen, was es ist…',post_locating:'Standort wird gesucht…',post_working:'Wird auf die Karte gestellt…',post_posted:'Auf der Karte, für alle',post_noloc:'Kein Standort, deshalb noch nicht auf der Karte. Setze den Ort auf der Karte.',post_sync_off:'Auf diesem Handy gespeichert. Das Posten auf die Karte ist aus.',post_err:'Auf diesem Handy gespeichert. Posten fehlgeschlagen: {e}. Wird später erneut versucht.',
+ post_noloc:'Kein Standort, deshalb noch nicht auf der Karte. Setze den Ort auf der Karte.',post_sync_off:'Auf diesem Handy gespeichert. Das Posten auf die Karte ist aus.',post_err:'Auf diesem Handy gespeichert. Posten fehlgeschlagen: {e}. Wird später erneut versucht.',
  done:'Fertig',set_loc:'📍 Ort setzen',publish:'🌍 Posten',delete:'🗑 Löschen',
  you_title:'Deine Scheiße',you_sub:'{n} erfasst · {p} auf der Karte · {c} weggemacht',you_empty:'Noch nichts erfasst.<br>Finde Scheiße und tipp auf den Auslöser.',
  st_on_map:'Auf der Karte',st_not_posted:'Nicht gepostet',st_no_loc:'Kein Standort',st_cleared:'Weggemacht',
@@ -432,13 +476,13 @@ de:{setup_title:'Wer bist du?',setup_sub:'Wähle dein Gesicht und deinen Namen. 
  t_deleted:'Gelöscht',t_loc_set:'Ort gesetzt 📍',t_published:'Auf die Karte gepostet 🌍',t_world_err:'Karte: {e}',t_world_on:'Posten an. Einträge mit Standort landen auf der Karte',t_map_offline:'Die Karte ist offline nicht verfügbar',t_pick_image:'Bitte ein Bild auswählen',t_capture_fail:'Aufnahme fehlgeschlagen: {e}',t_photo_fail:'Foto konnte nicht gelesen werden: {e}',t_save_fail:'Speichern fehlgeschlagen: {e}',t_delete_fail:'Löschen fehlgeschlagen: {e}',t_reset_fail:'Löschen fehlgeschlagen: {e}',t_reset_done:'Alles gelöscht',t_installed:'mierdasdelmundo installiert 💩',t_storage:'Speicher nicht verfügbar: {e}',
  e_sync_off:'das Posten ist aus',e_no_loc:'kein Standort',e_bad_url:'ungültige Datenbank-URL',e_network:'Netzwerkfehler',
  gate_title:'mierdasdelmundo ist eine App fürs Handy',gate_body:'Öffne diesen Link auf deinem Handy und füge ihn dem Startbildschirm hinzu.',gate_scan:'Mit der Handykamera scannen'},
-it:{setup_title:'Chi sei?',setup_sub:'Scegli la tua faccia e il tuo nome. Puoi farlo una sola volta.',name_ph:'Il tuo nome',setup_btn:'Sono io',name_taken:'Quel nome è già preso. Scegline un altro.',me_locked:'Scelto una volta, per sempre.',by:'di {name}',tab_you:'Tu',tab_catch:'Fotocamera',tab_map:'Mappa',
+it:{throw_title:'Presa?',bag_it:'🛍️ Insaccarla',leave_it:'Lasciarla',bagged:'Insaccata! Sulla mappa 🗺️',shits_by:'{n} merde insaccate da {name}',blur_btn:'🙈 Sfoca',blur_tap:'Tocca la foto dove vuoi sfocare',t_blurred:'Punto sfocato',t_blur_fail:'Impossibile sfocare: {e}',me_tap:'Tocca la faccia o il nome per cambiarli',av_upload:'📷 Usa una tua foto',t_saved:'Salvato',sound:'Suoni',setup_title:'Chi sei?',setup_sub:'Scegli la tua faccia e il tuo nome. Potrai cambiarli dopo.',name_ph:'Il tuo nome',setup_btn:'Sono io',name_taken:'Quel nome è già preso. Scegline un altro.',by:'di {name}',tab_you:'Tu',tab_catch:'Fotocamera',tab_map:'Mappa',
  cam_https:"La fotocamera dal vivo richiede HTTPS. Puoi comunque scattare foto con l'app fotocamera.",cam_noapi:'Questo browser non ha accesso alla fotocamera.',cam_denied:"Permesso fotocamera negato. Puoi comunque scattare foto con l'app fotocamera.",cam_none:"Nessuna fotocamera trovata. Puoi comunque scattare foto con l'app fotocamera.",
- take_photo:'Scatta una foto',cam_hint:'Vedi una merda? Tocca il pulsante di scatto. Va sulla mappa, per tutti.',cam_starting:'La fotocamera si sta ancora avviando…',
+ take_photo:'Scatta una foto',cam_hint:'Punta la merda e toccala.',cam_starting:'La fotocamera si sta ancora avviando…',
  gps_acc:'GPS ±{n} m',gps_finding:'Ricerca GPS…',gps_denied:'GPS negato',gps_none:'Nessun segnale GPS',gps_off:'GPS spento',gps_retry:'tocca per riprovare',gps_allow:'La posizione è bloccata per questo sito. Consentila nelle impostazioni del browser, poi tocca di nuovo.',
  pick_hint:'Tocca la mappa per impostare il punto',cancel:'Annulla',map_offline:'La mappa richiede una connessione al primo caricamento. Ricarica quando sei di nuovo online.',view:'Vedi',
  kind_poop:'Cacca di cane',kind_car:'Auto dove non dovrebbe',kind_lock:'Lucchetto dove non dovrebbe',kind_cone:'Cono che riserva un parcheggio pubblico',kind_trash:'Rifiuti abbandonati',
- post_looking:'Guardando cos’è…',post_locating:'Cercando dove sei…',post_working:'Pubblicazione sulla mappa…',post_posted:'Sulla mappa, per tutti',post_noloc:'Nessuna posizione, quindi non è ancora sulla mappa. Imposta il punto sulla mappa.',post_sync_off:'Salvata su questo telefono. La pubblicazione sulla mappa è disattivata.',post_err:'Salvata su questo telefono. Pubblicazione non riuscita: {e}. Verrà ritentata.',
+ post_noloc:'Nessuna posizione, quindi non è ancora sulla mappa. Imposta il punto sulla mappa.',post_sync_off:'Salvata su questo telefono. La pubblicazione sulla mappa è disattivata.',post_err:'Salvata su questo telefono. Pubblicazione non riuscita: {e}. Verrà ritentata.',
  done:'Fatto',set_loc:'📍 Imposta il punto',publish:'🌍 Pubblica',delete:'🗑 Elimina',
  you_title:'Le tue merde',you_sub:'{n} registrate · {p} sulla mappa · {c} ripulite',you_empty:'Niente registrato ancora.<br>Trova una merda e tocca il pulsante di scatto.',
  st_on_map:'Sulla mappa',st_not_posted:'Non pubblicata',st_no_loc:'Nessuna posizione',st_cleared:'Ripulita',
@@ -532,10 +576,10 @@ let records=[];             // newest first
 const LS_PROFILE='mdm-profile', LS_SETTINGS='mdm-settings';
 const loadJSON=(k,d)=>{ try{ return Object.assign({},d,JSON.parse(localStorage.getItem(k)||'null')||{}); }catch(e){ return {...d}; } };
 // No account, no name: only an id for this phone, so the "it's gone" confirmations count one per person.
-let profile=loadJSON(LS_PROFILE,{tid:uid('t'),avatar:AVATARS[Math.floor(Math.random()*AVATARS.length)],name:'',locked:false,gone:[],created:Date.now()});
+let profile=loadJSON(LS_PROFILE,{tid:uid('t'),avatar:AVATARS[Math.floor(Math.random()*AVATARS.length)],img:null,name:'',locked:false,gone:[],created:Date.now()});
 if(!AVATARS.includes(profile.avatar)) profile.avatar='av0';
 profile.name=String(profile.name||'').trim().slice(0,24); if(profile.name) profile.locked=true; // a name from before counts as chosen
-let settings=loadJSON(LS_SETTINGS,{cloudOn:true,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',lang:''});
+let settings=loadJSON(LS_SETTINGS,{cloudOn:true,cloudUrl:'https://mukiboard-default-rtdb.firebaseio.com',cloudRoot:'mierdasdelmundo',lang:'',sound:true});
 const saveProfile=()=>{ try{ localStorage.setItem(LS_PROFILE,JSON.stringify(profile)); }catch(e){} };
 const saveSettings=()=>{ try{ localStorage.setItem(LS_SETTINGS,JSON.stringify(settings)); }catch(e){} };
 saveProfile();
@@ -705,73 +749,112 @@ function kindFromLabels(cats){
 }
 async function detectKind(src){ const c=await getKindClassifier(); return kindFromLabels(await c.classify(src)); }
 
-/* ---------------- the shutter: one record, straight to the map ---------------- */
-let post=null; // what the card after the shutter is showing: {c, blob, state, err}
-async function onShutter(){
-  if(geo.status==='error') geoRetry();
-  if(!cam.ok){ $('#fileCam').click(); return; }
-  const v=$('#cam'); if(!v.videoWidth){ toast(t('cam_starting')); return; }
-  flash();
-  try{ const fr=await frameToBlobs(v,v.videoWidth,v.videoHeight); await record(fr,{ts:Date.now(),tsFrom:'now',loc:freshFix(),locFrom:'gps'}); }
-  catch(e){ toast(t('t_capture_fail',{e:e.message})); }
+/* ---------------- sounds (made on the spot, no files) ---------------- */
+let actx=null;
+function sfx(kind){ if(settings.sound===false) return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); const t0=actx.currentTime, out=actx.destination;
+  const noise=(dur,from,to,gain=.5)=>{ const n=Math.round(actx.sampleRate*dur), buf=actx.createBuffer(1,n,actx.sampleRate), d=buf.getChannelData(0); for(let i=0;i<n;i++) d[i]=(Math.random()*2-1)*(1-i/n); const src=actx.createBufferSource(); src.buffer=buf; const f=actx.createBiquadFilter(); f.type='bandpass'; f.Q.value=1.2; f.frequency.setValueAtTime(from,t0); f.frequency.exponentialRampToValueAtTime(to,t0+dur); const g=actx.createGain(); g.gain.setValueAtTime(gain,t0); g.gain.exponentialRampToValueAtTime(.001,t0+dur); src.connect(f).connect(g).connect(out); src.start(t0); };
+  const tone=(f1,f2,dur,type='sine',gain=.35,at=0)=>{ const o=actx.createOscillator(); o.type=type; o.frequency.setValueAtTime(f1,t0+at); o.frequency.exponentialRampToValueAtTime(f2,t0+at+dur); const g=actx.createGain(); g.gain.setValueAtTime(gain,t0+at); g.gain.exponentialRampToValueAtTime(.001,t0+at+dur); o.connect(g).connect(out); o.start(t0+at); o.stop(t0+at+dur+.02); };
+  if(kind==='whoosh') noise(.45,400,2200,.6);
+  else if(kind==='land'){ tone(160,60,.14,'sine',.5); noise(.08,800,300,.3); }
+  else if(kind==='scoop'){ noise(.5,300,3000,.7); tone(300,900,.25,'triangle',.3,.15); }
+  else if(kind==='bagged'){ tone(520,780,.12,'square',.15); tone(780,1040,.18,'square',.15,.12); }
+  else if(kind==='nope') tone(220,110,.25,'sawtooth',.2);
+}catch(e){} }
+
+/* ---------------- the throw: point at the shit, press it, your arm flings the bag ---------------- */
+let post=null;   // the small card for when bagging needs you: {c, state, err}
+let thr=null;    // the throw in progress: {fr, aim, ts, tsFrom, loc, locFrom, kindP, facesP, stage, target}
+const AIM_FLY=550;
+function onShutter(){ if(geo.status==='error') geoRetry(); if(!cam.ok){ $('#fileCam').click(); return; } aimAt(.5,.5); }
+// A tap on the viewfinder: that is the shit. The frame is taken right there, then the bag flies at that spot.
+async function aimAt(nx,ny){
+  if(thr||!$('#throw').hidden) return; const v=$('#cam'); if(!cam.ok||!v.videoWidth){ toast(t('cam_starting')); return; }
+  const ring=$('#camAim'); ring.style.left=(nx*100)+'%'; ring.style.top=(ny*100)+'%'; ring.hidden=false; if(navigator.vibrate) navigator.vibrate(15);
+  try{ const fr=await frameToBlobs(v,v.videoWidth,v.videoHeight); ring.hidden=true; startThrow(fr,{nx,ny},{ts:Date.now(),tsFrom:'now',loc:freshFix(),locFrom:'gps'}); }
+  catch(e){ ring.hidden=true; toast(t('t_capture_fail',{e:e.message})); }
 }
-// The camera-app fallback (no live camera): the photo's own date and GPS when it has them.
+// The camera-app fallback (no live camera): the photo's own date and GPS when it has them; the bag lands in the middle.
 async function onFile(file){
   if(!file) return; if(!/^image\//.test(file.type||'')&&!/\.(jpe?g|png|webp|heic)$/i.test(file.name||'')){ toast(t('t_pick_image')); return; }
   let exif={}; try{ exif=parseExif(await file.slice(0,512*1024).arrayBuffer()); }catch(e){ exif={}; }
-  try{
-    const img=await blobToImage(file); const fr=await frameToBlobs(img,img.naturalWidth,img.naturalHeight);
-    const ts=exif.ts||Date.now(), tsFrom=exif.ts?'exif':'now';
-    const loc=exif.lat!=null?{lat:exif.lat,lng:exif.lng,acc:null,t:ts}:freshFix();
-    await record(fr,{ts,tsFrom,loc,locFrom:exif.lat!=null?'exif':'gps'});
+  try{ const img=await blobToImage(file); const fr=await frameToBlobs(img,img.naturalWidth,img.naturalHeight);
+    const ts=exif.ts||Date.now(); const loc=exif.lat!=null?{lat:exif.lat,lng:exif.lng,acc:null,t:ts}:freshFix();
+    startThrow(fr,{nx:.5,ny:.5},{ts,tsFrom:exif.ts?'exif':'now',loc,locFrom:exif.lat!=null?'exif':'gps'});
   }catch(e){ toast(t('t_photo_fail',{e:e.message})); }
 }
-// A record is the photo, when, where and what kind. It is saved at once, then the phone works out the kind,
-// blurs any faces and finds the location, all three at the same time, and posts it to the map.
-async function record(fr,{ts,tsFrom,loc,locFrom}){
+// The crop around the spot you pressed is what the classifier looks at.
+function aimCrop(cv,aim){ const w=cv.width,h=cv.height, side=Math.round(Math.min(w,h)*.55); const x0=Math.max(0,Math.min(w-side,Math.round(aim.nx*w-side/2))), y0=Math.max(0,Math.min(h-side,Math.round(aim.ny*h-side/2)));
+  const c=document.createElement('canvas'); c.width=side; c.height=side; c.getContext('2d').drawImage(cv,x0,y0,side,side,0,0,side,side); return c; }
+function startThrow(fr,aim,meta){
+  thr={fr,aim,...meta,stage:'fly',target:null}; const th=thr;
+  th.kindP=Promise.race([detectKind(aimCrop(fr.canvas,aim)),wait(4000).then(()=>null)]).catch(()=>null);
+  th.facesP=Promise.race([detectFaces(fr.canvas),wait(4000).then(()=>undefined)]).catch(()=>undefined);
+  const ov=$('#throw'), img=$('#throwImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(fr.blob);
+  $('#throwTitle').hidden=true; $('#throwActions').hidden=true; const ring=$('#throwRing'); ring.style.left=(aim.nx*100)+'%'; ring.style.top=(aim.ny*100)+'%'; ring.hidden=false;
+  const arm=$('#arm'); arm.classList.remove('wind','throw','off'); const bag=$('#bagFly'); bag.className='bagfly'; bag.style.opacity=''; bag.hidden=true; ov.hidden=false;
+  const W=()=>ov.clientWidth, H=()=>ov.clientHeight;
+  // the arm winds up, flings, the bag flies to the spot and lands
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ if(thr===th) arm.classList.add('wind'); }));
+  wait(380).then(()=>{ if(thr!==th) return; arm.classList.remove('wind'); arm.classList.add('throw'); sfx('whoosh');
+    const sx=W()*.8, sy=H()*.9, tx=aim.nx*W(), ty=aim.ny*H(); th.target=[tx,ty];
+    bag.style.transition='none'; bag.style.transform=`translate(${sx}px,${sy}px) scale(1) rotate(0deg)`; bag.hidden=false;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ if(thr!==th) return; bag.classList.add('flying'); bag.style.transition=''; bag.style.transform=`translate(${tx}px,${ty}px) scale(.5) rotate(540deg)`; }));
+    return wait(AIM_FLY); }).then(()=>{ if(thr!==th) return; const [tx,ty]=th.target; sfx('land'); if(navigator.vibrate) navigator.vibrate(25);
+    bag.className='bagfly squash'; bag.style.transform=`translate(${tx}px,${ty}px) scale(.64,.36) rotate(540deg)`; ring.hidden=true; arm.classList.remove('throw'); arm.classList.add('off');
+    return wait(90); }).then(()=>{ if(thr!==th) return; const [tx,ty]=th.target; bag.className='bagfly settle'; bag.style.transform=`translate(${tx}px,${ty}px) scale(.52) rotate(540deg)`;
+    return wait(200); }).then(()=>{ if(thr!==th) return; th.stage='ask'; $('#throwTitle').textContent=t('throw_title'); $('#throwTitle').hidden=false; $('#throwActions').hidden=false; });
+}
+function leaveIt(){ if(!thr) return; thr=null; sfx('nope'); closeThrow(); }
+function closeThrow(){ const img=$('#throwImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.removeAttribute('src'); $('#throw').hidden=true; $('#bagFly').hidden=true; $('#throwActions').hidden=true; $('#throwTitle').hidden=true; $('#throwRing').hidden=true; }
+// Bag it: the bag drops down the screen into the map, and the record is saved and posted.
+async function bagIt(){
+  if(!thr||thr.stage!=='ask') return; const th=thr; th.stage='bag'; $('#throwActions').hidden=true; $('#throwTitle').hidden=true; sfx('scoop'); if(navigator.vibrate) navigator.vibrate([20,30,20]);
+  const bag=$('#bagFly'), ov=$('#throw'); const [tx,ty]=th.target||[ov.clientWidth/2,ov.clientHeight/2];
+  bag.className='bagfly'; bag.style.transform=`translate(${tx}px,${ty}px) scale(.7) rotate(540deg)`;
+  await wait(60); bag.className='bagfly down'; bag.style.transform=`translate(${ov.clientWidth*.68}px,${ov.clientHeight+90}px) scale(.3) rotate(900deg)`; bag.style.opacity='.2';
+  await wait(650); bag.style.opacity=''; thr=null; closeThrow();
+  await record(th.fr,th,{kindP:th.kindP,facesP:th.facesP});
+}
+// A record is the photo, when, where and what kind. Saved at once; the kind, any faces to blur and the location are
+// finished in the background, then it is posted to the map. Only when that needs you (no location, posting off,
+// could not post) a small card says so.
+async function record(fr,{ts,tsFrom,loc,locFrom,aim},pre={}){
   const c=assignCity({id:uid('c'),ts,tz:Intl.DateTimeFormat().resolvedOptions().timeZone,lat:loc?loc.lat:null,lng:loc?loc.lng:null,acc:loc&&loc.acc!=null?Math.round(loc.acc):null,
-    kind:'poop',kindKnown:false,seen:'',src:'camera',tsFrom,locFrom:loc?locFrom:'',thumb:fr.thumb,w:fr.w,h:fr.h,faces:null,created:Date.now(),published:0});
-  const p={c,blob:fr.blob,state:'working',err:''}; post=p; showPost(p);
-  try{ await dbPut('photos',fr.blob,c.id); await saveRecord(c); }catch(e){ toast(t('t_save_fail',{e:e.message})); closePost(); return; }
+    kind:'poop',kindKnown:false,seen:'',src:'camera',tsFrom,locFrom:loc?locFrom:'',aim:aim?{x:+(+aim.nx).toFixed(3),y:+(+aim.ny).toFixed(3)}:null,thumb:fr.thumb,w:fr.w,h:fr.h,faces:null,created:Date.now(),published:0});
+  try{ await dbPut('photos',fr.blob,c.id); await saveRecord(c); }catch(e){ toast(t('t_save_fail',{e:e.message})); return; }
   records.unshift(c); renderAll();
-  const kindP=Promise.race([detectKind(fr.canvas),wait(3000).then(()=>null)]).then(r=>{ if(r){ c.kind=r.kind; c.seen=r.label; } }).catch(()=>{}).then(()=>{ c.kindKnown=true; renderPost(p); });
-  const facesP=Promise.race([detectFaces(fr.canvas),wait(4000).then(()=>undefined)]).then(async boxes=>{ if(!Array.isArray(boxes)) return; c.faces=boxes.length;
-    if(boxes.length){ pixelateBoxes(fr.canvas,boxes); const f2=await canvasToBlobs(fr.canvas); await dbPut('photos',f2.blob,c.id); c.thumb=f2.thumb; p.blob=f2.blob; showPostPhoto(p); } }).catch(()=>{});
-  const locP=(c.lat!=null?Promise.resolve(null):geoNow()).then(f=>{ if(f&&c.lat==null){ c.lat=f.lat; c.lng=f.lng; c.acc=f.acc!=null?Math.round(f.acc):null; c.locFrom='gps'; assignCity(c); } }).catch(()=>{}).then(()=>renderPost(p));
+  const kindP=(pre.kindP||Promise.race([detectKind(fr.canvas),wait(3000).then(()=>null)]).catch(()=>null)).then(r=>{ if(r){ c.kind=r.kind; c.seen=r.label; } c.kindKnown=true; });
+  const facesP=(pre.facesP||Promise.race([detectFaces(fr.canvas),wait(4000).then(()=>undefined)]).catch(()=>undefined)).then(async boxes=>{ if(!Array.isArray(boxes)) return; c.faces=boxes.length;
+    if(boxes.length){ pixelateBoxes(fr.canvas,boxes); const f2=await canvasToBlobs(fr.canvas); await dbPut('photos',f2.blob,c.id); c.thumb=f2.thumb; } }).catch(()=>{});
+  const locP=(c.lat!=null?Promise.resolve(null):geoNow()).then(f=>{ if(f&&c.lat==null){ c.lat=f.lat; c.lng=f.lng; c.acc=f.acc!=null?Math.round(f.acc):null; c.locFrom='gps'; assignCity(c); } }).catch(()=>{});
   await Promise.all([kindP,facesP,locP]);
   await saveRecord(c).catch(()=>{}); renderAll();
-  if(c.lat==null) p.state='noloc';
-  else if(!settings.cloudOn) p.state='syncoff';
-  else { try{ await publishRecord(c); p.state='posted'; }catch(e){ p.state='err'; p.err=e.message; } }
-  renderPost(p); renderAll();
+  let state='posted', err='';
+  if(c.lat==null) state='noloc'; else if(!settings.cloudOn) state='syncoff'; else { try{ await publishRecord(c); }catch(e){ state='err'; err=e.message; } }
+  renderAll();
+  if(state==='posted'){ sfx('bagged'); toast(t('bagged')); } else showPost({c,state,err});
   // a face check that could not run yet (model still downloading) finishes later and refreshes the shared photo
   if(c.faces==null) ensureFaces(c).then(()=>{ if(c.published) uploadThumb(c).catch(()=>{}); renderAll(); }).catch(()=>{});
 }
-function showPost(p){ const img=$('#postImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(p.blob); renderPost(p); $('#post').hidden=false; }
-function showPostPhoto(p){ if(post!==p) return; const img=$('#postImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(p.blob); }
-function renderPost(p){ if(post!==p) return; const c=p.c;
-  $('#postKind').innerHTML=c.kindKnown?`${kindHtml(kindOf(c))} <span>${esc(kindName(kindOf(c)))}</span>`:`<span class="spin"></span><span>${esc(t('post_looking'))}</span>`;
-  $('#postMeta').innerHTML=`📍 ${c.lat!=null?esc(cityLabel(c)):(p.state==='working'?'<span class="spin"></span>'+esc(t('post_locating')):esc(t('not_set')))}<br>🕒 ${esc(fmtDT(c.ts))}`;
-  const st=$('#postStatus'); st.className='post-status'+(p.state==='posted'?' ok':'');
-  st.innerHTML=p.state==='working'?`<span class="spin"></span>${esc(t('post_working'))}`:p.state==='posted'?`🌍 ${esc(t('post_posted'))}`:p.state==='noloc'?esc(t('post_noloc')):p.state==='syncoff'?esc(t('post_sync_off')):esc(t('post_err',{e:p.err}));
-  $('#postLoc').hidden=p.state!=='noloc'; }
-function closePost(){ const img=$('#postImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.removeAttribute('src'); $('#post').hidden=true; post=null; }
+function showPost(p){ post=p; const st=$('#postStatus'); st.className='post-status';
+  st.textContent=p.state==='noloc'?t('post_noloc'):p.state==='syncoff'?t('post_sync_off'):t('post_err',{e:p.err}); $('#postLoc').hidden=p.state!=='noloc'; $('#post').hidden=false; }
+function closePost(){ $('#post').hidden=true; post=null; }
 // Set the spot by tapping the map (for a record made without a GPS fix), then post it.
 function setSpot(c,ll){ c.lat=+ll.lat.toFixed(6); c.lng=+ll.lng.toFixed(6); c.acc=null; c.locFrom='manual'; assignCity(c);
-  saveRecord(c).then(()=>{ renderAll(); toast(t('t_loc_set')); if(settings.cloudOn) publishRecord(c).then(()=>{ toast(t('t_published')); renderAll(); if(detailId===c.id) openDetail(c.id); }).catch(e=>toast(t('t_world_err',{e:e.message}))); }); }
-function pickSpotFor(c){ closePost(); closeDetail(); pickStart(ll=>{ const cc=records.find(x=>x.id===c.id); if(cc) setSpot(cc,ll); },null); }
+  saveRecord(c).then(()=>{ renderAll(); toast(t('t_loc_set')); if(settings.cloudOn) publishRecord(c).then(()=>{ toast(t('t_published')); renderAll(); }).catch(e=>toast(t('t_world_err',{e:e.message}))); }); }
+function pickSpotFor(c){ closePost(); closeCard(); pickStart(ll=>{ const cc=records.find(x=>x.id===c.id); if(cc) setSpot(cc,ll); },null); }
 
-/* ---------------- the map: nothing on it but the shits ---------------- */
+/* ---------------- the map: nothing on it but bagged shits ---------------- */
 let map=null, myLayer=null, worldLayer=null, meMarker=null, worldOn=false, pick=null, mapInited=false, mapCentered=false;
-function pinIcon(world,kind,cleared){
-  return L.divIcon({className:'',html:`<div class="pin${world?' world':''}${cleared?' cleared':''}">${kindHtml(KINDS[kind]?kind:'poop')}</div>`,iconSize:world?[26,26]:[36,36],iconAnchor:world?[13,13]:[18,18],popupAnchor:[0,world?-14:-18]}); }
+// Every shit on the map is a bag: yours with a green ring, everyone else's smaller with a grey one.
+function pinIcon(mine,cleared){
+  return L.divIcon({className:'',html:`<div class="pin bag${mine?' mine':' other'}${cleared?' cleared':''}"><img src="assets/bag.png" alt="" onerror="fb(this,'🛍️')"></div>`,iconSize:mine?[42,42]:[30,30],iconAnchor:mine?[21,21]:[15,15]}); }
 function initMap(){
   if(mapInited||!window.L) return; mapInited=true;
   map=L.map('map',{zoomControl:false}).setView([20,0],2);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
   myLayer=L.layerGroup().addTo(map); worldLayer=L.layerGroup().addTo(map);
   map.on('click',e=>{ if(pick){ const cb=pick.cb; pickEnd(); cb(e.latlng); } });
-  map.on('popupopen',e=>{ const el=e.popup.getElement(); const im=el&&el.querySelector('img[data-thumb]'); if(im){ const id=im.dataset.thumb; im.removeAttribute('data-thumb'); cloudReq('/thumbs/'+encodeURIComponent(id),'GET').then(d=>{ if(typeof d==='string'&&d.startsWith('data:image/')) im.src=d; else im.remove(); }).catch(()=>im.remove()); } });
   renderMarkers(); updateMeMarker(); focusMap();
   if(settings.cloudOn){ worldOn=true; loadWorld().catch(()=>{ worldOn=false; }); }
 }
@@ -780,23 +863,52 @@ function focusMap(){ if(geo.fix){ mapCentered=true; map.setView([geo.fix.lat,geo
 // Every time the map opens it is the street around you again.
 function showMap(){ if(!window.L){ $('#mapOffline').hidden=false; return; } $('#mapOffline').hidden=true; const first=!mapInited; initMap(); if(!first){ renderMarkers(); focusMap(); } setTimeout(()=>map.invalidateSize(),60); if(worldOn&&(!worldCache||Date.now()-worldCache.t>60000)) loadWorld().catch(()=>{}); }
 function renderMarkers(){ if(!mapInited) return; myLayer.clearLayers();
-  for(const c of records){ if(c.lat==null||c.lng==null) continue; L.marker([c.lat,c.lng],{icon:pinIcon(false,kindOf(c),!!c.published&&isCleared(c.id)),title:kindName(kindOf(c))}).bindPopup(()=>popupHtml(c)).addTo(myLayer); }
+  for(const c of records){ if(c.lat==null||c.lng==null) continue; L.marker([c.lat,c.lng],{icon:pinIcon(true,!!c.published&&isCleared(c.id)),title:kindName(kindOf(c))}).on('click',()=>openCard(c,true)).addTo(myLayer); }
 }
-const whenHtml=ts=>`🕒 ${esc(timeAgo(ts))} · ${esc(fmtDT(ts))}`;
-function popupHtml(c){ return `<div class="pop"><img src="${c.thumb}" alt=""><b>${avatarHtml(profile.avatar,'pop-av')}${kindHtml(kindOf(c),'ic-img')} ${esc(kindName(kindOf(c)))}</b><br><small>${esc(t('by',{name:profile.name}))} · 🏙️ ${esc(cityLabel(c))}</small><br><small>${whenHtml(c.ts)}</small><button class="btn sm" onclick="openDetail('${c.id}')">${esc(t('view'))}</button>${c.published?goneHtml(c):''}</div>`; }
-function worldPopupHtml(s){ const city=s.city?`${esc(String(s.city))}${s.cc?', '+esc(String(s.cc)):''}`:esc(t('outside')); const k=KINDS[s.kind]?s.kind:'poop';
-  return `<div class="pop"><img data-thumb="${esc(s.id)}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt=""><b>${AVATARS.includes(s.avatar)?avatarHtml(s.avatar,'pop-av'):''}${kindHtml(k,'ic-img')} ${esc(kindName(k))}</b><br><small>${typeof s.trainer==='string'&&s.trainer.trim()?esc(t('by',{name:s.trainer.trim().slice(0,24)}))+' · ':''}🏙️ ${city}</small><br><small>${whenHtml(s.ts)}</small>${goneHtml(s)}</div>`; }
 function fitToRecords(){ if(!mapInited) return; const pts=records.filter(c=>c.lat!=null&&c.lng!=null).map(c=>[c.lat,c.lng]);
   if(pts.length) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:16,animate:false}); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],15,{animate:false}); }
 function updateMeMarker(){ if(!mapInited||!geo.fix) return; const ll=[geo.fix.lat,geo.fix.lng]; if(!mapCentered){ mapCentered=true; map.setView(ll,17,{animate:false}); } if(!meMarker){ meMarker=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin me"></div>',iconSize:[18,18],iconAnchor:[9,9]}),interactive:false,zIndexOffset:500}).addTo(map); } else meMarker.setLatLng(ll); }
-// Everyone's records on the map, with their "it's gone" confirmations.
+// Everyone's bags on the map, with their "it's gone" confirmations.
 async function loadWorld(){
   if(!mapInited||!worldOn) return 0; const list=await fetchWorld(); await fetchClears().catch(()=>{}); if(!worldOn) return 0;
   worldLayer.clearLayers(); const mine=new Set(records.map(c=>c.id)); let n=0; const pts=[];
-  for(const s of list){ if(mine.has(s.id)||typeof s.lat!=='number'||typeof s.lng!=='number') continue; n++; pts.push([s.lat,s.lng]); L.marker([s.lat,s.lng],{icon:pinIcon(true,s.kind,isCleared(s.id))}).bindPopup(()=>worldPopupHtml(s)).addTo(worldLayer); }
+  for(const s of list){ if(mine.has(s.id)||typeof s.lat!=='number'||typeof s.lng!=='number') continue; n++; pts.push([s.lat,s.lng]); L.marker([s.lat,s.lng],{icon:pinIcon(false,isCleared(s.id))}).on('click',()=>openCard(s,false)).addTo(worldLayer); }
   if(n&&!geo.fix&&!records.some(c=>c.lat!=null)) map.fitBounds(L.latLngBounds(pts).pad(.25),{maxZoom:14,animate:false});
   renderMarkers(); return n;
 }
+
+/* ---------------- the card: one bagged shit, full screen ---------------- */
+let card=null; // {item, mine, blur}
+const usersCache=new Map();
+// Who bagged it: users/{phone id} on the shared map (name, face, or a photo of them).
+async function getUser(tid){ if(!tid) return null; const c=usersCache.get(tid); if(c&&Date.now()-c.t<300000) return c.u; let u=null; try{ u=await cloudReq('/users/'+encodeURIComponent(tid)); }catch(e){} if(u&&typeof u!=='object') u=null; usersCache.set(tid,{t:Date.now(),u}); return u; }
+const userFace=(u,fallbackAv,cls='')=>u&&typeof u.img==='string'&&u.img.startsWith('data:image/')?`<img class="${cls}" src="${u.img}" alt="">`:avatarHtml((u&&u.avatar)||fallbackAv,cls);
+const meFace=(cls='')=>profile.img?`<img class="${cls}" src="${profile.img}" alt="">`:avatarHtml(profile.avatar,cls);
+function baggedBy(tid){ const own=tid===profile.tid?records.filter(c=>c.published).length:0; const world=worldCache?worldCache.list.filter(s=>s.tid===tid).length:0; return Math.max(own,world); }
+async function openCard(item,mine){
+  card={item,mine,blur:false}; const id=item.id; const img=$('#cardImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.className='';
+  if(mine){ img.src=item.thumb||''; dbGet('photos',id).then(b=>{ if(b&&card&&card.item.id===id) img.src=URL.createObjectURL(b); }).catch(()=>{}); }
+  else { img.src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; cloudReq('/thumbs/'+encodeURIComponent(id),'GET').then(d=>{ if(card&&card.item.id===id&&typeof d==='string'&&d.startsWith('data:image/')) img.src=d; }).catch(()=>{}); }
+  $('#cardMeta').innerHTML=`🕒 ${esc(fmtDT(item.ts))} · ${esc(timeAgo(item.ts))}<small>📍 ${esc(item.lat!=null?cityLabel(item):t('not_set'))}</small>`;
+  const ub=$('#cardUser'); ub.className='card-user'+(mine?' mine':''); ub.innerHTML=mine?meFace():avatarHtml(item.avatar); $('#cardWho').hidden=true; $('#cardBlurHint').hidden=true;
+  if(!mine) getUser(item.tid).then(u=>{ if(card&&card.item.id===id&&u) ub.innerHTML=userFace(u,item.avatar); });
+  renderCardBottom(); $('#card').hidden=false;
+  if(item.lat!=null&&settings.cloudOn&&(!clearsCache||Date.now()-clearsCache.t>60000)) fetchClears().then(()=>{ if(card&&card.item.id===id) renderCardBottom(); }).catch(()=>{});
+}
+function renderCardBottom(){ if(!card) return; const {item,mine}=card;
+  $('#cardGone').innerHTML=(item.lat!=null&&(!mine||item.published))?goneHtml(item):'';
+  const acts=[]; if(mine){ if(item.lat==null) acts.push(`<button class="btn" id="cardLoc">${esc(t('set_loc'))}</button>`); acts.push(`<button class="btn${card.blur?' primary':''}" id="cardBlur">${esc(t(card.blur?'done':'blur_btn'))}</button>`); acts.push(`<button class="btn" id="cardDelete">${esc(t('delete'))}</button>`); }
+  $('#cardActions').innerHTML=acts.join(''); }
+function closeCard(){ const img=$('#cardImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.removeAttribute('src'); $('#card').hidden=true; card=null; }
+// Tap the face on a card: how many shits that person has bagged.
+async function cardWho(){ if(!card) return; const {item,mine}=card; const tid=mine?profile.tid:item.tid; let name=mine?profile.name:(typeof item.trainer==='string'?item.trainer:'');
+  if(!mine){ const u=await getUser(tid); if(u&&u.name) name=u.name; } if(settings.cloudOn&&!worldCache) await fetchWorld().catch(()=>{});
+  if(!card||card.item!==item) return; const w=$('#cardWho'); w.textContent=t('shits_by',{n:baggedBy(tid),name:name||'?'}); w.hidden=false; clearTimeout(cardWho.t); cardWho.t=setTimeout(()=>{ w.hidden=true; },3500); }
+// Blur a spot: in blur mode, tap the photo where you want a mosaic (your own records only).
+function blurSpot(c,nx,ny){ return rewritePhoto(c,cv=>{ const r=Math.max(cv.width,cv.height)*.09; pixelateBoxes(cv,[{x:nx*cv.width-r,y:ny*cv.height-r,w:2*r,h:2*r}],1,1); c.blurred=(c.blurred||0)+1; return c.blurred; }); }
+async function onCardTap(e){ if(!card||!card.mine||!card.blur) return; const c=card.item; const img=$('#cardImg'); const r=img.getBoundingClientRect(); const nw=img.naturalWidth||1, nh=img.naturalHeight||1;
+  const s=Math.min(r.width/nw,r.height/nh); const dx=(r.width-nw*s)/2, dy=(r.height-nh*s)/2; const nx=((e.clientX-r.left)-dx)/(nw*s), ny=((e.clientY-r.top)-dy)/(nh*s); if(nx<0||nx>1||ny<0||ny>1) return;
+  try{ await blurSpot(c,nx,ny); const b=await dbGet('photos',c.id); if(b&&card&&card.item===c){ if(img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=URL.createObjectURL(b); } if(c.published) uploadThumb(c).catch(()=>{}); renderAll(); toast(t('t_blurred')); }catch(err){ toast(t('t_blur_fail',{e:err.message})); } }
 // "It's gone" confirmations live at clears/{recordId}/{phoneId}. Ten of them mark the spot as cleared.
 // You have to be there: a fresh, precise fix within GONE_RADIUS metres of the record.
 const GONE_N=10, GONE_RADIUS=60, GONE_ACC=150;
@@ -822,58 +934,56 @@ async function markGone(id){ const s=(worldCache&&worldCache.list.find(x=>x.id==
   try{ await cloudReq('/clears/'+encodeURIComponent(id)+'/'+encodeURIComponent(profile.tid),'PUT',Date.now()); }catch(e){ toast(t('t_gone_err',{e:e.message})); return; }
   profile.gone=[...new Set([...(profile.gone||[]),id])]; saveProfile(); if(!clearsCache) clearsCache={t:Date.now(),map:{}};
   const g=clearsCache.map[id]||{n:0,last:0,mine:false}; if(!g.mine){ g.n++; g.mine=true; g.last=Date.now(); } clearsCache.map[id]=g;
-  toast(t('t_gone_ok',{n:g.n})); if(map) map.closePopup(); renderMarkers(); if(worldOn) loadWorld().catch(()=>{}); renderAll(); }
+  toast(t('t_gone_ok',{n:g.n})); renderMarkers(); if(worldOn) loadWorld().catch(()=>{}); renderAll(); if(card) renderCardBottom(); }
 window.markGone=markGone;
 function pickStart(cb,center){ if(!window.L){ toast(t('t_map_offline')); return; } pick={cb}; $('#mapBanner').hidden=false; showTab('map'); if(center) map.setView(center,17,{animate:false}); else if(geo.fix) map.setView([geo.fix.lat,geo.fix.lng],16,{animate:false}); }
 function pickEnd(){ pick=null; $('#mapBanner').hidden=true; }
 
-/* ---------------- you: your records and what became of them ---------------- */
-let detailId=null;
+/* ---------------- you: who you are (changeable), your records and what became of them ---------------- */
 function statusOf(c){
   if(c.published){ const g=goneInfo(c.id); if(g.n>=GONE_N) return {cls:'done',text:'🧹 '+t('st_cleared')}; if(g.n>0) return {cls:'on',text:'🧹 '+t('gone_n',{n:g.n})}; return {cls:'on',text:'🌍 '+t('st_on_map')}; }
   if(c.lat==null) return {cls:'',text:'📍 '+t('st_no_loc')};
   return {cls:'',text:t('st_not_posted')};
 }
-function renderAvatar(){ $('#meAv').innerHTML=avatarHtml(profile.avatar); $('#meName').textContent=profile.name; $('#tabAvatar').innerHTML=avatarHtml(profile.avatar,'tab-av'); }
-// Who are you: a face and a name, picked once. The name is claimed on the shared map so two friends cannot share it.
+function renderAvatar(){ $('#meAv').innerHTML=meFace(); if(document.activeElement!==$('#meName')) $('#meName').value=profile.name; $('#tabAvatar').innerHTML=meFace('tab-av');
+  $('#avGrid').innerHTML=AVATARS.map(a=>`<button data-av="${a}" class="${!profile.img&&a===profile.avatar?'on':''}" type="button" aria-label="${a}">${avatarHtml(a)}</button>`).join(''); }
+// Your name and face live at users/{phone id} on the shared map, so others see them on your bags (the photo at 96 px).
+async function syncUser(){ if(!settings.cloudOn) return; try{ await cloudReq('/users/'+encodeURIComponent(profile.tid),'PUT',{name:profile.name,avatar:profile.avatar,img:profile.img?await shrinkDataUrl(profile.img,96,.7):null,t:Date.now()}); }catch(e){} }
+const nameKey=n=>n.trim().toLowerCase().replace(/[.#$\[\]\/\s]+/g,'_').slice(0,32);
+// A name is yours alone: names/{name} holds the phone id that claimed it.
+async function claimName(name){ if(!settings.cloudOn||navigator.onLine===false) return true; const k=nameKey(name); let owner=null; try{ owner=await cloudReq('/names/'+encodeURIComponent(k)); }catch(e){ return true; }
+  if(typeof owner==='string'&&owner!==profile.tid) return false; try{ await cloudReq('/names/'+encodeURIComponent(k),'PUT',profile.tid); }catch(e){} return true; }
+function releaseName(name){ if(!name||!settings.cloudOn) return; cloudReq('/names/'+encodeURIComponent(nameKey(name)),'DELETE').catch(()=>{}); }
 let setupAv=null;
 function showSetup(){ setupAv=profile.avatar; $('#setupGrid').innerHTML=AVATARS.map(a=>`<button data-av="${a}" class="${a===setupAv?'on':''}" type="button" aria-label="${a}">${avatarHtml(a)}</button>`).join(''); $('#setupAv').innerHTML=avatarHtml(setupAv);
   $('#setupName').value=''; $('#setupMsg').hidden=true; $('#setupOk').disabled=true; $('#setup').hidden=false; }
-const nameKey=n=>n.trim().toLowerCase().replace(/[.#$\[\]\/\s]+/g,'_').slice(0,32);
 async function finishSetup(){
   const name=$('#setupName').value.trim().replace(/\s+/g,' ').slice(0,24); if(name.length<2) return; const btn=$('#setupOk'); btn.disabled=true; $('#setupMsg').hidden=true;
-  if(settings.cloudOn&&navigator.onLine!==false){ try{ const owner=await cloudReq('/names/'+encodeURIComponent(nameKey(name))); if(typeof owner==='string'&&owner!==profile.tid){ $('#setupMsg').textContent=t('name_taken'); $('#setupMsg').hidden=false; btn.disabled=false; return; }
-      await cloudReq('/names/'+encodeURIComponent(nameKey(name)),'PUT',profile.tid); }catch(e){} }
-  profile.name=name; profile.avatar=setupAv; profile.locked=true; saveProfile(); $('#setup').hidden=true; renderAvatar(); renderAll(); if(mapInited) renderMarkers();
+  if(!(await claimName(name))){ $('#setupMsg').textContent=t('name_taken'); $('#setupMsg').hidden=false; btn.disabled=false; sfx('nope'); return; }
+  profile.name=name; profile.avatar=setupAv; profile.img=null; profile.locked=true; saveProfile(); $('#setup').hidden=true; renderAvatar(); renderAll(); syncUser();
 }
+// Changing your name later: the new one must be free; the old one is released.
+async function renameTo(name){ name=String(name||'').trim().replace(/\s+/g,' ').slice(0,24); if(name===profile.name) return; if(name.length<2){ $('#meName').value=profile.name; return; }
+  if(!(await claimName(name))){ toast(t('name_taken')); sfx('nope'); $('#meName').value=profile.name; return; }
+  const old=profile.name; profile.name=name; saveProfile(); if(old&&nameKey(old)!==nameKey(name)) releaseName(old); renderAvatar(); syncUser(); toast(t('t_saved')); }
+function pickFace(a){ if(!AVATARS.includes(a)) return; profile.avatar=a; profile.img=null; saveProfile(); renderAvatar(); syncUser(); toast(t('t_saved')); }
+// A photo of you as your face: squared, 256 px on the phone, 96 px on the shared map.
+async function useAvatarPhoto(file){ if(!file) return; try{ const img=await blobToImage(file); const sq=Math.min(img.naturalWidth,img.naturalHeight); const c=document.createElement('canvas'); c.width=c.height=256;
+    c.getContext('2d').drawImage(img,(img.naturalWidth-sq)/2,(img.naturalHeight-sq)/2,sq,sq,0,0,256,256); profile.img=c.toDataURL('image/jpeg',.8); saveProfile(); renderAvatar(); $('#meEdit').hidden=true; await syncUser(); toast(t('t_saved')); }
+  catch(e){ toast(t('t_photo_fail',{e:e.message})); } }
 function renderYou(){
   const n=records.length, p=records.filter(c=>c.published).length, cl=records.filter(c=>c.published&&isCleared(c.id)).length;
   $('#youCount').textContent=n; $('#youSub').textContent=t('you_sub',{n,p,c:cl});
   $('#recList').innerHTML=n?records.map(c=>{ const s=statusOf(c); return `<button class="rec" data-open="${c.id}"><img class="ph" src="${c.thumb}" alt="" loading="lazy"><div class="rec-body"><div class="nm">${kindHtml(kindOf(c))}<span>${esc(kindName(kindOf(c)))}</span></div><div class="tm">🏙️ ${esc(c.lat!=null?cityLabel(c):t('not_set'))} · 🕒 ${esc(timeAgo(c.ts))}</div><span class="st ${s.cls}">${s.text}</span></div></button>`; }).join('')
     :`<div class="empty"><div class="big">${mascotHtml()}</div>${t('you_empty')}</div>`;
-  renderAvatar(); $('#cloudOn').checked=settings.cloudOn; $('#langSel').value=lang; $('#footerTxt').textContent=t('footer',{id:profile.tid});
+  renderAvatar(); $('#cloudOn').checked=settings.cloudOn; $('#soundOn').checked=settings.sound!==false; $('#langSel').value=lang; $('#footerTxt').textContent=t('footer',{id:profile.tid});
   if(settings.cloudOn&&p&&(!clearsCache||Date.now()-clearsCache.t>60000)) fetchClears().then(()=>renderAll()).catch(()=>{});
 }
-async function openDetail(id){
-  const c=records.find(x=>x.id===id); if(!c) return; detailId=id;
-  const img=$('#dImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); img.src=c.thumb;
-  dbGet('photos',id).then(b=>{ if(b&&detailId===id) img.src=URL.createObjectURL(b); }).catch(()=>{});
-  $('#dName').innerHTML=`${kindHtml(kindOf(c))}<span>${esc(kindName(kindOf(c)))}</span>`;
-  const kv=[[t('k_when'),`${esc(fmtDT(c.ts))} · ${esc(timeAgo(c.ts))}<br><small>${fmtISO(c.ts)}</small>`],
-    [t('k_where'),c.lat!=null?`${esc(cityLabel(c))}<br><small>${fmtCoord(c.lat,c.lng)}${c.acc?` (±${c.acc} m)`:''}</small>`:'<i>'+esc(t('not_set'))+'</i>'],
-    [t('k_map'),c.published?esc(t('posted_ago',{ago:timeAgo(c.published)})):esc(t('not_posted'))]];
-  if(c.published){ const g=goneInfo(c.id); kv.push([t('k_cleared'),g.n>=GONE_N?'✅ '+esc(t('cleared_on',{date:fmtDate(g.last)})):esc(t('gone_n',{n:g.n}))]);
-    if(settings.cloudOn&&(!clearsCache||Date.now()-clearsCache.t>60000)) fetchClears().then(()=>{ if(detailId===id) openDetail(id); }).catch(()=>{}); }
-  $('#dKv').innerHTML=kv.map(([k,v])=>`<b>${esc(k)}</b><span>${v}</span>`).join('');
-  $('#dLoc').hidden=c.lat!=null; $('#dPublish').hidden=!(settings.cloudOn&&!c.published&&c.lat!=null);
-  $('#detail').hidden=false;
-}
-function closeDetail(){ const img=$('#dImg'); if(img.src&&img.src.startsWith('blob:')) URL.revokeObjectURL(img.src); $('#detail').hidden=true; detailId=null; }
-const curDetail=()=>records.find(c=>c.id===detailId);
+function openDetail(id){ const c=records.find(x=>x.id===id); if(c) openCard(c,true); }
 async function deleteRecord(c){
   if(!confirm(t('confirm_delete'))) return;
   try{ await dbDel('captures',c.id); await dbDel('photos',c.id); }catch(e){ toast(t('t_delete_fail',{e:e.message})); return; }
-  records=records.filter(x=>x.id!==c.id); closeDetail(); renderAll(); toast(t('t_deleted'));
+  records=records.filter(x=>x.id!==c.id); closeCard(); renderAll(); toast(t('t_deleted'));
   if(c.published&&settings.cloudOn){ cloudReq('/sightings/'+encodeURIComponent(c.id),'DELETE').catch(()=>{}); cloudReq('/thumbs/'+encodeURIComponent(c.id),'DELETE').catch(()=>{}); }
 }
 async function resetAll(){
@@ -891,7 +1001,7 @@ async function cloudReq(path,method='GET',body){
   if(!r.ok){ let msg='HTTP '+r.status; try{ const j=await r.json(); if(j&&j.error) msg+=' · '+j.error; }catch(e){} throw new Error(msg); }
   return r.status===204?null:r.json();
 }
-// What leaves the phone: time, rounded coordinates, city, kind, this phone's id, your name and face, and a small copy of the photo.
+// What leaves the phone: time, rounded coordinates, city, kind, this phone's id, your name and face, and a small copy of the photo. Your face and name also live at users/{phone id}.
 async function publishRecord(c){
   if(!settings.cloudOn) throw new Error(t('e_sync_off')); if(c.lat==null||c.lng==null) throw new Error(t('e_no_loc'));
   const s={id:c.id,ts:c.ts,lat:+c.lat.toFixed(4),lng:+c.lng.toFixed(4),city:c.city||null,cc:c.cc||null,kind:kindOf(c),tid:profile.tid,avatar:profile.avatar,trainer:profile.name.slice(0,24),pub:Date.now()};
@@ -938,7 +1048,7 @@ function applyI18n(){
   $$('[data-i18n-title]').forEach(el=>{ el.title=t(el.dataset.i18nTitle); el.setAttribute('aria-label',t(el.dataset.i18nTitle)); });
   $('#langSel').innerHTML=Object.entries(LANGS).map(([k,v])=>`<option value="${k}">${v}</option>`).join(''); $('#langSel').value=lang;
   if(cam.fallbackKey) $('#camOffMsg').textContent=t(cam.fallbackKey);
-  renderGeo(); if(post) renderPost(post); renderAll(); if(mapInited) renderMarkers();
+  renderGeo(); if(post) showPost(post); if(card) renderCardBottom(); renderAll(); if(mapInited) renderMarkers();
 }
 function setLang(l){ if(!I18N[l]) return; lang=l; settings.lang=l; saveSettings(); applyI18n(); }
 
@@ -954,30 +1064,37 @@ function showTab(name){
 function renderAll(){ renderMarkers(); if(currentTab==='you') renderYou(); }
 function bindEvents(){
   $$('.navtoggle button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.go)));
-  // swipe the camera: left brings the map in from the right, right brings you in from the left
+  // the viewfinder: a tap is the shit (press it, the bag flies there); a horizontal swipe changes screen
   (function(){ const c=$('#view-catch .cam'); let s=null;
-    c.addEventListener('touchstart',e=>{ s=e.touches.length===1?{x:e.touches[0].clientX,y:e.touches[0].clientY,t:Date.now()}:null; },{passive:true});
-    c.addEventListener('touchend',e=>{ if(!s) return; const p=e.changedTouches[0], dx=p.clientX-s.x, dy=p.clientY-s.y, dt=Date.now()-s.t; s=null;
-      if(dt>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2||currentTab!=='catch') return; showTab(dx<0?'map':'you'); },{passive:true});
-    c.addEventListener('touchcancel',()=>{ s=null; },{passive:true}); })();
+    c.addEventListener('pointerdown',e=>{ if(!e.isPrimary||e.target.closest('button,.pill,.cam-off')){ s=null; return; } s={x:e.clientX,y:e.clientY,t:Date.now()}; });
+    c.addEventListener('pointerup',e=>{ if(!s||!e.isPrimary) return; const dx=e.clientX-s.x, dy=e.clientY-s.y, dt=Date.now()-s.t; s=null;
+      if(Math.abs(dx)<12&&Math.abs(dy)<12&&dt<600){ const r=c.getBoundingClientRect(); aimAt(Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),Math.min(1,Math.max(0,(e.clientY-r.top)/r.height))); return; }
+      if(dt>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2||currentTab!=='catch') return; showTab(dx<0?'map':'you'); });
+    c.addEventListener('pointercancel',()=>{ s=null; }); })();
   $('#btnShutter').addEventListener('click',onShutter); $('#geoPill').addEventListener('click',()=>{ if(geo.status!=='ok') geoRetry(); }); $('#btnFileCam').addEventListener('click',()=>$('#fileCam').click());
   $('#fileCam').addEventListener('change',e=>{ onFile(e.target.files[0]); e.target.value=''; });
-  // right after the shutter
+  // the throw
+  $('#throwBag').addEventListener('click',bagIt); $('#throwLeave').addEventListener('click',leaveIt);
+  // when bagging needs you
   $('#postDone').addEventListener('click',closePost); $('#postLoc').addEventListener('click',()=>{ if(post) pickSpotFor(post.c); });
-  // one record
-  $('#dClose').addEventListener('click',closeDetail); $('#detail').addEventListener('click',e=>{ if(e.target===$('#detail')) closeDetail(); });
-  $('#dDelete').addEventListener('click',()=>{ const c=curDetail(); if(c) deleteRecord(c); });
-  $('#dLoc').addEventListener('click',()=>{ const c=curDetail(); if(c) pickSpotFor(c); });
-  $('#dPublish').addEventListener('click',async()=>{ const c=curDetail(); if(!c) return; try{ $('#dPublish').disabled=true; await publishRecord(c); toast(t('t_published')); renderAll(); openDetail(c.id); }catch(e){ toast(t('t_world_err',{e:e.message})); } finally{ $('#dPublish').disabled=false; } });
+  // one bagged shit
+  $('#cardClose').addEventListener('click',closeCard); $('#cardUser').addEventListener('click',cardWho); $('#cardImg').addEventListener('click',onCardTap);
+  $('#cardActions').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||!card) return; const c=card.item;
+    if(b.id==='cardDelete') deleteRecord(c); else if(b.id==='cardLoc') pickSpotFor(c); else if(b.id==='cardBlur'){ card.blur=!card.blur; $('#cardImg').className=card.blur?'blurmode':''; $('#cardBlurHint').hidden=!card.blur; renderCardBottom(); } });
   // you
   $('#recList').addEventListener('click',e=>{ const b=e.target.closest('[data-open]'); if(b) openDetail(b.dataset.open); });
-  // who are you, once
+  $('#meAv').addEventListener('click',()=>{ const e=$('#meEdit'); e.hidden=!e.hidden; });
+  $('#avGrid').addEventListener('click',e=>{ const b=e.target.closest('[data-av]'); if(!b) return; pickFace(b.dataset.av); $('#meEdit').hidden=true; });
+  $('#btnAvUpload').addEventListener('click',()=>$('#fileAv').click()); $('#fileAv').addEventListener('change',e=>{ useAvatarPhoto(e.target.files[0]); e.target.value=''; });
+  $('#meName').addEventListener('change',e=>renameTo(e.target.value)); $('#meName').addEventListener('keydown',e=>{ if(e.key==='Enter') e.target.blur(); });
+  // who are you, at first start
   $('#setupGrid').addEventListener('click',e=>{ const b=e.target.closest('[data-av]'); if(!b) return; setupAv=b.dataset.av; $$('#setupGrid button').forEach(x=>x.classList.toggle('on',x===b)); $('#setupAv').innerHTML=avatarHtml(setupAv); });
   $('#setupName').addEventListener('input',e=>{ $('#setupOk').disabled=e.target.value.trim().length<2; $('#setupMsg').hidden=true; });
   $('#setupName').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!$('#setupOk').disabled) finishSetup(); });
   $('#setupOk').addEventListener('click',finishSetup);
   $('#mapBannerCancel').addEventListener('click',pickEnd);
-  $('#cloudOn').addEventListener('change',e=>{ settings.cloudOn=e.target.checked; saveSettings(); worldOn=settings.cloudOn; worldCache=null; if(settings.cloudOn){ toast(t('t_world_on')); publishPending(); } else if(worldLayer) worldLayer.clearLayers(); renderAll(); });
+  $('#cloudOn').addEventListener('change',e=>{ settings.cloudOn=e.target.checked; saveSettings(); worldOn=settings.cloudOn; worldCache=null; if(settings.cloudOn){ toast(t('t_world_on')); syncUser(); publishPending(); } else if(worldLayer) worldLayer.clearLayers(); renderAll(); });
+  $('#soundOn').addEventListener('change',e=>{ settings.sound=e.target.checked; saveSettings(); if(settings.sound) sfx('bagged'); });
   $('#langSel').addEventListener('change',e=>setLang(e.target.value));
   $('#btnReset').addEventListener('click',resetAll);
   let installEvt=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; $('#installRow').hidden=false; });
@@ -985,7 +1102,7 @@ function bindEvents(){
   window.addEventListener('appinstalled',()=>{ $('#installRow').hidden=true; toast(t('t_installed')); });
   window.addEventListener('online',()=>publishPending());
   document.addEventListener('visibilitychange',()=>{ if(document.hidden) camStop(); else if(currentTab==='catch') camStart(); });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!$('#detail').hidden) closeDetail(); else if(!$('#post').hidden) closePost(); } });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!$('#card').hidden) closeCard(); else if(!$('#throw').hidden) leaveIt(); else if(!$('#post').hidden) closePost(); } });
   $('#setup').addEventListener('touchstart',e=>e.stopPropagation(),{passive:true});
   const tick=()=>{ const d=new Date(); $('#clock').textContent=`${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`; }; tick(); setInterval(tick,1000);
 }
@@ -995,7 +1112,7 @@ window.openDetail=openDetail;
   if(!isPhone()&&!isDev){ showGate(); return; }
   try{ records=(await dbGetAll('captures')).sort((a,b)=>b.ts-a.ts); }catch(e){ records=[]; toast(t('t_storage',{e:e.message}),5000); }
   bindEvents(); applyI18n(); renderAvatar(); renderAll(); showTab('catch'); playIntro().then(()=>{ if(!profile.locked) showSetup(); });
-  publishPending();
+  publishPending(); if(profile.locked) syncUser();
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
 </script>

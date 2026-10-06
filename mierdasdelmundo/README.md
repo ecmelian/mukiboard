@@ -8,16 +8,16 @@ Dog poop, cars where they shouldn't be, locks where they shouldn't be, cones hol
 
 One toggle at the bottom of every screen: **you** on the left, the **camera** in the middle, the **map** on the right. The camera can also be swiped: left for the map, right for you.
 
-- 📸 **Camera.** Only a shutter. Tap it and the phone saves the photo, works out what kind of shit it is (an on-device image classifier; anything it cannot name is poop), blurs any faces (also on the device, nothing is uploaded for the check), takes the time and the GPS position, and posts the record to the shared map. A card shows the photo, the kind, where, when, and whether it is on the map. No GPS fix yet? The card offers *Set the spot* on the map.
-- 🗺️ **Map.** Nothing on it but the shits: your pins, everyone else's pins, and your position, at street level around you. Tap a pin for its photo, the kind, where it is and when it was there, and the **"It's gone"** button. That button only works on the spot: a fresh fix within 60 m, accuracy better than 150 m. After 10 people confirm, the pin shows as cleared.
-- 👤 **You.** Your face and your name first, picked once at first start; the face is on the toggle and both are on the pins of the shits you record, so friends see who found what. Then your records, newest first, each with its fate: *On the map*, *n/10 say it's gone*, *Cleared*, *No location*. Tap one for the details, to set its spot or to delete it. Below: posting on/off, language, install, delete everything.
+- 📸 **Camera.** Point at the shit and press it on the screen. The frame is taken right there, then your arm (a green cleaning glove) flings a poop bag at the spot, with a whoosh; the bag lands on the shit and the question comes: **Bag it** or **Leave it**. Bag it: a scoop sound, the bag drops down the screen into the map, and the record is posted. Meanwhile the phone works out what kind of shit it is (an on-device image classifier looking at the crop around the spot you pressed; anything it cannot name is poop), blurs any faces (also on the device, nothing is uploaded for the check) and takes the time and the GPS position. Only when something needs you (no GPS fix, posting off, could not post) a small card says so and offers *Set the spot* on the map. The shutter button throws at the middle of the frame.
+- 🗺️ **Map.** Nothing on it but bagged shits: every record is a poop bag, yours with a green ring, everyone else's smaller with a grey one, plus your position, at street level around you. Tap a bag for its **card**: the photo full screen, when and where, and the face of whoever bagged it at the top right (tap it: how many shits they have bagged). Under the photo, the **"It's gone"** button, which only works on the spot: a fresh fix within 60 m, accuracy better than 150 m. After 10 people confirm, the bag shows as cleared. On your own cards: *Blur* (tap the photo where you want a mosaic) and *Delete*.
+- 👤 **You.** Your face and your name first, picked at first start and changeable here: tap the face for the sixteen faces or a photo of you, tap the name to type a new one (a name a friend already has is refused). The face is on the toggle and both are on the cards of the shits you bag. Then your records, newest first, each with its fate: *On the map*, *n/10 say it's gone*, *Cleared*, *No location*. Tap one for the details, to set its spot or to delete it. Below: posting on/off, language, install, delete everything.
 - 🎬 **Intro.** The name appears and the poop forms, then the poop flies into the corner and only the icon stays. Tap to skip.
 - 📱 **Phones only.** On a desktop browser the app shows a QR code to open it on a phone instead (append `?dev=1` to the URL to bypass the gate while developing).
 - 🌍 **Six languages**, following the phone: English, Spanish, Portuguese, French, German, Italian. Anything else falls back to English. Adding a language is one dictionary in `index.html`.
 - 🏙️ **Big cities.** A built-in table of about 190 big cities assigns every record within 60 km to its city.
 - 💾 **Local-first.** Photos and records live in IndexedDB on the phone. Installable PWA that works offline after the first load (the map tiles and the shared map need a connection). Records made offline are posted when the connection is back.
 
-No accounts, no points, no levels, no badges. At first start you pick one of sixteen faces and type a name, once and for good; the name is claimed on the shared map so two friends cannot share it. A record carries that face and name plus this phone's random id, so that each person counts once when confirming a shit is gone.
+No accounts, no points, no levels, no badges. At first start you pick one of sixteen faces and type a name; both can be changed later, and a photo of you can be your face. The name is claimed on the shared map so two friends cannot share it. A record carries that face and name plus this phone's random id, so that each person counts once when confirming a shit is gone.
 
 ## Run it
 
@@ -43,7 +43,8 @@ Data layout under `/mierdasdelmundo`:
 | Path | Content |
 |---|---|
 | `sightings/{recordId}` | time, rounded coordinates, city and country, kind, phone id, name and face, time of posting |
-| `names/{name}` | the phone id that claimed that name at first start |
+| `names/{name}` | the phone id that claimed that name |
+| `users/{phoneId}` | name, face, a 96 px photo when one was chosen, so cards can show who bagged what |
 | `thumbs/{recordId}` | the small copy of the photo as a JPEG data URL |
 | `clears/{recordId}/{phoneId}` | timestamp of an "it's gone" confirmation made on the spot; 10 of them mark the record as cleared |
 
@@ -70,7 +71,7 @@ Records without a location are never posted. Deleting a posted record also remov
 | `index.html` | the whole app: markup, styles, six languages, logic |
 | `sw.js` | service worker: offline shell plus the cached map library and models |
 | `manifest.webmanifest`, `icon-*.png`, `apple-touch-icon.png` | installable app, poop icon |
-| `assets/` | 3D renders: the poop, the camera and map icons, the kind icons, the sixteen characters |
+| `assets/` | 3D renders: the poop, the bag, the throwing arm, the camera and map icons, the kind icons, the sixteen characters |
 | `tools/renders/` | how the renders are fetched, trimmed and turned into icons |
 
 Helvetica only. Black and white, with green reserved for the key things: the shutter, the lit side of the toggle, the GPS fix, a record that is on the map, a cleared one.

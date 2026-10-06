@@ -5,7 +5,7 @@ const fs = require('fs'); const path = require('path'); const { execFileSync } =
 const [, , appDir, urlsFile] = process.argv;
 if (!appDir) { console.error('usage: node fetch.cjs <appDir> [urls.json]'); process.exit(1); }
 const urls = JSON.parse(process.env.URLS && process.env.URLS.trim() ? process.env.URLS : fs.readFileSync(urlsFile || path.join(__dirname, 'urls.json'), 'utf8'));
-const sizeFor = name => name === 'mascot' ? 512 : name.startsWith('av/') ? 320 : 256;
+const sizeFor = name => name === 'mascot' || name === 'arm' ? 512 : name.startsWith('av/') ? 320 : 256;
 
 (async () => {
   const raw = path.join(__dirname, 'raw'); fs.mkdirSync(raw, { recursive: true });
